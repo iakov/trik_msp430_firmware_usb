@@ -123,29 +123,20 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	    return 0x12;
 	}
 
-
-
-	//Function 0x03 - write single 16 bit register
-	if ((func1==0x03) && (strlen(in_str)!=15))
+	//Hadle of function 0x03 - write single 16 bit register
+	if (((func1==0x03) && (strlen(in_str)==15)) || ((func1==0x04) && (strlen(in_str)!=19)))
 	{
-	    PROTOCOL_errResponse(out_str,devaddr1,func1,0x14);
-		return 0x14;
+
+	    return 0x00;
 	}
 	else
 	{
 
+
+
+	    PROTOCOL_errResponse(out_str,devaddr1,func1,0x14);
+	    return 0x14;
 	}
-
-    //Function 0x04 - write single 32 bit register
-    if ((func1==0x04) && (strlen(in_str)!=19))
-    {
-        PROTOCOL_errResponse(out_str,devaddr1,func1,0x14);
-        return 0x14;
-    }
-    else
-    {
-
-    }
 
     //Function 0x05 - read single register
     if ((func1==0x05) && (strlen(in_str)!=11))
@@ -169,7 +160,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 
     }
 
-    sprintf(out_str,":00000000\r\n");
-	return 0x00;
+    sprintf(out_str,":FFFFFFFF\r\n");
+	return 0xFF;
 }
 
