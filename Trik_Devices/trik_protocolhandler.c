@@ -5,8 +5,8 @@
  *      Author: Rostislav Varzar
  */
 
-#include "Trik_Devices/Trik_ProtocolHandler.h"
-#include "Trik_Devices/Trik_Devices.h"
+#include "Trik_Devices/trik_protocolhandler.h"
+#include "Trik_Devices/trik_devices.h"
 
 //Error response
 void PROTOCOL_errResponse(char *r_str, uint8_t dev_addr, uint8_t func_code, uint8_t err_code)

@@ -5,7 +5,7 @@
  *      Author: Rostislav Varzar
  */
 
-#include "Trik_Motor.h"
+#include "trik_motor.h"
 
 //Motors array
 static struct tMotorRegisters MOT[MAX_MOTORS]={0};

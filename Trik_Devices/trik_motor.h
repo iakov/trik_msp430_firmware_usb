@@ -8,7 +8,7 @@
 #define TRIK_MOTOR_H_
 
 #include <stdint.h>
-#include "Trik_Devices.h"
+#include "trik_devices.h"
 
 //Max motors
 #define MAX_MOTORS			4
