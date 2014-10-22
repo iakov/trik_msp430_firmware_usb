@@ -12,6 +12,7 @@
 void PROTOCOL_errResponse(char *r_str, uint8_t dev_addr, uint8_t func_code, uint8_t err_code)
 {
 	char stmp1[MAX_STRING_LENGTH]; //Temp string
+	uint8_t crc;
 	memset(r_str,0,MAX_STRING_LENGTH);
 	if (dev_addr<16) sprintf(r_str,"0%x",dev_addr);
 	if (dev_addr>=16) sprintf(r_str,"%x",dev_addr);
@@ -21,7 +22,15 @@ void PROTOCOL_errResponse(char *r_str, uint8_t dev_addr, uint8_t func_code, uint
 	strcat(r_str,stmp1);
 	if (err_code<16) sprintf(stmp1,"0%x",err_code);
 	if (err_code>=16) sprintf(stmp1,"%x",err_code);
+	strcat(r_str,stmp1);
+	crc = 0-(dev_addr+func_code+err_code);
+	if (crc<16) sprintf(stmp1,"0%x",crc);
+	if (crc>=16) sprintf(stmp1,"%x",crc);
+	strcat(r_str,stmp1);
+	sprintf(stmp1,"\r\n");
+	strcat(r_str,stmp1);
 }
+
 
 //Protocol handler
 uint8_t PROTOCOL_hadler(char *in_str, char *out_str)

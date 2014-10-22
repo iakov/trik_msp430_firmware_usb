@@ -119,9 +119,9 @@ void main (void)
                         CDC0_INTFNUM);
                     strncat(wholeString,pieceOfString,strlen(pieceOfString));
                     if (retInString(wholeString)){              // Wait for enter key to be pressed
-                    	n_error = PROTOCOL_hadler(wholeString,newString);
+                    	//n_error = PROTOCOL_hadler(wholeString,newString);
                     	//sprintf(newString,"Size=%d\r\n",strlen(wholeString));
-
+                        PROTOCOL_errResponse(newString, 0x50,0x60,0x70);
                         if (cdcSendDataInBackground((uint8_t*)newString,
                                 strlen(newString),CDC0_INTFNUM,1)){  // Send message to other App
                             SendError = 0x01;                          // Something went wrong -- exit
