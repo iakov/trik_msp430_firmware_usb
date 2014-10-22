@@ -54,7 +54,6 @@
 #include "USB_API/USB_HID_API/UsbHid.h"
 #include "USB_app/usbConstructs.h"
 
-#include "Trik_Devices/trik_motor.h"
 #include "Trik_Devices/trik_protocolhandler.h"
 
 /*

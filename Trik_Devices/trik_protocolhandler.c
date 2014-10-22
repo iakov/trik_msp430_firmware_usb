@@ -7,6 +7,7 @@
 
 #include "Trik_Devices/trik_protocolhandler.h"
 #include "Trik_Devices/trik_devices.h"
+#include "Trik_Devices/trik_motor.h"
 
 //Error response
 void PROTOCOL_errResponse(char *r_str, uint8_t dev_addr, uint8_t func_code, uint8_t err_code)
@@ -126,7 +127,15 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	//Hadle of function 0x03 - write single 16 bit register
 	if (((func1==0x03) && (strlen(in_str)==15)) || ((func1==0x04) && (strlen(in_str)!=19)))
 	{
-
+	    if ((devaddr1>=MOTOR1) && (devaddr1<=MOTOR4))
+	    {
+	        if (regaddr1==0x00) MOT[devaddr1].MCTL=regval1;
+	        if (regaddr1==0x01) MOT[devaddr1].MPWR=regval1;
+	        if (regaddr1==0x02) MOT[devaddr1].MFRQ=regval1;
+	        if (regaddr1==0x03) MOT[devaddr1].MANG=regval1;
+	        if (regaddr1==0x04) MOT[devaddr1].MTMR=regval1;
+	        //------------------------Motor handler----------------------------------
+	    }
 	    return 0x00;
 	}
 	else

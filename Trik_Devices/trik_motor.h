@@ -54,8 +54,11 @@ struct tMotorRegisters
     uint16_t MSTA;
 };
 
+//Motors array
+static struct tMotorRegisters MOT[MAX_MOTORS]={0};
+
 //Prototypes for the APIs
-//uint8_t MOTOR_hadler(uint8_t MOT_NUMBER);
+uint8_t MOTOR_hadler(uint8_t MOT_NUMBER);
 
 //uint8_t MOTOR_enableController(uint8_t MOT_NUMBER);
 //void MOTOR_disableController(uint8_t MOT_NUMBER);

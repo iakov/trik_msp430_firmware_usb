@@ -7,7 +7,10 @@
 
 #include "trik_motor.h"
 
-//Motors array
-static struct tMotorRegisters MOT[MAX_MOTORS]={0};
+
 
 //API functions
+uint8_t MOTOR_hadler(uint8_t MOT_NUMBER)
+{
+    return 0x00;
+}
