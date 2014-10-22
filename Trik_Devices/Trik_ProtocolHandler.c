@@ -16,8 +16,8 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	uint16_t func1; //Function number
 	uint16_t regaddr1; //Register address
 	uint32_t regval1; //Register value
-	uint16_t crc1; //Cheksum
-	uint16_t crc2; //Calculated checksum
+	uint8_t crc1; //Cheksum
+	uint8_t crc2; //Calculated checksum
 
 	//Clear output string
 	memset(out_str,0,MAX_STRING_LENGTH);
