@@ -8,13 +8,28 @@
 #include "Trik_Devices/Trik_ProtocolHandler.h"
 #include "Trik_Devices/Trik_Devices.h"
 
+//Error response
+void PROTOCOL_errResponse(char *r_str, uint8_t dev_addr, uint8_t func_code, uint8_t err_code)
+{
+	char stmp1[MAX_STRING_LENGTH]; //Temp string
+	memset(r_str,0,MAX_STRING_LENGTH);
+	if (dev_addr<16) sprintf(r_str,"0%x",dev_addr);
+	if (dev_addr>=16) sprintf(r_str,"%x",dev_addr);
+	if (func_code<0x80) func_code+=0x80;
+	if (func_code<16) sprintf(stmp1,"0%x",func_code);
+	if (func_code>=16) sprintf(stmp1,"%x",func_code);
+	strcat(r_str,stmp1);
+	if (err_code<16) sprintf(stmp1,"0%x",err_code);
+	if (err_code>=16) sprintf(stmp1,"%x",err_code);
+}
+
 //Protocol handler
 uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 {
 	char stmp1[MAX_STRING_LENGTH]; //Temp string
-	uint16_t devaddr1; //Device address
-	uint16_t func1; //Function number
-	uint16_t regaddr1; //Register address
+	uint8_t devaddr1; //Device address
+	uint8_t func1; //Function number
+	uint8_t regaddr1; //Register address
 	uint32_t regval1; //Register value
 	uint8_t crc1; //Cheksum
 	uint8_t crc2; //Calculated checksum
@@ -91,6 +106,6 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 
 
 
-	return 0;
+	return 0x00;
 }
 

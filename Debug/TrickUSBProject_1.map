@@ -1,7 +1,7 @@
 ******************************************************************************
                   MSP430 Linker PC v4.3.3                      
 ******************************************************************************
->> Linked Wed Oct 22 14:38:22 2014
+>> Linked Wed Oct 22 15:55:15 2014
 
 OUTPUT FILE NAME:   <TrickUSBProject_1.out>
 ENTRY POINT SYMBOL: "_c_int00"  address: 00004632
@@ -20,7 +20,7 @@ MEMORY CONFIGURATION
   INFOA                 00001980   00000080  00000000  00000080  RWIX
   USBRAM                00001c00   00000800  00000000  00000800  RWIX
   RAM                   00002400   00002000  00000234  00001dcc  RWIX
-  FLASH                 00004400   0000bb80  000008e8  0000b298  RWIX
+  FLASH                 00004400   0000bb80  000008f0  0000b290  RWIX
   INT00                 0000ff80   00000002  00000000  00000002  RWIX
   INT01                 0000ff82   00000002  00000000  00000002  RWIX
   INT02                 0000ff84   00000002  00000000  00000002  RWIX
@@ -145,27 +145,27 @@ section   page    origin      length       input sections
                   000045f4    0000003e     main.obj (.text:_isr:UNMI_ISR)
                   00004632    0000001a     rts430x_lc_rd_eabi.lib : boot.obj (.text:_isr:_c_int00_noexit)
 
-.const     0    0000464c    0000065e     
+.const     0    0000464c    00000666     
                   0000464c    00000214     descriptors.obj (.const:tUsbRequestList)
                   00004860    00000118     descriptors.obj (.const:.string:abromStringDescriptor)
                   00004978    00000101     rts430x_lc_rd_eabi.lib : ctype.obj (.const:.string:_ctypes_)
                   00004a79    000000ed     descriptors.obj (.const)
                   00004b66    00000050     descriptors.obj (.const:stUsbHandle)
-                  00004bb6    00000034     descriptors.obj (.const:.string:report_desc_HID2)
-                  00004bea    0000002c     Trik_ProtocolHandler.obj (.const:.string)
-                  00004c16    00000024     descriptors.obj (.const:.string:report_desc_HID0)
-                  00004c3a    00000024     descriptors.obj (.const:.string:report_desc_HID1)
-                  00004c5e    00000020     usb.obj (.const:.string)
-                  00004c7e    00000014     rts430x_lc_rd_eabi.lib : _printfi_min.obj (.const:.string)
-                  00004c92    00000012     descriptors.obj (.const:.string:abromDeviceDescriptor)
-                  00004ca4    00000006     descriptors.obj (.const:report_desc_size)
+                  00004bb6    00000034     Trik_ProtocolHandler.obj (.const:.string)
+                  00004bea    00000034     descriptors.obj (.const:.string:report_desc_HID2)
+                  00004c1e    00000024     descriptors.obj (.const:.string:report_desc_HID0)
+                  00004c42    00000024     descriptors.obj (.const:.string:report_desc_HID1)
+                  00004c66    00000020     usb.obj (.const:.string)
+                  00004c86    00000014     rts430x_lc_rd_eabi.lib : _printfi_min.obj (.const:.string)
+                  00004c9a    00000012     descriptors.obj (.const:.string:abromDeviceDescriptor)
+                  00004cac    00000006     descriptors.obj (.const:report_desc_size)
 
-.cinit     0    00004caa    0000003e     
-                  00004caa    0000001b     (.cinit..data.load) [load image, compression = rle]
-                  00004cc5    00000001     --HOLE-- [fill = 0]
-                  00004cc6    0000000c     (__TI_handler_table)
-                  00004cd2    00000006     (.cinit..bss.load) [load image, compression = zero_init]
-                  00004cd8    00000010     (__TI_cinit_table)
+.cinit     0    00004cb2    0000003e     
+                  00004cb2    0000001b     (.cinit..data.load) [load image, compression = rle]
+                  00004ccd    00000001     --HOLE-- [fill = 0]
+                  00004cce    0000000c     (__TI_handler_table)
+                  00004cda    00000006     (.cinit..bss.load) [load image, compression = zero_init]
+                  00004ce0    00000010     (__TI_cinit_table)
 
 RTC        0    0000ffd2    00000002     
                   0000ffd2    00000002     rts430x_lc_rd_eabi.lib : int41.obj (.int41)
@@ -408,14 +408,14 @@ SYSNMI     0    0000fffc    00000002
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 00004cd8 records: 2, size/record: 8, table size: 16
-	.data: load addr=00004caa, load size=0000001b bytes, run addr=00002514, run size=00000080 bytes, compression=rle
-	.bss: load addr=00004cd2, load size=00000006 bytes, run addr=00002400, run size=00000114 bytes, compression=zero_init
+__TI_cinit_table @ 00004ce0 records: 2, size/record: 8, table size: 16
+	.data: load addr=00004cb2, load size=0000001b bytes, run addr=00002514, run size=00000080 bytes, compression=rle
+	.bss: load addr=00004cda, load size=00000006 bytes, run addr=00002400, run size=00000114 bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 00004cc6 records: 3, size/record: 4, table size: 12
+__TI_handler_table @ 00004cce records: 3, size/record: 4, table size: 12
 	index: 0, handler: __TI_zero_init
 	index: 1, handler: __TI_decompress_rle24
 	index: 2, handler: __TI_decompress_none
@@ -1254,10 +1254,10 @@ address    name
 00002592   _Errno
 00004400   __STACK_END
 000000a0   __STACK_SIZE
-00004cd8   __TI_CINIT_Base
-00004ce8   __TI_CINIT_Limit
-00004cc6   __TI_Handler_Table_Base
-00004cd2   __TI_Handler_Table_Limit
+00004ce0   __TI_CINIT_Base
+00004cf0   __TI_CINIT_Limit
+00004cce   __TI_Handler_Table_Base
+00004cda   __TI_Handler_Table_Limit
 UNDEFED    __TI_INITARRAY_Base
 UNDEFED    __TI_INITARRAY_Limit
 00012cdc   __TI_ISR_TRAP
@@ -1343,7 +1343,7 @@ ffffffff   __c_args__
 00012d3a   abort
 00002482   abramSerialStringDescriptor
 00004a79   abromConfigurationDescriptorGroup
-00004c92   abromDeviceDescriptor
+00004c9a   abromDeviceDescriptor
 00004860   abromStringDescriptor
 0000258f   bDataReceived_event0
 00002590   bDataReceived_event1
@@ -1396,10 +1396,10 @@ ffffffff   binit
 000022c0   pbYBufferAddressEp87
 00002534   pieceOfString
 00002574   report_desc
-00004c16   report_desc_HID0
-00004c3a   report_desc_HID1
-00004bb6   report_desc_HID2
-00004ca4   report_desc_size
+00004c1e   report_desc_HID0
+00004c42   report_desc_HID1
+00004bea   report_desc_HID2
+00004cac   report_desc_size
 00010d64   retInString
 0001237e   sprintf
 00004b66   stUsbHandle
@@ -2272,15 +2272,15 @@ address    name
 00004978   _ctypes_
 00004a79   abromConfigurationDescriptorGroup
 00004b66   stUsbHandle
-00004bb6   report_desc_HID2
-00004c16   report_desc_HID0
-00004c3a   report_desc_HID1
-00004c92   abromDeviceDescriptor
-00004ca4   report_desc_size
-00004cc6   __TI_Handler_Table_Base
-00004cd2   __TI_Handler_Table_Limit
-00004cd8   __TI_CINIT_Base
-00004ce8   __TI_CINIT_Limit
+00004bea   report_desc_HID2
+00004c1e   report_desc_HID0
+00004c42   report_desc_HID1
+00004c9a   abromDeviceDescriptor
+00004cac   report_desc_size
+00004cce   __TI_Handler_Table_Base
+00004cda   __TI_Handler_Table_Limit
+00004ce0   __TI_CINIT_Base
+00004cf0   __TI_CINIT_Limit
 0000ffd2   __TI_int41
 0000ffd4   __TI_int42
 0000ffd6   __TI_int43
