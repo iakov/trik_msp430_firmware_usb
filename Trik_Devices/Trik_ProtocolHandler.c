@@ -54,7 +54,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	}
 
 	//Incorrect packet length
-	if ((strlen(in_str)!=15) && (strlen(in_str)!=19) && (strlen(in_str)!=23))
+	if ((strlen(in_str)!=11) && (strlen(in_str)!=15) && (strlen(in_str)!=19))
 	{
 		sprintf(out_str,":00000014EC\r\n");
 		return 0x14;
@@ -73,46 +73,81 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	//Device addresses range
 	if ((devaddr1<0x00) || (devaddr1>MAX_PORTS))
 	{
-	    PROTOCOL_errResponse(newString,devaddr1,func1,0x11);
+	    PROTOCOL_errResponse(out_str,devaddr1,func1,0x11);
 		return 0x11;
 	}
 
 	//Motor registers addresses range
 	if (((devaddr1>=MOTOR1) && (devaddr1<=MOTOR4)) && ((regaddr1<0x00) || ((regaddr1>0x06))))
 	{
-	    PROTOCOL_errResponse(newString,devaddr1,func1,0x02);
+	    PROTOCOL_errResponse(out_str,devaddr1,func1,0x02);
 		return 0x02;
 	}
 
 	//Sensor registers addresses range
 	if (((devaddr1>=SENSOR1) && (devaddr1<=SENSOR14)) && ((regaddr1<0x00) || ((regaddr1>0x04))))
 	{
-	    PROTOCOL_errResponse(newString,devaddr1,func1,0x02);
+	    PROTOCOL_errResponse(out_str,devaddr1,func1,0x02);
 		return 0x02;
 	}
 
 	//Actuator registers addresses range
 	if (((devaddr1>=ACTUATOR1) && (devaddr1<=ACTUATOR20)) && ((regaddr1<0x00) || ((regaddr1>0x04))))
 	{
-	    PROTOCOL_errResponse(newString,devaddr1,func1,0x02);
+	    PROTOCOL_errResponse(out_str,devaddr1,func1,0x02);
 		return 0x02;
 	}
 
 	//Function number check
 	if ((func1!=0x03) && (func1!=0x04) && (func1!=0x05) && (func1!=0x06))
 	{
-	    PROTOCOL_errResponse(newString,devaddr1,func1,0x01);
+	    PROTOCOL_errResponse(out_str,devaddr1,func1,0x01);
 		return 0x01;
 	}
 
 	//Function 0x03 - write single 16 bit register
-	if ((func1==0x03) && (strlen(in_str)!=19))
+	if ((func1==0x03) && (strlen(in_str)!=15))
 	{
-	    PROTOCOL_errResponse(newString,devaddr1,func1,0x14);
+	    PROTOCOL_errResponse(out_str,devaddr1,func1,0x14);
 		return 0x14;
 	}
+	else
+	{
 
+	}
 
+    //Function 0x04 - write single 32 bit register
+    if ((func1==0x04) && (strlen(in_str)!=19))
+    {
+        PROTOCOL_errResponse(out_str,devaddr1,func1,0x14);
+        return 0x14;
+    }
+    else
+    {
+
+    }
+
+    //Function 0x05 - read single register
+    if ((func1==0x05) && (strlen(in_str)!=11))
+    {
+        PROTOCOL_errResponse(out_str,devaddr1,func1,0x14);
+        return 0x14;
+    }
+    else
+    {
+
+    }
+
+    //Function 0x06 - read single register
+    if ((func1==0x06) && (strlen(in_str)!=11))
+    {
+        PROTOCOL_errResponse(out_str,devaddr1,func1,0x14);
+        return 0x14;
+    }
+    else
+    {
+
+    }
 
 
 	return 0x00;
