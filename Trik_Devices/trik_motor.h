@@ -53,9 +53,12 @@ struct tMotorRegisters
     uint16_t MTMR;
     uint32_t MVAL;
     uint16_t MSTA;
+    bool MOT_EN;
+    bool MOT_PWR;
+    bool MOT_DIR;
 };
 
-//Motors array
+//Motors registers array
 static struct tMotorRegisters MOT[MAX_MOTORS]={0};
 
 //Prototypes for the APIs
@@ -65,29 +68,27 @@ void MOTOR_disableController(uint8_t MOT_NUMBER);
 //void MOTOR_setContinuesMode(uint8_t MOT_NUMBER);
 //void MOTOR_setSingleTimeMode(uint8_t MOT_NUMBER);
 //void MOTOR_setSingleAngleMode(uint8_t MOT_NUMBER);
-/*
-extern void MOTOR_enableFeedBackSensor(uint8_t MOT_NUMBER);
-extern void MOTOR_disableFeedBackSensor(uint8_t MOT_NUMBER);
-extern void MOTOR_set1wireSensor(uint8_t MOT_NUMBER);
-extern void MOTOR_set2wireSensor(uint8_t MOT_NUMBER);
-extern void MOTOR_setAnalogSensor(uint8_t MOT_NUMBER);
-extern void MOTOR_setSensorPort(uint8_t MOT_NUMBER, uint8_t SENSPORT_NUMBER);
-extern void MOTOR_resetFeedBackSensor(uint8_t MOT_NUMBER);
-extern void MOTOR_rotationForward(uint8_t MOT_NUMBER);
-extern void MOTOR_rotationBackward(uint8_t MOT_NUMBER);
-extern void MOTOR_enableBrake(uint8_t MOT_NUMBER);
-extern void MOTOR_disableBrake(uint8_t MOT_NUMBER);
-extern void MOTOR_enablePWM(uint8_t MOT_NUMBER);
-extern void MOTOR_disablePWM(uint8_t MOT_NUMBER);
-extern void MOTOR_setPower(uint8_t MOT_NUMBER, uint16_t MOT_POWER);
-extern void MOTOR_setFrequency(uint8_t MOT_NUMBER, uint16_t MOT_FREQ);
-extern void MOTOR_setAngle(uint8_t MOT_NUMBER, uint16_t MOT_ANGLE);
-extern void MOTOR_setTimer(uint8_t MOT_NUMBER, uint16_t MOT_TIME);
-extern uint32_t MOTOR_getSensorValue(uint8_t MOT_NUMBER);
-extern uint8_t MOTOR_isError(uint8_t MOT_NUMBER);
-extern uint8_t MOTOR_isOverPower(uint8_t MOT_NUMBER);
-extern uint8_t MOTOR_isWorking(uint8_t MOT_NUMBER);
-*/
+//void MOTOR_enableFeedBackSensor(uint8_t MOT_NUMBER);
+//void MOTOR_disableFeedBackSensor(uint8_t MOT_NUMBER);
+//void MOTOR_set1wireSensor(uint8_t MOT_NUMBER);
+//void MOTOR_set2wireSensor(uint8_t MOT_NUMBER);
+//void MOTOR_setAnalogSensor(uint8_t MOT_NUMBER);
+//void MOTOR_setSensorPort(uint8_t MOT_NUMBER, uint8_t SENSPORT_NUMBER);
+//void MOTOR_resetFeedBackSensor(uint8_t MOT_NUMBER);
+void MOTOR_rotationForward(uint8_t MOT_NUMBER);
+void MOTOR_rotationBackward(uint8_t MOT_NUMBER);
+//void MOTOR_enableBrake(uint8_t MOT_NUMBER);
+//void MOTOR_disableBrake(uint8_t MOT_NUMBER);
+//void MOTOR_enablePWM(uint8_t MOT_NUMBER);
+//void MOTOR_disablePWM(uint8_t MOT_NUMBER);
+//void MOTOR_setPower(uint8_t MOT_NUMBER, uint16_t MOT_POWER);
+//void MOTOR_setFrequency(uint8_t MOT_NUMBER, uint16_t MOT_FREQ);
+//void MOTOR_setAngle(uint8_t MOT_NUMBER, uint16_t MOT_ANGLE);
+//void MOTOR_setTimer(uint8_t MOT_NUMBER, uint16_t MOT_TIME);
+//uint32_t MOTOR_getSensorValue(uint8_t MOT_NUMBER);
+//uint8_t MOTOR_isError(uint8_t MOT_NUMBER);
+//uint8_t MOTOR_isOverPower(uint8_t MOT_NUMBER);
+//uint8_t MOTOR_isWorking(uint8_t MOT_NUMBER);
 void MOTOR_start(uint8_t MOT_NUMBER);
 void MOTOR_stop(uint8_t MOT_NUMBER);
 
