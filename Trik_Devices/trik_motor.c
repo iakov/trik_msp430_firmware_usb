@@ -177,6 +177,14 @@ void MOTOR_start(uint8_t MOT_NUMBER)
                    case MOTOR1:
                        if (!(MOT[MOT_NUMBER].MOT_PWM))
                            GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN2);
+                       else
+                           TIMER_A_generatePWM(TIMER_A0_BASE,
+                                   TIMER_A_CLOCKSOURCE_EXTERNAL_TXCLK,
+                                   TIMER_A_CLOCKSOURCE_DIVIDER_1,
+                                   10,
+                                   TIMER_A_CAPTURECOMPARE_REGISTER_0,
+                                   TIMER_A_OUTPUTMODE_SET_RESET,
+                                   10);
                        break;
                    case MOTOR2:
                        if (!(MOT[MOT_NUMBER].MOT_PWM))

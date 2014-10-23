@@ -43,6 +43,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	uint32_t regval1; //Register value
 	uint8_t crc1 = 0; //Cheksum
 	uint8_t crc2; //Calculated checksum
+	uint8_t errhandler; //Result code of handlers
 
 	//Clear output string
 	memset(out_str,0,MAX_STRING_LENGTH);
@@ -134,8 +135,9 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	        if (regaddr1==0x02) MOT[devaddr1].MFRQ=regval1;
 	        if (regaddr1==0x03) MOT[devaddr1].MANG=regval1;
 	        if (regaddr1==0x04) MOT[devaddr1].MTMR=regval1;
-	        //------------------------Motor handler----------------------------------
+	        errhandler=MOTOR_hadler(devaddr1);
 	    }
+	    sprintf(out_str,":00000000\r\n");
 	    return 0x00;
 	}
 	else
