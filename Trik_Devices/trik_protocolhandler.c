@@ -117,7 +117,9 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	if (func1==0x03) {sprintf(stmp1,"%c%c",in_str[11],in_str[12]); crc1=strtoul(stmp1,&stmp1[2],16);}
 	if (func1==0x04) {sprintf(stmp1,"%c%c",in_str[15],in_str[16]); crc1=strtoul(stmp1,&stmp1[2],16);}
 	if ((func1==0x05) || (func1==0x06)) {sprintf(stmp1,"%c%c",in_str[11],in_str[12]); crc1=strtoul(stmp1,&stmp1[2],16);}
-	if ((func1==0x03) || (func1==0x04)) crc2=0-(devaddr1+func1+regaddr1+regval1);
+	if ((func1==0x03) || (func1==0x04)) crc2=0-(devaddr1+func1+regaddr1+
+	        (uint8_t)(regval1 & 0x000000FF)+(uint8_t)((regval1 & 0x0000FF00) >> 8)+
+	        (uint8_t)((regval1 & 0x00FF0000) >> 16)+(uint8_t)((regval1 & 0xFF000000) >> 24));
 	if ((func1==0x05) || (func1==0x06)) crc2=0-(devaddr1+func1+regaddr1);
 	if (crc1!=crc2)
 	{
