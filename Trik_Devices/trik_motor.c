@@ -64,6 +64,31 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
     }
 }
 
+void MOTOR_disableController(uint8_t MOT_NUMBER)
+{
+    busy_table[MOT_NUMBER]=NNONE;
+    //Configure GPIO ports
+           switch (MOT_NUMBER)
+           {
+               case MOTOR1:
+                   GPIO_setAsInputPin(GPIO_PORT_P5, GPIO_PIN4 | GPIO_PIN5);
+                   GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN2);
+                   break;
+               case MOTOR2:
+                   GPIO_setAsInputPin(GPIO_PORT_P4, GPIO_PIN0 | GPIO_PIN1);
+                   GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN3);
+                   break;
+               case MOTOR3:
+                   GPIO_setAsInputPin(GPIO_PORT_PJ, GPIO_PIN0 | GPIO_PIN1);
+                   GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN4);
+                   break;
+               case MOTOR4:
+                   GPIO_setAsInputPin(GPIO_PORT_PJ, GPIO_PIN2 | GPIO_PIN3);
+                   GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN5);
+                   break;
+               default:;
+           }
+}
 
 
 
