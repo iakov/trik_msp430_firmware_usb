@@ -168,16 +168,56 @@ void MOTOR_disablePWM(uint8_t MOT_NUMBER)
                }
 }
 
-
-
+//Пока без ШИМа
 void MOTOR_start(uint8_t MOT_NUMBER)
 {
     MOT[MOT_NUMBER].MOT_PWR = 1;
+    switch (MOT_NUMBER)
+               {
+                   case MOTOR1:
+                       if (!(MOT[MOT_NUMBER].MOT_PWM))
+                           GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN2);
+                       break;
+                   case MOTOR2:
+                       if (!(MOT[MOT_NUMBER].MOT_PWM))
+                           GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN3);
+                       break;
+                   case MOTOR3:
+                       if (!(MOT[MOT_NUMBER].MOT_PWM))
+                           GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN4);
+                       break;
+                   case MOTOR4:
+                       if (!(MOT[MOT_NUMBER].MOT_PWM))
+                           GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN5);
+                       break;
+                   default:;
+               }
 }
 
+//Пока без тормоза
 void MOTOR_stop(uint8_t MOT_NUMBER)
 {
     MOT[MOT_NUMBER].MOT_PWR = 0;
+    switch (MOT_NUMBER)
+               {
+                   case MOTOR1:
+                       if (!(MOT[MOT_NUMBER].MOT_PWM))
+                           GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN2);
+                       break;
+                   case MOTOR2:
+                       if (!(MOT[MOT_NUMBER].MOT_PWM))
+                           GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN3);
+                       break;
+                   case MOTOR3:
+                       if (!(MOT[MOT_NUMBER].MOT_PWM))
+                           GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN4);
+                       break;
+                   case MOTOR4:
+                       if (!(MOT[MOT_NUMBER].MOT_PWM))
+                           GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN5);
+                       break;
+                   default:;
+               }
 }
 
 
