@@ -56,6 +56,7 @@ struct tMotorRegisters
     bool MOT_EN;
     bool MOT_PWR;
     bool MOT_DIR;
+    bool MOT_PWM;
 };
 
 //Motors registers array
@@ -79,8 +80,8 @@ void MOTOR_rotationForward(uint8_t MOT_NUMBER);
 void MOTOR_rotationBackward(uint8_t MOT_NUMBER);
 //void MOTOR_enableBrake(uint8_t MOT_NUMBER);
 //void MOTOR_disableBrake(uint8_t MOT_NUMBER);
-//void MOTOR_enablePWM(uint8_t MOT_NUMBER);
-//void MOTOR_disablePWM(uint8_t MOT_NUMBER);
+void MOTOR_enablePWM(uint8_t MOT_NUMBER);
+void MOTOR_disablePWM(uint8_t MOT_NUMBER);
 //void MOTOR_setPower(uint8_t MOT_NUMBER, uint16_t MOT_POWER);
 //void MOTOR_setFrequency(uint8_t MOT_NUMBER, uint16_t MOT_FREQ);
 //void MOTOR_setAngle(uint8_t MOT_NUMBER, uint16_t MOT_ANGLE);
