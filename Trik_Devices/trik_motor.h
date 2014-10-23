@@ -60,7 +60,7 @@ struct tMotorRegisters
 };
 
 //Motors registers array
-static struct tMotorRegisters MOT[MAX_MOTORS]={0};
+volatile static struct tMotorRegisters MOT[MAX_MOTORS]={0};
 
 //Prototypes for the APIs
 uint8_t MOTOR_hadler(uint8_t MOT_NUMBER);

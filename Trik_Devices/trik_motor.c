@@ -252,9 +252,15 @@ uint8_t MOTOR_hadler(uint8_t MOT_NUMBER)
             if (!(MOT[MOT_NUMBER].MOT_PWR)) MOTOR_start(MOT_NUMBER);
         else
             if (MOT[MOT_NUMBER].MOT_PWR) MOTOR_stop(MOT_NUMBER);
+
+        //return MOT[MOT_NUMBER].MOT_EN+MOT[MOT_NUMBER].MOT_DIR+MOT[MOT_NUMBER].MOT_PWM+MOT[MOT_NUMBER].MOT_PWR;
+        //return 0x55;
     }
     else
+    {
         if (MOT[MOT_NUMBER].MOT_EN) MOTOR_disableController(MOT_NUMBER);
+        //return 0x00;
+    }
 
-    return 0x00;
+return (char)((MOT[MOT_NUMBER].MCTL >> 8)&0xFF);
 }

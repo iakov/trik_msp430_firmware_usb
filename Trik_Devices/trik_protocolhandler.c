@@ -138,8 +138,11 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	        if (regaddr1==0x03) MOT[devaddr1].MANG=regval1;
 	        if (regaddr1==0x04) MOT[devaddr1].MTMR=regval1;
 	        errhandler=MOTOR_hadler(devaddr1);
+	        sprintf(out_str,"%x %x %x\r\n",errhandler,devaddr1,regval1);
+	        return 0x00;
+
 	    }
-	    sprintf(out_str,":00000000\r\n");
+	    sprintf(out_str,"Byaka zakalyaka\r\n",errhandler,devaddr1,regval1);
 	    return 0x00;
 	}
 	else
