@@ -78,7 +78,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	if (func1==0x04) {sprintf(stmp1,"%c%c%c%c%c%c%c%c",in_str[7],in_str[8],in_str[9],in_str[10],in_str[11],in_str[12],in_str[13],in_str[14]); regval1=strtoul(stmp1,&stmp1[8],16);}
 
 	//Device addresses range
-	if (devaddr1>MAX_PORTS)
+	if (devaddr1>MAX_DEVICES)
 	{
 	    PROTOCOL_errResponse(out_str,devaddr1,func1,0x11);
 		return 0x11;

@@ -55,35 +55,10 @@
 #define NNONE				0xFF
 
 //Max ports
-#define MAX_PORTS			0x30
+#define MAX_DEVICES			0x30
 
-//Trick ports
-#define JM1					0x00
-#define JM2					0x01
-#define JM3					0x02
-#define JM4					0x03
-#define JA11				0x16
-#define JA12				0x17
-#define JA21				0x18
-#define JA22				0x19
-#define JA31				0x1A
-#define JA32				0x1B
-#define JA41				0x1C
-#define JA42				0x1D
-#define JA51				0x1E
-#define JA52				0x1F
-#define JA61				0x20
-#define JA62				0x21
-#define JB1A				0x0A
-#define JB1B				0x0B
-#define JB2A				0x0C
-#define JB2B				0x0D
-#define JB3A				0x0E
-#define JB3B				0x0F
-#define JB4A				0x10
-#define JB4B				0x11
 
 //Busy table
-static uint8_t busy_table[MAX_PORTS]={100};
+static uint8_t busy_table[MAX_DEVICES]={NNONE};
 
 #endif

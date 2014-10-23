@@ -8,6 +8,7 @@
 #define TRIK_MOTOR_H_
 
 #include <stdint.h>
+#include "driverlib.h"
 #include "trik_devices.h"
 
 //Max motors
@@ -59,9 +60,8 @@ static struct tMotorRegisters MOT[MAX_MOTORS]={0};
 
 //Prototypes for the APIs
 uint8_t MOTOR_hadler(uint8_t MOT_NUMBER);
-
-//uint8_t MOTOR_enableController(uint8_t MOT_NUMBER);
-//void MOTOR_disableController(uint8_t MOT_NUMBER);
+void MOTOR_enableController(uint8_t MOT_NUMBER);
+void MOTOR_disableController(uint8_t MOT_NUMBER);
 //void MOTOR_setContinuesMode(uint8_t MOT_NUMBER);
 //void MOTOR_setSingleTimeMode(uint8_t MOT_NUMBER);
 //void MOTOR_setSingleAngleMode(uint8_t MOT_NUMBER);
