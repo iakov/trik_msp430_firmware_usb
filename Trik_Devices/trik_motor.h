@@ -71,6 +71,24 @@ void MOTOR_disablePWM(uint8_t MOT_NUMBER);
 void MOTOR_start(uint8_t MOT_NUMBER);
 void MOTOR_stop(uint8_t MOT_NUMBER);
 
+//Motor registers
+struct tMotorRegisters
+{
+    uint16_t MCTL;
+    uint16_t MPWR;
+    uint16_t MFRQ;
+    uint16_t MANG;
+    uint16_t MTMR;
+    uint32_t MVAL;
+    uint16_t MSTA;
+    bool MOT_EN;
+    bool MOT_PWR;
+    bool MOT_DIR;
+    bool MOT_PWM;
+};
+
+//Motors registers array
+struct tMotorRegisters MOT[MAX_MOTORS];
 
 
 #endif

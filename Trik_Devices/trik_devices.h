@@ -64,23 +64,4 @@
 //Busy table
 uint8_t busy_table[MAX_DEVICES];
 
-//Motor registers
-struct tMotorRegisters
-{
-    uint16_t MCTL;
-    uint16_t MPWR;
-    uint16_t MFRQ;
-    uint16_t MANG;
-    uint16_t MTMR;
-    uint32_t MVAL;
-    uint16_t MSTA;
-    bool MOT_EN;
-    bool MOT_PWR;
-    bool MOT_DIR;
-    bool MOT_PWM;
-};
-
-//Motors registers array
-struct tMotorRegisters MOT[MAX_MOTORS];
-
 #endif
