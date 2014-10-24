@@ -144,7 +144,8 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	        else
 	            {
 	                errhandler=MOTOR_hadler(devaddr1);
-	                sprintf(out_str,"%x %x %x\r\n",errhandler,devaddr1,regval1);
+	                sprintf(out_str,"%x %x %x %x %x %x %x %x\r\n",errhandler,MOT[devaddr1].MCTL,MOT[devaddr1].MFRQ,MOT[devaddr1].MPWR,
+	                        MOT[devaddr1].MOT_EN,MOT[devaddr1].MOT_PWR,MOT[devaddr1].MOT_PWM,MOT[devaddr1].MOT_DIR);
 	                return 0x00;
 	            }
 
