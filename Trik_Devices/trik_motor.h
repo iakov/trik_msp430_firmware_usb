@@ -8,11 +8,7 @@
 #define TRIK_MOTOR_H_
 
 #include <stdint.h>
-#include "driverlib.h"
 #include "trik_devices.h"
-
-//Max motors
-#define MAX_MOTORS			4
 
 //Motor devices
 #define MOT1				0
@@ -43,24 +39,6 @@
 #define	BRAKE_OFF			0
 #define	BRAKE_ON			1
 
-//Motor registers
-struct tMotorRegisters
-{
-    uint16_t MCTL;
-    uint16_t MPWR;
-    uint16_t MFRQ;
-    uint16_t MANG;
-    uint16_t MTMR;
-    uint32_t MVAL;
-    uint16_t MSTA;
-    bool MOT_EN;
-    bool MOT_PWR;
-    bool MOT_DIR;
-    bool MOT_PWM;
-};
-
-//Motors registers array
-volatile static struct tMotorRegisters MOT[MAX_MOTORS]={0};
 
 //Prototypes for the APIs
 uint8_t MOTOR_hadler(uint8_t MOT_NUMBER);

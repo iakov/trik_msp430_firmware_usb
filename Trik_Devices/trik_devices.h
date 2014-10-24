@@ -8,6 +8,7 @@
 #define TRIK_DEVICES_H_
 
 #include <stdint.h>
+#include "driverlib.h"
 
 //Devices
 #define MOTOR1				0x00
@@ -54,11 +55,32 @@
 #define ACTUATOR20			0x29
 #define NNONE				0xFF
 
+//Max motors
+#define MAX_MOTORS          4
+
 //Max ports
 #define MAX_DEVICES			0x30
 
-
 //Busy table
-static uint8_t busy_table[MAX_DEVICES]={NNONE};
+uint8_t busy_table[MAX_DEVICES];
+
+//Motor registers
+struct tMotorRegisters
+{
+    uint16_t MCTL;
+    uint16_t MPWR;
+    uint16_t MFRQ;
+    uint16_t MANG;
+    uint16_t MTMR;
+    uint32_t MVAL;
+    uint16_t MSTA;
+    bool MOT_EN;
+    bool MOT_PWR;
+    bool MOT_DIR;
+    bool MOT_PWM;
+};
+
+//Motors registers array
+struct tMotorRegisters MOT[MAX_MOTORS];
 
 #endif

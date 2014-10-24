@@ -7,8 +7,6 @@
 
 #include "trik_motor.h"
 
-
-
 //API functions
 void MOTOR_enableController(uint8_t MOT_NUMBER)
 {
@@ -232,6 +230,7 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
 //Handler
 uint8_t MOTOR_hadler(uint8_t MOT_NUMBER)
 {
+/*
     if (MOT[MOT_NUMBER].MCTL & 0x8000)
     {
         //Enable/disable
@@ -261,6 +260,6 @@ uint8_t MOTOR_hadler(uint8_t MOT_NUMBER)
         if (MOT[MOT_NUMBER].MOT_EN) MOTOR_disableController(MOT_NUMBER);
         //return 0x00;
     }
-
-return (char)((MOT[MOT_NUMBER].MCTL >> 8)&0xFF);
+*/
+    return MOT[MOT_NUMBER].MOT_PWR;
 }

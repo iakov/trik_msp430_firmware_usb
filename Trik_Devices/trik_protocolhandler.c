@@ -6,8 +6,6 @@
  */
 
 #include "Trik_Devices/trik_protocolhandler.h"
-#include "Trik_Devices/trik_devices.h"
-#include "Trik_Devices/trik_motor.h"
 
 //Error response
 void PROTOCOL_errResponse(char *r_str, uint8_t dev_addr, uint8_t func_code, uint8_t err_code)
@@ -137,7 +135,9 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	        if (regaddr1==0x02) MOT[devaddr1].MFRQ=regval1;
 	        if (regaddr1==0x03) MOT[devaddr1].MANG=regval1;
 	        if (regaddr1==0x04) MOT[devaddr1].MTMR=regval1;
+	        MOT[devaddr1].MOT_PWR = 1;
 	        errhandler=MOTOR_hadler(devaddr1);
+
 	        sprintf(out_str,"%x %x %x\r\n",errhandler,devaddr1,regval1);
 	        return 0x00;
 

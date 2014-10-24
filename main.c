@@ -71,14 +71,17 @@ volatile uint8_t bDataReceived_event1 = FALSE; // without an open rx operation,
 char wholeString[MAX_STR_LENGTH] = "";
 char newString[MAX_STR_LENGTH] = "";
 char pieceOfString[MAX_STR_LENGTH] = "";
-uint8_t retInString (char* string);
 uint8_t n_error = 0;
+
+uint8_t retInString (char* string);
+void globalInitVars();
 
 /*  
  * ======== main ========
  */
 void main (void)
 {
+
     WDT_A_hold(WDT_A_BASE); // Stop watchdog timer
 
     // MSP430 USB requires the maximum Vcore setting; do not modify
@@ -118,7 +121,7 @@ void main (void)
                         CDC0_INTFNUM);
                     strncat(wholeString,pieceOfString,strlen(pieceOfString));
                     if (retInString(wholeString)){              // Wait for enter key to be pressed
-                    	n_error = PROTOCOL_hadler(wholeString,newString);
+                    	//n_error = PROTOCOL_hadler(wholeString,newString);
                     	//sprintf(newString,"Size=%d\r\n",strlen(wholeString));
                         //PROTOCOL_errResponse(newString, 0x50,0x60,0x70);
                         if (cdcSendDataInBackground((uint8_t*)newString,
@@ -278,5 +281,10 @@ uint8_t retInString (char* string)
     return ( FALSE) ; // Otherwise, it wasn't found
 }
 
+//Init variables, arrays and structures
+void globalInitVars()
+{
+    for (int j=0; j<MAX_DEVICES; j++) busy_table[j]=NNONE;
+}
 
 //Released_Version_4_10_02
