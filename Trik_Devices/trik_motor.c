@@ -236,20 +236,32 @@ uint8_t MOTOR_hadler(uint8_t MOT_NUMBER)
         if (!(MOT[MOT_NUMBER].MOT_EN)) MOTOR_enableController(MOT_NUMBER);
         //Forward/backward
         if (MOT[MOT_NUMBER].MCTL & 0x0010)
+        {
             if (!(MOT[MOT_NUMBER].MOT_DIR)) MOTOR_rotationBackward(MOT_NUMBER);
+        }
         else
+        {
             if (MOT[MOT_NUMBER].MOT_DIR) MOTOR_rotationForward(MOT_NUMBER);
+        }
         //PWM on/PWM off(0/100%)
         if (MOT[MOT_NUMBER].MCTL & 0x0004)
+        {
             if (!(MOT[MOT_NUMBER].MOT_PWM)) MOTOR_enablePWM(MOT_NUMBER);
+        }
         else
+        {
             if (MOT[MOT_NUMBER].MOT_PWM) MOTOR_disablePWM(MOT_NUMBER);
+        }
 
         //Start/stop
         if (MOT[MOT_NUMBER].MCTL & 0x0003)
+        {
             if (!(MOT[MOT_NUMBER].MOT_PWR)) MOTOR_start(MOT_NUMBER);
+        }
         else
+        {
             if (MOT[MOT_NUMBER].MOT_PWR) MOTOR_stop(MOT_NUMBER);
+        }
 
         return MOT[MOT_NUMBER].MOT_EN+MOT[MOT_NUMBER].MOT_DIR+MOT[MOT_NUMBER].MOT_PWM+MOT[MOT_NUMBER].MOT_PWR;
         //return 0x55;
