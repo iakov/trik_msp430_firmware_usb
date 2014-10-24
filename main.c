@@ -121,7 +121,7 @@ void main (void)
                         CDC0_INTFNUM);
                     strncat(wholeString,pieceOfString,strlen(pieceOfString));
                     if (retInString(wholeString)){              // Wait for enter key to be pressed
-                    	//n_error = PROTOCOL_hadler(wholeString,newString);
+                    	n_error = PROTOCOL_hadler(wholeString,newString);
                     	//sprintf(newString,"Size=%d\r\n",strlen(wholeString));
                         //PROTOCOL_errResponse(newString, 0x50,0x60,0x70);
                         if (cdcSendDataInBackground((uint8_t*)newString,
@@ -285,6 +285,8 @@ uint8_t retInString (char* string)
 void globalInitVars()
 {
     for (int j=0; j<MAX_DEVICES; j++) busy_table[j]=NNONE;
+    for (int j=0; j<MAX_MOTORS; j++) MOT[j].MCTL=MOT[j].MPWR=MOT[j].MFRQ=MOT[j].MANG=MOT[j].MTMR=MOT[j].MVAL=MOT[j].MSTA=0;
+    for (int j=0; j<MAX_MOTORS; j++) MOT[j].MOT_EN=MOT[j].MOT_PWR=MOT[j].MOT_DIR=MOT[j].MOT_PWM=0;
 }
 
 //Released_Version_4_10_02
