@@ -98,10 +98,12 @@ void main (void)
 
     __enable_interrupt();  // Enable interrupts globally
     
+    GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN2);
+    GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN3);
     GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN2);
     GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN3);
-    //GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN2);
-
+/*
+    //Start
     TIMER_A_generatePWM(TIMER_A0_BASE,
             TIMER_A_CLOCKSOURCE_SMCLK,
             TIMER_A_CLOCKSOURCE_DIVIDER_1,
@@ -118,6 +120,17 @@ void main (void)
             TIMER_A_OUTPUTMODE_RESET_SET,
             5000);
 
+    //Stop #1
+    TIMER_A_generatePWM(TIMER_A0_BASE,
+                TIMER_A_CLOCKSOURCE_SMCLK,
+                TIMER_A_CLOCKSOURCE_DIVIDER_1,
+                10000,
+                TIMER_A_CAPTURECOMPARE_REGISTER_1,
+                TIMER_A_OUTPUTMODE_SET_RESET,
+                0);
+    //GPIO_setAsOutputPin(GPIO_PORT_P1, GPIO_PIN3);
+
+*/
 
     while (1)
     {

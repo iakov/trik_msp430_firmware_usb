@@ -174,27 +174,67 @@ void MOTOR_start(uint8_t MOT_NUMBER)
                {
                    case MOTOR1:
                        if (!(MOT[MOT_NUMBER].MOT_PWM))
+                       {
                            GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN2);
+                       }
                        else
+                       {
                            TIMER_A_generatePWM(TIMER_A0_BASE,
-                                   TIMER_A_CLOCKSOURCE_EXTERNAL_TXCLK,
-                                   TIMER_A_CLOCKSOURCE_DIVIDER_1,
-                                   10,
-                                   TIMER_A_CAPTURECOMPARE_REGISTER_0,
-                                   TIMER_A_OUTPUTMODE_SET_RESET,
-                                   10);
+                                      TIMER_A_CLOCKSOURCE_SMCLK,
+                                      TIMER_A_CLOCKSOURCE_DIVIDER_1,
+                                      MOT[MOT_NUMBER].MFRQ,
+                                      TIMER_A_CAPTURECOMPARE_REGISTER_1,
+                                      TIMER_A_OUTPUTMODE_RESET_SET,
+                                      MOT[MOT_NUMBER].MPWR);
+                       }
                        break;
                    case MOTOR2:
                        if (!(MOT[MOT_NUMBER].MOT_PWM))
+                       {
                            GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN3);
+                       }
+                       else
+                       {
+                           TIMER_A_generatePWM(TIMER_A0_BASE,
+                                      TIMER_A_CLOCKSOURCE_SMCLK,
+                                      TIMER_A_CLOCKSOURCE_DIVIDER_1,
+                                      MOT[MOT_NUMBER].MFRQ,
+                                      TIMER_A_CAPTURECOMPARE_REGISTER_2,
+                                      TIMER_A_OUTPUTMODE_RESET_SET,
+                                      MOT[MOT_NUMBER].MPWR);
+                       }
                        break;
                    case MOTOR3:
                        if (!(MOT[MOT_NUMBER].MOT_PWM))
+                       {
                            GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN4);
+                       }
+                       else
+                       {
+                           TIMER_A_generatePWM(TIMER_A0_BASE,
+                                      TIMER_A_CLOCKSOURCE_SMCLK,
+                                      TIMER_A_CLOCKSOURCE_DIVIDER_1,
+                                      MOT[MOT_NUMBER].MFRQ,
+                                      TIMER_A_CAPTURECOMPARE_REGISTER_3,
+                                      TIMER_A_OUTPUTMODE_RESET_SET,
+                                      MOT[MOT_NUMBER].MPWR);
+                       }
                        break;
                    case MOTOR4:
                        if (!(MOT[MOT_NUMBER].MOT_PWM))
+                       {
                            GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN5);
+                       }
+                       else
+                       {
+                           TIMER_A_generatePWM(TIMER_A0_BASE,
+                                      TIMER_A_CLOCKSOURCE_SMCLK,
+                                      TIMER_A_CLOCKSOURCE_DIVIDER_1,
+                                      MOT[MOT_NUMBER].MFRQ,
+                                      TIMER_A_CAPTURECOMPARE_REGISTER_4,
+                                      TIMER_A_OUTPUTMODE_RESET_SET,
+                                      MOT[MOT_NUMBER].MPWR);
+                       }
                        break;
                    default:;
                }
