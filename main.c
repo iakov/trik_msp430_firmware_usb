@@ -94,7 +94,7 @@ void main (void)
     PMM_setVCore(PMM_BASE, PMM_CORE_LEVEL_2);
 #endif
 
-    initPorts();           // Config GPIOS for low-power (output low)
+    //initPorts();           // Config GPIOS for low-power (output low)
     initClocks(8000000);   // Config clocks. MCLK=SMCLK=FLL=8MHz; ACLK=REFO=32kHz
     USB_setup(TRUE,TRUE);  // Init USB & events; if a host is present, connect
 
