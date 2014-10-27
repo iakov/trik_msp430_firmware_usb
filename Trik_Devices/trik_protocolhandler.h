@@ -27,6 +27,7 @@
 #define CRC_ERROR 0x12
 #define START_ERROR 0x13
 #define LENGTH_ERROR 0x14
+#define UNDEF_ERROR 0xFF
 
 //Protocol handler
 uint8_t PROTOCOL_hadler(char *in_str, char *out_str);
