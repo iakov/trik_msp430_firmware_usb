@@ -175,10 +175,12 @@ void MOTOR_start(uint8_t MOT_NUMBER)
                    case MOTOR1:
                        if (!(MOT[MOT_NUMBER].MOT_PWM))
                        {
+                           MOTOR_disablePWM(MOT_NUMBER);
                            GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN2);
                        }
                        else
                        {
+                           MOTOR_enablePWM(MOT_NUMBER);
                            TIMER_A_generatePWM(TIMER_A0_BASE,
                                       TIMER_A_CLOCKSOURCE_SMCLK,
                                       TIMER_A_CLOCKSOURCE_DIVIDER_1,
@@ -191,10 +193,12 @@ void MOTOR_start(uint8_t MOT_NUMBER)
                    case MOTOR2:
                        if (!(MOT[MOT_NUMBER].MOT_PWM))
                        {
+                           MOTOR_disablePWM(MOT_NUMBER);
                            GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN3);
                        }
                        else
                        {
+                           MOTOR_enablePWM(MOT_NUMBER);
                            TIMER_A_generatePWM(TIMER_A0_BASE,
                                       TIMER_A_CLOCKSOURCE_SMCLK,
                                       TIMER_A_CLOCKSOURCE_DIVIDER_1,
@@ -207,10 +211,12 @@ void MOTOR_start(uint8_t MOT_NUMBER)
                    case MOTOR3:
                        if (!(MOT[MOT_NUMBER].MOT_PWM))
                        {
+                           MOTOR_disablePWM(MOT_NUMBER);
                            GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN4);
                        }
                        else
                        {
+                           MOTOR_enablePWM(MOT_NUMBER);
                            TIMER_A_generatePWM(TIMER_A0_BASE,
                                       TIMER_A_CLOCKSOURCE_SMCLK,
                                       TIMER_A_CLOCKSOURCE_DIVIDER_1,
@@ -223,10 +229,12 @@ void MOTOR_start(uint8_t MOT_NUMBER)
                    case MOTOR4:
                        if (!(MOT[MOT_NUMBER].MOT_PWM))
                        {
+                           MOTOR_disablePWM(MOT_NUMBER);
                            GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN5);
                        }
                        else
                        {
+                           MOTOR_enablePWM(MOT_NUMBER);
                            TIMER_A_generatePWM(TIMER_A0_BASE,
                                       TIMER_A_CLOCKSOURCE_SMCLK,
                                       TIMER_A_CLOCKSOURCE_DIVIDER_1,
@@ -247,68 +255,44 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
     switch (MOT_NUMBER)
                {
                    case MOTOR1:
-                       if (!(MOT[MOT_NUMBER].MOT_PWM))
-                       {
-                           GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN2);
-                       }
-                       else
-                       {
-                           TIMER_A_generatePWM(TIMER_A0_BASE,
+                        GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN2);
+                        TIMER_A_generatePWM(TIMER_A0_BASE,
                                                          TIMER_A_CLOCKSOURCE_SMCLK,
                                                          TIMER_A_CLOCKSOURCE_DIVIDER_1,
                                                          MOT[MOT_NUMBER].MFRQ,
                                                          TIMER_A_CAPTURECOMPARE_REGISTER_1,
                                                          TIMER_A_OUTPUTMODE_RESET_SET,
                                                          0);
-                       }
                        break;
                    case MOTOR2:
-                       if (!(MOT[MOT_NUMBER].MOT_PWM))
-                       {
-                           GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN3);
-                       }
-                       else
-                       {
-                           TIMER_A_generatePWM(TIMER_A0_BASE,
+                        GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN3);
+                        TIMER_A_generatePWM(TIMER_A0_BASE,
                                                          TIMER_A_CLOCKSOURCE_SMCLK,
                                                          TIMER_A_CLOCKSOURCE_DIVIDER_1,
                                                          MOT[MOT_NUMBER].MFRQ,
                                                          TIMER_A_CAPTURECOMPARE_REGISTER_2,
                                                          TIMER_A_OUTPUTMODE_RESET_SET,
                                                          0);
-                       }
                        break;
                    case MOTOR3:
-                       if (!(MOT[MOT_NUMBER].MOT_PWM))
-                       {
-                           GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN4);
-                       }
-                       else
-                       {
-                           TIMER_A_generatePWM(TIMER_A0_BASE,
+                        GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN4);
+                        TIMER_A_generatePWM(TIMER_A0_BASE,
                                                          TIMER_A_CLOCKSOURCE_SMCLK,
                                                          TIMER_A_CLOCKSOURCE_DIVIDER_1,
                                                          MOT[MOT_NUMBER].MFRQ,
                                                          TIMER_A_CAPTURECOMPARE_REGISTER_3,
                                                          TIMER_A_OUTPUTMODE_RESET_SET,
                                                          0);
-                       }
                        break;
                    case MOTOR4:
-                       if (!(MOT[MOT_NUMBER].MOT_PWM))
-                       {
-                           GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN5);
-                       }
-                       else
-                       {
-                           TIMER_A_generatePWM(TIMER_A0_BASE,
+                        GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN5);
+                        TIMER_A_generatePWM(TIMER_A0_BASE,
                                                          TIMER_A_CLOCKSOURCE_SMCLK,
                                                          TIMER_A_CLOCKSOURCE_DIVIDER_1,
                                                          MOT[MOT_NUMBER].MFRQ,
                                                          TIMER_A_CAPTURECOMPARE_REGISTER_4,
                                                          TIMER_A_OUTPUTMODE_RESET_SET,
                                                          0);
-                       }
                        break;
                    default:;
                }
@@ -335,12 +319,13 @@ uint8_t MOTOR_hadler(uint8_t MOT_NUMBER)
         if (MOT[MOT_NUMBER].MCTL & 0x0004)
         {
             if (!(MOT[MOT_NUMBER].MOT_PWM)) MOTOR_enablePWM(MOT_NUMBER);
+            if ((MOT[MOT_NUMBER].MOT_PWR)) MOTOR_start(MOT_NUMBER);
         }
         else
         {
             if (MOT[MOT_NUMBER].MOT_PWM) MOTOR_disablePWM(MOT_NUMBER);
+            if ((MOT[MOT_NUMBER].MOT_PWR)) MOTOR_start(MOT_NUMBER);
         }
-
         //Start/stop
         if (MOT[MOT_NUMBER].MCTL & 0x0003)
         {
