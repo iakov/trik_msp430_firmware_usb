@@ -16,6 +16,18 @@
 
 #define MAX_STRING_LENGTH 32
 
+//Error defines
+#define NO_ERROR 0x00
+#define FUNC_CODE_ERROR 0x01
+#define REG_ADDR_ERROR 0x02
+#define REG_VAL_ERROR 0x03
+#define SLAVE_ERROR 0x04
+#define SLAVE_BUSY 0x06
+#define DEV_ADDR_ERROR 0x11
+#define CRC_ERROR 0x12
+#define START_ERROR 0x13
+#define LENGTH_ERROR 0x14
+
 //Protocol handler
 uint8_t PROTOCOL_hadler(char *in_str, char *out_str);
 

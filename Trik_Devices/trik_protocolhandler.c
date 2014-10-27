@@ -50,14 +50,14 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	if (in_str[0]!=':')
 	{
 		sprintf(out_str,":000013ED\r\n");
-		return 0x13;
+		return START_ERROR;
 	}
 
 	//Incorrect packet length
 	if ((strlen(in_str)!=11) && (strlen(in_str)!=15) && (strlen(in_str)!=19))
 	{
 		sprintf(out_str,":000014EC\r\n");
-		return 0x14;
+		return LENGTH_ERROR;
 	}
 
 	//Get device address
@@ -79,36 +79,36 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	//Device addresses range
 	if (devaddr1>MAX_DEVICES)
 	{
-	    PROTOCOL_errResponse(out_str,devaddr1,func1,0x11);
-		return 0x11;
+	    PROTOCOL_errResponse(out_str,devaddr1,func1,DEV_ADDR_ERROR);
+		return DEV_ADDR_ERROR;
 	}
 
 	//Motor registers addresses range
 	if (((devaddr1>=MOTOR1) && (devaddr1<=MOTOR4)) && (regaddr1>0x06))
 	{
-	    PROTOCOL_errResponse(out_str,devaddr1,func1,0x02);
-		return 0x02;
+	    PROTOCOL_errResponse(out_str,devaddr1,func1,REG_ADDR_ERROR);
+		return REG_ADDR_ERROR;
 	}
 
 	//Sensor registers addresses range
 	if (((devaddr1>=SENSOR1) && (devaddr1<=SENSOR14)) && (regaddr1>0x04))
 	{
-	    PROTOCOL_errResponse(out_str,devaddr1,func1,0x02);
-		return 0x02;
+	    PROTOCOL_errResponse(out_str,devaddr1,func1,REG_ADDR_ERROR);
+		return REG_ADDR_ERROR;
 	}
 
 	//Actuator registers addresses range
 	if (((devaddr1>=ACTUATOR1) && (devaddr1<=ACTUATOR20)) && (regaddr1>0x04))
 	{
-	    PROTOCOL_errResponse(out_str,devaddr1,func1,0x02);
-		return 0x02;
+	    PROTOCOL_errResponse(out_str,devaddr1,func1,REG_ADDR_ERROR);
+		return REG_ADDR_ERROR;
 	}
 
 	//Function number check
 	if ((func1!=0x03) && (func1!=0x04) && (func1!=0x05) && (func1!=0x06))
 	{
-	    PROTOCOL_errResponse(out_str,devaddr1,func1,0x01);
-		return 0x01;
+	    PROTOCOL_errResponse(out_str,devaddr1,func1,FUNC_CODE_ERROR);
+		return FUNC_CODE_ERROR;
 	}
 
 	//CRC check
@@ -121,8 +121,8 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	if ((func1==0x05) || (func1==0x06)) crc2=0-(devaddr1+func1+regaddr1);
 	if (crc1!=crc2)
 	{
-	    PROTOCOL_errResponse(out_str,devaddr1,func1,0x12);
-	    return 0x12;
+	    PROTOCOL_errResponse(out_str,devaddr1,func1,CRC_ERROR);
+	    return CRC_ERROR;
 	}
 
 	//Hadle of function 0x03 - write single 16 bit register
@@ -138,37 +138,37 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	        //Error register value
 	        if (((MOT[devaddr1].MFRQ==0) || (MOT[devaddr1].MPWR>MOT[devaddr1].MFRQ)) && (MOT[devaddr1].MCTL & 0x0004))
                 {
-	                PROTOCOL_errResponse(out_str,devaddr1,func1,0x03);
-	                return 0x03;
+	                PROTOCOL_errResponse(out_str,devaddr1,func1,REG_VAL_ERROR);
+	                return REG_VAL_ERROR;
                 }
 	        else
 	            {
 	                errhandler=MOTOR_hadler(devaddr1);
 	                sprintf(out_str,"%x %x %x %x %x %x %x %x\r\n",errhandler,MOT[devaddr1].MCTL,MOT[devaddr1].MFRQ,MOT[devaddr1].MPWR,
 	                        MOT[devaddr1].MOT_EN,MOT[devaddr1].MOT_PWR,MOT[devaddr1].MOT_PWM,MOT[devaddr1].MOT_DIR);
-	                return 0x00;
+	                return NO_ERROR;
 	            }
 
 
 
 	    }
 	    sprintf(out_str,"Byaka zakalyaka\r\n",errhandler,devaddr1,regval1);
-	    return 0x00;
+	    return NO_ERROR;
 	}
 	else
 	{
 
 
 
-	    PROTOCOL_errResponse(out_str,devaddr1,func1,0x14);
-	    return 0x14;
+	    PROTOCOL_errResponse(out_str,devaddr1,func1,LENGTH_ERROR);
+	    return LENGTH_ERROR;
 	}
 
     //Function 0x05 - read single register
     if ((func1==0x05) && (strlen(in_str)!=11))
     {
-        PROTOCOL_errResponse(out_str,devaddr1,func1,0x14);
-        return 0x14;
+        PROTOCOL_errResponse(out_str,devaddr1,func1,LENGTH_ERROR);
+        return LENGTH_ERROR;
     }
     else
     {
@@ -178,8 +178,8 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
     //Function 0x06 - read single register
     if ((func1==0x06) && (strlen(in_str)!=11))
     {
-        PROTOCOL_errResponse(out_str,devaddr1,func1,0x14);
-        return 0x14;
+        PROTOCOL_errResponse(out_str,devaddr1,func1,LENGTH_ERROR);
+        return LENGTH_ERROR;
     }
     else
     {
