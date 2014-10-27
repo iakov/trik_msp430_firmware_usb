@@ -49,8 +49,6 @@ void PROTOCOL_transResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code)
     strcat(r_str,stmp1);
 }
 
-
-
 //Protocol handler
 uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 {
@@ -97,7 +95,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	if (func1==0x04) {sprintf(stmp1,"%c%c%c%c%c%c%c%c",in_str[7],in_str[8],in_str[9],in_str[10],in_str[11],in_str[12],in_str[13],in_str[14]); regval1=strtoul(stmp1,&stmp1[8],16);}
 
 	//Device addresses range
-	if (devaddr1>MAX_DEVICES)
+	if ((devaddr1>MAX_DEVICES) && (devaddr1!=BSL))
 	{
 	    PROTOCOL_errResponse(out_str,devaddr1,func1,DEV_ADDR_ERROR);
 		return DEV_ADDR_ERROR;
@@ -146,8 +144,9 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	}
 
 	//Hadle of function 0x03 - write single 16 bit register
-	if (((func1==0x03) && (strlen(in_str)==15)) || ((func1==0x04) && (strlen(in_str)!=19)))
+	if (((func1==0x03) && (strlen(in_str)==15)) || ((func1==0x04) && (strlen(in_str)==19)))
 	{
+	    //Motors
 	    if ((devaddr1>=MOTOR1) && (devaddr1<=MOTOR4))
 	    {
 	        if (regaddr1==0x00) MOT[devaddr1].MCTL=regval1;
@@ -171,6 +170,16 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	                return NO_ERROR;
 	            }
 	    }
+
+	    //BSL
+	    if ((devaddr1==BSL) && (regaddr1==0x00))
+	    {
+	        errhandler=BSL_enterBSL(regval1);
+	        PROTOCOL_transResponse(out_str,devaddr1,errhandler);
+	        //sprintf(out_str,"%x %x %x\r\n",devaddr1,regaddr1,(regval1==0xA480E917));
+	        return NO_ERROR;
+	    }
+
 	    //If not found any devices
 	    PROTOCOL_errResponse(out_str,devaddr1,func1,DEV_ADDR_ERROR);
 	    return DEV_ADDR_ERROR;
@@ -193,7 +202,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 
 
 
-
+/*
 
 	//Function 0x05 - read single register
     if ((func1==0x05) && (strlen(in_str)!=11))
@@ -216,7 +225,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
     {
 
     }
-
+*/
     sprintf(out_str,":FFFFFF03\r\n");
 	return UNDEF_ERROR;
 }

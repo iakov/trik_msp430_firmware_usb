@@ -76,6 +76,8 @@ uint8_t n_error = 0;
 uint8_t retInString (char* string);
 void globalInitVars();
 
+char inv=0;
+
 /*  
  * ======== main ========
  */
@@ -100,6 +102,22 @@ void main (void)
     
     globalInitVars(); //Init variables and structires
 
+
+    //--------------------------------------------------------------------------------------
+    GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN1);
+    GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN1);
+    //while (GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN1));
+    GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN7);
+    GPIO_setOutputHighOnPin(GPIO_PORT_P4,GPIO_PIN7);
+    __disable_interrupt();
+    ((void (*)())0x1000)();
+    //--------------------------------------------------------------------------------------
+
+
+
+
+
+
     while (1)
     {
         uint8_t ReceiveError = 0, SendError = 0;
@@ -123,9 +141,12 @@ void main (void)
                         CDC0_INTFNUM);
                     strncat(wholeString,pieceOfString,strlen(pieceOfString));
                     if (retInString(wholeString)){              // Wait for enter key to be pressed
-                    	n_error = PROTOCOL_hadler(wholeString,newString);
+                    	inv = 1;
+                        n_error = PROTOCOL_hadler(wholeString,newString);
                     	//sprintf(newString,"Size=%d\r\n",strlen(wholeString));
                         //PROTOCOL_errResponse(newString, 0x50,0x60,0x70);
+                        //__disable_interrupt();
+                        //((void (*)())0x1000)();
                         if (cdcSendDataInBackground((uint8_t*)newString,
                                 strlen(newString),CDC0_INTFNUM,1)){  // Send message to other App
                             SendError = 0x01;                          // Something went wrong -- exit
@@ -169,6 +190,15 @@ void main (void)
         if (ReceiveError || SendError){
             // TO DO: User can place code here to handle error
         }
+
+    if (inv==1)
+    {
+        inv = 0;
+        USB_setup(FALSE,FALSE);
+        __disable_interrupt();
+        ((void (*)())0x1000)();
+    }
+
     }  // while(1)
 }  // main()
 

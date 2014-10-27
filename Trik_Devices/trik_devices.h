@@ -53,6 +53,7 @@
 #define ACTUATOR18			0x27
 #define ACTUATOR19			0x28
 #define ACTUATOR20			0x29
+#define BSL                 0xEE
 #define NNONE				0xFF
 
 //Max motors
