@@ -106,7 +106,7 @@ void main (void)
     //--------------------------------------------------------------------------------------
     GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN1);
     GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN1);
-    //while (GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN1));
+    while (GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN1));
     GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN7);
     GPIO_setOutputHighOnPin(GPIO_PORT_P4,GPIO_PIN7);
     __disable_interrupt();
