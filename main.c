@@ -123,6 +123,11 @@ void main (void)
                     cdcReceiveDataInBuffer((uint8_t*)pieceOfString,
                         MAX_STR_LENGTH,
                         CDC0_INTFNUM);
+                    if ((strlen(pieceOfString)+strlen(wholeString))>=MAX_STR_LENGTH)
+                    {
+                        memset(wholeString,0,MAX_STR_LENGTH);
+                        memset(pieceOfString,0,MAX_STR_LENGTH);
+                    }
                     strncat(wholeString,pieceOfString,strlen(pieceOfString));
                     if (retInString(wholeString)){              // Wait for enter key to be pressed
                         n_error = PROTOCOL_hadler(wholeString,newString); //Protocol handler
