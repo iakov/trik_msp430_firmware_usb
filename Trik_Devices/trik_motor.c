@@ -166,7 +166,16 @@ void MOTOR_disablePWM(uint8_t MOT_NUMBER)
                }
 }
 
-//Пока без ШИМа
+void MOTOR_enableBrake(uint8_t MOT_NUMBER)
+{
+    MOT[MOT_NUMBER].MOT_BRK = 1;
+}
+
+void MOTOR_disableBrake(uint8_t MOT_NUMBER)
+{
+    MOT[MOT_NUMBER].MOT_BRK = 0;
+}
+
 void MOTOR_start(uint8_t MOT_NUMBER)
 {
     MOT[MOT_NUMBER].MOT_PWR = 1;
