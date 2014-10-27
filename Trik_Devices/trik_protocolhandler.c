@@ -136,7 +136,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	        if (regaddr1==0x03) MOT[devaddr1].MANG=regval1;
 	        if (regaddr1==0x04) MOT[devaddr1].MTMR=regval1;
 	        //Error register value
-	        if ((MOT[devaddr1].MFRQ==0) || (MOT[devaddr1].MPWR>MOT[devaddr1].MFRQ))
+	        if (((MOT[devaddr1].MFRQ==0) || (MOT[devaddr1].MPWR>MOT[devaddr1].MFRQ)) && (MOT[devaddr1].MCTL & 0x0004))
                 {
 	                PROTOCOL_errResponse(out_str,devaddr1,func1,0x03);
 	                return 0x03;
