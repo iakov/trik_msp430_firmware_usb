@@ -164,27 +164,38 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	        else
 	            {
 	                errhandler=MOTOR_hadler(devaddr1);
-	                sprintf(out_str,"%x %x %x %x %x %x %x %x\r\n",errhandler,MOT[devaddr1].MCTL,MOT[devaddr1].MFRQ,MOT[devaddr1].MPWR,
-	                        MOT[devaddr1].MOT_EN,MOT[devaddr1].MOT_PWR,MOT[devaddr1].MOT_PWM,MOT[devaddr1].MOT_DIR);
+	                PROTOCOL_transResponse(out_str,devaddr1,errhandler);
+	                //sprintf(out_str,"%x %x %x %x %x %x %x %x\r\n",errhandler,MOT[devaddr1].MCTL,MOT[devaddr1].MFRQ,MOT[devaddr1].MPWR,
+	                //        MOT[devaddr1].MOT_EN,MOT[devaddr1].MOT_PWR,MOT[devaddr1].MOT_PWM,MOT[devaddr1].MOT_DIR);
+
 	                return NO_ERROR;
 	            }
-
-
-
 	    }
-	    sprintf(out_str,"Byaka zakalyaka\r\n",errhandler,devaddr1,regval1);
-	    return NO_ERROR;
+	    //If not found any devices
+	    PROTOCOL_errResponse(out_str,devaddr1,func1,DEV_ADDR_ERROR);
+	    return DEV_ADDR_ERROR;
 	}
 	else
 	{
-
-
-
 	    PROTOCOL_errResponse(out_str,devaddr1,func1,LENGTH_ERROR);
 	    return LENGTH_ERROR;
 	}
 
-    //Function 0x05 - read single register
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	//Function 0x05 - read single register
     if ((func1==0x05) && (strlen(in_str)!=11))
     {
         PROTOCOL_errResponse(out_str,devaddr1,func1,LENGTH_ERROR);
