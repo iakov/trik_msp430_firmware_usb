@@ -76,8 +76,6 @@ uint8_t n_error = 0;
 uint8_t retInString (char* string);
 void globalInitVars();
 
-char inv=0;
-
 /*  
  * ======== main ========
  */

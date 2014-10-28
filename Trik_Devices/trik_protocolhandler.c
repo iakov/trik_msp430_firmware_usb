@@ -13,18 +13,26 @@ void PROTOCOL_errResponse(char *r_str, uint8_t dev_addr, uint8_t func_code, uint
 	char stmp1[MAX_STRING_LENGTH]; //Temp string
 	uint8_t crc;
 	memset(r_str,0,MAX_STRING_LENGTH);
-	if (dev_addr<16) sprintf(r_str,":0%x",dev_addr);
-	if (dev_addr>=16) sprintf(r_str,":%x",dev_addr);
+	if (dev_addr<16)
+	    sprintf(r_str,":0%x",dev_addr);
+	else
+	    sprintf(r_str,":%x",dev_addr);
 	if (func_code<0x80) func_code+=0x80;
-	if (func_code<16) sprintf(stmp1,"0%x",func_code);
-	if (func_code>=16) sprintf(stmp1,"%x",func_code);
+	if (func_code<16)
+	    sprintf(stmp1,"0%x",func_code);
+	else
+	    sprintf(stmp1,"%x",func_code);
 	strcat(r_str,stmp1);
-	if (err_code<16) sprintf(stmp1,"0%x",err_code);
-	if (err_code>=16) sprintf(stmp1,"%x",err_code);
+	if (err_code<16)
+	    sprintf(stmp1,"0%x",err_code);
+	else
+	    sprintf(stmp1,"%x",err_code);
 	strcat(r_str,stmp1);
 	crc=0-(dev_addr+func_code+err_code);
-	if (crc<16) sprintf(stmp1,"0%x",crc);
-	if (crc>=16) sprintf(stmp1,"%x",crc);
+	if (crc<16)
+	    sprintf(stmp1,"0%x",crc);
+	else
+	    sprintf(stmp1,"%x",crc);
 	strcat(r_str,stmp1);
 	sprintf(stmp1,"\r\n");
 	strcat(r_str,stmp1);
@@ -36,14 +44,20 @@ void PROTOCOL_transResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code)
     char stmp1[MAX_STRING_LENGTH]; //Temp string
     uint8_t crc;
     memset(r_str,0,MAX_STRING_LENGTH);
-    if (dev_addr<16) sprintf(r_str,":0%x",dev_addr);
-    if (dev_addr>=16) sprintf(r_str,":%x",dev_addr);
-    if (resp_code<16) sprintf(stmp1,"0%x",resp_code);
-    if (resp_code>=16) sprintf(stmp1,"%x",resp_code);
+    if (dev_addr<16)
+        sprintf(r_str,":0%x",dev_addr);
+    else
+        sprintf(r_str,":%x",dev_addr);
+    if (resp_code<16)
+        sprintf(stmp1,"0%x",resp_code);
+    else
+        sprintf(stmp1,"%x",resp_code);
     strcat(r_str,stmp1);
     crc=0-(dev_addr+resp_code);
-    if (crc<16) sprintf(stmp1,"0%x",crc);
-    if (crc>=16) sprintf(stmp1,"%x",crc);
+    if (crc<16)
+        sprintf(stmp1,"0%x",crc);
+    else
+        sprintf(stmp1,"%x",crc);
     strcat(r_str,stmp1);
     sprintf(stmp1,"\r\n");
     strcat(r_str,stmp1);
@@ -91,8 +105,16 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	regaddr1=strtoul(stmp1,&stmp1[2],16);
 
 	//Get register value
-	if (func1==0x03) {sprintf(stmp1,"%c%c%c%c",in_str[7],in_str[8],in_str[9],in_str[10]); regval1=strtoul(stmp1,&stmp1[4],16);}
-	if (func1==0x04) {sprintf(stmp1,"%c%c%c%c%c%c%c%c",in_str[7],in_str[8],in_str[9],in_str[10],in_str[11],in_str[12],in_str[13],in_str[14]); regval1=strtoul(stmp1,&stmp1[8],16);}
+	if (func1==0x03)
+	{
+	    sprintf(stmp1,"%c%c%c%c",in_str[7],in_str[8],in_str[9],in_str[10]);
+	    regval1=strtoul(stmp1,&stmp1[4],16);
+	}
+	if (func1==0x04)
+	{
+	    sprintf(stmp1,"%c%c%c%c%c%c%c%c",in_str[7],in_str[8],in_str[9],in_str[10],in_str[11],in_str[12],in_str[13],in_str[14]);
+	    regval1=strtoul(stmp1,&stmp1[8],16);
+	}
 
 	//Device addresses range
 	if ((devaddr1>MAX_DEVICES) && (devaddr1!=BSL))
@@ -130,9 +152,21 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	}
 
 	//CRC check
-	if (func1==0x03) {sprintf(stmp1,"%c%c",in_str[11],in_str[12]); crc1=strtoul(stmp1,&stmp1[2],16);}
-	if (func1==0x04) {sprintf(stmp1,"%c%c",in_str[15],in_str[16]); crc1=strtoul(stmp1,&stmp1[2],16);}
-	if ((func1==0x05) || (func1==0x06)) {sprintf(stmp1,"%c%c",in_str[11],in_str[12]); crc1=strtoul(stmp1,&stmp1[2],16);}
+	if (func1==0x03)
+	{
+	    sprintf(stmp1,"%c%c",in_str[11],in_str[12]);
+	    crc1=strtoul(stmp1,&stmp1[2],16);
+	}
+	if (func1==0x04)
+	{
+	    sprintf(stmp1,"%c%c",in_str[15],in_str[16]);
+	    crc1=strtoul(stmp1,&stmp1[2],16);
+	}
+	if ((func1==0x05) || (func1==0x06))
+	{
+	    sprintf(stmp1,"%c%c",in_str[11],in_str[12]);
+	    crc1=strtoul(stmp1,&stmp1[2],16);
+	}
 	if ((func1==0x03) || (func1==0x04)) crc2=0-(devaddr1+func1+regaddr1+
 	        (uint8_t)(regval1 & 0x000000FF)+(uint8_t)((regval1 & 0x0000FF00) >> 8)+
 	        (uint8_t)((regval1 & 0x00FF0000) >> 16)+(uint8_t)((regval1 & 0xFF000000) >> 24));
