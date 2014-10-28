@@ -1,33 +1,33 @@
 /* --COPYRIGHT--,BSD
- * Copyright (c) 2013, Texas Instruments Incorporated                          
- * All rights reserved.                                                        
- *                                                                             
- * Redistribution and use in source and binary forms, with or without          
- * modification, are permitted provided that the following conditions          
- * are met:                                                                    
- *                                                                             
- * *  Redistributions of source code must retain the above copyright           
- *    notice, this list of conditions and the following disclaimer.            
- *                                                                             
- * *  Redistributions in binary form must reproduce the above copyright        
- *    notice, this list of conditions and the following disclaimer in the      
- *    documentation and/or other materials provided with the distribution.     
- *                                                                             
- * *  Neither the name of Texas Instruments Incorporated nor the names of      
- *    its contributors may be used to endorse or promote products derived      
- *    from this software without specific prior written permission.            
- *                                                                             
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,       
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR      
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR            
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,       
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,         
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; 
- * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,    
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR     
- * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,              
- * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.                          
+ * Copyright (c) 2014, Texas Instruments Incorporated
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * *  Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ * *  Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * *  Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+ * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * --/COPYRIGHT--*/
 
 #include <stdint.h>
@@ -49,7 +49,6 @@ extern "C"
 // CDC or HID - Define both for composite support
 //***********************************************************************************************
 #define _CDC_          // Needed for CDC inteface
-#define _HID_          // Needed for HID interface
 //***********************************************************************************************
 // CONFIGURATION CONSTANTS
 //***********************************************************************************************
@@ -59,7 +58,7 @@ extern "C"
 // Configuration Constants that can change
 // #define that relates to Device Descriptor
 #define USB_VID               0x2047        // Vendor ID (VID)
-#define USB_PID               0x0300        // Product ID (PID)
+#define USB_PID               0x0313        // Product ID (PID)
 /*----------------------------------------------------------------------------+
 | Firmware Version                                                            |
 | How to detect version number of the FW running on MSP430?                   |
@@ -75,8 +74,8 @@ extern "C"
  #define PHDC_ENDPOINTS_NUMBER               2  // bulk in, bulk out
 
 
-#define DESCRIPTOR_TOTAL_LENGTH             237    // wTotalLength, This is the sum of configuration descriptor length  + CDC descriptor length  + HID descriptor length
-#define USB_NUM_INTERFACES                  7    // Number of implemented interfaces.
+#define DESCRIPTOR_TOTAL_LENGTH             141    // wTotalLength, This is the sum of configuration descriptor length  + CDC descriptor length  + HID descriptor length
+#define USB_NUM_INTERFACES                  4    // Number of implemented interfaces.
 
 #define CDC0_COMM_INTERFACE                0              // Comm interface number of CDC0
 #define CDC0_DATA_INTERFACE                1              // Data interface number of CDC0
@@ -90,34 +89,19 @@ extern "C"
 #define CDC1_OUTEP_ADDR                    0x04           // Output Endpoint Address of CDC1
 #define CDC1_INEP_ADDR                     0x84           // Input Endpoint Address of CDC1
 
-#define HID0_REPORT_INTERFACE              4              // Report interface number of HID0
-#define HID0_OUTEP_ADDR                    0x05           // Output Endpoint number of HID0
-#define HID0_INEP_ADDR                     0x85           // Input Endpoint number of HID0
-
-#define HID1_REPORT_INTERFACE              5              // Report interface number of HID1
-#define HID1_OUTEP_ADDR                    0x06           // Output Endpoint number of HID1
-#define HID1_INEP_ADDR                     0x86           // Input Endpoint number of HID1
-
-#define HID2_REPORT_INTERFACE              6              // Report interface number of HID2
-#define HID2_OUTEP_ADDR                    0x07           // Output Endpoint number of HID2
-#define HID2_INEP_ADDR                     0x87           // Input Endpoint number of HID2
-
 #define CDC_NUM_INTERFACES                   2           //  Total Number of CDCs implemented. should set to 0 if there are no CDCs implemented.
-#define HID_NUM_INTERFACES                   3           //  Total Number of HIDs implemented. should set to 0 if there are no HIDs implemented.
+#define HID_NUM_INTERFACES                   0           //  Total Number of HIDs implemented. should set to 0 if there are no HIDs implemented.
 #define MSC_NUM_INTERFACES                   0           //  Total Number of MSCs implemented. should set to 0 if there are no MSCs implemented.
 #define PHDC_NUM_INTERFACES                  0           //  Total Number of PHDCs implemented. should set to 0 if there are no PHDCs implemented.
 // Interface numbers for the implemented CDSs and HIDs, This is to use in the Application(main.c) and in the interupt file(UsbIsr.c).
 #define CDC0_INTFNUM                0
 #define CDC1_INTFNUM                1
-#define HID0_INTFNUM                2
-#define HID1_INTFNUM                3
-#define HID2_INTFNUM                4
 #define MSC_MAX_LUN_NUMBER                   1           // Maximum number of LUNs supported
 
 #define PUTWORD(x)      ((x)&0xFF),((x)>>8)
 
-#define USB_OUTEP_INT_EN BIT0 | BIT2 | BIT4 | BIT5 | BIT6 | BIT7 
-#define USB_INEP_INT_EN BIT0 | BIT1 | BIT2 | BIT3 | BIT4 | BIT5 | BIT6 | BIT7 
+#define USB_OUTEP_INT_EN BIT0 | BIT2 | BIT4 
+#define USB_INEP_INT_EN BIT0 | BIT1 | BIT2 | BIT3 | BIT4 
 
 #define USB_USE_INTERNAL_3V3LDO TRUE
 // MCLK frequency of MCU, in Hz
@@ -160,10 +144,7 @@ extern "C"
 // DESCRIPTOR CONSTANTS
 //***********************************************************************************************
 #define SIZEOF_DEVICE_DESCRIPTOR  0x12
-#define MAX_STRING_DESCRIPTOR_INDEX 9
-#define report_desc_size_HID0 36
-#define report_desc_size_HID1 36
-#define report_desc_size_HID2 52
+#define MAX_STRING_DESCRIPTOR_INDEX 6
 //#define SIZEOF_REPORT_DESCRIPTOR  36
 //#define USBHID_REPORT_LENGTH      64  // length of whole HID report (including Report ID)
 #define CONFIG_STRING_INDEX       4
@@ -409,3 +390,4 @@ extern const tDEVICE_REQUEST_COMPARE tUsbRequestList[];
 
 /*------------------------ Nothing Below This Line --------------------------*/
 
+//Released_Version_4_10_02
