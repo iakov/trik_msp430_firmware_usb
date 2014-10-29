@@ -129,6 +129,7 @@ void main (void)
                     strncat(wholeString,pieceOfString,strlen(pieceOfString));
                     if (retInString(wholeString)){              // Wait for enter key to be pressed
                         n_error = PROTOCOL_hadler(wholeString,newString); //Protocol handler
+                        //sprintf(newString,"strlen=%d\r\n",strlen(wholeString));
                         if (cdcSendDataInBackground((uint8_t*)newString,
                                 strlen(newString),CDC0_INTFNUM,1)){  // Send message to other App
                             SendError = 0x01;                          // Something went wrong -- exit
@@ -240,25 +241,24 @@ uint8_t retInString (char* string)
     len = strlen(tempStr);
     
     // Find 0x0D; if not found, retPos ends up at len
-    while (retPos++ < (len-1))
-    {
-    	if ((tempStr[retPos] == 0x0D) && (tempStr[retPos+1] == 0x0A)) break;
-    }
+    while ((tempStr[retPos] != 0x0A) && (tempStr[retPos] != 0x0D) &&
+           (retPos++ < len)) ;
 
-    // If 0x0D was actually found...
-    if ((retPos < len) && (tempStr[retPos] == 0x0D) && (tempStr[retPos+1] == 0x0A)){
-        for (i = 0; i < MAX_STR_LENGTH; i++){ // Empty the buffer
+    // If 0x0A was actually found...
+    if ((retPos < len) && (tempStr[retPos] == 0x0A)){
+
+        // Empty the buffer
+        for (i = 0; i < MAX_STR_LENGTH; i++){
             string[i] = 0x00;
         }
-        
-        // ...trim the input string to just before 0x0D
-        strncpy(string,tempStr,retPos+2);
-        
-        // ...and tell the calling function that we did so
+
+        //...trim the input string to just before 0x0D
+        strncpy(string,tempStr,retPos);
+
+        //...and tell the calling function that we did so
         return ( TRUE) ;
-        
-    // If 0x0D was actually found...
-    } else if ((tempStr[retPos] == 0x0D) && (tempStr[retPos+1] == 0x0A)){
+
+    } else if (tempStr[retPos] == 0x0A) {
     
         // Empty the buffer
         for (i = 0; i < MAX_STR_LENGTH; i++){
@@ -266,7 +266,7 @@ uint8_t retInString (char* string)
         }
         
         //...trim the input string to just before 0x0D
-        strncpy(string,tempStr,retPos+2);
+        strncpy(string,tempStr,retPos);
         
         //...and tell the calling function that we did so
         return ( TRUE) ;

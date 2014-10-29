@@ -34,7 +34,7 @@ void PROTOCOL_errResponse(char *r_str, uint8_t dev_addr, uint8_t func_code, uint
 	else
 	    sprintf(stmp1,"%x",crc);
 	strcat(r_str,stmp1);
-	sprintf(stmp1,"\r\n");
+	sprintf(stmp1,"\n");
 	strcat(r_str,stmp1);
 }
 
@@ -59,7 +59,7 @@ void PROTOCOL_transResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code)
     else
         sprintf(stmp1,"%x",crc);
     strcat(r_str,stmp1);
-    sprintf(stmp1,"\r\n");
+    sprintf(stmp1,"\n");
     strcat(r_str,stmp1);
 }
 
@@ -81,14 +81,14 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	//Start condition error
 	if (in_str[0]!=':')
 	{
-		sprintf(out_str,":000013ED\r\n");
+		sprintf(out_str,":000013ED\n");
 		return START_ERROR;
 	}
 
 	//Incorrect packet length
-	if ((strlen(in_str)!=11) && (strlen(in_str)!=15) && (strlen(in_str)!=19))
+	if ((strlen(in_str)!=9) && (strlen(in_str)!=13) && (strlen(in_str)!=17))
 	{
-		sprintf(out_str,":000014EC\r\n");
+		sprintf(out_str,":000014EC\n");
 		return LENGTH_ERROR;
 	}
 
@@ -178,7 +178,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	}
 
 	//Hadle of function 0x03 - write single 16 bit register
-	if (((func1==0x03) && (strlen(in_str)==15)) || ((func1==0x04) && (strlen(in_str)==19)))
+	if (((func1==0x03) && (strlen(in_str)==13)) || ((func1==0x04) && (strlen(in_str)==17)))
 	{
 	    //Motors
 	    if ((devaddr1>=MOTOR1) && (devaddr1<=MOTOR4))

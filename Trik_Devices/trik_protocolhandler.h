@@ -13,6 +13,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include "Trik_Devices/trik_motor.h"
+#include "Trik_Devices/trik_bsl.h"
 
 #define MAX_STRING_LENGTH 32
 
