@@ -124,6 +124,33 @@ void MOTOR_rotationBackward(uint8_t MOT_NUMBER)
                }
 }
 
+void MOTOR_fastBrake(uint8_t MOT_NUMBER)
+{
+    MOT[MOT_NUMBER].MOT_DIR = 0;
+    switch (MOT_NUMBER)
+               {
+                   case MOTOR1:
+                       GPIO_setOutputLowOnPin(GPIO_PORT_P5, GPIO_PIN4);
+                       GPIO_setOutputLowOnPin(GPIO_PORT_P5, GPIO_PIN5);
+                       break;
+                   case MOTOR2:
+                       GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN0);
+                       GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN1);
+                       break;
+                   case MOTOR3:
+                       GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN0);
+                       GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN1);
+                       break;
+                   case MOTOR4:
+                       GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN2);
+                       GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN3);
+                       break;
+                   default:;
+               }
+}
+
+
+
 void MOTOR_enablePWM(uint8_t MOT_NUMBER)
 {
     MOT[MOT_NUMBER].MOT_PWM = 1;
@@ -323,6 +350,15 @@ uint8_t MOTOR_hadler(uint8_t MOT_NUMBER)
         else
         {
             MOTOR_rotationForward(MOT_NUMBER);
+        }
+        //Fast brake enable/disable
+        if (MOT[MOT_NUMBER].MCTL & 0x0008)
+        {
+            MOTOR_enableBrake(MOT_NUMBER);
+        }
+        else
+        {
+            MOTOR_disableBrake(MOT_NUMBER);
         }
         //PWM on/PWM off(0/100%)
         if (MOT[MOT_NUMBER].MCTL & 0x0004)

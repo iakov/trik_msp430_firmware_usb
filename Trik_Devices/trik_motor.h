@@ -58,6 +58,7 @@ void MOTOR_rotationForward(uint8_t MOT_NUMBER);
 void MOTOR_rotationBackward(uint8_t MOT_NUMBER);
 void MOTOR_enableBrake(uint8_t MOT_NUMBER);
 void MOTOR_disableBrake(uint8_t MOT_NUMBER);
+void MOTOR_fastBrake(uint8_t MOT_NUMBER);
 void MOTOR_enablePWM(uint8_t MOT_NUMBER);
 void MOTOR_disablePWM(uint8_t MOT_NUMBER);
 //void MOTOR_setPower(uint8_t MOT_NUMBER, uint16_t MOT_POWER);
