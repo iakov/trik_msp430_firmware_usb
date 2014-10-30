@@ -318,15 +318,12 @@ uint8_t MOTOR_hadler(uint8_t MOT_NUMBER)
         //Forward/backward
         if (MOT[MOT_NUMBER].MCTL & 0x0010)
         {
-            if (!(MOT[MOT_NUMBER].MOT_DIR)) MOTOR_rotationBackward(MOT_NUMBER);
+            MOTOR_rotationBackward(MOT_NUMBER);
         }
         else
         {
-            if (MOT[MOT_NUMBER].MOT_DIR) MOTOR_rotationForward(MOT_NUMBER);
+            MOTOR_rotationForward(MOT_NUMBER);
         }
-
-
-
         //PWM on/PWM off(0/100%)
         if (MOT[MOT_NUMBER].MCTL & 0x0004)
         {
