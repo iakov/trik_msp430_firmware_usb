@@ -1,7 +1,7 @@
 /*
  * Trik_Motor.h
  *
- *  Created on: 21 окт. 2014 г.
+ *  Created on: October 21, 2014
  *      Author: Rostislav Varzar
  */
 #ifndef TRIK_MOTOR_H_

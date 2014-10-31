@@ -1,7 +1,7 @@
 /*
  * Trik_Devices.h
  *
- *  Created on: 21 окт. 2014 г.
+ *  Created on: October 21, 2014
  *      Author: Rostislav Varzar
  */
 #ifndef TRIK_DEVICES_H_

@@ -1,7 +1,7 @@
 /*
  * Trik_Motor.c
  *
- *  Created on: 21 окт. 2014 г.
+ *  Created on: October 21, 2014
  *      Author: Rostislav Varzar
  */
 

@@ -1,7 +1,7 @@
 /*
  * trick_bsl.c
  *
- *  Created on: 27 окт. 2014 г.
+ *  Created on: October 27, 2014
  *      Author: Rostislav Varzar
  */
 
