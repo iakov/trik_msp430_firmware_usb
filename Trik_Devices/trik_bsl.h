@@ -8,9 +8,6 @@
 #ifndef TRICK_BSL_H_
 #define TRICK_BSL_H_
 
-#include <stdint.h>
-#include "trik_devices.h"
-
 #define PSWD_OK 0x00
 #define PSWD_FAIL 0x01
 

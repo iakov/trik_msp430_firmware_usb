@@ -80,7 +80,7 @@ uint8_t ReceiveError = 0, SendError = 0;
 
 uint8_t retInString (char* string);
 void globalInitVars();
-void initTimerB();
+void initTimer_B();
 
 /*  
  * ======== main ========
@@ -102,10 +102,12 @@ void main (void)
     initClocks(8000000);   // Config clocks. MCLK=SMCLK=FLL=8MHz; ACLK=REFO=32kHz
     USB_setup(TRUE,TRUE);  // Init USB & events; if a host is present, connect
 
+    globalInitVars(); //Init variables and structires
+
+    initTimer_B(); //Init timer B
     __enable_interrupt();  // Enable interrupts globally
     
-    globalInitVars(); //Init variables and structires
-    initTimerB(); //Init timer B
+
 
     while (1)
     {
@@ -232,14 +234,16 @@ void __attribute__ ((interrupt(UNMI_VECTOR))) UNMI_ISR (void)
     }
 }
 
+
 // Timer_B7 Interrupt Vector (TBIV) handler
 #if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
 #pragma vector=TIMERB1_VECTOR
-__interrupt
-#elif defined(__GNUC__)
-__attribute__((interrupt(TIMERB1_VECTOR)))
+__interrupt void TIMERB1_ISR(void)
+#elif defined(__GNUC__) && (__MSP430__)
+void __attribute__((interrupt(TIMERB1_VECTOR)))
+#else
+#error Compiler not found!
 #endif
-void TIMERB1_ISR(void)
 {
     /* Any access, read or write, of the TBIV register automatically resets the
        highest "pending" interrupt flag. */
@@ -253,16 +257,19 @@ void TIMERB1_ISR(void)
     case 10: break;                          // CCR5 not used
     case 12: break;                          // CCR6 not used
     case 14:                                                 // overflow
+
         sprintf(newString,"Hello world!\r\n");
         if (cdcSendDataInBackground((uint8_t*)newString,
-                strlen(newString),CDC0_INTFNUM,1)){  // Send message to other App
+                strlen(newString),CDC0_INTFNUM,1))
+        {  // Send message to other App
             SendError = 0x01;                          // Something went wrong -- exit
-            break;
         }
+
 
         break;
     default: break;
     }
+    __no_operation();
 }
 
 
@@ -335,12 +342,11 @@ void globalInitVars()
 }
 
 //Init timer B for asynchronous packets
-void initTimerB()
+void initTimer_B()
 {
-    TIMER_B_clear(TIMER_B0_BASE);
     TIMER_B_clearTimerInterruptFlag(TIMER_B0_BASE);
-    TIMER_B_startContinuousMode(TIMER_B0_BASE,
-            TIMER_A_CLOCKSOURCE_SMCLK,
+    TIMER_B_startContinousMode(TIMER_B0_BASE,
+            TIMER_B_CLOCKSOURCE_SMCLK,
             TIMER_B_CLOCKSOURCE_DIVIDER_64,
             TIMER_B_TBIE_INTERRUPT_ENABLE,
             TIMER_B_DO_CLEAR);
