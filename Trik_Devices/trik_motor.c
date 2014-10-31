@@ -6,6 +6,7 @@
  */
 
 #include "trik_motor.h"
+#include "driverlib.h"
 
 //API functions
 void MOTOR_enableController(uint8_t MOT_NUMBER)

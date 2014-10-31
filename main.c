@@ -45,7 +45,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "driverlib.h"
+
 
 #include "USB_config/descriptors.h"
 #include "USB_API/USB_Common/device.h"
@@ -62,6 +62,8 @@
  */
 #include "hal.h"
 
+#include "driverlib.h"
+
 // Global flags set by events
 volatile uint8_t bDataReceived_event0 = FALSE; // Indicates data has been rx'ed
 volatile uint8_t bDataReceived_event1 = FALSE; // without an open rx operation,
@@ -71,10 +73,14 @@ volatile uint8_t bDataReceived_event1 = FALSE; // without an open rx operation,
 char wholeString[MAX_STR_LENGTH] = "";
 char newString[MAX_STR_LENGTH] = "";
 char pieceOfString[MAX_STR_LENGTH] = "";
+
 uint8_t n_error = 0;
+
+uint8_t ReceiveError = 0, SendError = 0;
 
 uint8_t retInString (char* string);
 void globalInitVars();
+void initTimerB();
 
 /*  
  * ======== main ========
@@ -99,11 +105,10 @@ void main (void)
     __enable_interrupt();  // Enable interrupts globally
     
     globalInitVars(); //Init variables and structires
+    initTimerB(); //Init timer B
 
     while (1)
     {
-        uint8_t ReceiveError = 0, SendError = 0;
-        // Check the USB state and directly main loop accordingly
         switch (USB_connectionState())
         {
             // This case is executed while your device is enumerated on the
@@ -227,6 +232,41 @@ void __attribute__ ((interrupt(UNMI_VECTOR))) UNMI_ISR (void)
     }
 }
 
+// Timer_B7 Interrupt Vector (TBIV) handler
+#if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
+#pragma vector=TIMERB1_VECTOR
+__interrupt
+#elif defined(__GNUC__)
+__attribute__((interrupt(TIMERB1_VECTOR)))
+#endif
+void TIMERB1_ISR(void)
+{
+    /* Any access, read or write, of the TBIV register automatically resets the
+       highest "pending" interrupt flag. */
+    switch(__even_in_range(TBIV,14))
+    {
+    case  0: break;                          // No interrupt
+    case  2: break;                          // CCR1 not used
+    case  4: break;                          // CCR2 not used
+    case  6: break;                          // CCR3 not used
+    case  8: break;                          // CCR4 not used
+    case 10: break;                          // CCR5 not used
+    case 12: break;                          // CCR6 not used
+    case 14:                                                 // overflow
+        sprintf(newString,"Hello world!\r\n");
+        if (cdcSendDataInBackground((uint8_t*)newString,
+                strlen(newString),CDC0_INTFNUM,1)){  // Send message to other App
+            SendError = 0x01;                          // Something went wrong -- exit
+            break;
+        }
+
+        break;
+    default: break;
+    }
+}
+
+
+
 /*  
  * ======== retInString ========
  */
@@ -293,5 +333,18 @@ void globalInitVars()
     for (int j=0; j<MAX_MOTORS; j++) MOT[j].MCTL=MOT[j].MPWR=MOT[j].MFRQ=MOT[j].MANG=MOT[j].MTMR=MOT[j].MVAL=MOT[j].MSTA=0;
     for (int j=0; j<MAX_MOTORS; j++) MOT[j].MOT_EN=MOT[j].MOT_PWR=MOT[j].MOT_DIR=MOT[j].MOT_PWM=0;
 }
+
+//Init timer B for asynchronous packets
+void initTimerB()
+{
+    TIMER_B_clear(TIMER_B0_BASE);
+    TIMER_B_clearTimerInterruptFlag(TIMER_B0_BASE);
+    TIMER_B_startContinuousMode(TIMER_B0_BASE,
+            TIMER_A_CLOCKSOURCE_SMCLK,
+            TIMER_B_CLOCKSOURCE_DIVIDER_64,
+            TIMER_B_TBIE_INTERRUPT_ENABLE,
+            TIMER_B_DO_CLEAR);
+}
+
 
 //Released_Version_4_10_02
