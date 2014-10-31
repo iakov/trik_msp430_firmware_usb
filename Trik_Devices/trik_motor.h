@@ -10,12 +10,6 @@
 #include <stdint.h>
 #include "trik_devices.h"
 
-//Motor devices
-#define MOT1				0
-#define MOT2				1
-#define MOT3				2
-#define MOT4				3
-
 //Configuration parameters
 #define DISABLE				0
 #define ENABLE				1
