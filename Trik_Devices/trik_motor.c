@@ -338,7 +338,7 @@ uint8_t MOTOR_hadler(uint8_t MOT_NUMBER)
         //Start/stop
         if (MOT[MOT_NUMBER].MCTL & 0x0003)
         {
-            if (!(MOT[MOT_NUMBER].MOT_PWR)) MOTOR_start(MOT_NUMBER);
+            MOTOR_start(MOT_NUMBER);
         }
         else
         {
