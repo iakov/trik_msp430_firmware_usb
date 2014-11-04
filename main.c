@@ -104,7 +104,7 @@ void main (void)
 
     globalInitVars(); //Init variables and structires
 
-    //initTimer_B(); //Init timer B
+    initTimer_B(); //Init timer B
     __enable_interrupt();  // Enable interrupts globally
     
 
