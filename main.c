@@ -238,12 +238,11 @@ void __attribute__ ((interrupt(UNMI_VECTOR))) UNMI_ISR (void)
 // Timer_B7 Interrupt Vector (TBIV) handler
 #if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
 #pragma vector=TIMERB1_VECTOR
-__interrupt void TIMERB1_ISR(void)
-#elif defined(__GNUC__) && (__MSP430__)
-void __attribute__((interrupt(TIMERB1_VECTOR)))
-#else
-#error Compiler not found!
+__interrupt
+#elif defined(__GNUC__)
+__attribute__((interrupt(TIMERB1_VECTOR)))
 #endif
+void TIMERB1_ISR(void)
 {
     /* Any access, read or write, of the TBIV register automatically resets the
        highest "pending" interrupt flag. */
@@ -258,21 +257,20 @@ void __attribute__((interrupt(TIMERB1_VECTOR)))
     case 12: break;                          // CCR6 not used
     case 14:                                                 // overflow
 
-        sprintf(newString,"Hello world!\r\n");
+        //sprintf(newString,"Hello world!\r\n");
+        /*
         if (cdcSendDataInBackground((uint8_t*)newString,
                 strlen(newString),CDC0_INTFNUM,1))
         {  // Send message to other App
             SendError = 0x01;                          // Something went wrong -- exit
         }
 
-
+		*/
+    	;;;;;;;;;;;;;;;;;;;
         break;
     default: break;
     }
-    __no_operation();
 }
-
-
 
 /*  
  * ======== retInString ========
@@ -345,11 +343,14 @@ void globalInitVars()
 void initTimer_B()
 {
     TIMER_B_clearTimerInterruptFlag(TIMER_B0_BASE);
-    TIMER_B_startContinousMode(TIMER_B0_BASE,
+
+    TIMER_B_startContinuousMode(TIMER_B0_BASE,
             TIMER_B_CLOCKSOURCE_SMCLK,
             TIMER_B_CLOCKSOURCE_DIVIDER_64,
-            TIMER_B_TBIE_INTERRUPT_ENABLE,
+            TIMER_B_TBIE_INTERRUPT_DISABLE,
             TIMER_B_DO_CLEAR);
+
+
 }
 
 
