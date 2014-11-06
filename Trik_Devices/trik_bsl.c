@@ -16,10 +16,8 @@ uint8_t BSL_enterBSL(uint32_t bslpswd)
 {
     if (bslpswd == 0xA480E917)
     {
-        TIMER_B_stop(TIMER_B0_BASE);
-        TIMER_B_disableInterrupt(TIMER_B0_BASE);
-        __disable_interrupt();
         USB_disable();
+        __disable_interrupt();
         ((void (*)())0x1000)();
         return PSWD_OK;
     }

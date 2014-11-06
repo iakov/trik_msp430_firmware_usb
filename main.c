@@ -100,46 +100,14 @@ void main (void)
 #endif
 
     //initPorts();           // Config GPIOS for low-power (output low)
-    initClocks(8000000);   // Config clocks. MCLK=SMCLK=FLL=8MHz; ACLK=REFO=32kHz
+    initClocks(4000000);   // Config clocks. MCLK=SMCLK=FLL=8MHz; ACLK=REFO=32kHz
     USB_setup(TRUE,TRUE);  // Init USB & events; if a host is present, connect
 
     globalInitVars(); //Init variables and structires
 
-    //initTimer_B(); //Init timer B
-    //initPortPin(); //Init external interrupts PB1 & PB2
-
-
-
-
-
-
-
-
-    GPIO_setAsOutputPin(
-        GPIO_PORT_P5,
-        GPIO_PIN3
-        );
-    GPIO_setOutputHighOnPin(
-        GPIO_PORT_P5,
-        GPIO_PIN3
-        );
-
-    GPIO_setAsOutputPin(
-        GPIO_PORT_P2,
-        GPIO_PIN0 | GPIO_PIN3
-        );
-    GPIO_setOutputHighOnPin(
-            GPIO_PORT_P2,
-            GPIO_PIN0 | GPIO_PIN3
-        );
-
-
-
-
-
+    initTimer_B(); //Init timer B
+    initPortPin(); //Init external interrupts PB1 & PB2
     __enable_interrupt();  // Enable interrupts globally
-    
-
 
     while (1)
     {
@@ -168,13 +136,13 @@ void main (void)
                     strncat(wholeString,pieceOfString,strlen(pieceOfString));
                     if (retInString(wholeString)){              // Wait for enter key to be pressed
                         n_error = PROTOCOL_hadler(wholeString,newString); //Protocol handler
+                        memset(wholeString,0,MAX_STR_LENGTH);   // Clear wholeString
                         //sprintf(newString,"strlen=%d\r\n",strlen(wholeString));
                         if (cdcSendDataInBackground((uint8_t*)newString,
                                 strlen(newString),CDC0_INTFNUM,1)){  // Send message to other App
                             SendError = 0x01;                          // Something went wrong -- exit
                             break;
                         }
-                        memset(wholeString,0,MAX_STR_LENGTH);   // Clear wholeString
                     }
                 }
 
@@ -289,19 +257,18 @@ void TIMERB1_ISR(void)
     case 12: break;                          // CCR6 not used
     case 14:                                                 // overflow
 
-        //sprintf(newString,"Hello world!\r\n");
-        /*
+        sprintf(newString,"Oh, my timer!\r\n");
         if (cdcSendDataInBackground((uint8_t*)newString,
                 strlen(newString),CDC0_INTFNUM,1))
         {  // Send message to other App
             SendError = 0x01;                          // Something went wrong -- exit
         }
 
-		*/
     	;;;;;;;;;;;;;;;;;;;
         break;
     default: break;
     }
+    TIMER_B_clearTimerInterruptFlag(TIMER_B0_BASE);
 }
 
 
@@ -313,6 +280,12 @@ __attribute__((interrupt(PORT2_VECTOR)))
 #endif
 void PORT2_ISR(void)
 {
+    GPIO_clearInterruptFlag(
+        GPIO_PORT_P2,
+        GPIO_PIN0 | GPIO_PIN3
+        );
+
+    sprintf(newString,"Hello world!\r\n");
     if (cdcSendDataInBackground((uint8_t*)newString,
             strlen(newString),CDC0_INTFNUM,1))
     {  // Send message to other App
@@ -395,7 +368,7 @@ void initTimer_B()
     TIMER_B_clearTimerInterruptFlag(TIMER_B0_BASE);
     TIMER_B_startContinuousMode(TIMER_B0_BASE,
             TIMER_B_CLOCKSOURCE_SMCLK,
-            TIMER_B_CLOCKSOURCE_DIVIDER_64,
+            TIMER_B_CLOCKSOURCE_DIVIDER_8,
             TIMER_B_TBIE_INTERRUPT_ENABLE,
             TIMER_B_DO_CLEAR);
 }
@@ -410,15 +383,6 @@ void initPortPin()
         GPIO_PORT_P5,
         GPIO_PIN3
         );
-    GPIO_setAsOutputPin(
-        GPIO_PORT_P2,
-        GPIO_PIN0 | GPIO_PIN3
-        );
-    GPIO_setOutputLowOnPin(
-            GPIO_PORT_P2,
-            GPIO_PIN0 | GPIO_PIN3
-        );
-    /*
     GPIO_setAsInputPin(
         GPIO_PORT_P2,
         GPIO_PIN0 | GPIO_PIN3
@@ -440,7 +404,6 @@ void initPortPin()
         GPIO_PORT_P2,
         GPIO_PIN0 | GPIO_PIN3
         );
-        */
 }
 
 
