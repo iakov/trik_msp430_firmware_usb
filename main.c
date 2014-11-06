@@ -83,6 +83,8 @@ void globalInitVars();
 void initTimer_B();
 void initPortPin();
 
+unsigned long enc_counter=0;
+
 /*  
  * ======== main ========
  */
@@ -100,7 +102,7 @@ void main (void)
 #endif
 
     //initPorts();           // Config GPIOS for low-power (output low)
-    initClocks(4000000);   // Config clocks. MCLK=SMCLK=FLL=8MHz; ACLK=REFO=32kHz
+    initClocks(24000000);   // Config clocks. MCLK=SMCLK=FLL=8MHz; ACLK=REFO=32kHz
     USB_setup(TRUE,TRUE);  // Init USB & events; if a host is present, connect
 
     globalInitVars(); //Init variables and structires
@@ -257,7 +259,7 @@ void TIMERB1_ISR(void)
     case 12: break;                          // CCR6 not used
     case 14:                                                 // overflow
 
-        sprintf(newString,"Oh, my timer!\r\n");
+        sprintf(newString,"CNT=%x\r\n",enc_counter);
         if (cdcSendDataInBackground((uint8_t*)newString,
                 strlen(newString),CDC0_INTFNUM,1))
         {  // Send message to other App
@@ -280,17 +282,32 @@ __attribute__((interrupt(PORT2_VECTOR)))
 #endif
 void PORT2_ISR(void)
 {
+    if ((GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN3)) && (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN0)))
+    {
+            /*sprintf(newString,"Left, CNT=%x\r\n",enc_counter);
+            if (cdcSendDataInBackground((uint8_t*)newString,
+                    strlen(newString),CDC0_INTFNUM,1))
+            {  // Send message to other App
+                SendError = 0x01;                          // Something went wrong -- exit
+            }*/
+            enc_counter--;
+    }
+
+    if ((GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN0)) && (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN3)))
+    {
+           /* sprintf(newString,"Right, CNT=%x\r\n",enc_counter);
+            if (cdcSendDataInBackground((uint8_t*)newString,
+                    strlen(newString),CDC0_INTFNUM,1))
+            {  // Send message to other App
+                SendError = 0x01;                          // Something went wrong -- exit
+            }*/
+            enc_counter++;
+    }
+
     GPIO_clearInterruptFlag(
         GPIO_PORT_P2,
         GPIO_PIN0 | GPIO_PIN3
         );
-
-    sprintf(newString,"Hello world!\r\n");
-    if (cdcSendDataInBackground((uint8_t*)newString,
-            strlen(newString),CDC0_INTFNUM,1))
-    {  // Send message to other App
-        SendError = 0x01;                          // Something went wrong -- exit
-    }
 }
 
 
@@ -398,7 +415,7 @@ void initPortPin()
     GPIO_interruptEdgeSelect(
         GPIO_PORT_P2,
         GPIO_PIN0 | GPIO_PIN3,
-        GPIO_HIGH_TO_LOW_TRANSITION
+        GPIO_LOW_TO_HIGH_TRANSITION
         );
     GPIO_clearInterruptFlag(
         GPIO_PORT_P2,
