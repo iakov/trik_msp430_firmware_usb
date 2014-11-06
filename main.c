@@ -81,6 +81,7 @@ uint8_t ReceiveError = 0, SendError = 0;
 uint8_t retInString (char* string);
 void globalInitVars();
 void initTimer_B();
+void initPortPin();
 
 /*  
  * ======== main ========
@@ -104,7 +105,37 @@ void main (void)
 
     globalInitVars(); //Init variables and structires
 
-    initTimer_B(); //Init timer B
+    //initTimer_B(); //Init timer B
+    //initPortPin(); //Init external interrupts PB1 & PB2
+
+
+
+
+
+
+
+
+    GPIO_setAsOutputPin(
+        GPIO_PORT_P5,
+        GPIO_PIN3
+        );
+    GPIO_setOutputHighOnPin(
+        GPIO_PORT_P5,
+        GPIO_PIN3
+        );
+    GPIO_setAsOutputPin(
+        GPIO_PORT_P2,
+        GPIO_PIN0 | GPIO_PIN3
+        );
+    GPIO_setOutputHighOnPin(
+            GPIO_PORT_P2,
+            GPIO_PIN0 | GPIO_PIN3
+        );
+
+
+
+
+
     __enable_interrupt();  // Enable interrupts globally
     
 
@@ -272,6 +303,24 @@ void TIMERB1_ISR(void)
     }
 }
 
+
+#if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
+#pragma vector=PORT2_VECTOR
+__interrupt
+#elif defined(__GNUC__)
+__attribute__((interrupt(PORT2_VECTOR)))
+#endif
+void PORT2_ISR(void)
+{
+    if (cdcSendDataInBackground((uint8_t*)newString,
+            strlen(newString),CDC0_INTFNUM,1))
+    {  // Send message to other App
+        SendError = 0x01;                          // Something went wrong -- exit
+    }
+}
+
+
+
 /*  
  * ======== retInString ========
  */
@@ -343,15 +392,56 @@ void globalInitVars()
 void initTimer_B()
 {
     TIMER_B_clearTimerInterruptFlag(TIMER_B0_BASE);
-
     TIMER_B_startContinuousMode(TIMER_B0_BASE,
             TIMER_B_CLOCKSOURCE_SMCLK,
             TIMER_B_CLOCKSOURCE_DIVIDER_64,
-            TIMER_B_TBIE_INTERRUPT_DISABLE,
+            TIMER_B_TBIE_INTERRUPT_ENABLE,
             TIMER_B_DO_CLEAR);
-
-
 }
+
+void initPortPin()
+{
+    GPIO_setAsOutputPin(
+        GPIO_PORT_P5,
+        GPIO_PIN3
+        );
+    GPIO_setOutputHighOnPin(
+        GPIO_PORT_P5,
+        GPIO_PIN3
+        );
+    GPIO_setAsOutputPin(
+        GPIO_PORT_P2,
+        GPIO_PIN0 | GPIO_PIN3
+        );
+    GPIO_setOutputLowOnPin(
+            GPIO_PORT_P2,
+            GPIO_PIN0 | GPIO_PIN3
+        );
+    /*
+    GPIO_setAsInputPin(
+        GPIO_PORT_P2,
+        GPIO_PIN0 | GPIO_PIN3
+        );
+    GPIO_setAsInputPinWithPullUpresistor(
+        GPIO_PORT_P2,
+        GPIO_PIN0 | GPIO_PIN3
+        );
+    GPIO_enableInterrupt(
+        GPIO_PORT_P2,
+        GPIO_PIN0 | GPIO_PIN3
+        );
+    GPIO_interruptEdgeSelect(
+        GPIO_PORT_P2,
+        GPIO_PIN0 | GPIO_PIN3,
+        GPIO_HIGH_TO_LOW_TRANSITION
+        );
+    GPIO_clearInterruptFlag(
+        GPIO_PORT_P2,
+        GPIO_PIN0 | GPIO_PIN3
+        );
+        */
+}
+
 
 
 //Released_Version_4_10_02
