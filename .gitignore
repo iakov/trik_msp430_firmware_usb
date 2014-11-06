@@ -10,5 +10,3 @@ Vagrantfile
 .idea
 /Debug
 /driverlib
-/USB_API
-/USB_app

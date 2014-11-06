@@ -123,6 +123,7 @@ void main (void)
         GPIO_PORT_P5,
         GPIO_PIN3
         );
+
     GPIO_setAsOutputPin(
         GPIO_PORT_P2,
         GPIO_PIN0 | GPIO_PIN3
