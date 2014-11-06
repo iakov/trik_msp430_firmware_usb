@@ -83,7 +83,10 @@ void globalInitVars();
 void initTimer_B();
 void initPortPin();
 
-unsigned long enc_counter=0;
+unsigned long enc_counter1=0;
+unsigned long enc_counter2=0;
+unsigned long enc_counter3=0;
+unsigned long enc_counter4=0;
 
 /*  
  * ======== main ========
@@ -107,7 +110,7 @@ void main (void)
 
     globalInitVars(); //Init variables and structires
 
-    initTimer_B(); //Init timer B
+    //initTimer_B(); //Init timer B
     initPortPin(); //Init external interrupts PB1 & PB2
     __enable_interrupt();  // Enable interrupts globally
 
@@ -259,7 +262,7 @@ void TIMERB1_ISR(void)
     case 12: break;                          // CCR6 not used
     case 14:                                                 // overflow
 
-        sprintf(newString,"CNT=%x\r\n",enc_counter);
+        sprintf(newString,"CNT=%x\r\n",enc_counter1);
         if (cdcSendDataInBackground((uint8_t*)newString,
                 strlen(newString),CDC0_INTFNUM,1))
         {  // Send message to other App
@@ -273,6 +276,41 @@ void TIMERB1_ISR(void)
     TIMER_B_clearTimerInterruptFlag(TIMER_B0_BASE);
 }
 
+#if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
+#pragma vector=PORT1_VECTOR
+__interrupt
+#elif defined(__GNUC__)
+__attribute__((interrupt(PORT1_VECTOR)))
+#endif
+void PORT1_ISR(void)
+{
+    if ((GPIO_getInterruptStatus(GPIO_PORT_P1, GPIO_PIN0)) && (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN4)))
+    {
+            sprintf(newString,"Right2, CNT=%x\r\n",enc_counter2);
+            if (cdcSendDataInBackground((uint8_t*)newString,
+                    strlen(newString),CDC0_INTFNUM,1))
+            {  // Send message to other App
+                SendError = 0x01;                          // Something went wrong -- exit
+            }
+            enc_counter2++;
+    }
+
+    if ((GPIO_getInterruptStatus(GPIO_PORT_P1, GPIO_PIN6)) && (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN1)))
+    {
+            sprintf(newString,"Right3, CNT=%x\r\n",enc_counter3);
+            if (cdcSendDataInBackground((uint8_t*)newString,
+                    strlen(newString),CDC0_INTFNUM,1))
+            {  // Send message to other App
+                SendError = 0x01;                          // Something went wrong -- exit
+            }
+            enc_counter3++;
+    }
+
+    GPIO_clearInterruptFlag(GPIO_PORT_P1,GPIO_PIN0|GPIO_PIN6);
+}
+
+
+
 
 #if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
 #pragma vector=PORT2_VECTOR
@@ -284,30 +322,69 @@ void PORT2_ISR(void)
 {
     if ((GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN3)) && (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN0)))
     {
-            /*sprintf(newString,"Left, CNT=%x\r\n",enc_counter);
+            sprintf(newString,"Left1, CNT=%x\r\n",enc_counter1);
             if (cdcSendDataInBackground((uint8_t*)newString,
                     strlen(newString),CDC0_INTFNUM,1))
             {  // Send message to other App
                 SendError = 0x01;                          // Something went wrong -- exit
-            }*/
-            enc_counter--;
+            }
+            enc_counter1--;
     }
-
     if ((GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN0)) && (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN3)))
     {
-           /* sprintf(newString,"Right, CNT=%x\r\n",enc_counter);
+            sprintf(newString,"Right1, CNT=%x\r\n",enc_counter1);
             if (cdcSendDataInBackground((uint8_t*)newString,
                     strlen(newString),CDC0_INTFNUM,1))
             {  // Send message to other App
                 SendError = 0x01;                          // Something went wrong -- exit
-            }*/
-            enc_counter++;
+            }
+            enc_counter1++;
     }
 
-    GPIO_clearInterruptFlag(
-        GPIO_PORT_P2,
-        GPIO_PIN0 | GPIO_PIN3
-        );
+    if ((GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN4)) && (GPIO_getInputPinValue(GPIO_PORT_P1, GPIO_PIN0)))
+    {
+            sprintf(newString,"Left2, CNT=%x\r\n",enc_counter2);
+            if (cdcSendDataInBackground((uint8_t*)newString,
+                    strlen(newString),CDC0_INTFNUM,1))
+            {  // Send message to other App
+                SendError = 0x01;                          // Something went wrong -- exit
+            }
+            enc_counter2--;
+    }
+
+    if ((GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN1)) && (GPIO_getInputPinValue(GPIO_PORT_P1, GPIO_PIN6)))
+    {
+            sprintf(newString,"Left3, CNT=%x\r\n",enc_counter3);
+            if (cdcSendDataInBackground((uint8_t*)newString,
+                    strlen(newString),CDC0_INTFNUM,1))
+            {  // Send message to other App
+                SendError = 0x01;                          // Something went wrong -- exit
+            }
+            enc_counter3--;
+    }
+
+    if ((GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN5)) && (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN2)))
+    {
+            sprintf(newString,"Left4, CNT=%x\r\n",enc_counter4);
+            if (cdcSendDataInBackground((uint8_t*)newString,
+                    strlen(newString),CDC0_INTFNUM,1))
+            {  // Send message to other App
+                SendError = 0x01;                          // Something went wrong -- exit
+            }
+            enc_counter4--;
+    }
+    if ((GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN2)) && (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN5)))
+    {
+            sprintf(newString,"Right4, CNT=%x\r\n",enc_counter4);
+            if (cdcSendDataInBackground((uint8_t*)newString,
+                    strlen(newString),CDC0_INTFNUM,1))
+            {  // Send message to other App
+                SendError = 0x01;                          // Something went wrong -- exit
+            }
+            enc_counter4++;
+    }
+
+    GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN1|GPIO_PIN2|GPIO_PIN3|GPIO_PIN4|GPIO_PIN5);
 }
 
 
@@ -392,35 +469,19 @@ void initTimer_B()
 
 void initPortPin()
 {
-    GPIO_setAsOutputPin(
-        GPIO_PORT_P5,
-        GPIO_PIN3
-        );
-    GPIO_setOutputHighOnPin(
-        GPIO_PORT_P5,
-        GPIO_PIN3
-        );
-    GPIO_setAsInputPin(
-        GPIO_PORT_P2,
-        GPIO_PIN0 | GPIO_PIN3
-        );
-    GPIO_setAsInputPinWithPullUpresistor(
-        GPIO_PORT_P2,
-        GPIO_PIN0 | GPIO_PIN3
-        );
-    GPIO_enableInterrupt(
-        GPIO_PORT_P2,
-        GPIO_PIN0 | GPIO_PIN3
-        );
-    GPIO_interruptEdgeSelect(
-        GPIO_PORT_P2,
-        GPIO_PIN0 | GPIO_PIN3,
-        GPIO_LOW_TO_HIGH_TRANSITION
-        );
-    GPIO_clearInterruptFlag(
-        GPIO_PORT_P2,
-        GPIO_PIN0 | GPIO_PIN3
-        );
+    GPIO_setAsOutputPin(GPIO_PORT_P5,GPIO_PIN3);
+    GPIO_setOutputHighOnPin(GPIO_PORT_P5,GPIO_PIN3);
+    //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN0 | GPIO_PIN3);
+    GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN1|GPIO_PIN2|GPIO_PIN3|GPIO_PIN4|GPIO_PIN5);
+    GPIO_enableInterrupt(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN1|GPIO_PIN2|GPIO_PIN3|GPIO_PIN4|GPIO_PIN5);
+    GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN1|GPIO_PIN2|GPIO_PIN3|GPIO_PIN4|GPIO_PIN5,GPIO_LOW_TO_HIGH_TRANSITION);
+    GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN1|GPIO_PIN2|GPIO_PIN3|GPIO_PIN4|GPIO_PIN5);
+
+    GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P1,GPIO_PIN0|GPIO_PIN6);
+    GPIO_enableInterrupt(GPIO_PORT_P1,GPIO_PIN0|GPIO_PIN6);
+    GPIO_interruptEdgeSelect(GPIO_PORT_P1,GPIO_PIN0|GPIO_PIN6,GPIO_LOW_TO_HIGH_TRANSITION);
+    GPIO_clearInterruptFlag(GPIO_PORT_P1,GPIO_PIN0|GPIO_PIN6);
+
 }
 
 
