@@ -271,7 +271,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
         if ((devaddr1>=ENCODER1) && (devaddr1<=ENCODER4))
         {
             if (regaddr1==0x00) ENC[devaddr1-ENCODER1].ECTL=regval1;
-            if (regaddr1==0x02) ENC[devaddr1-ENCODER1].EFRQ=regval1;
+            if (regaddr1==0x01) ENC[devaddr1-ENCODER1].EFRQ=regval1;
             errhandler=ENCODER_hadler(devaddr1);
             PROTOCOL_transResponse(out_str,devaddr1,errhandler);
             return NO_ERROR;
@@ -308,30 +308,26 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 
 
 
-/*
 
-	//Function 0x05 - read single register
-    if ((func1==0x05) && (strlen(in_str)!=11))
+
+	//Function 0x06 - read single 32 bits register
+    if ((func1==0x06) && (strlen(in_str)==9))
+    {
+        //Encoders
+        if ((devaddr1>=ENCODER1) && (devaddr1<=ENCODER4))
+        {
+            if (regaddr1==0x02) regval1=ENC[devaddr1-ENCODER1].EVAL;
+            errhandler=0x00;
+            PROTOCOL_recvResponse(out_str,devaddr1,errhandler,regaddr1,regval1);
+            return NO_ERROR;
+        }
+    }
+    else
     {
         PROTOCOL_errResponse(out_str,devaddr1,func1,LENGTH_ERROR);
         return LENGTH_ERROR;
     }
-    else
-    {
 
-    }
-
-    //Function 0x06 - read single register
-    if ((func1==0x06) && (strlen(in_str)!=11))
-    {
-        PROTOCOL_errResponse(out_str,devaddr1,func1,LENGTH_ERROR);
-        return LENGTH_ERROR;
-    }
-    else
-    {
-
-    }
-*/
     sprintf(out_str,":FFFFFF03\r\n");
 	return UNDEF_ERROR;
 }
