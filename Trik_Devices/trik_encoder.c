@@ -59,6 +59,38 @@ void ENCODER_enableController(uint8_t ENC_NUMBER)
     }
 }
 
+void ENCODER_disableController(uint8_t ENC_NUMBER)
+{
+    busy_table[ENC_NUMBER]=NNONE;
+    ENC[ENC_NUMBER-ENCODER1].ENC_EN = 0;
+    switch (ENC_NUMBER)
+    {
+        case ENCODER1:
+            GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3);
+            GPIO_disableInterrupt(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3);
+            break;
+        case ENCODER2:
+            GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN0);
+            GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN4);
+            GPIO_disableInterrupt(GPIO_PORT_P1,GPIO_PIN0);
+            GPIO_disableInterrupt(GPIO_PORT_P2,GPIO_PIN4);
+            break;
+        case ENCODER3:
+            GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN6);
+            GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN1);
+            GPIO_disableInterrupt(GPIO_PORT_P1,GPIO_PIN6);
+            GPIO_disableInterrupt(GPIO_PORT_P2,GPIO_PIN1);
+            break;
+        case ENCODER4:
+            GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5);
+            GPIO_disableInterrupt(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5);
+            break;
+        default:;
+    }
+}
+
+
+
 //Interrupts
 #if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
 #pragma vector=PORT1_VECTOR
