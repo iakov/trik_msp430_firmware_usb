@@ -57,6 +57,7 @@
 #include "Trik_Devices/trik_protocolhandler.h"
 #include "Trik_Devices/trik_devices.h"
 #include "Trik_Devices/trik_motor.h"
+#include "Trik_Devices/trik_encoder.h"
 /*
  * NOTE: Modify hal.h to select a specific evaluation board and customize for
  * your own board.
@@ -336,6 +337,7 @@ void globalInitVars()
     for (int j=0; j<MAX_DEVICES; j++) busy_table[j]=NNONE;
     for (int j=0; j<MAX_MOTORS; j++) MOT[j].MCTL=MOT[j].MPWR=MOT[j].MFRQ=MOT[j].MANG=MOT[j].MTMR=MOT[j].MVAL=MOT[j].MSTA=0;
     for (int j=0; j<MAX_MOTORS; j++) MOT[j].MOT_EN=MOT[j].MOT_PWR=MOT[j].MOT_DIR=0;
+    for (int j=0; j<MAX_ENCODERS; j++) ENC[j].ECTL=ENC[j].EFRQ=ENC[j].EVAL=ENC[j].ESTA=ENC[j].ENC_EN=0;
 }
 
 //Init timer B for asynchronous packets
@@ -353,7 +355,6 @@ void initPortPin()
 {
     GPIO_setAsOutputPin(GPIO_PORT_P5,GPIO_PIN3);
     GPIO_setOutputHighOnPin(GPIO_PORT_P5,GPIO_PIN3);
-    //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN0 | GPIO_PIN3);
     GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN1|GPIO_PIN2|GPIO_PIN3|GPIO_PIN4|GPIO_PIN5);
     GPIO_enableInterrupt(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN1|GPIO_PIN2|GPIO_PIN3|GPIO_PIN4|GPIO_PIN5);
     GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN1|GPIO_PIN2|GPIO_PIN3|GPIO_PIN4|GPIO_PIN5,GPIO_LOW_TO_HIGH_TRANSITION);

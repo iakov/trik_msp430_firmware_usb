@@ -10,11 +10,6 @@
 #include "trik_encoder.h"
 #include "driverlib.h"
 
-uint32_t enc_counter1=0;
-uint32_t enc_counter2=0;
-uint32_t enc_counter3=0;
-uint32_t enc_counter4=0;
-
 #if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
 #pragma vector=PORT1_VECTOR
 __interrupt
@@ -31,7 +26,8 @@ void PORT1_ISR(void)
             {  // Send message to other App
                 SendError = 0x01;                          // Something went wrong -- exit
             }*/
-            enc_counter2++;
+            //enc_counter2++;
+            ENC[ENCODER2-ENCODER1].EVAL++;
     }
 
     if ((GPIO_getInterruptStatus(GPIO_PORT_P1, GPIO_PIN6)) && (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN1)))
@@ -42,7 +38,8 @@ void PORT1_ISR(void)
             {  // Send message to other App
                 SendError = 0x01;                          // Something went wrong -- exit
             }*/
-            enc_counter3++;
+            //enc_counter3++;
+            ENC[ENCODER3-ENCODER1].EVAL++;
     }
 
     GPIO_clearInterruptFlag(GPIO_PORT_P1,GPIO_PIN0|GPIO_PIN6);
@@ -67,7 +64,8 @@ void PORT2_ISR(void)
             {  // Send message to other App
                 SendError = 0x01;                          // Something went wrong -- exit
             }*/
-            enc_counter1--;
+            //enc_counter1--;
+            ENC[ENCODER1-ENCODER1].EVAL--;
     }
     if ((GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN0)) && (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN3)))
     {
@@ -77,7 +75,8 @@ void PORT2_ISR(void)
             {  // Send message to other App
                 SendError = 0x01;                          // Something went wrong -- exit
             }*/
-            enc_counter1++;
+            //enc_counter1++;
+            ENC[ENCODER1-ENCODER1].EVAL++;
     }
 
     if ((GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN4)) && (GPIO_getInputPinValue(GPIO_PORT_P1, GPIO_PIN0)))
@@ -88,7 +87,8 @@ void PORT2_ISR(void)
             {  // Send message to other App
                 SendError = 0x01;                          // Something went wrong -- exit
             }*/
-            enc_counter2--;
+            //enc_counter2--;
+            ENC[ENCODER2-ENCODER1].EVAL--;
     }
 
     if ((GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN1)) && (GPIO_getInputPinValue(GPIO_PORT_P1, GPIO_PIN6)))
@@ -99,7 +99,8 @@ void PORT2_ISR(void)
             {  // Send message to other App
                 SendError = 0x01;                          // Something went wrong -- exit
             }*/
-            enc_counter3--;
+            //enc_counter3--;
+            ENC[ENCODER3-ENCODER1].EVAL--;
     }
 
     if ((GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN5)) && (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN2)))
@@ -110,7 +111,8 @@ void PORT2_ISR(void)
             {  // Send message to other App
                 SendError = 0x01;                          // Something went wrong -- exit
             }*/
-            enc_counter4--;
+            //enc_counter4--;
+            ENC[ENCODER4-ENCODER1].EVAL--;
     }
     if ((GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN2)) && (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN5)))
     {
@@ -120,7 +122,8 @@ void PORT2_ISR(void)
             {  // Send message to other App
                 SendError = 0x01;                          // Something went wrong -- exit
             }*/
-            enc_counter4++;
+            //enc_counter4++;
+            ENC[ENCODER4-ENCODER1].EVAL++;
     }
 
     GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN1|GPIO_PIN2|GPIO_PIN3|GPIO_PIN4|GPIO_PIN5);

@@ -8,26 +8,30 @@
 #ifndef TRIK_ENCODER_H_
 #define TRIK_ENCODER_H_
 
-//Max motors
+//Configuration parameters
+#define DISABLE             0
+#define ENABLE              1
+
+//Prototypes for the APIs
+uint8_t ENCODER_hadler(uint8_t ENC_NUMBER);
+void ENCODER_enableController(uint8_t ENC_NUMBER);
+void ENCODER_disableController(uint8_t ENC_NUMBER);
+uint32_t ENCODER_getEncoderValue(uint8_t ENC_NUMBER);
+
+//Max encoders
 #define MAX_ENCODERS 4
 
-//Motor registers
+//Encoder registers
 struct tEncoderRegisters
 {
-    uint16_t MCTL;
-    uint16_t MPWR;
-    uint16_t MFRQ;
-    uint16_t MANG;
-    uint16_t MTMR;
-    uint32_t MVAL;
-    uint16_t MSTA;
-    uint8_t MOT_EN;
-    uint8_t MOT_PWR;
-    uint8_t MOT_DIR;
-    uint8_t MOT_BRK;
+    uint16_t ECTL;
+    uint16_t EFRQ;
+    uint32_t EVAL;
+    uint16_t ESTA;
+    uint8_t ENC_EN;
 };
 
-//Motors registers array
+//Encoder registers array
 struct tEncoderRegisters ENC[MAX_ENCODERS];
 
 #endif /* TRIK_ENCODER_H_ */
