@@ -84,13 +84,11 @@ uint8_t retInString (char* string);
 void globalInitVars();
 void initTimer_B();
 
-
 /*  
  * ======== main ========
  */
 void main (void)
 {
-
     WDT_A_hold(WDT_A_BASE); // Stop watchdog timer
 
     // MSP430 USB requires the maximum Vcore setting; do not modify
@@ -138,7 +136,8 @@ void main (void)
                     if (retInString(wholeString)){              // Wait for enter key to be pressed
                         n_error = PROTOCOL_hadler(wholeString,newString); //Protocol handler
                         memset(wholeString,0,MAX_STR_LENGTH);   // Clear wholeString
-                        //sprintf(newString,"strlen=%d\r\n",strlen(wholeString));
+
+                        //sprintf(newString,"TestNumber=%x %x %x %x\n",t11,t12,t13,t14);
                         if (cdcSendDataInBackground((uint8_t*)newString,
                                 strlen(newString),CDC0_INTFNUM,1)){  // Send message to other App
                             SendError = 0x01;                          // Something went wrong -- exit

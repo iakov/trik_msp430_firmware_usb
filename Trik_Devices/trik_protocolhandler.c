@@ -48,7 +48,7 @@ void PROTOCOL_errResponse(char *r_str, uint8_t dev_addr, uint8_t func_code, uint
 	strcat(r_str,stmp1);
 }
 
-//Write register response response
+//Write register response
 void PROTOCOL_transResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code)
 {
     char stmp1[MAX_STRING_LENGTH]; //Temp string
@@ -72,6 +72,61 @@ void PROTOCOL_transResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code)
     sprintf(stmp1,"\n");
     strcat(r_str,stmp1);
 }
+
+//Read register response
+void PROTOCOL_recvResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code, uint8_t reg_addr, uint32_t reg_val)
+{
+    char stmp1[MAX_STRING_LENGTH]; //Temp string
+    uint8_t crc,t11,t12,t13,t14;
+    t11=(uint8_t)((reg_val & 0xFF000000) >> 24);
+    t12=(uint8_t)((reg_val & 0x00FF0000) >> 16);
+    t13=(uint8_t)((reg_val & 0x0000FF00) >> 8);
+    t14=(uint8_t)(reg_val & 0x000000FF);
+    memset(r_str,0,MAX_STRING_LENGTH);
+    if (dev_addr<16)
+        sprintf(r_str,":0%x",dev_addr);
+    else
+        sprintf(r_str,":%x",dev_addr);
+    if (resp_code<16)
+        sprintf(stmp1,"0%x",resp_code);
+    else
+        sprintf(stmp1,"%x",resp_code);
+    strcat(r_str,stmp1);
+    if (reg_addr<16)
+        sprintf(stmp1,"0%x",reg_addr);
+    else
+        sprintf(stmp1,"%x",reg_addr);
+    strcat(r_str,stmp1);
+    if (t11<16)
+        sprintf(stmp1,"0%x",t11);
+    else
+        sprintf(stmp1,"%x",t11);
+    strcat(r_str,stmp1);
+    if (t12<16)
+        sprintf(stmp1,"0%x",t12);
+    else
+        sprintf(stmp1,"%x",t12);
+    strcat(r_str,stmp1);
+    if (t13<16)
+        sprintf(stmp1,"0%x",t13);
+    else
+        sprintf(stmp1,"%x",t13);
+    strcat(r_str,stmp1);
+    if (t14<16)
+        sprintf(stmp1,"0%x",t14);
+    else
+        sprintf(stmp1,"%x",t14);
+    strcat(r_str,stmp1);
+    crc=0-(dev_addr+resp_code+reg_addr+t11+t12+t13+t14);
+    if (crc<16)
+        sprintf(stmp1,"0%x",crc);
+    else
+        sprintf(stmp1,"%x",crc);
+    strcat(r_str,stmp1);
+    sprintf(stmp1,"\n");
+    strcat(r_str,stmp1);
+}
+
 
 //Protocol handler
 uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
