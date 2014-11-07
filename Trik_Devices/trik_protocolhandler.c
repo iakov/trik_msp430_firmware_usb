@@ -13,6 +13,7 @@
 #include "Trik_Devices/trik_protocolhandler.h"
 #include "Trik_Devices/trik_motor.h"
 #include "Trik_Devices/trik_sensor.h"
+#include "Trik_Devices/trik_encoder.h"
 #include "Trik_Devices/trik_bsl.h"
 #include "Trik_Devices/trik_devices.h"
 
@@ -197,7 +198,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	        if (regaddr1==0x02) MOT[devaddr1].MFRQ=regval1;
 	        if (regaddr1==0x03) MOT[devaddr1].MANG=regval1;
 	        if (regaddr1==0x04) MOT[devaddr1].MTMR=regval1;
-	        //Error register value
+	        //Error register values
 	        if (((MOT[devaddr1].MFRQ==0) || (MOT[devaddr1].MPWR>MOT[devaddr1].MFRQ)) && (MOT[devaddr1].MCTL & 0x0004))
                 {
 	                PROTOCOL_errResponse(out_str,devaddr1,func1,REG_VAL_ERROR);
@@ -207,12 +208,19 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	            {
 	                errhandler=MOTOR_hadler(devaddr1);
 	                PROTOCOL_transResponse(out_str,devaddr1,errhandler);
-	                //sprintf(out_str,"%x %x %x %x %x %x %x %x\r\n",errhandler,MOT[devaddr1].MCTL,MOT[devaddr1].MFRQ,MOT[devaddr1].MPWR,
-	                //        MOT[devaddr1].MOT_EN,MOT[devaddr1].MOT_PWR,MOT[devaddr1].MOT_PWM,MOT[devaddr1].MOT_DIR);
-
 	                return NO_ERROR;
 	            }
 	    }
+
+	    //Encoders
+        if ((devaddr1>=ENCODER1) && (devaddr1<=ENCODER4))
+        {
+            if (regaddr1==0x00) ENC[devaddr1-ENCODER1].ECTL=regval1;
+            if (regaddr1==0x02) ENC[devaddr1-ENCODER1].EFRQ=regval1;
+            errhandler=ENCODER_hadler(devaddr1);
+            PROTOCOL_transResponse(out_str,devaddr1,errhandler);
+            return NO_ERROR;
+        }
 
 	    //BSL
 	    if ((devaddr1==BSL) && (regaddr1==0x00))

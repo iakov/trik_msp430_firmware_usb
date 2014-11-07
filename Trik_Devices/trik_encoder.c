@@ -204,8 +204,6 @@ uint8_t ENCODER_hadler(uint8_t ENC_NUMBER)
     }
 }
 
-
-
 //Interrupts
 #if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
 #pragma vector=PORT1_VECTOR
