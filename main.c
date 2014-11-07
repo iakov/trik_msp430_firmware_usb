@@ -337,7 +337,8 @@ void globalInitVars()
     for (int j=0; j<MAX_DEVICES; j++) busy_table[j]=NNONE;
     for (int j=0; j<MAX_MOTORS; j++) MOT[j].MCTL=MOT[j].MPWR=MOT[j].MFRQ=MOT[j].MANG=MOT[j].MTMR=MOT[j].MVAL=MOT[j].MSTA=0;
     for (int j=0; j<MAX_MOTORS; j++) MOT[j].MOT_EN=MOT[j].MOT_PWR=MOT[j].MOT_DIR=0;
-    for (int j=0; j<MAX_ENCODERS; j++) ENC[j].ECTL=ENC[j].EFRQ=ENC[j].EVAL=ENC[j].ESTA=ENC[j].ENC_EN=0;
+    for (int j=0; j<MAX_ENCODERS; j++) ENC[j].ECTL=ENC[j].EFRQ=ENC[j].EVAL=ENC[j].ESTA=0;
+    for (int j=0; j<MAX_ENCODERS; j++) ENC[j].ENC_EN=ENC[j].ENC_PUP=0;
 }
 
 //Init timer B for asynchronous packets
@@ -350,22 +351,5 @@ void initTimer_B()
             TIMER_B_TBIE_INTERRUPT_ENABLE,
             TIMER_B_DO_CLEAR);
 }
-
-void initPortPin()
-{
-
-    GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN1|GPIO_PIN2|GPIO_PIN3|GPIO_PIN4|GPIO_PIN5);
-    GPIO_enableInterrupt(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN1|GPIO_PIN2|GPIO_PIN3|GPIO_PIN4|GPIO_PIN5);
-    GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN1|GPIO_PIN2|GPIO_PIN3|GPIO_PIN4|GPIO_PIN5,GPIO_LOW_TO_HIGH_TRANSITION);
-    GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN1|GPIO_PIN2|GPIO_PIN3|GPIO_PIN4|GPIO_PIN5);
-
-    GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P1,GPIO_PIN0|GPIO_PIN6);
-    GPIO_enableInterrupt(GPIO_PORT_P1,GPIO_PIN0|GPIO_PIN6);
-    GPIO_interruptEdgeSelect(GPIO_PORT_P1,GPIO_PIN0|GPIO_PIN6,GPIO_LOW_TO_HIGH_TRANSITION);
-    GPIO_clearInterruptFlag(GPIO_PORT_P1,GPIO_PIN0|GPIO_PIN6);
-
-}
-
-
 
 //Released_Version_4_10_02
