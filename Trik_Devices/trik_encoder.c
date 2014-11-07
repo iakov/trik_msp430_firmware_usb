@@ -177,6 +177,34 @@ void ENCODER_disablePullup(uint8_t ENC_NUMBER)
     }
 }
 
+//Handler
+uint8_t ENCODER_hadler(uint8_t ENC_NUMBER)
+{
+    if (ENC[ENC_NUMBER-ENCODER1].ECTL & 0x8000)
+    {
+        //Enable/disable
+        if (!(ENC[ENC_NUMBER-ENCODER1].ENC_EN)) ENCODER_enableController(ENC_NUMBER);
+
+        //Pull up resistors enable/disable
+        if (ENC[ENC_NUMBER-ENCODER1].ECTL & 0x1000)
+        {
+            ENCODER_enablePullup(ENC_NUMBER);
+        }
+        else
+        {
+            ENCODER_disablePullup(ENC_NUMBER);
+        }
+
+        return 0x00;
+    }
+    else
+    {
+        if (ENC[ENC_NUMBER-ENCODER1].ENC_EN) ENCODER_enableController(ENC_NUMBER);
+        return 0x00;
+    }
+}
+
+
 
 //Interrupts
 #if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
