@@ -8,13 +8,6 @@
 #ifndef TRIK_PROTOCOLHANDLER_H_
 #define TRIK_PROTOCOLHANDLER_H_
 
-#include <string.h>
-#include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include "Trik_Devices/trik_motor.h"
-#include "Trik_Devices/trik_bsl.h"
-
 #define MAX_STRING_LENGTH 32
 
 //Error defines

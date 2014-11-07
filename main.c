@@ -55,7 +55,8 @@
 #include "USB_app/usbConstructs.h"
 
 #include "Trik_Devices/trik_protocolhandler.h"
-
+#include "Trik_Devices/trik_devices.h"
+#include "Trik_Devices/trik_motor.h"
 /*
  * NOTE: Modify hal.h to select a specific evaluation board and customize for
  * your own board.
@@ -81,12 +82,7 @@ uint8_t ReceiveError = 0, SendError = 0;
 uint8_t retInString (char* string);
 void globalInitVars();
 void initTimer_B();
-void initPortPin();
 
-unsigned long enc_counter1=0;
-unsigned long enc_counter2=0;
-unsigned long enc_counter3=0;
-unsigned long enc_counter4=0;
 
 /*  
  * ======== main ========
@@ -111,7 +107,6 @@ void main (void)
     globalInitVars(); //Init variables and structires
 
     //initTimer_B(); //Init timer B
-    initPortPin(); //Init external interrupts PB1 & PB2
     __enable_interrupt();  // Enable interrupts globally
 
     while (1)
@@ -262,7 +257,7 @@ void TIMERB1_ISR(void)
     case 12: break;                          // CCR6 not used
     case 14:                                                 // overflow
 
-        sprintf(newString,"CNT=%x\r\n",enc_counter1);
+        sprintf(newString,"Oh, my timer!\r\n");
         if (cdcSendDataInBackground((uint8_t*)newString,
                 strlen(newString),CDC0_INTFNUM,1))
         {  // Send message to other App
@@ -275,119 +270,6 @@ void TIMERB1_ISR(void)
     }
     TIMER_B_clearTimerInterruptFlag(TIMER_B0_BASE);
 }
-
-#if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
-#pragma vector=PORT1_VECTOR
-__interrupt
-#elif defined(__GNUC__)
-__attribute__((interrupt(PORT1_VECTOR)))
-#endif
-void PORT1_ISR(void)
-{
-    if ((GPIO_getInterruptStatus(GPIO_PORT_P1, GPIO_PIN0)) && (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN4)))
-    {
-            sprintf(newString,"Right2, CNT=%x\r\n",enc_counter2);
-            if (cdcSendDataInBackground((uint8_t*)newString,
-                    strlen(newString),CDC0_INTFNUM,1))
-            {  // Send message to other App
-                SendError = 0x01;                          // Something went wrong -- exit
-            }
-            enc_counter2++;
-    }
-
-    if ((GPIO_getInterruptStatus(GPIO_PORT_P1, GPIO_PIN6)) && (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN1)))
-    {
-            sprintf(newString,"Right3, CNT=%x\r\n",enc_counter3);
-            if (cdcSendDataInBackground((uint8_t*)newString,
-                    strlen(newString),CDC0_INTFNUM,1))
-            {  // Send message to other App
-                SendError = 0x01;                          // Something went wrong -- exit
-            }
-            enc_counter3++;
-    }
-
-    GPIO_clearInterruptFlag(GPIO_PORT_P1,GPIO_PIN0|GPIO_PIN6);
-}
-
-
-
-
-#if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
-#pragma vector=PORT2_VECTOR
-__interrupt
-#elif defined(__GNUC__)
-__attribute__((interrupt(PORT2_VECTOR)))
-#endif
-void PORT2_ISR(void)
-{
-    if ((GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN3)) && (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN0)))
-    {
-            sprintf(newString,"Left1, CNT=%x\r\n",enc_counter1);
-            if (cdcSendDataInBackground((uint8_t*)newString,
-                    strlen(newString),CDC0_INTFNUM,1))
-            {  // Send message to other App
-                SendError = 0x01;                          // Something went wrong -- exit
-            }
-            enc_counter1--;
-    }
-    if ((GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN0)) && (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN3)))
-    {
-            sprintf(newString,"Right1, CNT=%x\r\n",enc_counter1);
-            if (cdcSendDataInBackground((uint8_t*)newString,
-                    strlen(newString),CDC0_INTFNUM,1))
-            {  // Send message to other App
-                SendError = 0x01;                          // Something went wrong -- exit
-            }
-            enc_counter1++;
-    }
-
-    if ((GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN4)) && (GPIO_getInputPinValue(GPIO_PORT_P1, GPIO_PIN0)))
-    {
-            sprintf(newString,"Left2, CNT=%x\r\n",enc_counter2);
-            if (cdcSendDataInBackground((uint8_t*)newString,
-                    strlen(newString),CDC0_INTFNUM,1))
-            {  // Send message to other App
-                SendError = 0x01;                          // Something went wrong -- exit
-            }
-            enc_counter2--;
-    }
-
-    if ((GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN1)) && (GPIO_getInputPinValue(GPIO_PORT_P1, GPIO_PIN6)))
-    {
-            sprintf(newString,"Left3, CNT=%x\r\n",enc_counter3);
-            if (cdcSendDataInBackground((uint8_t*)newString,
-                    strlen(newString),CDC0_INTFNUM,1))
-            {  // Send message to other App
-                SendError = 0x01;                          // Something went wrong -- exit
-            }
-            enc_counter3--;
-    }
-
-    if ((GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN5)) && (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN2)))
-    {
-            sprintf(newString,"Left4, CNT=%x\r\n",enc_counter4);
-            if (cdcSendDataInBackground((uint8_t*)newString,
-                    strlen(newString),CDC0_INTFNUM,1))
-            {  // Send message to other App
-                SendError = 0x01;                          // Something went wrong -- exit
-            }
-            enc_counter4--;
-    }
-    if ((GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN2)) && (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN5)))
-    {
-            sprintf(newString,"Right4, CNT=%x\r\n",enc_counter4);
-            if (cdcSendDataInBackground((uint8_t*)newString,
-                    strlen(newString),CDC0_INTFNUM,1))
-            {  // Send message to other App
-                SendError = 0x01;                          // Something went wrong -- exit
-            }
-            enc_counter4++;
-    }
-
-    GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN1|GPIO_PIN2|GPIO_PIN3|GPIO_PIN4|GPIO_PIN5);
-}
-
-
 
 /*  
  * ======== retInString ========
@@ -453,7 +335,7 @@ void globalInitVars()
 {
     for (int j=0; j<MAX_DEVICES; j++) busy_table[j]=NNONE;
     for (int j=0; j<MAX_MOTORS; j++) MOT[j].MCTL=MOT[j].MPWR=MOT[j].MFRQ=MOT[j].MANG=MOT[j].MTMR=MOT[j].MVAL=MOT[j].MSTA=0;
-    for (int j=0; j<MAX_MOTORS; j++) MOT[j].MOT_EN=MOT[j].MOT_PWR=MOT[j].MOT_DIR=MOT[j].MOT_PWM=0;
+    for (int j=0; j<MAX_MOTORS; j++) MOT[j].MOT_EN=MOT[j].MOT_PWR=MOT[j].MOT_DIR=0;
 }
 
 //Init timer B for asynchronous packets

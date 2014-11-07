@@ -5,6 +5,8 @@
  *      Author: Rostislav Varzar
  */
 
+#include <stdint.h>
+#include "trik_devices.h"
 #include "trik_motor.h"
 #include "driverlib.h"
 
@@ -345,9 +347,7 @@ uint8_t MOTOR_hadler(uint8_t MOT_NUMBER)
         {
             MOTOR_stop(MOT_NUMBER);
         }
-
-        return MOT[MOT_NUMBER].MOT_EN+MOT[MOT_NUMBER].MOT_DIR+MOT[MOT_NUMBER].MOT_PWM+MOT[MOT_NUMBER].MOT_PWR;
-        //return 0x55;
+        return 0x00;
     }
     else
     {

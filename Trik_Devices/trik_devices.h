@@ -7,9 +7,6 @@
 #ifndef TRIK_DEVICES_H_
 #define TRIK_DEVICES_H_
 
-#include <stdint.h>
-#include "driverlib.h"
-
 //Devices
 #define MOTOR1				0x00
 #define MOTOR2				0x01
@@ -55,9 +52,6 @@
 #define ACTUATOR20			0x29
 #define BSL                 0xEE
 #define NNONE				0xFF
-
-//Max motors
-#define MAX_MOTORS          4
 
 //Max ports
 #define MAX_DEVICES			0x30

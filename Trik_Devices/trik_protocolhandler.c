@@ -5,7 +5,16 @@
  *      Author: Rostislav Varzar
  */
 
+#include <string.h>
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include "driverlib.h"
 #include "Trik_Devices/trik_protocolhandler.h"
+#include "Trik_Devices/trik_motor.h"
+#include "Trik_Devices/trik_sensor.h"
+#include "Trik_Devices/trik_bsl.h"
+#include "Trik_Devices/trik_devices.h"
 
 //Error response
 void PROTOCOL_errResponse(char *r_str, uint8_t dev_addr, uint8_t func_code, uint8_t err_code)

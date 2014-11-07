@@ -7,9 +7,6 @@
 #ifndef TRIK_MOTOR_H_
 #define TRIK_MOTOR_H_
 
-#include <stdint.h>
-#include "trik_devices.h"
-
 //Configuration parameters
 #define DISABLE				0
 #define ENABLE				1
@@ -64,6 +61,9 @@ void MOTOR_fastBrake(uint8_t MOT_NUMBER);
 void MOTOR_start(uint8_t MOT_NUMBER);
 void MOTOR_stop(uint8_t MOT_NUMBER);
 
+//Max motors
+#define MAX_MOTORS          4
+
 //Motor registers
 struct tMotorRegisters
 {
@@ -74,15 +74,13 @@ struct tMotorRegisters
     uint16_t MTMR;
     uint32_t MVAL;
     uint16_t MSTA;
-    bool MOT_EN;
-    bool MOT_PWR;
-    bool MOT_DIR;
-    bool MOT_PWM;
-    bool MOT_BRK;
+    uint8_t MOT_EN;
+    uint8_t MOT_PWR;
+    uint8_t MOT_DIR;
+    uint8_t MOT_BRK;
 };
 
 //Motors registers array
 struct tMotorRegisters MOT[MAX_MOTORS];
-
 
 #endif
