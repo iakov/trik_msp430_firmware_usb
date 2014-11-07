@@ -132,13 +132,13 @@ void PROTOCOL_recvResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code, uin
 uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 {
 	char stmp1[MAX_STRING_LENGTH]; //Temp string
-	uint8_t devaddr1; //Device address
-	uint8_t func1; //Function number
-	uint8_t regaddr1; //Register address
-	uint32_t regval1; //Register value
+	uint8_t devaddr1 = 0; //Device address
+	uint8_t func1 = 0; //Function number
+	uint8_t regaddr1 = 0; //Register address
+	uint32_t regval1 = 0; //Register value
 	uint8_t crc1 = 0; //Cheksum
-	uint8_t crc2; //Calculated checksum
-	uint8_t errhandler; //Result code of handlers
+	uint8_t crc2 = 0; //Calculated checksum
+	uint8_t errhandler = 0; //Result code of handlers
 
 	//Clear output string
 	memset(out_str,0,MAX_STRING_LENGTH);
@@ -202,6 +202,13 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 		return REG_ADDR_ERROR;
 	}
 
+	//Encoder registers addresses range
+	if (((devaddr1>=ENCODER1) && (devaddr1<=ENCODER4)) && (regaddr1>0x03))
+	{
+	    PROTOCOL_errResponse(out_str,devaddr1,func1,REG_ADDR_ERROR);
+	    return REG_ADDR_ERROR;
+	}
+
 	//Actuator registers addresses range
 	if (((devaddr1>=ACTUATOR1) && (devaddr1<=ACTUATOR20)) && (regaddr1>0x04))
 	{
@@ -229,7 +236,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	}
 	if ((func1==0x05) || (func1==0x06))
 	{
-	    sprintf(stmp1,"%c%c",in_str[11],in_str[12]);
+	    sprintf(stmp1,"%c%c",in_str[7],in_str[8]);
 	    crc1=strtoul(stmp1,&stmp1[2],16);
 	}
 	if ((func1==0x03) || (func1==0x04)) crc2=0-(devaddr1+func1+regaddr1+
@@ -290,25 +297,6 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	    PROTOCOL_errResponse(out_str,devaddr1,func1,DEV_ADDR_ERROR);
 	    return DEV_ADDR_ERROR;
 	}
-	else
-	{
-	    PROTOCOL_errResponse(out_str,devaddr1,func1,LENGTH_ERROR);
-	    return LENGTH_ERROR;
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	//Function 0x06 - read single 32 bits register
     if ((func1==0x06) && (strlen(in_str)==9))
@@ -322,11 +310,9 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
             return NO_ERROR;
         }
     }
-    else
-    {
-        PROTOCOL_errResponse(out_str,devaddr1,func1,LENGTH_ERROR);
-        return LENGTH_ERROR;
-    }
+
+    PROTOCOL_errResponse(out_str,devaddr1,func1,LENGTH_ERROR);
+    return LENGTH_ERROR;
 
     sprintf(out_str,":FFFFFF03\r\n");
 	return UNDEF_ERROR;
