@@ -10,26 +10,6 @@
 //Configuration parameters
 #define DISABLE				0
 #define ENABLE				1
-#define CONT_MODE			0
-#define SINGLE_MODE			1
-#define	TIME_MODE			0
-#define	ANGLE_MODE			0
-#define SENS_1WIRE			0
-#define SENS_2WIRE			1
-#define SENS_ANALOG			2
-#define SENS_CNT00			0
-#define SENS_CNT01			1
-#define SENS_CNT10			2
-#define SENS_CNT11			3
-#define SENS_CNT20			4
-#define SENS_CNT21			5
-#define SENS_CNT30			6
-#define SENS_CNT31			7
-#define DIR_FOR				0
-#define DIR_BACK			1
-#define	BRAKE_OFF			0
-#define	BRAKE_ON			1
-
 
 //Prototypes for the APIs
 uint8_t MOTOR_hadler(uint8_t MOT_NUMBER);
@@ -50,10 +30,6 @@ void MOTOR_rotationBackward(uint8_t MOT_NUMBER);
 void MOTOR_enableBrake(uint8_t MOT_NUMBER);
 void MOTOR_disableBrake(uint8_t MOT_NUMBER);
 void MOTOR_fastBrake(uint8_t MOT_NUMBER);
-//void MOTOR_setPower(uint8_t MOT_NUMBER, uint16_t MOT_POWER);
-//void MOTOR_setFrequency(uint8_t MOT_NUMBER, uint16_t MOT_FREQ);
-//void MOTOR_setAngle(uint8_t MOT_NUMBER, uint16_t MOT_ANGLE);
-//void MOTOR_setTimer(uint8_t MOT_NUMBER, uint16_t MOT_TIME);
 //uint32_t MOTOR_getSensorValue(uint8_t MOT_NUMBER);
 //uint8_t MOTOR_isError(uint8_t MOT_NUMBER);
 //uint8_t MOTOR_isOverPower(uint8_t MOT_NUMBER);
@@ -62,7 +38,7 @@ void MOTOR_start(uint8_t MOT_NUMBER);
 void MOTOR_stop(uint8_t MOT_NUMBER);
 
 //Max motors
-#define MAX_MOTORS          4
+#define MAX_MOTORS 4
 
 //Motor registers
 struct tMotorRegisters
