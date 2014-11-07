@@ -10,6 +10,56 @@
 #include "trik_encoder.h"
 #include "driverlib.h"
 
+//API functions
+void ENCODER_enableController(uint8_t ENC_NUMBER)
+{
+    //PB_EN
+    GPIO_setAsOutputPin(GPIO_PORT_P5,GPIO_PIN3);
+    GPIO_setOutputHighOnPin(GPIO_PORT_P5,GPIO_PIN3);
+    if (busy_table[ENC_NUMBER]==NNONE)
+    {
+        busy_table[ENC_NUMBER]=ENC_NUMBER;
+        ENC[ENC_NUMBER-ENCODER1].ENC_EN = 1;
+        switch (ENC_NUMBER)
+        {
+            case ENCODER1:
+                GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3);
+                GPIO_enableInterrupt(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3);
+                GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3,GPIO_LOW_TO_HIGH_TRANSITION);
+                GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3);
+                break;
+            case ENCODER2:
+                GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN0);
+                GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN4);
+                GPIO_enableInterrupt(GPIO_PORT_P1,GPIO_PIN0);
+                GPIO_enableInterrupt(GPIO_PORT_P2,GPIO_PIN4);
+                GPIO_interruptEdgeSelect(GPIO_PORT_P1,GPIO_PIN0,GPIO_LOW_TO_HIGH_TRANSITION);
+                GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN4,GPIO_LOW_TO_HIGH_TRANSITION);
+                GPIO_clearInterruptFlag(GPIO_PORT_P1,GPIO_PIN0);
+                GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN4);
+                break;
+            case ENCODER3:
+                GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN6);
+                GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN1);
+                GPIO_enableInterrupt(GPIO_PORT_P1,GPIO_PIN6);
+                GPIO_enableInterrupt(GPIO_PORT_P2,GPIO_PIN1);
+                GPIO_interruptEdgeSelect(GPIO_PORT_P1,GPIO_PIN6,GPIO_LOW_TO_HIGH_TRANSITION);
+                GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN1,GPIO_LOW_TO_HIGH_TRANSITION);
+                GPIO_clearInterruptFlag(GPIO_PORT_P1,GPIO_PIN6);
+                GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN1);
+                break;
+            case ENCODER4:
+                GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5);
+                GPIO_enableInterrupt(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5);
+                GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5,GPIO_LOW_TO_HIGH_TRANSITION);
+                GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5);
+                break;
+            default:;
+        }
+    }
+}
+
+//Interrupts
 #if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
 #pragma vector=PORT1_VECTOR
 __interrupt
@@ -44,9 +94,6 @@ void PORT1_ISR(void)
 
     GPIO_clearInterruptFlag(GPIO_PORT_P1,GPIO_PIN0|GPIO_PIN6);
 }
-
-
-
 
 #if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
 #pragma vector=PORT2_VECTOR
