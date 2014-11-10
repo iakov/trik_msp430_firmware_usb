@@ -262,16 +262,21 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	        if (regaddr1==0x04) MOT[devaddr1].MTMR=regval1;
 	        //Error register values
 	        if (((MOT[devaddr1].MFRQ==0) || (MOT[devaddr1].MPWR>MOT[devaddr1].MFRQ)) && (MOT[devaddr1].MCTL & 0x0004))
-                {
-	                PROTOCOL_errResponse(out_str,devaddr1,func1,REG_VAL_ERROR);
-	                return REG_VAL_ERROR;
-                }
+	        {
+	            PROTOCOL_errResponse(out_str,devaddr1,func1,REG_VAL_ERROR);
+	            return REG_VAL_ERROR;
+	        }
 	        else
+	        {
+	            if (regaddr1==0x00)
 	            {
 	                errhandler=MOTOR_hadler(devaddr1);
 	                PROTOCOL_transResponse(out_str,devaddr1,errhandler);
-	                return NO_ERROR;
 	            }
+	            else
+	                PROTOCOL_transResponse(out_str,devaddr1,NO_ERROR);
+	            return NO_ERROR;
+	        }
 	    }
 
 	    //Encoders
@@ -279,8 +284,12 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
         {
             if (regaddr1==0x00) ENC[devaddr1-ENCODER1].ECTL=regval1;
             if (regaddr1==0x01) ENC[devaddr1-ENCODER1].EFRQ=regval1;
-            errhandler=ENCODER_hadler(devaddr1);
-            PROTOCOL_transResponse(out_str,devaddr1,errhandler);
+            if (regaddr1==0x00)
+            {
+                errhandler=ENCODER_hadler(devaddr1);
+                PROTOCOL_transResponse(out_str,devaddr1,errhandler);
+            }
+            else PROTOCOL_transResponse(out_str,devaddr1,NO_ERROR);
             return NO_ERROR;
         }
 

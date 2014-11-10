@@ -151,7 +151,7 @@ void MOTOR_fastBrake(uint8_t MOT_NUMBER)
 void MOTOR_start(uint8_t MOT_NUMBER)
 {
     MOT[MOT_NUMBER].MOT_PWR = ENABLE;
-    if (MOT[MOT_NUMBER].MOT_MOD!=CONT_MODE) MOT[MOT_NUMBER].MVAL=0;
+    if (MOT[MOT_NUMBER].MOT_MOD!=CONT_MODE) MOT[MOT_NUMBER].MVAL = 0;
     switch (MOT_NUMBER)
     {
         case MOTOR1:
@@ -196,7 +196,6 @@ void MOTOR_start(uint8_t MOT_NUMBER)
 
 void MOTOR_stop(uint8_t MOT_NUMBER)
 {
-    MOT[MOT_NUMBER].MOT_PWR = DISABLE;
     switch (MOT_NUMBER)
     {
         case MOTOR1:
@@ -297,6 +296,8 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
             break;
         default:;
     }
+    MOT[MOT_NUMBER].MOT_PWR = DISABLE;
+    MOT[MOT_NUMBER].MOT_MOD = CONT_MODE;
 }
 
 
