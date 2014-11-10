@@ -229,11 +229,11 @@ void PORT2_ISR(void)
     {
         if (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN3))
         {
-            ENC[ENCODER1-ENCODER1].EVAL++;
+            ENC[ENCODER1-ENCODER1].EVAL--;
         }
         else
         {
-            ENC[ENCODER1-ENCODER1].EVAL--;
+            ENC[ENCODER1-ENCODER1].EVAL++;
         }
     }
     //JB2
@@ -241,35 +241,35 @@ void PORT2_ISR(void)
     {
         if (GPIO_getInputPinValue(GPIO_PORT_P1, GPIO_PIN0))
         {
-            ENC[ENCODER2-ENCODER1].EVAL++;
+            ENC[ENCODER2-ENCODER1].EVAL--;
         }
         else
         {
-            ENC[ENCODER2-ENCODER1].EVAL--;
+            ENC[ENCODER2-ENCODER1].EVAL++;
         }
     }
     //JB3
-    if (GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN5))
+    if (GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN1))
     {
-        if (GPIO_getInputPinValue(GPIO_PORT_P1, GPIO_PIN2))
-        {
-            ENC[ENCODER3-ENCODER1].EVAL++;
-        }
-        else
+        if (GPIO_getInputPinValue(GPIO_PORT_P1, GPIO_PIN6))
         {
             ENC[ENCODER3-ENCODER1].EVAL--;
         }
+        else
+        {
+            ENC[ENCODER3-ENCODER1].EVAL++;
+        }
     }
     //JB4
-    if (GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN0))
+    if (GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN5))
     {
-        if (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN3))
+        if (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN2))
         {
-            ENC[ENCODER4-ENCODER1].EVAL++;
+            ENC[ENCODER4-ENCODER1].EVAL--;
         }
         else
         {
-            ENC[ENCODER4-ENCODER1].EVAL--;
+            ENC[ENCODER4-ENCODER1].EVAL++;
         }
     }
     GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN1|GPIO_PIN2|GPIO_PIN3|GPIO_PIN4|GPIO_PIN5);
