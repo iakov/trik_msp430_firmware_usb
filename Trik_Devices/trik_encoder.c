@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include "trik_devices.h"
 #include "trik_encoder.h"
+#include "trik_motor.h"
 #include "driverlib.h"
 
 //API functions
@@ -208,10 +209,12 @@ void PORT2_ISR(void)
         if (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN3))
         {
             ENC[ENCODER1-ENCODER1].EVAL--;
+            MOT[MOTOR1-MOTOR1].MVAL--;
         }
         else
         {
             ENC[ENCODER1-ENCODER1].EVAL++;
+            MOT[MOTOR1-MOTOR1].MVAL++;
         }
     }
     //JB2
@@ -220,22 +223,12 @@ void PORT2_ISR(void)
         if (GPIO_getInputPinValue(GPIO_PORT_P1, GPIO_PIN0))
         {
             ENC[ENCODER2-ENCODER1].EVAL--;
+            MOT[MOTOR2-MOTOR1].MVAL--;
         }
         else
         {
             ENC[ENCODER2-ENCODER1].EVAL++;
-        }
-    }
-    //JB4
-    if (GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN1))
-    {
-        if (GPIO_getInputPinValue(GPIO_PORT_P1, GPIO_PIN6))
-        {
-            ENC[ENCODER4-ENCODER1].EVAL--;
-        }
-        else
-        {
-            ENC[ENCODER4-ENCODER1].EVAL++;
+            MOT[MOTOR2-MOTOR1].MVAL++;
         }
     }
     //JB3
@@ -244,10 +237,26 @@ void PORT2_ISR(void)
         if (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN2))
         {
             ENC[ENCODER3-ENCODER1].EVAL--;
+            MOT[MOTOR3-MOTOR1].MVAL--;
         }
         else
         {
             ENC[ENCODER3-ENCODER1].EVAL++;
+            MOT[MOTOR3-MOTOR1].MVAL++;
+        }
+    }
+    //JB4
+    if (GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN1))
+    {
+        if (GPIO_getInputPinValue(GPIO_PORT_P1, GPIO_PIN6))
+        {
+            ENC[ENCODER4-ENCODER1].EVAL--;
+            MOT[MOTOR4-MOTOR1].MVAL--;
+        }
+        else
+        {
+            ENC[ENCODER4-ENCODER1].EVAL++;
+            MOT[MOTOR4-MOTOR1].MVAL++;
         }
     }
     GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN1|GPIO_PIN2|GPIO_PIN3|GPIO_PIN4|GPIO_PIN5);
