@@ -199,7 +199,7 @@ uint8_t ENCODER_hadler(uint8_t ENC_NUMBER)
     }
     else
     {
-        if (ENC[ENC_NUMBER-ENCODER1].ENC_EN) ENCODER_enableController(ENC_NUMBER);
+        if (ENC[ENC_NUMBER-ENCODER1].ENC_EN) ENCODER_disableController(ENC_NUMBER);
         return 0x00;
     }
 }

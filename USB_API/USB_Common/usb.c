@@ -527,43 +527,43 @@ uint8_t USB_enable ()
     if (USB_XT_FREQ_VALUE >= 24) {
     	//status = UCS_XT2StartWithTimeout(
     			//XT2DRIVE_3, 50000);
-    	status = UCS_bypassXT2WithTimeout(150000);
+    	status = UCS_bypassXT2WithTimeout(50000);
     }
     else if(USB_XT_FREQ_VALUE >= 16) {
     	//status = UCS_XT2StartWithTimeout(
     			//XT2DRIVE_2, 50000);
-    	status = UCS_bypassXT2WithTimeout(150000);
+    	status = UCS_bypassXT2WithTimeout(50000);
     }
     else if(USB_XT_FREQ_VALUE >= 8) {
     	//status = UCS_XT2StartWithTimeout(
     			//XT2DRIVE_1, 50000);
-    	status = UCS_bypassXT2WithTimeout(150000);
+    	status = UCS_bypassXT2WithTimeout(50000);
     }
     else {
     	//status = UCS_XT2StartWithTimeout(
     			//XT2DRIVE_0, 50000);
-    	status = UCS_bypassXT2WithTimeout(150000);
+    	status = UCS_bypassXT2WithTimeout(50000);
     }
 #else
     if (USB_XT_FREQ_VALUE >= 24) {
     	//status = UCS_XT2StartWithTimeout(UCS_BASE,
     			//XT2DRIVE_3, 50000);
-    	status = UCS_bypassXT2WithTimeout(UCS_BASE,150000);
+    	status = UCS_bypassXT2WithTimeout(UCS_BASE,50000);
     }
     else if(USB_XT_FREQ_VALUE >= 16) {
     	//status = UCS_XT2StartWithTimeout(UCS_BASE,
     			//XT2DRIVE_2, 50000);
-    	status = UCS_bypassXT2WithTimeout(UCS_BASE,150000);
+    	status = UCS_bypassXT2WithTimeout(UCS_BASE,50000);
     }
     else if(USB_XT_FREQ_VALUE >= 8) {
     	//status = UCS_XT2StartWithTimeout(UCS_BASE,
     			//XT2DRIVE_1, 50000);
-    	status = UCS_bypassXT2WithTimeout(UCS_BASE,150000);
+    	status = UCS_bypassXT2WithTimeout(UCS_BASE,50000);
     }
     else {
     	//status = UCS_XT2StartWithTimeout(UCS_BASE,
     			//XT2DRIVE_0, 50000);
-    	status = UCS_bypassXT2WithTimeout(UCS_BASE,150000);
+    	status = UCS_bypassXT2WithTimeout(UCS_BASE,50000);
     }
 #endif
 
