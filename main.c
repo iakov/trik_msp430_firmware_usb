@@ -84,11 +84,6 @@ uint8_t retInString (char* string);
 void globalInitVars();
 void initTimer_B();
 
-uint16_t enc_counter1 = 0;
-uint8_t enc_state1 = 0;
-uint8_t old_enc_state1 = 0;
-
-
 /*  
  * ======== main ========
  */
@@ -259,8 +254,7 @@ void TIMERB1_ISR(void)
     case 14:                                                 // overflow
 
         //sprintf(newString,"Oh, my timer!\r\n");
-        //sprintf(newString,"CNT1=%d\r\n",ENC[ENCODER1-ENCODER1].EVAL);
-        sprintf(newString,"CNT1=%d\r\n",enc_counter1);
+        sprintf(newString,"CNT1=%d\r\n",ENC[ENCODER1-ENCODER1].EVAL);
         if (cdcSendDataInBackground((uint8_t*)newString,
                 strlen(newString),CDC0_INTFNUM,1))
         {  // Send message to other App
@@ -294,45 +288,19 @@ __attribute__((interrupt(PORT2_VECTOR)))
 #endif
 void PORT2_ISR(void)
 {
-/*
-    if (GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN3))
-    {
-        if (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN0))
-        {
-            GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN0,GPIO_HIGH_TO_LOW_TRANSITION);
-            enc_flag1 = 1;
-        }
-        else
-        {
-            GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN0,GPIO_LOW_TO_HIGH_TRANSITION);
-            enc_flag1 = 2;
-        }
-    }
-    if ((GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN0)) && (enc_flag1 == 1))
-    {
-        enc_flag1 = 0;
-        enc_counter1--;
-    }
-    if ((GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN0)) && (enc_flag1 == 2))
-    {
-        enc_flag1 = 0;;
-        enc_counter1++;
-    }
-
-*/
-/*
+    //JB1
     if (GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN0))
     {
         if (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN3))
         {
-            enc_counter1++;
+            ENC[ENCODER1-ENCODER1].EVAL++;
         }
         else
         {
-            enc_counter1--;
+            ENC[ENCODER1-ENCODER1].EVAL--;
         }
     }
-*/
+
 
 
 
