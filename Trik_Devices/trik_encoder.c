@@ -204,5 +204,75 @@ uint8_t ENCODER_hadler(uint8_t ENC_NUMBER)
     }
 }
 
+//Interrupts
+#if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
+#pragma vector=PORT1_VECTOR
+__interrupt
+#elif defined(__GNUC__)
+__attribute__((interrupt(PORT1_VECTOR)))
+#endif
+void PORT1_ISR(void)
+{
+    GPIO_clearInterruptFlag(GPIO_PORT_P1,GPIO_PIN0|GPIO_PIN6);
+}
+
+#if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
+#pragma vector=PORT2_VECTOR
+__interrupt
+#elif defined(__GNUC__)
+__attribute__((interrupt(PORT2_VECTOR)))
+#endif
+void PORT2_ISR(void)
+{
+    //JB1
+    if (GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN0))
+    {
+        if (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN3))
+        {
+            ENC[ENCODER1-ENCODER1].EVAL++;
+        }
+        else
+        {
+            ENC[ENCODER1-ENCODER1].EVAL--;
+        }
+    }
+    //JB2
+    if (GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN4))
+    {
+        if (GPIO_getInputPinValue(GPIO_PORT_P1, GPIO_PIN0))
+        {
+            ENC[ENCODER2-ENCODER1].EVAL++;
+        }
+        else
+        {
+            ENC[ENCODER2-ENCODER1].EVAL--;
+        }
+    }
+    //JB3
+    if (GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN5))
+    {
+        if (GPIO_getInputPinValue(GPIO_PORT_P1, GPIO_PIN2))
+        {
+            ENC[ENCODER3-ENCODER1].EVAL++;
+        }
+        else
+        {
+            ENC[ENCODER3-ENCODER1].EVAL--;
+        }
+    }
+    //JB4
+    if (GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN0))
+    {
+        if (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN3))
+        {
+            ENC[ENCODER4-ENCODER1].EVAL++;
+        }
+        else
+        {
+            ENC[ENCODER4-ENCODER1].EVAL--;
+        }
+    }
+    GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN1|GPIO_PIN2|GPIO_PIN3|GPIO_PIN4|GPIO_PIN5);
+}
 
 

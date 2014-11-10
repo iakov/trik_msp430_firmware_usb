@@ -105,7 +105,7 @@ void main (void)
 
     globalInitVars(); //Init variables and structires
 
-    initTimer_B(); //Init timer B
+    //initTimer_B(); //Init timer B
     __enable_interrupt();  // Enable interrupts globally
 
     while (1)
@@ -268,44 +268,6 @@ void TIMERB1_ISR(void)
     TIMER_B_clearTimerInterruptFlag(TIMER_B0_BASE);
 }
 
-//Interrupts
-#if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
-#pragma vector=PORT1_VECTOR
-__interrupt
-#elif defined(__GNUC__)
-__attribute__((interrupt(PORT1_VECTOR)))
-#endif
-void PORT1_ISR(void)
-{
-    GPIO_clearInterruptFlag(GPIO_PORT_P1,GPIO_PIN0|GPIO_PIN6);
-}
-
-#if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
-#pragma vector=PORT2_VECTOR
-__interrupt
-#elif defined(__GNUC__)
-__attribute__((interrupt(PORT2_VECTOR)))
-#endif
-void PORT2_ISR(void)
-{
-    //JB1
-    if (GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN0))
-    {
-        if (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN3))
-        {
-            ENC[ENCODER1-ENCODER1].EVAL++;
-        }
-        else
-        {
-            ENC[ENCODER1-ENCODER1].EVAL--;
-        }
-    }
-
-
-
-
-    GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN1|GPIO_PIN2|GPIO_PIN3|GPIO_PIN4|GPIO_PIN5);
-}
 
 
 
