@@ -84,6 +84,11 @@ uint8_t retInString (char* string);
 void globalInitVars();
 void initTimer_B();
 
+uint16_t enc_counter1 = 0;
+uint8_t enc_state1 = 0;
+uint8_t old_enc_state1 = 0;
+
+
 /*  
  * ======== main ========
  */
@@ -105,7 +110,7 @@ void main (void)
 
     globalInitVars(); //Init variables and structires
 
-    //initTimer_B(); //Init timer B
+    initTimer_B(); //Init timer B
     __enable_interrupt();  // Enable interrupts globally
 
     while (1)
@@ -215,10 +220,6 @@ void __attribute__ ((interrupt(UNMI_VECTOR))) UNMI_ISR (void)
             UCS_clearFaultFlag(UCS_BASE, UCS_DCOFFG);
             SFR_clearInterrupt(SFR_BASE, SFR_OSCILLATOR_FAULT_INTERRUPT);
 #endif
-
-
-
-
             break;
         case SYSUNIV_ACCVIFG:
             __no_operation();
@@ -257,7 +258,9 @@ void TIMERB1_ISR(void)
     case 12: break;                          // CCR6 not used
     case 14:                                                 // overflow
 
-        sprintf(newString,"Oh, my timer!\r\n");
+        //sprintf(newString,"Oh, my timer!\r\n");
+        //sprintf(newString,"CNT1=%d\r\n",ENC[ENCODER1-ENCODER1].EVAL);
+        sprintf(newString,"CNT1=%d\r\n",enc_counter1);
         if (cdcSendDataInBackground((uint8_t*)newString,
                 strlen(newString),CDC0_INTFNUM,1))
         {  // Send message to other App
@@ -270,6 +273,74 @@ void TIMERB1_ISR(void)
     }
     TIMER_B_clearTimerInterruptFlag(TIMER_B0_BASE);
 }
+
+//Interrupts
+#if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
+#pragma vector=PORT1_VECTOR
+__interrupt
+#elif defined(__GNUC__)
+__attribute__((interrupt(PORT1_VECTOR)))
+#endif
+void PORT1_ISR(void)
+{
+    GPIO_clearInterruptFlag(GPIO_PORT_P1,GPIO_PIN0|GPIO_PIN6);
+}
+
+#if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
+#pragma vector=PORT2_VECTOR
+__interrupt
+#elif defined(__GNUC__)
+__attribute__((interrupt(PORT2_VECTOR)))
+#endif
+void PORT2_ISR(void)
+{
+/*
+    if (GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN3))
+    {
+        if (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN0))
+        {
+            GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN0,GPIO_HIGH_TO_LOW_TRANSITION);
+            enc_flag1 = 1;
+        }
+        else
+        {
+            GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN0,GPIO_LOW_TO_HIGH_TRANSITION);
+            enc_flag1 = 2;
+        }
+    }
+    if ((GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN0)) && (enc_flag1 == 1))
+    {
+        enc_flag1 = 0;
+        enc_counter1--;
+    }
+    if ((GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN0)) && (enc_flag1 == 2))
+    {
+        enc_flag1 = 0;;
+        enc_counter1++;
+    }
+
+*/
+/*
+    if (GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN0))
+    {
+        if (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN3))
+        {
+            enc_counter1++;
+        }
+        else
+        {
+            enc_counter1--;
+        }
+    }
+*/
+
+
+
+    GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN1|GPIO_PIN2|GPIO_PIN3|GPIO_PIN4|GPIO_PIN5);
+}
+
+
+
 
 /*  
  * ======== retInString ========
