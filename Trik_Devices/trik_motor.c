@@ -16,7 +16,7 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
     if (busy_table[MOT_NUMBER]==NNONE)
     {
         busy_table[MOT_NUMBER]=MOT_NUMBER;
-        MOT[MOT_NUMBER].MOT_EN = 1;
+        MOT[MOT_NUMBER].MOT_EN = ENABLE;
         switch (MOT_NUMBER)
         {
             case MOTOR1:
@@ -51,7 +51,7 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
 void MOTOR_disableController(uint8_t MOT_NUMBER)
 {
     busy_table[MOT_NUMBER]=NNONE;
-    MOT[MOT_NUMBER].MOT_EN = 0;
+    MOT[MOT_NUMBER].MOT_EN = DISABLE;
     switch (MOT_NUMBER)
     {
         case MOTOR1:
@@ -76,7 +76,7 @@ void MOTOR_disableController(uint8_t MOT_NUMBER)
 
 void MOTOR_rotationForward(uint8_t MOT_NUMBER)
 {
-    MOT[MOT_NUMBER].MOT_DIR = 0;
+    MOT[MOT_NUMBER].MOT_DIR = FORWARD;
     switch (MOT_NUMBER)
     {
         case MOTOR1:
@@ -101,7 +101,7 @@ void MOTOR_rotationForward(uint8_t MOT_NUMBER)
 
 void MOTOR_rotationBackward(uint8_t MOT_NUMBER)
 {
-    MOT[MOT_NUMBER].MOT_DIR = 1;
+    MOT[MOT_NUMBER].MOT_DIR = BACKWARD;
     switch (MOT_NUMBER)
     {
         case MOTOR1:
@@ -126,7 +126,6 @@ void MOTOR_rotationBackward(uint8_t MOT_NUMBER)
 
 void MOTOR_fastBrake(uint8_t MOT_NUMBER)
 {
-    MOT[MOT_NUMBER].MOT_DIR = 0;
     switch (MOT_NUMBER)
     {
         case MOTOR1:
@@ -149,19 +148,9 @@ void MOTOR_fastBrake(uint8_t MOT_NUMBER)
     }
 }
 
-void MOTOR_enableBrake(uint8_t MOT_NUMBER)
-{
-    MOT[MOT_NUMBER].MOT_BRK = 1;
-}
-
-void MOTOR_disableBrake(uint8_t MOT_NUMBER)
-{
-    MOT[MOT_NUMBER].MOT_BRK = 0;
-}
-
 void MOTOR_start(uint8_t MOT_NUMBER)
 {
-    MOT[MOT_NUMBER].MOT_PWR = 1;
+    MOT[MOT_NUMBER].MOT_PWR = ENABLE;
     switch (MOT_NUMBER)
     {
         case MOTOR1:
@@ -206,7 +195,7 @@ void MOTOR_start(uint8_t MOT_NUMBER)
 
 void MOTOR_stop(uint8_t MOT_NUMBER)
 {
-    MOT[MOT_NUMBER].MOT_PWR = 0;
+    MOT[MOT_NUMBER].MOT_PWR = DISABLE;
     switch (MOT_NUMBER)
     {
         case MOTOR1:
@@ -318,6 +307,23 @@ uint8_t MOTOR_hadler(uint8_t MOT_NUMBER)
         //Enable/disable
         if (!(MOT[MOT_NUMBER].MOT_EN)) MOTOR_enableController(MOT_NUMBER);
 
+        //Continues/single mode
+        if (MOT[MOT_NUMBER].MCTL & 0x4000)
+        {
+            if (MOT[MOT_NUMBER].MCTL & 0x2000)
+            {
+                MOT[MOT_NUMBER].MOT_MOD = ANGLE_MODE;
+            }
+            else
+            {
+                MOT[MOT_NUMBER].MOT_MOD = TIME_MODE;
+            }
+        }
+        else
+        {
+            MOT[MOT_NUMBER].MOT_MOD = CONT_MODE;
+        }
+
         //Forward/backward
         if (MOT[MOT_NUMBER].MCTL & 0x0010)
         {
@@ -331,11 +337,11 @@ uint8_t MOTOR_hadler(uint8_t MOT_NUMBER)
         //Fast brake enable/disable
         if (MOT[MOT_NUMBER].MCTL & 0x0008)
         {
-            MOTOR_enableBrake(MOT_NUMBER);
+            MOT[MOT_NUMBER].MOT_BRK = ENABLE;
         }
         else
         {
-            MOTOR_disableBrake(MOT_NUMBER);
+            MOT[MOT_NUMBER].MOT_BRK = DISABLE;
         }
 
         //Start/stop

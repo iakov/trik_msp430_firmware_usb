@@ -11,12 +11,17 @@
 #define DISABLE				0
 #define ENABLE				1
 
+#define CONT_MODE           0
+#define ANGLE_MODE          1
+#define TIME_MODE           2
+
+#define FORWARD             0
+#define BACKWARD            1
+
 //Prototypes for the APIs
 uint8_t MOTOR_hadler(uint8_t MOT_NUMBER);
 void MOTOR_enableController(uint8_t MOT_NUMBER);
 void MOTOR_disableController(uint8_t MOT_NUMBER);
-//void MOTOR_setContinuesMode(uint8_t MOT_NUMBER);
-//void MOTOR_setSingleTimeMode(uint8_t MOT_NUMBER);
 //void MOTOR_setSingleAngleMode(uint8_t MOT_NUMBER);
 //void MOTOR_enableFeedBackSensor(uint8_t MOT_NUMBER);
 //void MOTOR_disableFeedBackSensor(uint8_t MOT_NUMBER);
@@ -27,8 +32,6 @@ void MOTOR_disableController(uint8_t MOT_NUMBER);
 //void MOTOR_resetFeedBackSensor(uint8_t MOT_NUMBER);
 void MOTOR_rotationForward(uint8_t MOT_NUMBER);
 void MOTOR_rotationBackward(uint8_t MOT_NUMBER);
-void MOTOR_enableBrake(uint8_t MOT_NUMBER);
-void MOTOR_disableBrake(uint8_t MOT_NUMBER);
 void MOTOR_fastBrake(uint8_t MOT_NUMBER);
 //uint32_t MOTOR_getSensorValue(uint8_t MOT_NUMBER);
 //uint8_t MOTOR_isError(uint8_t MOT_NUMBER);
@@ -54,6 +57,7 @@ struct tMotorRegisters
     uint8_t MOT_PWR;
     uint8_t MOT_DIR;
     uint8_t MOT_BRK;
+    uint8_t MOT_MOD;
 };
 
 //Motors registers array
