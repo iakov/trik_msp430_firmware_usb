@@ -246,25 +246,54 @@ void TIMERB1_ISR(void)
     case  8: break;                          // CCR4 not used
     case 10: break;                          // CCR5 not used
     case 12: break;                          // CCR6 not used
-    case 14:                                                 // overflow
+    case 14:                                 // overflow
         ASYNCTMR.ATVAL++;
-        if (ASYNCTMR.ATVAL>100)
+        if (ASYNCTMR.ATVAL>500)
         {
             //sprintf(newString,"Oh, my timer!\r\n");
             //sprintf(newString,"ENC1=%d\r\n",ENC[ENCODER1-ENCODER1].EVAL);
             //Async mode for encoders
-            for (uint8_t ENCNUM=ENCODER1; ENCNUM<=ENCODER4; ENCNUM++)
+            /*
+            for (char i=0; i<10; i++)
             {
-                if (ENC[ENCNUM-ENCODER1].ENC_MOD==ENABLE)
-                {
-                    PROTOCOL_recvResponse(newString,ENCNUM,0x00,0x02,ENC[ENCNUM-ENCODER1].EVAL);
+                //if (ENC[ENCNUM-ENCODER1].ENC_MOD==ENABLE)
+                //{
+                    //PROTOCOL_recvResponse(newString,ENCNUM,0x00,0x02,ENC[ENCNUM-ENCODER1].EVAL);
+                    sprintf(newString,"Oh, my timer!%d\r\n",i);
                     if (cdcSendDataInBackground((uint8_t*)newString,   // Send message to other App
                             strlen(newString),CDC0_INTFNUM,1))
                     {
                         SendError = 0x01;
                     }
-                }
+                //}
+            }*/
+            memset(newString,0,MAX_STRING_LENGTH);
+            sprintf(newString,"Oh, my timer!%d\r\n",0);
+            if (cdcSendDataWaitTilDone((uint8_t*)newString,   // Send message to other App
+                    strlen(newString),CDC0_INTFNUM,1000))
+            {
+                SendError = 0x01;
             }
+            memset(newString,0,MAX_STRING_LENGTH);
+            sprintf(newString,"Oh, my timer!%d\r\n",1);
+            if (cdcSendDataWaitTilDone((uint8_t*)newString,   // Send message to other App
+                    strlen(newString),CDC0_INTFNUM,1000))
+            {
+                SendError = 0x01;
+            }
+            memset(newString,0,MAX_STRING_LENGTH);
+            sprintf(newString,"Oh, my timer!%d\r\n",2);
+            if (cdcSendDataWaitTilDone((uint8_t*)newString,   // Send message to other App
+                    strlen(newString),CDC0_INTFNUM,1000))
+            {
+                SendError = 0x01;
+            }
+
+
+
+
+
+
             ASYNCTMR.ATVAL = 0;
         }
 
