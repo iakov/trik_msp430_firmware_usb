@@ -101,7 +101,6 @@ void main (void)
     USB_setup(TRUE,TRUE);  // Init USB & events; if a host is present, connect
 
     globalInitVars(); //Init variables and structires
-    enableTimer_B(); //Init timer B
 
     __enable_interrupt();  // Enable interrupts globally
 
@@ -249,9 +248,9 @@ void TIMERB1_ISR(void)
     case 12: break;                          // CCR6 not used
     case 14:                                                 // overflow
         ASYNCTMR.ATVAL++;
+        /*
         if (ASYNCTMR.ATVAL>100)
         {
-
             //sprintf(newString,"Oh, my timer!\r\n");
             sprintf(newString,"ENC1=%d\r\n",ENC[ENCODER1-ENCODER1].EVAL);
             if (cdcSendDataInBackground((uint8_t*)newString,   // Send message to other App
@@ -259,9 +258,9 @@ void TIMERB1_ISR(void)
             {
                 SendError = 0x01;
             }
-
             ASYNCTMR.ATVAL = 0;
         }
+        */
         for (uint8_t MOTNUM=MOTOR1; MOTNUM<=MOTOR4; MOTNUM++)
         {
             if (MOT[MOTNUM].MOT_MOD==TIME_MODE)

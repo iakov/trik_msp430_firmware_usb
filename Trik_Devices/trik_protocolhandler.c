@@ -333,6 +333,15 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
             PROTOCOL_recvResponse(out_str,devaddr1,errhandler,regaddr1,regval1);
             return NO_ERROR;
         }
+
+        //Async timer
+        if ((devaddr1==ASYNCTIMER))
+        {
+            if (regaddr1==0x01) regval1=ASYNCTMR.ATVAL;
+            errhandler=0x00;
+            PROTOCOL_recvResponse(out_str,devaddr1,errhandler,regaddr1,regval1);
+            return NO_ERROR;
+        }
     }
 
     PROTOCOL_errResponse(out_str,devaddr1,func1,LENGTH_ERROR);
