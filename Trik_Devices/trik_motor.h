@@ -49,8 +49,8 @@ struct tMotorRegisters
     uint16_t MCTL;
     uint16_t MPWR;
     uint16_t MFRQ;
-    uint16_t MANG;
-    uint16_t MTMR;
+    uint32_t MANG;
+    uint32_t MTMR;
     uint32_t MVAL;
     uint16_t MSTA;
     uint8_t MOT_EN;
