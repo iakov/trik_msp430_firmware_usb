@@ -341,15 +341,5 @@ void globalInitVars()
     for (int j=0; j<MAX_ENCODERS; j++) ENC[j].ENC_EN=ENC[j].ENC_PUP=0;
 }
 
-//Init timer B for asynchronous packets
-void initTimer_B()
-{
-    TIMER_B_clearTimerInterruptFlag(TIMER_B0_BASE);
-    TIMER_B_startContinuousMode(TIMER_B0_BASE,
-            TIMER_B_CLOCKSOURCE_SMCLK,
-            TIMER_B_CLOCKSOURCE_DIVIDER_8,
-            TIMER_B_TBIE_INTERRUPT_ENABLE,
-            TIMER_B_DO_CLEAR);
-}
 
 //Released_Version_4_10_02

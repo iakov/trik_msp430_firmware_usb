@@ -1,7 +1,7 @@
 /*
  * trik_encoder.c
  *
- *  Created on: November 7, 2014 ã.
+ *  Created on: November 7, 2014
  *      Author: Rostislav Varzar
  */
 
