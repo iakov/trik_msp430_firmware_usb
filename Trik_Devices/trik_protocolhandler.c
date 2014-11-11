@@ -325,6 +325,18 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	//Function 0x06 - read single 32 bits register
     if ((func1==0x06) && (strlen(in_str)==9))
     {
+
+        //Motors
+        if ((devaddr1>=MOTOR1) && (devaddr1<=MOTOR4))
+        {
+            if (regaddr1==0x03) regval1=MOT[devaddr1].MANG;
+            if (regaddr1==0x04) regval1=MOT[devaddr1].MTMR;
+            if (regaddr1==0x05) regval1=MOT[devaddr1].MVAL;
+            errhandler=0x00;
+            PROTOCOL_recvResponse(out_str,devaddr1,errhandler,regaddr1,regval1);
+            return NO_ERROR;
+        }
+
         //Encoders
         if ((devaddr1>=ENCODER1) && (devaddr1<=ENCODER4))
         {
