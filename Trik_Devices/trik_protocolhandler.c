@@ -16,6 +16,7 @@
 #include "Trik_Devices/trik_encoder.h"
 #include "Trik_Devices/trik_bsl.h"
 #include "Trik_Devices/trik_devices.h"
+#include "Trik_Devices/trik_async.h"
 
 //Error response
 void PROTOCOL_errResponse(char *r_str, uint8_t dev_addr, uint8_t func_code, uint8_t err_code)
@@ -287,6 +288,20 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
             if (regaddr1==0x00)
             {
                 errhandler=ENCODER_hadler(devaddr1);
+                PROTOCOL_transResponse(out_str,devaddr1,errhandler);
+            }
+            else PROTOCOL_transResponse(out_str,devaddr1,NO_ERROR);
+            return NO_ERROR;
+        }
+
+        //Async timer
+        if ((devaddr1==ASYNCTIMER))
+        {
+            if (regaddr1==0x00) ASYNCTMR.ATCTL=regval1;
+            if (regaddr1==0x01) ASYNCTMR.ATVAL=regval1;
+            if (regaddr1==0x00)
+            {
+                errhandler=ASYNCTIMER_hadler();
                 PROTOCOL_transResponse(out_str,devaddr1,errhandler);
             }
             else PROTOCOL_transResponse(out_str,devaddr1,NO_ERROR);

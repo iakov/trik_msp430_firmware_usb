@@ -50,11 +50,12 @@
 #define ACTUATOR18			0x27
 #define ACTUATOR19			0x28
 #define ACTUATOR20			0x29
+#define ASYNCTIMER          0x30
 #define BSL                 0xEE
 #define NNONE				0xFF
 
 //Max ports
-#define MAX_DEVICES			0x30
+#define MAX_DEVICES			0x31
 
 //Busy table
 uint8_t busy_table[MAX_DEVICES];

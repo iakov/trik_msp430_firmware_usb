@@ -81,8 +81,6 @@ uint8_t retInString (char* string);
 
 void globalInitVars();
 
-uint16_t cnt_b = 0; //Extended counter
-
 /*  
  * ======== main ========
  */
@@ -250,10 +248,10 @@ void TIMERB1_ISR(void)
     case 10: break;                          // CCR5 not used
     case 12: break;                          // CCR6 not used
     case 14:                                                 // overflow
-        cnt_b++;
-        if (cnt_b>100)
+        ASYNCTMR.ATVAL++;
+        if (ASYNCTMR.ATVAL>100)
         {
-            /*
+
             //sprintf(newString,"Oh, my timer!\r\n");
             sprintf(newString,"ENC1=%d\r\n",ENC[ENCODER1-ENCODER1].EVAL);
             if (cdcSendDataInBackground((uint8_t*)newString,   // Send message to other App
@@ -261,10 +259,9 @@ void TIMERB1_ISR(void)
             {
                 SendError = 0x01;
             }
-            cnt_b = 0;
-            */
-        }
 
+            ASYNCTMR.ATVAL = 0;
+        }
         for (uint8_t MOTNUM=MOTOR1; MOTNUM<=MOTOR4; MOTNUM++)
         {
             if (MOT[MOTNUM].MOT_MOD==TIME_MODE)
@@ -273,8 +270,6 @@ void TIMERB1_ISR(void)
                 if ((MOT[MOTNUM].MVAL>MOT[MOTNUM].MTMR)) MOTOR_stop(MOTNUM);
             }
         }
-
-
         break;
     default: break;
     }
@@ -350,6 +345,7 @@ void globalInitVars()
     for (int j=0; j<MAX_MOTORS; j++) MOT[j].MOT_EN=MOT[j].MOT_PWR=MOT[j].MOT_DIR=MOT[j].MOT_DIR=0;
     for (int j=0; j<MAX_ENCODERS; j++) ENC[j].ECTL=ENC[j].EFRQ=ENC[j].EVAL=ENC[j].ESTA=0;
     for (int j=0; j<MAX_ENCODERS; j++) ENC[j].ENC_EN=ENC[j].ENC_PUP=0;
+    ASYNCTMR.ATCTL=ASYNCTMR.ATVAL=0;
 }
 
 
