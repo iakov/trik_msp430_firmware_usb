@@ -56,12 +56,12 @@
 #include "Trik_Devices/trik_devices.h"
 #include "Trik_Devices/trik_motor.h"
 #include "Trik_Devices/trik_encoder.h"
+#include "Trik_Devices/trik_async.h"
 /*
  * NOTE: Modify hal.h to select a specific evaluation board and customize for
  * your own board.
  */
 #include "hal.h"
-
 #include "driverlib.h"
 
 // Global flags set by events
@@ -78,7 +78,10 @@ uint8_t n_error = 0;
 uint8_t ReceiveError = 0, SendError = 0;
 
 uint8_t retInString (char* string);
+
 void globalInitVars();
+
+uint16_t cnt_b = 0; //Extended counter
 
 /*  
  * ======== main ========
@@ -100,8 +103,8 @@ void main (void)
     USB_setup(TRUE,TRUE);  // Init USB & events; if a host is present, connect
 
     globalInitVars(); //Init variables and structires
+    enableTimer_B(); //Init timer B
 
-    //initTimer_B(); //Init timer B
     __enable_interrupt();  // Enable interrupts globally
 
     while (1)
@@ -225,6 +228,48 @@ void __attribute__ ((interrupt(UNMI_VECTOR))) UNMI_ISR (void)
             USB_disable(); //Disable
     }
 }
+
+// Timer_B7 Interrupt Vector (TBIV) handler
+#if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
+#pragma vector=TIMERB1_VECTOR
+__interrupt
+#elif defined(__GNUC__)
+__attribute__((interrupt(TIMERB1_VECTOR)))
+#endif
+void TIMERB1_ISR(void)
+{
+    /* Any access, read or write, of the TBIV register automatically resets the
+       highest "pending" interrupt flag. */
+    switch(__even_in_range(TBIV,14))
+    {
+    case  0: break;                          // No interrupt
+    case  2: break;                          // CCR1 not used
+    case  4: break;                          // CCR2 not used
+    case  6: break;                          // CCR3 not used
+    case  8: break;                          // CCR4 not used
+    case 10: break;                          // CCR5 not used
+    case 12: break;                          // CCR6 not used
+    case 14:                                                 // overflow
+        cnt_b++;
+        if (cnt_b>1000)
+        {
+            //sprintf(newString,"Oh, my timer!\r\n");
+            sprintf(newString,"ENC1=%d\r\n",ENC[ENCODER1-ENCODER1].EVAL);
+            if (cdcSendDataInBackground((uint8_t*)newString,   // Send message to other App
+                    strlen(newString),CDC0_INTFNUM,1))
+            {
+                SendError = 0x01;
+            }
+            cnt_b = 0;
+        }
+
+        break;
+    default: break;
+    }
+    TIMER_B_clearTimerInterruptFlag(TIMER_B0_BASE);
+}
+
+
 
 /*  
  * ======== retInString ========
