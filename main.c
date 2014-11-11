@@ -45,8 +45,6 @@
 #include <string.h>
 #include <stdio.h>
 
-
-
 #include "USB_config/descriptors.h"
 #include "USB_API/USB_Common/device.h"
 #include "USB_API/USB_Common/usb.h"                 // USB-specific functions
@@ -70,7 +68,6 @@
 volatile uint8_t bDataReceived_event0 = FALSE; // Indicates data has been rx'ed
 volatile uint8_t bDataReceived_event1 = FALSE; // without an open rx operation,
                                             // on respective HID0/1 interfaces
-
 #define MAX_STR_LENGTH 32
 char wholeString[MAX_STR_LENGTH] = "";
 char newString[MAX_STR_LENGTH] = "";
@@ -82,7 +79,6 @@ uint8_t ReceiveError = 0, SendError = 0;
 
 uint8_t retInString (char* string);
 void globalInitVars();
-void initTimer_B();
 
 /*  
  * ======== main ========
@@ -229,48 +225,6 @@ void __attribute__ ((interrupt(UNMI_VECTOR))) UNMI_ISR (void)
             USB_disable(); //Disable
     }
 }
-
-
-// Timer_B7 Interrupt Vector (TBIV) handler
-#if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
-#pragma vector=TIMERB1_VECTOR
-__interrupt
-#elif defined(__GNUC__)
-__attribute__((interrupt(TIMERB1_VECTOR)))
-#endif
-void TIMERB1_ISR(void)
-{
-    /* Any access, read or write, of the TBIV register automatically resets the
-       highest "pending" interrupt flag. */
-    switch(__even_in_range(TBIV,14))
-    {
-    case  0: break;                          // No interrupt
-    case  2: break;                          // CCR1 not used
-    case  4: break;                          // CCR2 not used
-    case  6: break;                          // CCR3 not used
-    case  8: break;                          // CCR4 not used
-    case 10: break;                          // CCR5 not used
-    case 12: break;                          // CCR6 not used
-    case 14:                                                 // overflow
-
-        //sprintf(newString,"Oh, my timer!\r\n");
-        sprintf(newString,"CNT1=%d\r\n",ENC[ENCODER1-ENCODER1].EVAL);
-        if (cdcSendDataInBackground((uint8_t*)newString,
-                strlen(newString),CDC0_INTFNUM,1))
-        {  // Send message to other App
-            SendError = 0x01;                          // Something went wrong -- exit
-        }
-
-    	;;;;;;;;;;;;;;;;;;;
-        break;
-    default: break;
-    }
-    TIMER_B_clearTimerInterruptFlag(TIMER_B0_BASE);
-}
-
-
-
-
 
 /*  
  * ======== retInString ========
