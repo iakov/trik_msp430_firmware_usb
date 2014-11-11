@@ -165,6 +165,16 @@ uint8_t ENCODER_hadler(uint8_t ENC_NUMBER)
         //Enable/disable
         if (!(ENC[ENC_NUMBER-ENCODER1].ENC_EN)) ENCODER_enableController(ENC_NUMBER);
 
+        //Async/single read mode
+        if (ENC[ENC_NUMBER-ENCODER1].ECTL & 0x4000)
+        {
+            ENC[ENC_NUMBER-ENCODER1].ENC_MOD = ENABLE;
+        }
+        else
+        {
+            ENC[ENC_NUMBER-ENCODER1].ENC_MOD = DISABLE;
+        }
+
         //Pull up resistors enable/disable
         if (ENC[ENC_NUMBER-ENCODER1].ECTL & 0x1000)
         {

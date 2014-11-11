@@ -32,6 +32,7 @@ struct tEncoderRegisters
     uint16_t ESTA;
     uint8_t ENC_EN;
     uint8_t ENC_PUP;
+    uint8_t ENC_MOD;
 };
 
 //Encoder registers array

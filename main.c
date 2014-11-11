@@ -248,19 +248,27 @@ void TIMERB1_ISR(void)
     case 12: break;                          // CCR6 not used
     case 14:                                                 // overflow
         ASYNCTMR.ATVAL++;
-        /*
         if (ASYNCTMR.ATVAL>100)
         {
             //sprintf(newString,"Oh, my timer!\r\n");
-            sprintf(newString,"ENC1=%d\r\n",ENC[ENCODER1-ENCODER1].EVAL);
-            if (cdcSendDataInBackground((uint8_t*)newString,   // Send message to other App
-                    strlen(newString),CDC0_INTFNUM,1))
+            //sprintf(newString,"ENC1=%d\r\n",ENC[ENCODER1-ENCODER1].EVAL);
+            //Async mode for encoders
+            for (uint8_t ENCNUM=ENCODER1; ENCNUM<=ENCODER4; ENCNUM++)
             {
-                SendError = 0x01;
+                if (ENC[ENCNUM-ENCODER1].ENC_MOD==ENABLE)
+                {
+                    PROTOCOL_recvResponse(newString,ENCNUM,0x00,0x02,ENC[ENCNUM-ENCODER1].EVAL);
+                    if (cdcSendDataInBackground((uint8_t*)newString,   // Send message to other App
+                            strlen(newString),CDC0_INTFNUM,1))
+                    {
+                        SendError = 0x01;
+                    }
+                }
             }
             ASYNCTMR.ATVAL = 0;
         }
-        */
+
+        //Motors timer control
         for (uint8_t MOTNUM=MOTOR1; MOTNUM<=MOTOR4; MOTNUM++)
         {
             if (MOT[MOTNUM].MOT_MOD==TIME_MODE)
@@ -269,6 +277,9 @@ void TIMERB1_ISR(void)
                 if ((MOT[MOTNUM].MVAL>MOT[MOTNUM].MTMR)) MOTOR_stop(MOTNUM);
             }
         }
+
+
+
         break;
     default: break;
     }
