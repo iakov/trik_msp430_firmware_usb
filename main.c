@@ -251,8 +251,9 @@ void TIMERB1_ISR(void)
     case 12: break;                          // CCR6 not used
     case 14:                                                 // overflow
         cnt_b++;
-        if (cnt_b>1000)
+        if (cnt_b>100)
         {
+            /*
             //sprintf(newString,"Oh, my timer!\r\n");
             sprintf(newString,"ENC1=%d\r\n",ENC[ENCODER1-ENCODER1].EVAL);
             if (cdcSendDataInBackground((uint8_t*)newString,   // Send message to other App
@@ -261,7 +262,18 @@ void TIMERB1_ISR(void)
                 SendError = 0x01;
             }
             cnt_b = 0;
+            */
         }
+
+        for (uint8_t MOTNUM=MOTOR1; MOTNUM<=MOTOR4; MOTNUM++)
+        {
+            if (MOT[MOTNUM].MOT_MOD==TIME_MODE)
+            {
+                MOT[MOTNUM].MVAL++;
+                if ((MOT[MOTNUM].MVAL>MOT[MOTNUM].MTMR)) MOTOR_stop(MOTNUM);
+            }
+        }
+
 
         break;
     default: break;

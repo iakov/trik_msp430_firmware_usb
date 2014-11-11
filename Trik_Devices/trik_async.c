@@ -11,8 +11,7 @@
 //Init timer B for asynchronous packets
 void enableTimer_B()
 {
-    //Overflow interrupt frequency is 5859,375 Hz
-    TIMER_B_selectCounterLength(TIMER_B0_BASE, TIMER_B_COUNTER_12BIT);
+    //Overflow interrupt frequency is 366,21093755 Hz
     TIMER_B_clearTimerInterruptFlag(TIMER_B0_BASE);
     TIMER_B_startContinuousMode(TIMER_B0_BASE,
             TIMER_B_CLOCKSOURCE_SMCLK,
