@@ -266,13 +266,13 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	    if ((devaddr1>=MOTOR1) && (devaddr1<=MOTOR4))
 	    {
 	        if (regaddr1==MMCTL) MOT[devaddr1].MCTL=regval1;
-	        if (regaddr1==MMDUT) MOT[devaddr1].MPWR=regval1;
-	        if (regaddr1==MMPER) MOT[devaddr1].MFRQ=regval1;
+	        if (regaddr1==MMDUT) MOT[devaddr1].MDUT=regval1;
+	        if (regaddr1==MMPER) MOT[devaddr1].MPER=regval1;
 	        if (regaddr1==MMANG) MOT[devaddr1].MANG=regval1;
 	        if (regaddr1==MMTMR) MOT[devaddr1].MTMR=regval1;
 	        if (regaddr1==MMVAL) MOT[devaddr1].MVAL=regval1;
 	        //Error register values
-	        if (((MOT[devaddr1].MFRQ==0) || (MOT[devaddr1].MPWR>MOT[devaddr1].MFRQ)) && (MOT[devaddr1].MCTL & 0x0004))
+	        if (((MOT[devaddr1].MPER==0) || (MOT[devaddr1].MDUT>MOT[devaddr1].MPER)) && (MOT[devaddr1].MCTL & 0x0004))
 	        {
 	            PROTOCOL_errResponse(out_str,devaddr1,func1,REG_VAL_ERROR);
 	            return REG_VAL_ERROR;
@@ -339,10 +339,13 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
         //Motors
         if ((devaddr1>=MOTOR1) && (devaddr1<=MOTOR4))
         {
-            if (regaddr1==MMANG) regval1=MOT[devaddr1].MANG;
-            if (regaddr1==MMTMR) regval1=MOT[devaddr1].MTMR;
-            if (regaddr1==MMVAL) regval1=MOT[devaddr1].MVAL;
-            PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,regval1,REG_32bits);
+            if (regaddr1==MMCTL) PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,MOT[devaddr1].MCTL,REG_16bits);
+            if (regaddr1==MMDUT) PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,MOT[devaddr1].MDUT,REG_16bits);
+            if (regaddr1==MMPER) PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,MOT[devaddr1].MPER,REG_16bits);
+            if (regaddr1==MMANG) PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,MOT[devaddr1].MANG,REG_32bits);
+            if (regaddr1==MMTMR) PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,MOT[devaddr1].MTMR,REG_32bits);
+            if (regaddr1==MMVAL) PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,MOT[devaddr1].MVAL,REG_32bits);
+            if (regaddr1==MMSTA) PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,MOT[devaddr1].MSTA,REG_16bits);
             return NO_ERROR;
         }
 

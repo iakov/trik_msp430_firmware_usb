@@ -158,37 +158,37 @@ void MOTOR_start(uint8_t MOT_NUMBER)
             TIMER_A_generatePWM(TIMER_A0_BASE,
                     TIMER_A_CLOCKSOURCE_SMCLK,
                     TIMER_A_CLOCKSOURCE_DIVIDER_1,
-                    MOT[MOT_NUMBER].MFRQ,
+                    MOT[MOT_NUMBER].MPER,
                     TIMER_A_CAPTURECOMPARE_REGISTER_1,
                     TIMER_A_OUTPUTMODE_RESET_SET,
-                    MOT[MOT_NUMBER].MPWR);
+                    MOT[MOT_NUMBER].MDUT);
             break;
         case MOTOR2:
             TIMER_A_generatePWM(TIMER_A0_BASE,
                     TIMER_A_CLOCKSOURCE_SMCLK,
                     TIMER_A_CLOCKSOURCE_DIVIDER_1,
-                    MOT[MOT_NUMBER].MFRQ,
+                    MOT[MOT_NUMBER].MPER,
                     TIMER_A_CAPTURECOMPARE_REGISTER_2,
                     TIMER_A_OUTPUTMODE_RESET_SET,
-                    MOT[MOT_NUMBER].MPWR);
+                    MOT[MOT_NUMBER].MDUT);
             break;
         case MOTOR3:
             TIMER_A_generatePWM(TIMER_A0_BASE,
                     TIMER_A_CLOCKSOURCE_SMCLK,
                     TIMER_A_CLOCKSOURCE_DIVIDER_1,
-                    MOT[MOT_NUMBER].MFRQ,
+                    MOT[MOT_NUMBER].MPER,
                     TIMER_A_CAPTURECOMPARE_REGISTER_3,
                     TIMER_A_OUTPUTMODE_RESET_SET,
-                    MOT[MOT_NUMBER].MPWR);
+                    MOT[MOT_NUMBER].MDUT);
             break;
         case MOTOR4:
             TIMER_A_generatePWM(TIMER_A0_BASE,
                     TIMER_A_CLOCKSOURCE_SMCLK,
                     TIMER_A_CLOCKSOURCE_DIVIDER_1,
-                    MOT[MOT_NUMBER].MFRQ,
+                    MOT[MOT_NUMBER].MPER,
                     TIMER_A_CAPTURECOMPARE_REGISTER_4,
                     TIMER_A_OUTPUTMODE_RESET_SET,
-                    MOT[MOT_NUMBER].MPWR);
+                    MOT[MOT_NUMBER].MDUT);
             break;
         default:;
     }
@@ -205,10 +205,10 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
                 TIMER_A_generatePWM(TIMER_A0_BASE,
                         TIMER_A_CLOCKSOURCE_SMCLK,
                         TIMER_A_CLOCKSOURCE_DIVIDER_1,
-                        MOT[MOT_NUMBER].MFRQ,
+                        MOT[MOT_NUMBER].MPER,
                         TIMER_A_CAPTURECOMPARE_REGISTER_1,
                         TIMER_A_OUTPUTMODE_RESET_SET,
-                        MOT[MOT_NUMBER].MFRQ-1);
+                        MOT[MOT_NUMBER].MPER-1);
             }
             else
             {
@@ -216,7 +216,7 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
                 TIMER_A_generatePWM(TIMER_A0_BASE,
                         TIMER_A_CLOCKSOURCE_SMCLK,
                         TIMER_A_CLOCKSOURCE_DIVIDER_1,
-                        MOT[MOT_NUMBER].MFRQ,
+                        MOT[MOT_NUMBER].MPER,
                         TIMER_A_CAPTURECOMPARE_REGISTER_1,
                         TIMER_A_OUTPUTMODE_RESET_SET,
                         0x0001);
@@ -229,10 +229,10 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
                 TIMER_A_generatePWM(TIMER_A0_BASE,
                         TIMER_A_CLOCKSOURCE_SMCLK,
                         TIMER_A_CLOCKSOURCE_DIVIDER_1,
-                        MOT[MOT_NUMBER].MFRQ,
+                        MOT[MOT_NUMBER].MPER,
                         TIMER_A_CAPTURECOMPARE_REGISTER_2,
                         TIMER_A_OUTPUTMODE_RESET_SET,
-                        MOT[MOT_NUMBER].MFRQ-1);
+                        MOT[MOT_NUMBER].MPER-1);
             }
             else
             {
@@ -240,7 +240,7 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
                 TIMER_A_generatePWM(TIMER_A0_BASE,
                         TIMER_A_CLOCKSOURCE_SMCLK,
                         TIMER_A_CLOCKSOURCE_DIVIDER_1,
-                        MOT[MOT_NUMBER].MFRQ,
+                        MOT[MOT_NUMBER].MPER,
                         TIMER_A_CAPTURECOMPARE_REGISTER_2,
                         TIMER_A_OUTPUTMODE_RESET_SET,
                         0x0001);
@@ -253,10 +253,10 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
                 TIMER_A_generatePWM(TIMER_A0_BASE,
                         TIMER_A_CLOCKSOURCE_SMCLK,
                         TIMER_A_CLOCKSOURCE_DIVIDER_1,
-                        MOT[MOT_NUMBER].MFRQ,
+                        MOT[MOT_NUMBER].MPER,
                         TIMER_A_CAPTURECOMPARE_REGISTER_3,
                         TIMER_A_OUTPUTMODE_RESET_SET,
-                        MOT[MOT_NUMBER].MFRQ-1);
+                        MOT[MOT_NUMBER].MPER-1);
             }
             else
             {
@@ -264,7 +264,7 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
                 TIMER_A_generatePWM(TIMER_A0_BASE,
                         TIMER_A_CLOCKSOURCE_SMCLK,
                         TIMER_A_CLOCKSOURCE_DIVIDER_1,
-                        MOT[MOT_NUMBER].MFRQ,
+                        MOT[MOT_NUMBER].MPER,
                         TIMER_A_CAPTURECOMPARE_REGISTER_3,
                         TIMER_A_OUTPUTMODE_RESET_SET,
                         0x0001);
@@ -277,10 +277,10 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
                 TIMER_A_generatePWM(TIMER_A0_BASE,
                         TIMER_A_CLOCKSOURCE_SMCLK,
                         TIMER_A_CLOCKSOURCE_DIVIDER_1,
-                        MOT[MOT_NUMBER].MFRQ,
+                        MOT[MOT_NUMBER].MPER,
                         TIMER_A_CAPTURECOMPARE_REGISTER_4,
                         TIMER_A_OUTPUTMODE_RESET_SET,
-                        MOT[MOT_NUMBER].MFRQ-1);
+                        MOT[MOT_NUMBER].MPER-1);
             }
             else
             {
@@ -288,7 +288,7 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
                 TIMER_A_generatePWM(TIMER_A0_BASE,
                         TIMER_A_CLOCKSOURCE_SMCLK,
                         TIMER_A_CLOCKSOURCE_DIVIDER_1,
-                        MOT[MOT_NUMBER].MFRQ,
+                        MOT[MOT_NUMBER].MPER,
                         TIMER_A_CAPTURECOMPARE_REGISTER_4,
                         TIMER_A_OUTPUTMODE_RESET_SET,
                         0x0001);

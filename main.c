@@ -357,7 +357,7 @@ uint8_t retInString (char* string)
 void globalInitVars()
 {
     for (int j=0; j<MAX_DEVICES; j++) busy_table[j]=NNONE;
-    for (int j=0; j<MAX_MOTORS; j++) MOT[j].MCTL=MOT[j].MPWR=MOT[j].MFRQ=MOT[j].MANG=MOT[j].MTMR=MOT[j].MVAL=MOT[j].MSTA=0;
+    for (int j=0; j<MAX_MOTORS; j++) MOT[j].MCTL=MOT[j].MDUT=MOT[j].MPER=MOT[j].MANG=MOT[j].MTMR=MOT[j].MVAL=MOT[j].MSTA=0;
     for (int j=0; j<MAX_MOTORS; j++) MOT[j].MOT_EN=MOT[j].MOT_PWR=MOT[j].MOT_DIR=MOT[j].MOT_DIR=0;
     for (int j=0; j<MAX_ENCODERS; j++) ENC[j].ECTL=ENC[j].EVAL=ENC[j].ESTA=0;
     for (int j=0; j<MAX_ENCODERS; j++) ENC[j].ENC_EN=ENC[j].ENC_PUP=ENC[j].ENC_TYP=0;

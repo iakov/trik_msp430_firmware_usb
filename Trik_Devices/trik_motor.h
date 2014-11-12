@@ -58,8 +58,8 @@ void MOTOR_stop(uint8_t MOT_NUMBER);
 struct tMotorRegisters
 {
     uint16_t MCTL;
-    uint16_t MPWR;
-    uint16_t MFRQ;
+    uint16_t MDUT;
+    uint16_t MPER;
     uint32_t MANG;
     uint32_t MTMR;
     uint32_t MVAL;
