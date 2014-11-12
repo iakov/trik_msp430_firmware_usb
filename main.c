@@ -72,6 +72,9 @@ volatile uint8_t bDataReceived_event1 = FALSE; // without an open rx operation,
 char wholeString[MAX_STR_LENGTH] = "";
 char newString[MAX_STR_LENGTH] = "";
 char pieceOfString[MAX_STR_LENGTH] = "";
+char s1[MAX_STR_LENGTH] = "";
+char s2[MAX_STR_LENGTH] = "";
+
 
 uint8_t n_error = 0;
 
@@ -267,35 +270,41 @@ void TIMERB1_ISR(void)
                     }
                 //}
             }*/
-            memset(newString,0,MAX_STRING_LENGTH);
-            sprintf(newString,"Oh, my timer!%d\r\n",0);
-            if (cdcSendDataWaitTilDone((uint8_t*)newString,   // Send message to other App
-                    strlen(newString),CDC0_INTFNUM,1000))
-            {
-                SendError = 0x01;
-            }
-            memset(newString,0,MAX_STRING_LENGTH);
-            sprintf(newString,"Oh, my timer!%d\r\n",1);
-            if (cdcSendDataWaitTilDone((uint8_t*)newString,   // Send message to other App
-                    strlen(newString),CDC0_INTFNUM,1000))
-            {
-                SendError = 0x01;
-            }
-            memset(newString,0,MAX_STRING_LENGTH);
-            sprintf(newString,"Oh, my timer!%d\r\n",2);
-            if (cdcSendDataWaitTilDone((uint8_t*)newString,   // Send message to other App
-                    strlen(newString),CDC0_INTFNUM,1000))
-            {
-                SendError = 0x01;
-            }
+            /*
+            while (USB_connectionState()!=ST_ENUM_ACTIVE) ;
+            __bis_SR_register(LPM0_bits + GIE);             // Enter LPM0 until awakened by an event handler
+            sprintf(s1,"Oh, my timer!%d\r\n",0);
+            cdcSendDataInBackground((uint8_t*)s1,strlen(s1),CDC0_INTFNUM,1) ;
 
-
-
-
-
-
+            while (USB_connectionState()!=ST_ENUM_ACTIVE) ;
+            __bis_SR_register(LPM0_bits + GIE);             // Enter LPM0 until awakened by an event handler
+            sprintf(s2,"Privet!%d\r\n",2);
+            cdcSendDataInBackground((uint8_t*)s2,strlen(s2),CDC0_INTFNUM,1) ;
+*/
             ASYNCTMR.ATVAL = 0;
         }
+
+
+        if (ASYNCTMR.ATVAL == 250)
+        {
+            sprintf(newString,"Oh, my timer!%d\r\n",ASYNCTMR.ATVAL);
+            if (cdcSendDataInBackground((uint8_t*)newString,   // Send message to other App
+                    strlen(newString),CDC0_INTFNUM,1))
+            {
+                SendError = 0x01;
+            }
+        }
+
+        if (ASYNCTMR.ATVAL == 350)
+        {
+            sprintf(newString,"Oh, my timer!%d\r\n",ASYNCTMR.ATVAL);
+            if (cdcSendDataInBackground((uint8_t*)newString,   // Send message to other App
+                    strlen(newString),CDC0_INTFNUM,1))
+            {
+                SendError = 0x01;
+            }
+        }
+
 
         //Motors timer control
         for (uint8_t MOTNUM=MOTOR1; MOTNUM<=MOTOR4; MOTNUM++)
