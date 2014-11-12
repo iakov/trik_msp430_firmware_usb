@@ -279,7 +279,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	        }
 	        else
 	        {
-	            if (regaddr1==0x00)
+	            if (regaddr1==MMCTL)
 	            {
 	                errhandler=MOTOR_hadler(devaddr1);
 	                PROTOCOL_transResponse(out_str,devaddr1,errhandler);
@@ -307,9 +307,10 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
         //Async timer
         if ((devaddr1==ASYNCTIMER))
         {
-            if (regaddr1==0x00) ASYNCTMR.ATCTL=regval1;
-            if (regaddr1==0x01) ASYNCTMR.ATVAL=regval1;
-            if (regaddr1==0x00)
+            if (regaddr1==AATCTL) ASYNCTMR.ATCTL=regval1;
+            if (regaddr1==AATPER) ASYNCTMR.ATPER=regval1;
+            if (regaddr1==AATVAL) ASYNCTMR.ATVAL=regval1;
+            if (regaddr1==AATCTL)
             {
                 errhandler=ASYNCTIMER_hadler();
                 PROTOCOL_transResponse(out_str,devaddr1,errhandler);
@@ -361,8 +362,9 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
         //Async timer
         if ((devaddr1==ASYNCTIMER))
         {
-            if (regaddr1==0x01) regval1=ASYNCTMR.ATVAL;
-            PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,regval1,REG_32bits);
+            if (regaddr1==AATCTL) PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,ASYNCTMR.ATCTL,REG_16bits);
+            if (regaddr1==AATPER) PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,ASYNCTMR.ATPER,REG_16bits);
+            if (regaddr1==AATVAL) PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,ASYNCTMR.ATVAL,REG_32bits);
             return NO_ERROR;
         }
     }

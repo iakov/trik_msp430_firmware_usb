@@ -11,6 +11,11 @@
 #define MAX_STRING_LENGTH 32
 
 //Timer registers
+#define AATCTL 0x00
+#define AATPER 0x01
+#define AATVAL 0x02
+
+//Timer registers
 struct tTimerRegisters
 {
     uint16_t ATCTL;
