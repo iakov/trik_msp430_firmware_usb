@@ -79,8 +79,11 @@ void PROTOCOL_recvResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code, uin
 {
     char stmp1[MAX_STRING_LENGTH]; //Temp string
     uint8_t crc,t11,t12,t13,t14;
-    t11=(uint8_t)((reg_val & 0xFF000000) >> 24);
-    t12=(uint8_t)((reg_val & 0x00FF0000) >> 16);
+    if (reg_size==REG_32bits)
+    {
+        t11=(uint8_t)((reg_val & 0xFF000000) >> 24);
+        t12=(uint8_t)((reg_val & 0x00FF0000) >> 16);
+    }
     t13=(uint8_t)((reg_val & 0x0000FF00) >> 8);
     t14=(uint8_t)(reg_val & 0x000000FF);
     memset(r_str,0,MAX_STRING_LENGTH);
@@ -98,16 +101,23 @@ void PROTOCOL_recvResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code, uin
     else
         sprintf(stmp1,"%x",reg_addr);
     strcat(r_str,stmp1);
-    if (t11<16)
-        sprintf(stmp1,"0%x",t11);
+    if (reg_size==REG_32bits)
+    {
+        if (t11<16)
+            sprintf(stmp1,"0%x",t11);
+        else
+            sprintf(stmp1,"%x",t11);
+        strcat(r_str,stmp1);
+        if (t12<16)
+            sprintf(stmp1,"0%x",t12);
+        else
+            sprintf(stmp1,"%x",t12);
+        strcat(r_str,stmp1);
+    }
     else
-        sprintf(stmp1,"%x",t11);
-    strcat(r_str,stmp1);
-    if (t12<16)
-        sprintf(stmp1,"0%x",t12);
-    else
-        sprintf(stmp1,"%x",t12);
-    strcat(r_str,stmp1);
+    {
+        t11 = t12 = 0;
+    }
     if (t13<16)
         sprintf(stmp1,"0%x",t13);
     else
