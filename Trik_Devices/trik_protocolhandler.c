@@ -349,8 +349,9 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
         //Encoders
         if ((devaddr1>=ENCODER1) && (devaddr1<=ENCODER4))
         {
-            if (regaddr1==EEVAL) regval1=ENC[devaddr1-ENCODER1].EVAL;
-            PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,regval1,REG_32bits);
+            if (regaddr1==EECTL) PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,ENC[devaddr1-ENCODER1].ECTL,REG_16bits);
+            if (regaddr1==EEVAL) PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,ENC[devaddr1-ENCODER1].EVAL,REG_32bits);
+            if (regaddr1==EESTA) PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,ENC[devaddr1-ENCODER1].ESTA,REG_16bits);
             return NO_ERROR;
         }
 
