@@ -14,6 +14,7 @@
 struct tTimerRegisters
 {
     uint16_t ATCTL;
+    uint16_t ATPER;
     uint32_t ATVAL;
 };
 
