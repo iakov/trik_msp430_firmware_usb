@@ -21,7 +21,7 @@ void ENCODER_enableController(uint8_t ENC_NUMBER)
     if (busy_table[ENC_NUMBER]==NNONE)
     {
         busy_table[ENC_NUMBER]=ENC_NUMBER;
-        ENC[ENC_NUMBER-ENCODER1].ENC_EN = 1;
+        ENC[ENC_NUMBER-ENCODER1].ENC_EN = ENABLE;
         switch (ENC_NUMBER)
         {
             case ENCODER1:
@@ -58,7 +58,7 @@ void ENCODER_enableController(uint8_t ENC_NUMBER)
 void ENCODER_disableController(uint8_t ENC_NUMBER)
 {
     busy_table[ENC_NUMBER]=NNONE;
-    ENC[ENC_NUMBER-ENCODER1].ENC_EN = 0;
+    ENC[ENC_NUMBER-ENCODER1].ENC_EN = DISABLE;
     switch (ENC_NUMBER)
     {
         case ENCODER1:
@@ -89,7 +89,7 @@ void ENCODER_disableController(uint8_t ENC_NUMBER)
 
 void ENCODER_enablePullup(uint8_t ENC_NUMBER)
 {
-    ENC[ENC_NUMBER-ENCODER1].ENC_PUP = 1;
+    ENC[ENC_NUMBER-ENCODER1].ENC_PUP = ENABLE;
     switch (ENC_NUMBER)
     {
         case ENCODER1:
@@ -124,7 +124,7 @@ void ENCODER_enablePullup(uint8_t ENC_NUMBER)
 
 void ENCODER_disablePullup(uint8_t ENC_NUMBER)
 {
-    ENC[ENC_NUMBER-ENCODER1].ENC_PUP = 0;
+    ENC[ENC_NUMBER-ENCODER1].ENC_PUP = DISABLE;
     switch (ENC_NUMBER)
     {
         case ENCODER1:

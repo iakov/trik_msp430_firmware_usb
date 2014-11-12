@@ -9,8 +9,13 @@
 #define TRIK_ENCODER_H_
 
 //Configuration parameters
-#define DISABLE             0
-#define ENABLE              1
+#define DISABLE 0
+#define ENABLE  1
+
+//Registers
+#define EECTL 0x00
+#define EEVAL 0x01
+#define EESTA 0x02
 
 //Prototypes for the APIs
 uint8_t ENCODER_hadler(uint8_t ENC_NUMBER);

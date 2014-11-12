@@ -138,7 +138,6 @@ void PROTOCOL_recvResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code, uin
     strcat(r_str,stmp1);
 }
 
-
 //Protocol handler
 uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 {
@@ -294,9 +293,9 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	    //Encoders
         if ((devaddr1>=ENCODER1) && (devaddr1<=ENCODER4))
         {
-            if (regaddr1==0x00) ENC[devaddr1-ENCODER1].ECTL=regval1;
-            if (regaddr1==0x01) ENC[devaddr1-ENCODER1].EVAL=regval1;
-            if (regaddr1==0x00)
+            if (regaddr1==EECTL) ENC[devaddr1-ENCODER1].ECTL=regval1;
+            if (regaddr1==EEVAL) ENC[devaddr1-ENCODER1].EVAL=regval1;
+            if (regaddr1==EECTL)
             {
                 errhandler=ENCODER_hadler(devaddr1);
                 PROTOCOL_transResponse(out_str,devaddr1,errhandler);
@@ -350,7 +349,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
         //Encoders
         if ((devaddr1>=ENCODER1) && (devaddr1<=ENCODER4))
         {
-            if (regaddr1==0x02) regval1=ENC[devaddr1-ENCODER1].EVAL;
+            if (regaddr1==EEVAL) regval1=ENC[devaddr1-ENCODER1].EVAL;
             PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,regval1,REG_32bits);
             return NO_ERROR;
         }
