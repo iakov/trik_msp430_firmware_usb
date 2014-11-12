@@ -361,7 +361,8 @@ void globalInitVars()
     for (int j=0; j<MAX_MOTORS; j++) MOT[j].MOT_EN=MOT[j].MOT_PWR=MOT[j].MOT_DIR=MOT[j].MOT_DIR=0;
     for (int j=0; j<MAX_ENCODERS; j++) ENC[j].ECTL=ENC[j].EVAL=ENC[j].ESTA=0;
     for (int j=0; j<MAX_ENCODERS; j++) ENC[j].ENC_EN=ENC[j].ENC_PUP=ENC[j].ENC_TYP=0;
-    ASYNCTMR.ATCTL=ASYNCTMR.ATPER=ASYNCTMR.ATVAL=0;
+    ASYNCTMR.ATCTL=ASYNCTMR.ATVAL=0;
+    ASYNCTMR.ATPER=MAX_DEVICES;
 }
 
 
