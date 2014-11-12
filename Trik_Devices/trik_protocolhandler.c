@@ -308,7 +308,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
         if ((devaddr1==ASYNCTIMER))
         {
             if (regaddr1==AATCTL) ASYNCTMR.ATCTL=regval1;
-            if (regaddr1==AATPER) ASYNCTMR.ATPER=regval1;
+            if (regaddr1==AATPER) ASYNCTMR.ATPER=regval1+MAX_DEVICES;
             if (regaddr1==AATVAL) ASYNCTMR.ATVAL=regval1;
             if (regaddr1==AATCTL)
             {
