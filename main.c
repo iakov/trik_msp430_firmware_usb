@@ -360,7 +360,7 @@ void globalInitVars()
     for (int j=0; j<MAX_MOTORS; j++) MOT[j].MCTL=MOT[j].MPWR=MOT[j].MFRQ=MOT[j].MANG=MOT[j].MTMR=MOT[j].MVAL=MOT[j].MSTA=0;
     for (int j=0; j<MAX_MOTORS; j++) MOT[j].MOT_EN=MOT[j].MOT_PWR=MOT[j].MOT_DIR=MOT[j].MOT_DIR=0;
     for (int j=0; j<MAX_ENCODERS; j++) ENC[j].ECTL=ENC[j].EFRQ=ENC[j].EVAL=ENC[j].ESTA=0;
-    for (int j=0; j<MAX_ENCODERS; j++) ENC[j].ENC_EN=ENC[j].ENC_PUP=0;
+    for (int j=0; j<MAX_ENCODERS; j++) ENC[j].ENC_EN=ENC[j].ENC_PUP=ENC[j].ENC_TYP=0;
     ASYNCTMR.ATCTL=ASYNCTMR.ATVAL=0;
 }
 

@@ -17,6 +17,10 @@
 #define EEVAL 0x01
 #define EESTA 0x02
 
+//Encoder types
+#define WIRE1 0
+#define WIRE2 1
+
 //Prototypes for the APIs
 uint8_t ENCODER_hadler(uint8_t ENC_NUMBER);
 void ENCODER_enableController(uint8_t ENC_NUMBER);
@@ -38,6 +42,7 @@ struct tEncoderRegisters
     uint8_t ENC_EN;
     uint8_t ENC_PUP;
     uint8_t ENC_MOD;
+    uint8_t ENC_TYP;
 };
 
 //Encoder registers array
