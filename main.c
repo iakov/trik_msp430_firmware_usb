@@ -255,7 +255,7 @@ void TIMERB1_ISR(void)
         ASYNCTMR.ATVAL++;
 
         timerb_cnt++;
-        if (timerb_cnt > 500) timerb_cnt = 0;
+        if (timerb_cnt > ASYNCTMR.ATPER) timerb_cnt = 0;
 
         //Async output for encoder
         for (uint8_t nnn=ENCODER1; nnn<=ENCODER4; nnn++)
