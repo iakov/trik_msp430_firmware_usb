@@ -265,12 +265,12 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	    //Motors
 	    if ((devaddr1>=MOTOR1) && (devaddr1<=MOTOR4))
 	    {
-	        if (regaddr1==0x00) MOT[devaddr1].MCTL=regval1;
-	        if (regaddr1==0x01) MOT[devaddr1].MPWR=regval1;
-	        if (regaddr1==0x02) MOT[devaddr1].MFRQ=regval1;
-	        if (regaddr1==0x03) MOT[devaddr1].MANG=regval1;
-	        if (regaddr1==0x04) MOT[devaddr1].MTMR=regval1;
-	        if (regaddr1==0x05) MOT[devaddr1].MVAL=regval1;
+	        if (regaddr1==MMCTL) MOT[devaddr1].MCTL=regval1;
+	        if (regaddr1==MMDUT) MOT[devaddr1].MPWR=regval1;
+	        if (regaddr1==MMPER) MOT[devaddr1].MFRQ=regval1;
+	        if (regaddr1==MMANG) MOT[devaddr1].MANG=regval1;
+	        if (regaddr1==MMTMR) MOT[devaddr1].MTMR=regval1;
+	        if (regaddr1==MMVAL) MOT[devaddr1].MVAL=regval1;
 	        //Error register values
 	        if (((MOT[devaddr1].MFRQ==0) || (MOT[devaddr1].MPWR>MOT[devaddr1].MFRQ)) && (MOT[devaddr1].MCTL & 0x0004))
 	        {
@@ -339,9 +339,9 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
         //Motors
         if ((devaddr1>=MOTOR1) && (devaddr1<=MOTOR4))
         {
-            if (regaddr1==0x03) regval1=MOT[devaddr1].MANG;
-            if (regaddr1==0x04) regval1=MOT[devaddr1].MTMR;
-            if (regaddr1==0x05) regval1=MOT[devaddr1].MVAL;
+            if (regaddr1==MMANG) regval1=MOT[devaddr1].MANG;
+            if (regaddr1==MMTMR) regval1=MOT[devaddr1].MTMR;
+            if (regaddr1==MMVAL) regval1=MOT[devaddr1].MVAL;
             PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,regval1,REG_32bits);
             return NO_ERROR;
         }

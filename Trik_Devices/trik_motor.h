@@ -11,12 +11,23 @@
 #define DISABLE				0
 #define ENABLE				1
 
+//Motor mode
 #define CONT_MODE           0
 #define ANGLE_MODE          1
 #define TIME_MODE           2
 
+//Motor direction
 #define FORWARD             0
 #define BACKWARD            1
+
+//Motor registers
+#define MMCTL 0x00
+#define MMDUT 0x01
+#define MMPER 0x02
+#define MMANG 0x03
+#define MMTMR 0x04
+#define MMVAL 0x05
+#define MMSTA 0x06
 
 //Prototypes for the APIs
 uint8_t MOTOR_hadler(uint8_t MOT_NUMBER);
