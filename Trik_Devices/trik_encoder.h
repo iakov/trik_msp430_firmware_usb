@@ -21,12 +21,18 @@
 #define WIRE1 0
 #define WIRE2 1
 
+//Encoder edge
+#define RIS_EDGE 0
+#define FAL_EDGE 1
+
 //Prototypes for the APIs
 uint8_t ENCODER_hadler(uint8_t ENC_NUMBER);
 void ENCODER_enableController(uint8_t ENC_NUMBER);
 void ENCODER_disableController(uint8_t ENC_NUMBER);
 void ENCODER_enablePullup(uint8_t ENC_NUMBER);
 void ENCODER_disablePullup(uint8_t ENC_NUMBER);
+void ENCODER_fallingEdge(uint8_t ENC_NUMBER);
+void ENCODER_risingEdge(uint8_t ENC_NUMBER);
 uint32_t ENCODER_getEncoderValue(uint8_t ENC_NUMBER);
 
 //Max encoders
@@ -36,13 +42,13 @@ uint32_t ENCODER_getEncoderValue(uint8_t ENC_NUMBER);
 struct tEncoderRegisters
 {
     uint16_t ECTL;
-    uint16_t EFRQ;
     uint32_t EVAL;
     uint16_t ESTA;
     uint8_t ENC_EN;
     uint8_t ENC_PUP;
     uint8_t ENC_MOD;
     uint8_t ENC_TYP;
+    uint8_t ENC_EDG;
 };
 
 //Encoder registers array
