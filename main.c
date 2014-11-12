@@ -262,7 +262,7 @@ void TIMERB1_ISR(void)
         {
             if ((timerb_cnt==nnn) && (ENC[nnn-ENCODER1].ENC_MOD==ENABLE))
             {
-                PROTOCOL_recvResponse32(newString,nnn,0x00,0x02,ENC[nnn-ENCODER1].EVAL);
+                PROTOCOL_recvResponse(newString,nnn,NO_ERROR,0x02,ENC[nnn-ENCODER1].EVAL,REG_32bits);
                 if (cdcSendDataInBackground((uint8_t*)newString,strlen(newString),CDC0_INTFNUM,1)) {
                     SendError = 0x01;
                 }

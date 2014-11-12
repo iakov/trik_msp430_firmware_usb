@@ -23,13 +23,16 @@
 #define LENGTH_ERROR 0x14
 #define UNDEF_ERROR 0xFF
 
+//Register size
+#define REG_16bits 0
+#define REG_32bits 1
+
 //Protocol handler
 uint8_t PROTOCOL_hadler(char *in_str, char *out_str);
 
 //Response function
 void PROTOCOL_transResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code);
-void PROTOCOL_recvResponse16(char *r_str, uint8_t dev_addr, uint8_t resp_code, uint8_t reg_addr, uint32_t reg_val);
-void PROTOCOL_recvResponse32(char *r_str, uint8_t dev_addr, uint8_t resp_code, uint8_t reg_addr, uint32_t reg_val);
+void PROTOCOL_recvResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code, uint8_t reg_addr, uint32_t reg_val, uint8_t reg_size);
 void PROTOCOL_errResponse(char *r_str, uint8_t dev_addr, uint8_t func_code, uint8_t err_code);
 
 #endif /* TRIK_PROTOCOLHANDLER_H_ */

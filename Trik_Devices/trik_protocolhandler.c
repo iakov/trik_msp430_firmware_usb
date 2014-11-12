@@ -75,7 +75,7 @@ void PROTOCOL_transResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code)
 }
 
 //Read register response
-void PROTOCOL_recvResponse32(char *r_str, uint8_t dev_addr, uint8_t resp_code, uint8_t reg_addr, uint32_t reg_val)
+void PROTOCOL_recvResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code, uint8_t reg_addr, uint32_t reg_val, uint8_t reg_size)
 {
     char stmp1[MAX_STRING_LENGTH]; //Temp string
     uint8_t crc,t11,t12,t13,t14;
@@ -323,8 +323,8 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	    return DEV_ADDR_ERROR;
 	}
 
-	//Function 0x06 - read single 32 bits register
-    if ((func1==0x06) && (strlen(in_str)==9))
+	//Functions 0x05/0x06 - read single register
+    if (((func1==0x05) && (strlen(in_str)==9)) || ((func1==0x06) && (strlen(in_str)==9)))
     {
 
         //Motors
@@ -333,8 +333,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
             if (regaddr1==0x03) regval1=MOT[devaddr1].MANG;
             if (regaddr1==0x04) regval1=MOT[devaddr1].MTMR;
             if (regaddr1==0x05) regval1=MOT[devaddr1].MVAL;
-            errhandler=0x00;
-            PROTOCOL_recvResponse32(out_str,devaddr1,errhandler,regaddr1,regval1);
+            PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,regval1,REG_32bits);
             return NO_ERROR;
         }
 
@@ -342,8 +341,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
         if ((devaddr1>=ENCODER1) && (devaddr1<=ENCODER4))
         {
             if (regaddr1==0x02) regval1=ENC[devaddr1-ENCODER1].EVAL;
-            errhandler=0x00;
-            PROTOCOL_recvResponse32(out_str,devaddr1,errhandler,regaddr1,regval1);
+            PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,regval1,REG_32bits);
             return NO_ERROR;
         }
 
@@ -351,8 +349,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
         if ((devaddr1==ASYNCTIMER))
         {
             if (regaddr1==0x01) regval1=ASYNCTMR.ATVAL;
-            errhandler=0x00;
-            PROTOCOL_recvResponse32(out_str,devaddr1,errhandler,regaddr1,regval1);
+            PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,regval1,REG_32bits);
             return NO_ERROR;
         }
     }
