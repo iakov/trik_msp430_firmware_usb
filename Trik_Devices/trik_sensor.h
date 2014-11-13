@@ -14,6 +14,9 @@
 #define SSVAL 0x02
 #define SSSTA 0x03
 
+//Sensor mode
+#define SING_MODE 0
+#define CONT_MODE 1
 
 //Prototypes for the APIs
 uint8_t SENSOR_hadler(uint8_t SENS_NUMBER);
