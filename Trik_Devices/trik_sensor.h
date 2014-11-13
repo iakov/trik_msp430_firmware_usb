@@ -8,6 +8,13 @@
 #ifndef TRIK_SENSOR_H_
 #define TRIK_SENSOR_H_
 
+//Sensor registers
+#define SSCTL 0x00
+#define SSIDX 0x01
+#define SSVAL 0x02
+#define SSSTA 0x03
+
+
 //Prototypes for the APIs
 uint8_t SENSOR_hadler(uint8_t SENS_NUMBER);
 uint32_t SENSOR_read(uint8_t SENS_NUMBER);
@@ -20,17 +27,11 @@ void SENSOR_disableController(uint8_t MOT_NUMBER);
 //Motor registers
 struct tSensorRegisters
 {
-    uint16_t MCTL;
-    uint16_t MPWR;
-    uint16_t MFRQ;
-    uint16_t MANG;
-    uint16_t MTMR;
-    uint32_t MVAL;
-    uint16_t MSTA;
-    uint8_t MOT_EN;
-    uint8_t MOT_PWR;
-    uint8_t MOT_DIR;
-    uint8_t MOT_BRK;
+    uint16_t SCTL;
+    uint16_t SIDX;
+    uint32_t SVAL;
+    uint16_t SSTA;
+    uint8_t SENS_EN;
 };
 
 //Motors registers array
