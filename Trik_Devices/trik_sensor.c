@@ -217,7 +217,14 @@ void SENSOR_enableDigitalMode(uint8_t SENS_NUMBER)
 
 void SENSOR_enableAnalogMode(uint8_t SENS_NUMBER)
 {
-
+    SENS[SENS_NUMBER-SENSOR1].SENS_MOD = ANALOG_INP;
+    switch (SENS_NUMBER)
+    {
+        case SENSOR1:
+            GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN5);
+            break;
+        default:;
+    }
 }
 
 
