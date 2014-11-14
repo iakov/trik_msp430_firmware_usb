@@ -52,6 +52,7 @@ struct tSensorRegisters
     uint32_t SVAL;
     uint16_t SSTA;
     uint8_t SENS_EN;
+    uint8_t SENS_PUP;
 };
 
 //Motors registers array
