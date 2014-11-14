@@ -270,6 +270,20 @@ void TIMERB1_ISR(void)
             }
         }
 
+        //Async output for sensor
+        for (uint8_t nnn=SENSOR1; nnn<=SENSOR14; nnn++)
+        {
+            if ((timerb_cnt==nnn) && (SENS[nnn-SENSOR1].SENS_MOD==ENABLE))
+            {
+
+                //Must be call sensor handler here!!!!!!!!!!
+
+                PROTOCOL_recvResponse(newString,nnn,NO_ERROR,SSVAL,SENS[nnn-SENSOR1].SVAL,REG_32bits);
+                if (cdcSendDataInBackground((uint8_t*)newString,strlen(newString),CDC0_INTFNUM,1)) {
+                    SendError = 0x01;
+                }
+            }
+        }
 
 
 
