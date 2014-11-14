@@ -57,6 +57,7 @@
 #include "Trik_Devices/trik_motor.h"
 #include "Trik_Devices/trik_encoder.h"
 #include "Trik_Devices/trik_async.h"
+#include "Trik_Devices/trik_sensor.h"
 /*
  * NOTE: Modify hal.h to select a specific evaluation board and customize for
  * your own board.
@@ -363,6 +364,8 @@ void globalInitVars()
     for (int j=0; j<MAX_ENCODERS; j++) ENC[j].ENC_EN=ENC[j].ENC_PUP=ENC[j].ENC_TYP=0;
     ASYNCTMR.ATCTL=ASYNCTMR.ATVAL=0;
     ASYNCTMR.ATPER=MAX_DEVICES;
+    for (int j=0; j<MAX_SENSORS; j++) SENS[j].SCTL=SENS[j].SIDX=SENS[j].SVAL=SENS[j].SSTA=0;
+    for (int j=0; j<MAX_SENSORS; j++) SENS[j].SENS_EN=0;
 }
 
 
