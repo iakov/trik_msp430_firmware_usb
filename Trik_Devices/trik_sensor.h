@@ -22,9 +22,22 @@
 #define SING_MODE 0
 #define CONT_MODE 1
 
+//Sensor types
+#define DIGITAL_INP     0x0000
+#define ANALOG_INP      0x0001
+#define MOTOR_VOLTAGE   0x0002
+#define MOTOR_CURRENT   0x0003
+#define MCU_TEMP        0x0004
+#define DIST_SENSOR     0x0004
+
 //Prototypes for the APIs
 uint8_t SENSOR_hadler(uint8_t SENS_NUMBER);
-uint32_t SENSOR_read(uint8_t SENS_NUMBER);
+uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER);
+uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER);
+uint32_t SENSOR_read_voltage(uint8_t SENS_NUMBER);
+uint32_t SENSOR_read_current(uint8_t SENS_NUMBER);
+uint32_t SENSOR_read_temperature(uint8_t SENS_NUMBER);
+uint32_t SENSOR_read_distance(uint8_t SENS_NUMBER);
 void SENSOR_enableController(uint8_t MOT_NUMBER);
 void SENSOR_disableController(uint8_t MOT_NUMBER);
 
