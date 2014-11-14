@@ -46,50 +46,73 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
     {
         case SENSOR1:
             return GPIO_getInputPinValue(GPIO_PORT_P6,GPIO_PIN5);
-            break;
         case SENSOR2:
             return GPIO_getInputPinValue(GPIO_PORT_P6,GPIO_PIN4);
-            break;
         case SENSOR3:
             return GPIO_getInputPinValue(GPIO_PORT_P6,GPIO_PIN3);
-            break;
         case SENSOR4:
             return GPIO_getInputPinValue(GPIO_PORT_P6,GPIO_PIN2);
-            break;
         case SENSOR5:
             return GPIO_getInputPinValue(GPIO_PORT_P6,GPIO_PIN1);
-            break;
         case SENSOR6:
             return GPIO_getInputPinValue(GPIO_PORT_P6,GPIO_PIN0);
-            break;
         case SENSOR7:
             return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN0);
-            break;
         case SENSOR8:
             return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN3);
-            break;
         case SENSOR9:
             return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN4);
-            break;
         case SENSOR10:
             return GPIO_getInputPinValue(GPIO_PORT_P1,GPIO_PIN0);
-            break;
         case SENSOR11:
             return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN5);
-            break;
         case SENSOR12:
             return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN2);
-            break;
         case SENSOR13:
             return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN1);
-            break;
         case SENSOR14:
             return GPIO_getInputPinValue(GPIO_PORT_P1,GPIO_PIN6);
-            break;
-        default:;
+        default: return 0x00;
     }
-
 }
+
+uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
+{
+    switch (SENS_NUMBER)
+    {
+        case SENSOR1:
+            return GPIO_getInputPinValue(GPIO_PORT_P6,GPIO_PIN5);
+        case SENSOR2:
+            return GPIO_getInputPinValue(GPIO_PORT_P6,GPIO_PIN4);
+        case SENSOR3:
+            return GPIO_getInputPinValue(GPIO_PORT_P6,GPIO_PIN3);
+        case SENSOR4:
+            return GPIO_getInputPinValue(GPIO_PORT_P6,GPIO_PIN2);
+        case SENSOR5:
+            return GPIO_getInputPinValue(GPIO_PORT_P6,GPIO_PIN1);
+        case SENSOR6:
+            return GPIO_getInputPinValue(GPIO_PORT_P6,GPIO_PIN0);
+        case SENSOR7:
+            return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN0);
+        case SENSOR8:
+            return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN3);
+        case SENSOR9:
+            return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN4);
+        case SENSOR10:
+            return GPIO_getInputPinValue(GPIO_PORT_P1,GPIO_PIN0);
+        case SENSOR11:
+            return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN5);
+        case SENSOR12:
+            return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN2);
+        case SENSOR13:
+            return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN1);
+        case SENSOR14:
+            return GPIO_getInputPinValue(GPIO_PORT_P1,GPIO_PIN6);
+        default: return 0x00;
+    }
+}
+
+
 
 
 //Handler
