@@ -8,6 +8,10 @@
 #ifndef TRIK_SENSOR_H_
 #define TRIK_SENSOR_H_
 
+//Configuration parameters
+#define DISABLE 0
+#define ENABLE  1
+
 //Sensor registers
 #define SSCTL 0x00
 #define SSIDX 0x01
