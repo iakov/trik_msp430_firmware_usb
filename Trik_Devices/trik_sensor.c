@@ -136,6 +136,89 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
     }
 }
 
+void SENSOR_enableDigitalMode(uint8_t SENS_NUMBER)
+{
+    SENS[SENS_NUMBER-SENSOR1].SENS_MOD = DIGITAL_INP;
+    switch (SENS_NUMBER)
+    {
+        case SENSOR1:
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_OFF) GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN5);
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_DN)  GPIO_setAsInputPinWithPullDownresistor(GPIO_PORT_P6,GPIO_PIN5);
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)  GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN5);
+            break;
+        case SENSOR2:
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_OFF) GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN4);
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_DN)  GPIO_setAsInputPinWithPullDownresistor(GPIO_PORT_P6,GPIO_PIN4);
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)  GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN4);
+            break;
+        case SENSOR3:
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_OFF) GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN3);
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_DN)  GPIO_setAsInputPinWithPullDownresistor(GPIO_PORT_P6,GPIO_PIN3);
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)  GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN3);
+            break;
+        case SENSOR4:
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_OFF) GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN2);
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_DN)  GPIO_setAsInputPinWithPullDownresistor(GPIO_PORT_P6,GPIO_PIN2);
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)  GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN2);
+            break;
+        case SENSOR5:
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_OFF) GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN1);
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_DN)  GPIO_setAsInputPinWithPullDownresistor(GPIO_PORT_P6,GPIO_PIN1);
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)  GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN1);
+            break;
+        case SENSOR6:
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_OFF) GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN0);
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_DN)  GPIO_setAsInputPinWithPullDownresistor(GPIO_PORT_P6,GPIO_PIN0);
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)  GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN0);
+            break;
+        case SENSOR7:
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_OFF) GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN0);
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_DN)  GPIO_setAsInputPinWithPullDownresistor(GPIO_PORT_P2,GPIO_PIN0);
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)  GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN0);
+            break;
+        case SENSOR8:
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_OFF) GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN3);
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_DN)  GPIO_setAsInputPinWithPullDownresistor(GPIO_PORT_P2,GPIO_PIN3);
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)  GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN3);
+            break;
+        case SENSOR9:
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_OFF) GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN4);
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_DN)  GPIO_setAsInputPinWithPullDownresistor(GPIO_PORT_P2,GPIO_PIN4);
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)  GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN4);
+            break;
+        case SENSOR10:
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_OFF) GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN0);
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_DN)  GPIO_setAsInputPinWithPullDownresistor(GPIO_PORT_P1,GPIO_PIN0);
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)  GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P1,GPIO_PIN0);
+            break;
+        case SENSOR11:
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_OFF) GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN5);
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_DN)  GPIO_setAsInputPinWithPullDownresistor(GPIO_PORT_P2,GPIO_PIN5);
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)  GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN5);
+            break;
+        case SENSOR12:
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_OFF) GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN2);
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_DN)  GPIO_setAsInputPinWithPullDownresistor(GPIO_PORT_P2,GPIO_PIN2);
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)  GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN2);
+            break;
+        case SENSOR13:
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_OFF) GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN1);
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_DN)  GPIO_setAsInputPinWithPullDownresistor(GPIO_PORT_P2,GPIO_PIN1);
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)  GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN1);
+            break;
+        case SENSOR14:
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_OFF) GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN6);
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_DN)  GPIO_setAsInputPinWithPullDownresistor(GPIO_PORT_P1,GPIO_PIN6);
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)  GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P1,GPIO_PIN6);
+            break;
+        default:;
+    }
+}
+
+void SENSOR_enableAnalogMode(uint8_t SENS_NUMBER)
+{
+
+}
 
 
 
@@ -157,9 +240,16 @@ uint8_t SENSOR_hadler(uint8_t SENS_NUMBER)
             SENS[SENS_NUMBER-SENSOR1].SENS_MOD = DISABLE;
         }
 
-
-
         //Select between discrete and analog mode
+        if (SENS[SENS_NUMBER-SENSOR1].SCTL & 0x2000)
+        {
+            SENSOR_enableAnalogMode(SENS_NUMBER);
+        }
+        else
+        {
+            SENSOR_enableDigitalMode(SENS_NUMBER);
+        }
+
 
 
         return 0x00;

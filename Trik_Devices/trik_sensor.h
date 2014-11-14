@@ -30,6 +30,11 @@
 #define MCU_TEMP        0x0004
 #define DIST_SENSOR     0x0004
 
+//Pull resistors
+#define PULL_OFF 0x00
+#define PULL_DN  0x01
+#define PULL_UP  0x02
+
 //Prototypes for the APIs
 uint8_t SENSOR_hadler(uint8_t SENS_NUMBER);
 uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER);
@@ -38,8 +43,10 @@ uint32_t SENSOR_read_voltage(uint8_t SENS_NUMBER);
 uint32_t SENSOR_read_current(uint8_t SENS_NUMBER);
 uint32_t SENSOR_read_temperature(uint8_t SENS_NUMBER);
 uint32_t SENSOR_read_distance(uint8_t SENS_NUMBER);
-void SENSOR_enableController(uint8_t MOT_NUMBER);
-void SENSOR_disableController(uint8_t MOT_NUMBER);
+void SENSOR_enableController(uint8_t SENS_NUMBER);
+void SENSOR_disableController(uint8_t SENS_NUMBER);
+void SENSOR_enableDigitalMode(uint8_t SENS_NUMBER);
+void SENSOR_enableAnalogMode(uint8_t SENS_NUMBER);
 
 //Max motors
 #define MAX_SENSORS 14
