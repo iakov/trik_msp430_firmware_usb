@@ -20,25 +20,65 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
         switch (MOT_NUMBER)
         {
             case MOTOR1:
-                GPIO_setOutputLowOnPin(GPIO_PORT_P5, GPIO_PIN4 | GPIO_PIN5);
+                if (MOT[MOT_NUMBER].MOT_DIR==FORWARD)
+                {
+                    GPIO_setOutputHighOnPin(GPIO_PORT_P5, GPIO_PIN4);
+                    GPIO_setOutputLowOnPin(GPIO_PORT_P5, GPIO_PIN5);
+                } else
+                {
+                    GPIO_setOutputHighOnPin(GPIO_PORT_P5, GPIO_PIN5);
+                    GPIO_setOutputLowOnPin(GPIO_PORT_P5, GPIO_PIN4);
+                }
+
+
                 GPIO_setAsOutputPin(GPIO_PORT_P5, GPIO_PIN4 | GPIO_PIN5);
                 GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN2);
                 GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN1);
                 break;
             case MOTOR2:
-                GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN0 | GPIO_PIN0);
+                if (MOT[MOT_NUMBER].MOT_DIR==FORWARD)
+                {
+                    GPIO_setOutputHighOnPin(GPIO_PORT_P4, GPIO_PIN0);
+                    GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN1);
+                } else
+                {
+                    GPIO_setOutputHighOnPin(GPIO_PORT_P4, GPIO_PIN1);
+                    GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN0);
+                }
+
+
                 GPIO_setAsOutputPin(GPIO_PORT_P4, GPIO_PIN0 | GPIO_PIN1);
                 GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN3);
                 GPIO_setAsInputPin(GPIO_PORT_P2, GPIO_PIN6);
                 break;
             case MOTOR3:
-                GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN0 | GPIO_PIN1);
+                if (MOT[MOT_NUMBER].MOT_DIR==FORWARD)
+                {
+                    GPIO_setOutputHighOnPin(GPIO_PORT_PJ, GPIO_PIN0);
+                    GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN1);
+                } else
+                {
+                    GPIO_setOutputHighOnPin(GPIO_PORT_PJ, GPIO_PIN1);
+                    GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN0);
+                }
+
+
                 GPIO_setAsOutputPin(GPIO_PORT_PJ, GPIO_PIN0 | GPIO_PIN1);
                 GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN4);
                 GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN7);
                 break;
             case MOTOR4:
-                GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN2 | GPIO_PIN3);
+                if (MOT[MOT_NUMBER].MOT_DIR==FORWARD)
+                {
+                    GPIO_setOutputHighOnPin(GPIO_PORT_PJ, GPIO_PIN2);
+                    GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN3);
+                } else
+                {
+                    GPIO_setOutputHighOnPin(GPIO_PORT_PJ, GPIO_PIN3);
+                    GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN2);
+                }
+
+
                 GPIO_setAsOutputPin(GPIO_PORT_PJ, GPIO_PIN2 | GPIO_PIN3);
                 GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN5);
                 GPIO_setAsInputPin(GPIO_PORT_P2, GPIO_PIN7);
@@ -48,32 +88,34 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
     }
 }
 
-void MOTOR_disableController(uint8_t MOT_NUMBER)
+/*
+void MOTOR_rotationBackward(uint8_t MOT_NUMBER)
 {
-    busy_table[MOT_NUMBER]=NNONE;
-    MOT[MOT_NUMBER].MOT_EN = DISABLE;
+    MOT[MOT_NUMBER].MOT_DIR = BACKWARD;
     switch (MOT_NUMBER)
     {
         case MOTOR1:
-            GPIO_setAsInputPin(GPIO_PORT_P5, GPIO_PIN4 | GPIO_PIN5);
-            GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN2);
+            GPIO_setOutputHighOnPin(GPIO_PORT_P5, GPIO_PIN5);
+            GPIO_setOutputLowOnPin(GPIO_PORT_P5, GPIO_PIN4);
             break;
         case MOTOR2:
-            GPIO_setAsInputPin(GPIO_PORT_P4, GPIO_PIN0 | GPIO_PIN1);
-            GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN3);
+            GPIO_setOutputHighOnPin(GPIO_PORT_P4, GPIO_PIN1);
+            GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN0);
             break;
         case MOTOR3:
-            GPIO_setAsInputPin(GPIO_PORT_PJ, GPIO_PIN0 | GPIO_PIN1);
-            GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN4);
+            GPIO_setOutputHighOnPin(GPIO_PORT_PJ, GPIO_PIN1);
+            GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN0);
             break;
         case MOTOR4:
-            GPIO_setAsInputPin(GPIO_PORT_PJ, GPIO_PIN2 | GPIO_PIN3);
-            GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN5);
+            GPIO_setOutputHighOnPin(GPIO_PORT_PJ, GPIO_PIN3);
+            GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN2);
             break;
         default:;
     }
 }
+*/
 
+/*
 void MOTOR_rotationForward(uint8_t MOT_NUMBER)
 {
     MOT[MOT_NUMBER].MOT_DIR = FORWARD;
@@ -98,27 +140,29 @@ void MOTOR_rotationForward(uint8_t MOT_NUMBER)
         default:;
     }
 }
+*/
 
-void MOTOR_rotationBackward(uint8_t MOT_NUMBER)
+void MOTOR_disableController(uint8_t MOT_NUMBER)
 {
-    MOT[MOT_NUMBER].MOT_DIR = BACKWARD;
+    busy_table[MOT_NUMBER]=NNONE;
+    MOT[MOT_NUMBER].MOT_EN = DISABLE;
     switch (MOT_NUMBER)
     {
         case MOTOR1:
-            GPIO_setOutputHighOnPin(GPIO_PORT_P5, GPIO_PIN5);
-            GPIO_setOutputLowOnPin(GPIO_PORT_P5, GPIO_PIN4);
+            GPIO_setAsInputPin(GPIO_PORT_P5, GPIO_PIN4 | GPIO_PIN5);
+            GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN2);
             break;
         case MOTOR2:
-            GPIO_setOutputHighOnPin(GPIO_PORT_P4, GPIO_PIN1);
-            GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN0);
+            GPIO_setAsInputPin(GPIO_PORT_P4, GPIO_PIN0 | GPIO_PIN1);
+            GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN3);
             break;
         case MOTOR3:
-            GPIO_setOutputHighOnPin(GPIO_PORT_PJ, GPIO_PIN1);
-            GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN0);
+            GPIO_setAsInputPin(GPIO_PORT_PJ, GPIO_PIN0 | GPIO_PIN1);
+            GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN4);
             break;
         case MOTOR4:
-            GPIO_setOutputHighOnPin(GPIO_PORT_PJ, GPIO_PIN3);
-            GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN2);
+            GPIO_setAsInputPin(GPIO_PORT_PJ, GPIO_PIN2 | GPIO_PIN3);
+            GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN5);
             break;
         default:;
     }
@@ -322,9 +366,9 @@ uint8_t MOTOR_hadler(uint8_t MOT_NUMBER)
 
         //Forward/backward
         if (MOT[MOT_NUMBER].MCTL & 0x0010)
-            MOTOR_rotationBackward(MOT_NUMBER);
+            MOT[MOT_NUMBER].MOT_DIR = BACKWARD;
         else
-            MOTOR_rotationForward(MOT_NUMBER);
+            MOT[MOT_NUMBER].MOT_DIR = FORWARD;
 
         //Fast brake enable/disable
         if (MOT[MOT_NUMBER].MCTL & 0x0008)
