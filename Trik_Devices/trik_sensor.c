@@ -76,8 +76,10 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
     }
 }
 
+
 uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
 {
+
     switch (SENS_NUMBER)
     {
         case SENSOR1:
@@ -135,6 +137,7 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
         default: return 0x00;
     }
 }
+
 
 void SENSOR_enableDigitalMode(uint8_t SENS_NUMBER)
 {
@@ -215,9 +218,14 @@ void SENSOR_enableDigitalMode(uint8_t SENS_NUMBER)
     }
 }
 
+
 void SENSOR_enableAnalogMode(uint8_t SENS_NUMBER)
 {
     SENS[SENS_NUMBER-SENSOR1].SENS_MOD = ANALOG_INP;
+    while(Ref_isRefGenBusy(REF_BASE)) ;
+    REF_setReferenceVoltage(REF_BASE,REF_VREF2_5V);
+    REF_enableReferenceVoltage(REF_BASE);
+    REF_enableTempSensor(REF_BASE);
     switch (SENS_NUMBER)
     {
         case SENSOR1:
