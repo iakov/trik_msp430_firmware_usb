@@ -79,21 +79,62 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
 
 uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
 {
-
     switch (SENS_NUMBER)
     {
         case SENSOR1:
-
+            ADC10_A_memoryConfigure(ADC10_A_BASE,
+                    ADC10_A_INPUT_A5,
+                    ADC10_A_VREFPOS_INT,
+                    ADC10_A_VREFNEG_AVSS);
+            ADC10_A_startConversion(ADC10_A_BASE,
+                    ADC10_A_SINGLECHANNEL);
+            while(ADC10_A_isBusy(ADC10_A_BASE));
+            return ADC10_A_getResults(ADC10_A_BASE);
         case SENSOR2:
-
+            ADC10_A_memoryConfigure(ADC10_A_BASE,
+                    ADC10_A_INPUT_A4,
+                    ADC10_A_VREFPOS_INT,
+                    ADC10_A_VREFNEG_AVSS);
+            ADC10_A_startConversion(ADC10_A_BASE,
+                    ADC10_A_SINGLECHANNEL);
+            while(ADC10_A_isBusy(ADC10_A_BASE));
+            return ADC10_A_getResults(ADC10_A_BASE);
         case SENSOR3:
-
+            ADC10_A_memoryConfigure(ADC10_A_BASE,
+                    ADC10_A_INPUT_A3,
+                    ADC10_A_VREFPOS_INT,
+                    ADC10_A_VREFNEG_AVSS);
+            ADC10_A_startConversion(ADC10_A_BASE,
+                    ADC10_A_SINGLECHANNEL);
+            while(ADC10_A_isBusy(ADC10_A_BASE));
+            return ADC10_A_getResults(ADC10_A_BASE);
         case SENSOR4:
-
+            ADC10_A_memoryConfigure(ADC10_A_BASE,
+                    ADC10_A_INPUT_A2,
+                    ADC10_A_VREFPOS_INT,
+                    ADC10_A_VREFNEG_AVSS);
+            ADC10_A_startConversion(ADC10_A_BASE,
+                    ADC10_A_SINGLECHANNEL);
+            while(ADC10_A_isBusy(ADC10_A_BASE));
+            return ADC10_A_getResults(ADC10_A_BASE);
         case SENSOR5:
-
+            ADC10_A_memoryConfigure(ADC10_A_BASE,
+                    ADC10_A_INPUT_A1,
+                    ADC10_A_VREFPOS_INT,
+                    ADC10_A_VREFNEG_AVSS);
+            ADC10_A_startConversion(ADC10_A_BASE,
+                    ADC10_A_SINGLECHANNEL);
+            while(ADC10_A_isBusy(ADC10_A_BASE));
+            return ADC10_A_getResults(ADC10_A_BASE);
         case SENSOR6:
-
+            ADC10_A_memoryConfigure(ADC10_A_BASE,
+                    ADC10_A_INPUT_A0,
+                    ADC10_A_VREFPOS_INT,
+                    ADC10_A_VREFNEG_AVSS);
+            ADC10_A_startConversion(ADC10_A_BASE,
+                    ADC10_A_SINGLECHANNEL);
+            while(ADC10_A_isBusy(ADC10_A_BASE));
+            return ADC10_A_getResults(ADC10_A_BASE);
         case SENSOR7:
             if (GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN0))
                 return 0xFFFFFFFF;
@@ -234,7 +275,7 @@ void SENSOR_enableDigitalMode(uint8_t SENS_NUMBER)
 void SENSOR_enableAnalogMode(uint8_t SENS_NUMBER)
 {
     SENS[SENS_NUMBER-SENSOR1].SENS_MOD = ANALOG_INP;
-    while(Ref_isRefGenBusy(REF_BASE)) ;
+    while(REF_isRefGenBusy(REF_BASE));
     REF_setReferenceVoltage(REF_BASE,REF_VREF2_5V);
     REF_enableReferenceVoltage(REF_BASE);
     REF_enableTempSensor(REF_BASE);
