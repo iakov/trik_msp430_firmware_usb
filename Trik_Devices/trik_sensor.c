@@ -148,31 +148,43 @@ void SENSOR_enableDigitalMode(uint8_t SENS_NUMBER)
             if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_OFF) GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN5);
             if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_DN)  GPIO_setAsInputPinWithPullDownresistor(GPIO_PORT_P6,GPIO_PIN5);
             if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)  GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN5);
+            GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN5);
+            GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN5);
             break;
         case SENSOR2:
             if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_OFF) GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN4);
             if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_DN)  GPIO_setAsInputPinWithPullDownresistor(GPIO_PORT_P6,GPIO_PIN4);
             if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)  GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN4);
+            GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN4);
+            GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN4);
             break;
         case SENSOR3:
             if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_OFF) GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN3);
             if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_DN)  GPIO_setAsInputPinWithPullDownresistor(GPIO_PORT_P6,GPIO_PIN3);
             if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)  GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN3);
+            GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN3);
+            GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN3);
             break;
         case SENSOR4:
             if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_OFF) GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN2);
             if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_DN)  GPIO_setAsInputPinWithPullDownresistor(GPIO_PORT_P6,GPIO_PIN2);
             if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)  GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN2);
+            GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN2);
+            GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN2);
             break;
         case SENSOR5:
             if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_OFF) GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN1);
             if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_DN)  GPIO_setAsInputPinWithPullDownresistor(GPIO_PORT_P6,GPIO_PIN1);
             if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)  GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN1);
+            GPIO_setOutputLowOnPin(GPIO_PORT_P3,GPIO_PIN2);
+            GPIO_setAsOutputPin(GPIO_PORT_P3,GPIO_PIN2);
             break;
         case SENSOR6:
             if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_OFF) GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN0);
             if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_DN)  GPIO_setAsInputPinWithPullDownresistor(GPIO_PORT_P6,GPIO_PIN0);
             if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)  GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN0);
+            GPIO_setOutputLowOnPin(GPIO_PORT_P3,GPIO_PIN4);
+            GPIO_setAsOutputPin(GPIO_PORT_P3,GPIO_PIN4);
             break;
         case SENSOR7:
             if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_OFF) GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN0);
@@ -226,16 +238,70 @@ void SENSOR_enableAnalogMode(uint8_t SENS_NUMBER)
     REF_setReferenceVoltage(REF_BASE,REF_VREF2_5V);
     REF_enableReferenceVoltage(REF_BASE);
     REF_enableTempSensor(REF_BASE);
+    ADC10_A_init(ADC10_A_BASE,
+                 ADC10_A_SAMPLEHOLDSOURCE_SC,
+                 ADC10_A_CLOCKSOURCE_SMCLK,
+                 ADC10_A_CLOCKDIVIDER_1);
+    ADC10_A_enable(ADC10_A_BASE);
     switch (SENS_NUMBER)
     {
         case SENSOR1:
             GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN5);
+            GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN5);
+            GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN5);
+            break;
+        case SENSOR2:
+            GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN4);
+            GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN4);
+            GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN4);
+            break;
+        case SENSOR3:
+            GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN3);
+            GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN3);
+            GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN3);
+            break;
+        case SENSOR4:
+            GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN2);
+            GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN2);
+            GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN2);
+            break;
+        case SENSOR5:
+            GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN1);
+            GPIO_setOutputLowOnPin(GPIO_PORT_P3,GPIO_PIN2);
+            GPIO_setAsOutputPin(GPIO_PORT_P3,GPIO_PIN2);
+            break;
+        case SENSOR6:
+            GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN0);
+            GPIO_setOutputLowOnPin(GPIO_PORT_P3,GPIO_PIN4);
+            GPIO_setAsOutputPin(GPIO_PORT_P3,GPIO_PIN4);
+            break;
+        case SENSOR7:
+            GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN0);
+            break;
+        case SENSOR8:
+            GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN3);
+            break;
+        case SENSOR9:
+            GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN4);
+            break;
+        case SENSOR10:
+            GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN0);
+            break;
+        case SENSOR11:
+            GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN5);
+            break;
+        case SENSOR12:
+            GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN2);
+            break;
+        case SENSOR13:
+            GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN1);
+            break;
+        case SENSOR14:
+            GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN6);
             break;
         default:;
     }
 }
-
-
 
 //Handler
 uint8_t SENSOR_hadler(uint8_t SENS_NUMBER)
