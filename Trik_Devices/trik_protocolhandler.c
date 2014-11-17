@@ -293,8 +293,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
             PROTOCOL_transResponse(out_str,devaddr1,errhandler);
             return NO_ERROR;
         }
-
-        /*
+/*
         //Sensors
         if ((devaddr1>=SENSOR1) && (devaddr1<=SENSOR14))
         {
@@ -303,8 +302,8 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
             if (regaddr1==SSCTL) errhandler=SENSOR_hadler(devaddr1);
             PROTOCOL_transResponse(out_str,devaddr1,errhandler);
             return NO_ERROR;
-        }*/
-
+        }
+*/
         //Async timer
         if ((devaddr1==ASYNCTIMER))
         {

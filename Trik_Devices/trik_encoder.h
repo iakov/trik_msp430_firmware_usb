@@ -29,8 +29,8 @@
 uint8_t ENCODER_hadler(uint8_t ENC_NUMBER);
 void ENCODER_enableController(uint8_t ENC_NUMBER);
 void ENCODER_disableController(uint8_t ENC_NUMBER);
-void ENCODER_enablePullup(uint8_t ENC_NUMBER);
-void ENCODER_disablePullup(uint8_t ENC_NUMBER);
+//void ENCODER_enablePullup(uint8_t ENC_NUMBER);
+//void ENCODER_disablePullup(uint8_t ENC_NUMBER);
 void ENCODER_fallingEdge(uint8_t ENC_NUMBER);
 void ENCODER_risingEdge(uint8_t ENC_NUMBER);
 uint32_t ENCODER_getEncoderValue(uint8_t ENC_NUMBER);
