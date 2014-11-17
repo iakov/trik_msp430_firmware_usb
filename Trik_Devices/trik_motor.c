@@ -13,7 +13,7 @@
 //API functions
 void MOTOR_enableController(uint8_t MOT_NUMBER)
 {
-    if (busy_table[MOT_NUMBER]==NNONE)
+    if ((busy_table[MOT_NUMBER]==NNONE) || (busy_table[MOT_NUMBER]==MOT_NUMBER))
     {
         busy_table[MOT_NUMBER]=MOT_NUMBER;
         MOT[MOT_NUMBER].MOT_EN = ENABLE;
@@ -29,6 +29,8 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                     GPIO_setOutputHighOnPin(GPIO_PORT_P5, GPIO_PIN5);
                     GPIO_setOutputLowOnPin(GPIO_PORT_P5, GPIO_PIN4);
                 }
+                GPIO_setAsOutputPin(GPIO_PORT_P5, GPIO_PIN4 | GPIO_PIN5);
+                GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN2);
                 if (MOT[MOT_NUMBER].MOT_PWR==ENABLE)
                 {
                     if (MOT[MOT_NUMBER].MOT_MOD!=CONT_MODE) MOT[MOT_NUMBER].MVAL = 0;
@@ -41,8 +43,6 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                             MOT[MOT_NUMBER].MDUT);
                 } else
                     MOTOR_stop(MOT_NUMBER);
-                GPIO_setAsOutputPin(GPIO_PORT_P5, GPIO_PIN4 | GPIO_PIN5);
-                GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN2);
                 GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN1);
                 break;
             case MOTOR2:
