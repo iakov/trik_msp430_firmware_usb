@@ -331,6 +331,13 @@ uint8_t SENSOR_hadler(uint8_t SENS_NUMBER)
             SENSOR_enableDigitalMode(SENS_NUMBER);
         }
 
+        //Start single read
+        if (SENS[SENS_NUMBER-SENSOR1].SCTL & 0x0001)
+        {
+            if (SENS[SENS_NUMBER-SENSOR1].SIDX==DIGITAL_INP) SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_digital(SENS_NUMBER);
+            if (SENS[SENS_NUMBER-SENSOR1].SIDX==ANALOG_INP)  SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_analog(SENS_NUMBER);
+        }
+
 
 
         return 0x00;
