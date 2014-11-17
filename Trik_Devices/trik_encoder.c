@@ -30,7 +30,10 @@ void ENCODER_enableController(uint8_t ENC_NUMBER)
                 else
                     GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3);
                 GPIO_enableInterrupt(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3);
-                GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3,GPIO_LOW_TO_HIGH_TRANSITION);
+                if (ENC[ENC_NUMBER-ENCODER1].ENC_EDG==RIS_EDGE)
+                    GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3,GPIO_LOW_TO_HIGH_TRANSITION);
+                else
+                    GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3,GPIO_HIGH_TO_LOW_TRANSITION);
                 GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3);
                 break;
             case ENCODER2:
@@ -45,7 +48,10 @@ void ENCODER_enableController(uint8_t ENC_NUMBER)
                 }
                 GPIO_enableInterrupt(GPIO_PORT_P2,GPIO_PIN4);
                 //GPIO_enableInterrupt(GPIO_PORT_P1,GPIO_PIN0);
-                GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN4,GPIO_LOW_TO_HIGH_TRANSITION);
+                if (ENC[ENC_NUMBER-ENCODER1].ENC_EDG==RIS_EDGE)
+                    GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN4,GPIO_LOW_TO_HIGH_TRANSITION);
+                else
+                    GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN4,GPIO_HIGH_TO_LOW_TRANSITION);
                 //GPIO_interruptEdgeSelect(GPIO_PORT_P1,GPIO_PIN0,GPIO_LOW_TO_HIGH_TRANSITION);
                 GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN4);
                 //GPIO_clearInterruptFlag(GPIO_PORT_P1,GPIO_PIN0);
@@ -62,7 +68,10 @@ void ENCODER_enableController(uint8_t ENC_NUMBER)
                 }
                 GPIO_enableInterrupt(GPIO_PORT_P2,GPIO_PIN1);
                 //GPIO_enableInterrupt(GPIO_PORT_P1,GPIO_PIN6);
-                GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN1,GPIO_LOW_TO_HIGH_TRANSITION);
+                if (ENC[ENC_NUMBER-ENCODER1].ENC_EDG==RIS_EDGE)
+                    GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN1,GPIO_LOW_TO_HIGH_TRANSITION);
+                else
+                    GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN1,GPIO_HIGH_TO_LOW_TRANSITION);
                 //GPIO_interruptEdgeSelect(GPIO_PORT_P1,GPIO_PIN6,GPIO_LOW_TO_HIGH_TRANSITION);
                 GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN1);
                 //GPIO_clearInterruptFlag(GPIO_PORT_P1,GPIO_PIN6);
@@ -73,7 +82,10 @@ void ENCODER_enableController(uint8_t ENC_NUMBER)
                 else
                     GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5);
                 GPIO_enableInterrupt(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5);
-                GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5,GPIO_LOW_TO_HIGH_TRANSITION);
+                if (ENC[ENC_NUMBER-ENCODER1].ENC_EDG==RIS_EDGE)
+                    GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5,GPIO_LOW_TO_HIGH_TRANSITION);
+                else
+                    GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5,GPIO_HIGH_TO_LOW_TRANSITION);
                 GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5);
                 break;
             default:;
@@ -203,6 +215,7 @@ void ENCODER_disablePullup(uint8_t ENC_NUMBER)
 }
 */
 
+/*
 void ENCODER_risingEdge(uint8_t ENC_NUMBER)
 {
     ENC[ENC_NUMBER-ENCODER1].ENC_EDG = RIS_EDGE;
@@ -241,7 +254,9 @@ void ENCODER_risingEdge(uint8_t ENC_NUMBER)
         default:;
     }
 }
+*/
 
+/*
 void ENCODER_fallingEdge(uint8_t ENC_NUMBER)
 {
     ENC[ENC_NUMBER-ENCODER1].ENC_EDG = FAL_EDGE;
@@ -280,60 +295,37 @@ void ENCODER_fallingEdge(uint8_t ENC_NUMBER)
         default:;
     }
 }
-
-
+*/
 
 //Handler
 uint8_t ENCODER_hadler(uint8_t ENC_NUMBER)
 {
-    if (ENC[ENC_NUMBER-ENCODER1].ECTL & 0x8000)
-    {
-        //Async/single read mode
-        if (ENC[ENC_NUMBER-ENCODER1].ECTL & 0x4000)
-            ENC[ENC_NUMBER-ENCODER1].ENC_MOD = ENABLE;
-        else
-            ENC[ENC_NUMBER-ENCODER1].ENC_MOD = DISABLE;
-
-        //1-wire/2-wire mode
-        if (ENC[ENC_NUMBER-ENCODER1].ECTL & 0x2000)
-            ENC[ENC_NUMBER-ENCODER1].ENC_TYP = WIRE2;
-        else
-            ENC[ENC_NUMBER-ENCODER1].ENC_TYP = WIRE1;
-
-        //Pull up resistors enable/disable
-        if (ENC[ENC_NUMBER-ENCODER1].ECTL & 0x1000)
-        {
-            //ENCODER_enablePullup(ENC_NUMBER);
-            ENC[ENC_NUMBER-ENCODER1].ENC_PUP = ENABLE;
-        }
-        else
-        {
-            //ENCODER_disablePullup(ENC_NUMBER);
-            ENC[ENC_NUMBER-ENCODER1].ENC_PUP = DISABLE;
-        }
-
-        //Edge select
-        if (ENC[ENC_NUMBER-ENCODER1].ECTL & 0x0800)
-        {
-            ENCODER_fallingEdge(ENC_NUMBER);
-        }
-        else
-        {
-            ENCODER_risingEdge(ENC_NUMBER);
-        }
-
-
-        //Enable/disable
-        if (!(ENC[ENC_NUMBER-ENCODER1].ENC_EN)) ENCODER_enableController(ENC_NUMBER);
-
-
-        return 0x00;
-    }
+    //Async/single read mode
+    if (ENC[ENC_NUMBER-ENCODER1].ECTL & 0x4000)
+        ENC[ENC_NUMBER-ENCODER1].ENC_MOD = ENABLE;
     else
-    {
-        if (ENC[ENC_NUMBER-ENCODER1].ENC_EN) ENCODER_disableController(ENC_NUMBER);
-        return 0x00;
-    }
+        ENC[ENC_NUMBER-ENCODER1].ENC_MOD = DISABLE;
+    //1-wire/2-wire mode
+    if (ENC[ENC_NUMBER-ENCODER1].ECTL & 0x2000)
+        ENC[ENC_NUMBER-ENCODER1].ENC_TYP = WIRE2;
+    else
+        ENC[ENC_NUMBER-ENCODER1].ENC_TYP = WIRE1;
+    //Pull up resistors enable/disable
+    if (ENC[ENC_NUMBER-ENCODER1].ECTL & 0x1000)
+        ENC[ENC_NUMBER-ENCODER1].ENC_PUP = ENABLE;
+    else
+        ENC[ENC_NUMBER-ENCODER1].ENC_PUP = DISABLE;
+    //Edge select
+    if (ENC[ENC_NUMBER-ENCODER1].ECTL & 0x0800)
+        ENC[ENC_NUMBER-ENCODER1].ENC_EDG = FAL_EDGE;
+    else
+        ENC[ENC_NUMBER-ENCODER1].ENC_EDG = RIS_EDGE;
+    //Enable/disable
+    if (ENC[ENC_NUMBER-ENCODER1].ECTL & 0x8000)
+        ENCODER_enableController(ENC_NUMBER);
+    else
+        ENCODER_disableController(ENC_NUMBER);
+    return 0x00;
 }
 
 //Interrupts

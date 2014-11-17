@@ -313,28 +313,18 @@ uint8_t MOTOR_hadler(uint8_t MOT_NUMBER)
         if (MOT[MOT_NUMBER].MCTL & 0x4000)
         {
             if (MOT[MOT_NUMBER].MCTL & 0x2000)
-            {
                 MOT[MOT_NUMBER].MOT_MOD = ANGLE_MODE;
-            }
             else
-            {
                 MOT[MOT_NUMBER].MOT_MOD = TIME_MODE;
-            }
         }
         else
-        {
             MOT[MOT_NUMBER].MOT_MOD = CONT_MODE;
-        }
 
         //Forward/backward
         if (MOT[MOT_NUMBER].MCTL & 0x0010)
-        {
             MOTOR_rotationBackward(MOT_NUMBER);
-        }
         else
-        {
             MOTOR_rotationForward(MOT_NUMBER);
-        }
 
         //Fast brake enable/disable
         if (MOT[MOT_NUMBER].MCTL & 0x0008)
