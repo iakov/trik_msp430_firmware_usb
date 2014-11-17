@@ -76,7 +76,6 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
     }
 }
 
-
 uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
 {
     switch (SENS_NUMBER)
@@ -179,7 +178,6 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
     }
 }
 
-
 void SENSOR_enableDigitalMode(uint8_t SENS_NUMBER)
 {
     SENS[SENS_NUMBER-SENSOR1].SENS_MOD = DIGITAL_INP;
@@ -271,7 +269,6 @@ void SENSOR_enableDigitalMode(uint8_t SENS_NUMBER)
     }
 }
 
-
 void SENSOR_enableAnalogMode(uint8_t SENS_NUMBER)
 {
     SENS[SENS_NUMBER-SENSOR1].SENS_MOD = ANALOG_INP;
@@ -362,7 +359,7 @@ uint8_t SENSOR_hadler(uint8_t SENS_NUMBER)
             SENS[SENS_NUMBER-SENSOR1].SENS_MOD = DISABLE;
         }
 
-        //Select between discrete and analog mode
+        //Select between digital and analog mode
         if (SENS[SENS_NUMBER-SENSOR1].SCTL & 0x2000)
         {
             SENSOR_enableAnalogMode(SENS_NUMBER);
@@ -372,14 +369,12 @@ uint8_t SENSOR_hadler(uint8_t SENS_NUMBER)
             SENSOR_enableDigitalMode(SENS_NUMBER);
         }
 
-        //Start single read
+        //Enable reading sensor data
         if (SENS[SENS_NUMBER-SENSOR1].SCTL & 0x0001)
         {
             if (SENS[SENS_NUMBER-SENSOR1].SIDX==DIGITAL_INP) SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_digital(SENS_NUMBER);
             if (SENS[SENS_NUMBER-SENSOR1].SIDX==ANALOG_INP)  SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_analog(SENS_NUMBER);
         }
-
-
 
         return 0x00;
     }
