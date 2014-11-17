@@ -11,3 +11,4 @@ Vagrantfile
 /Debug
 /driverlib
 USB_config_2CDC.rar
+USB_config_2CDC_HID.rar

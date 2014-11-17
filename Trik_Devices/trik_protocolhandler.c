@@ -7,7 +7,6 @@
 
 #include <string.h>
 #include <stdio.h>
-#include <stdint.h>
 #include <stdlib.h>
 #include "driverlib.h"
 #include "Trik_Devices/trik_protocolhandler.h"
@@ -148,7 +147,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	uint32_t regval1 = 0; //Register value
 	uint8_t crc1 = 0; //Cheksum
 	uint8_t crc2 = 0; //Calculated checksum
-	uint8_t errhandler = 0; //Result code of handlers
+	uint8_t errhandler = NO_ERROR; //Result code of handlers
 
 	//Clear output string
 	memset(out_str,0,MAX_STRING_LENGTH);
@@ -206,7 +205,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	}
 
 	//Sensor registers addresses range
-	if (((devaddr1>=SENSOR1) && (devaddr1<=SENSOR14)) && (regaddr1>0x04))
+	if (((devaddr1>=SENSOR1) && (devaddr1<=SENSOR14)) && (regaddr1>0x03))
 	{
 	    PROTOCOL_errResponse(out_str,devaddr1,func1,REG_ADDR_ERROR);
 		return REG_ADDR_ERROR;
@@ -279,13 +278,8 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	        }
 	        else
 	        {
-	            if (regaddr1==MMCTL)
-	            {
-	                errhandler=MOTOR_hadler(devaddr1);
-	                PROTOCOL_transResponse(out_str,devaddr1,errhandler);
-	            }
-	            else
-	                PROTOCOL_transResponse(out_str,devaddr1,NO_ERROR);
+	            if (regaddr1==MMCTL) errhandler=MOTOR_hadler(devaddr1);
+	            PROTOCOL_transResponse(out_str,devaddr1,errhandler);
 	            return NO_ERROR;
 	        }
 	    }
@@ -295,14 +289,21 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
         {
             if (regaddr1==EECTL) ENC[devaddr1-ENCODER1].ECTL=regval1;
             if (regaddr1==EEVAL) ENC[devaddr1-ENCODER1].EVAL=regval1;
-            if (regaddr1==EECTL)
-            {
-                errhandler=ENCODER_hadler(devaddr1);
-                PROTOCOL_transResponse(out_str,devaddr1,errhandler);
-            }
-            else PROTOCOL_transResponse(out_str,devaddr1,NO_ERROR);
+            if (regaddr1==EECTL) errhandler=ENCODER_hadler(devaddr1);
+            PROTOCOL_transResponse(out_str,devaddr1,errhandler);
             return NO_ERROR;
         }
+
+        /*
+        //Sensors
+        if ((devaddr1>=SENSOR1) && (devaddr1<=SENSOR14))
+        {
+            if (regaddr1==SSCTL) SENS[devaddr1-SENSOR1].SCTL=regval1;
+            if (regaddr1==SSIDX) SENS[devaddr1-SENSOR1].SIDX=regval1;
+            if (regaddr1==SSCTL) errhandler=SENSOR_hadler(devaddr1);
+            PROTOCOL_transResponse(out_str,devaddr1,errhandler);
+            return NO_ERROR;
+        }*/
 
         //Async timer
         if ((devaddr1==ASYNCTIMER))
@@ -310,12 +311,8 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
             if (regaddr1==AATCTL) ASYNCTMR.ATCTL=regval1;
             if (regaddr1==AATPER) ASYNCTMR.ATPER=regval1+MAX_DEVICES;
             if (regaddr1==AATVAL) ASYNCTMR.ATVAL=regval1;
-            if (regaddr1==AATCTL)
-            {
-                errhandler=ASYNCTIMER_hadler();
-                PROTOCOL_transResponse(out_str,devaddr1,errhandler);
-            }
-            else PROTOCOL_transResponse(out_str,devaddr1,NO_ERROR);
+            if (regaddr1==AATCTL) errhandler=ASYNCTIMER_hadler();
+            PROTOCOL_transResponse(out_str,devaddr1,errhandler);
             return NO_ERROR;
         }
 
