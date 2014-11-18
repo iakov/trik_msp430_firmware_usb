@@ -150,7 +150,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	uint8_t errhandler = NO_ERROR; //Result code of handlers
 
 	//Clear output string
-	memset(out_str,0,MAX_STRING_LENGTH);
+	//memset(out_str,0,MAX_STRING_LENGTH);
 
 	//Start condition error
 	if (in_str[0]!=':')
@@ -179,12 +179,12 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	regaddr1=strtoul(stmp1,&stmp1[2],16);
 
 	//Get register value
-	if (func1==0x03)
+	if (func1==FUNCx03)
 	{
 	    sprintf(stmp1,"%c%c%c%c",in_str[7],in_str[8],in_str[9],in_str[10]);
 	    regval1=strtoul(stmp1,&stmp1[4],16);
 	}
-	if (func1==0x04)
+	if (func1==FUNCx04)
 	{
 	    sprintf(stmp1,"%c%c%c%c%c%c%c%c",in_str[7],in_str[8],in_str[9],in_str[10],in_str[11],in_str[12],in_str[13],in_str[14]);
 	    regval1=strtoul(stmp1,&stmp1[8],16);
@@ -226,32 +226,32 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	}
 
 	//Function number check
-	if ((func1!=0x03) && (func1!=0x04) && (func1!=0x05) && (func1!=0x06))
+	if ((func1!=FUNCx03) && (func1!=FUNCx04) && (func1!=FUNCx05) && (func1!=FUNCx06))
 	{
 	    PROTOCOL_errResponse(out_str,devaddr1,func1,FUNC_CODE_ERROR);
 		return FUNC_CODE_ERROR;
 	}
 
 	//CRC check
-	if (func1==0x03)
+	if (func1==FUNCx03)
 	{
 	    sprintf(stmp1,"%c%c",in_str[11],in_str[12]);
 	    crc1=strtoul(stmp1,&stmp1[2],16);
 	}
-	if (func1==0x04)
+	if (func1==FUNCx04)
 	{
 	    sprintf(stmp1,"%c%c",in_str[15],in_str[16]);
 	    crc1=strtoul(stmp1,&stmp1[2],16);
 	}
-	if ((func1==0x05) || (func1==0x06))
+	if ((func1==FUNCx05) || (func1==FUNCx06))
 	{
 	    sprintf(stmp1,"%c%c",in_str[7],in_str[8]);
 	    crc1=strtoul(stmp1,&stmp1[2],16);
 	}
-	if ((func1==0x03) || (func1==0x04)) crc2=0-(devaddr1+func1+regaddr1+
+	if ((func1==FUNCx03) || (func1==FUNCx04)) crc2=0-(devaddr1+func1+regaddr1+
 	        (uint8_t)(regval1 & 0x000000FF)+(uint8_t)((regval1 & 0x0000FF00) >> 8)+
 	        (uint8_t)((regval1 & 0x00FF0000) >> 16)+(uint8_t)((regval1 & 0xFF000000) >> 24));
-	if ((func1==0x05) || (func1==0x06)) crc2=0-(devaddr1+func1+regaddr1);
+	if ((func1==FUNCx05) || (func1==FUNCx06)) crc2=0-(devaddr1+func1+regaddr1);
 	if (crc1!=crc2)
 	{
 	    PROTOCOL_errResponse(out_str,devaddr1,func1,CRC_ERROR);
@@ -259,7 +259,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	}
 
 	//Hadle of function 0x03 - write single 16 bit register
-	if (((func1==0x03) && (strlen(in_str)==13)) || ((func1==0x04) && (strlen(in_str)==17)))
+	if (((func1==FUNCx03) && (strlen(in_str)==13)) || ((func1==FUNCx04) && (strlen(in_str)==17)))
 	{
 	    //Motors
 	    if ((devaddr1>=MOTOR1) && (devaddr1<=MOTOR4))
@@ -330,7 +330,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	}
 
 	//Functions 0x05/0x06 - read single register
-    if (((func1==0x05) && (strlen(in_str)==9)) || ((func1==0x06) && (strlen(in_str)==9)))
+    if (((func1==FUNCx05) && (strlen(in_str)==9)) || ((func1==FUNCx06) && (strlen(in_str)==9)))
     {
 
         //Motors
@@ -367,8 +367,5 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 
     PROTOCOL_errResponse(out_str,devaddr1,func1,LENGTH_ERROR);
     return LENGTH_ERROR;
-
-    sprintf(out_str,":FFFFFF03\r\n");
-	return UNDEF_ERROR;
 }
 

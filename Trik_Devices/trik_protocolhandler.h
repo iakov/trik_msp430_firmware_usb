@@ -23,6 +23,12 @@
 #define LENGTH_ERROR 0x14
 #define UNDEF_ERROR 0xFF
 
+//Functions numbers
+#define FUNCx03 0x03
+#define FUNCx04 0x04
+#define FUNCx05 0x05
+#define FUNCx06 0x06
+
 //Register size
 #define REG_16bits 0
 #define REG_32bits 1
