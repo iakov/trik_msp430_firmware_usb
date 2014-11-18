@@ -274,19 +274,19 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	        if (regaddr1==MMANG) MOT[devaddr1].MANG=regval1;
 	        if (regaddr1==MMTMR) MOT[devaddr1].MTMR=regval1;
 	        if (regaddr1==MMVAL) MOT[devaddr1].MVAL=regval1;
+            //Error register values
+            if ((MOT[devaddr1].MPER==0) || (MOT[devaddr1].MDUT>MOT[devaddr1].MPER))
+            {
+                PROTOCOL_errResponse(out_str,devaddr1,func1,REG_VAL_ERROR);
+                return REG_VAL_ERROR;
+            }
             if (regaddr1==MMCTL)
             {
                 MOT[devaddr1].MCTL=regval1;
-                //Error register values
-                if (((MOT[devaddr1].MPER==0) || (MOT[devaddr1].MDUT>MOT[devaddr1].MPER)) && (MOT[devaddr1].MCTL & 0x0004))
-                {
-                    PROTOCOL_errResponse(out_str,devaddr1,func1,REG_VAL_ERROR);
-                    return REG_VAL_ERROR;
-                }
                 MOTOR_hadler(devaddr1);
-                PROTOCOL_transResponse(out_str,devaddr1,MOT[devaddr1].MSTA);
-                return NO_ERROR;
             }
+            PROTOCOL_transResponse(out_str,devaddr1,MOT[devaddr1].MSTA);
+            return NO_ERROR;
 	    }
 
 	    //Encoders
