@@ -45,32 +45,184 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
     switch (SENS_NUMBER)
     {
         case SENSOR1:
+            GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN5);
+            GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN5);
+            switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
+            {
+                case PULL_OFF:
+                    GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN5);
+                    break;
+                case PULL_UP:
+                    GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN5);
+                    break;
+                default:;
+            }
             return GPIO_getInputPinValue(GPIO_PORT_P6,GPIO_PIN5);
         case SENSOR2:
+            GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN4);
+            GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN4);
+            switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
+            {
+                case PULL_OFF:
+                    GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN4);
+                    break;
+                case PULL_UP:
+                    GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN4);
+                    break;
+                default:;
+            }
             return GPIO_getInputPinValue(GPIO_PORT_P6,GPIO_PIN4);
         case SENSOR3:
+            GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN3);
+            GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN3);
+            switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
+            {
+                case PULL_OFF:
+                    GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN3);
+                    break;
+                case PULL_UP:
+                    GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN3);
+                    break;
+                default:;
+            }
             return GPIO_getInputPinValue(GPIO_PORT_P6,GPIO_PIN3);
         case SENSOR4:
+            GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN2);
+            GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN2);
+            switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
+            {
+                case PULL_OFF:
+                    GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN2);
+                    break;
+                case PULL_UP:
+                    GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN2);
+                    break;
+                default:;
+            }
             return GPIO_getInputPinValue(GPIO_PORT_P6,GPIO_PIN2);
         case SENSOR5:
+            GPIO_setOutputLowOnPin(GPIO_PORT_P3,GPIO_PIN2);
+            GPIO_setAsOutputPin(GPIO_PORT_P3,GPIO_PIN2);
+            switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
+            {
+                case PULL_OFF:
+                    GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN1);
+                    break;
+                case PULL_UP:
+                    GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN1);
+                    break;
+                default:;
+            }
             return GPIO_getInputPinValue(GPIO_PORT_P6,GPIO_PIN1);
         case SENSOR6:
+            GPIO_setOutputLowOnPin(GPIO_PORT_P3,GPIO_PIN4);
+            GPIO_setAsOutputPin(GPIO_PORT_P3,GPIO_PIN4);
+            switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
+            {
+                case PULL_OFF:
+                    GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN0);
+                    break;
+                case PULL_UP:
+                    GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN0);
+                    break;
+                default:;
+            }
             return GPIO_getInputPinValue(GPIO_PORT_P6,GPIO_PIN0);
         case SENSOR7:
+            switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
+            {
+                case PULL_OFF:
+                    GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN0);
+                    break;
+                case PULL_UP:
+                    GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN0);
+                    break;
+                default:;
+            }
             return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN0);
         case SENSOR8:
+            switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
+            {
+                case PULL_OFF:
+                    GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN3);
+                    break;
+                case PULL_UP:
+                    GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN3);
+                    break;
+                default:;
+            }
             return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN3);
         case SENSOR9:
+            switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
+            {
+                case PULL_OFF:
+                    GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN4);
+                    break;
+                case PULL_UP:
+                    GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN4);
+                    break;
+                default:;
+            }
             return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN4);
         case SENSOR10:
+            switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
+            {
+                case PULL_OFF:
+                    GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN0);
+                    break;
+                case PULL_UP:
+                    GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P1,GPIO_PIN0);
+                    break;
+                default:;
+            }
             return GPIO_getInputPinValue(GPIO_PORT_P1,GPIO_PIN0);
         case SENSOR11:
+            switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
+            {
+                case PULL_OFF:
+                    GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN5);
+                    break;
+                case PULL_UP:
+                    GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN5);
+                    break;
+                default:;
+            }
             return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN5);
         case SENSOR12:
+            switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
+            {
+                case PULL_OFF:
+                    GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN2);
+                    break;
+                case PULL_UP:
+                    GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN2);
+                    break;
+                default:;
+            }
             return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN2);
         case SENSOR13:
+            switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
+            {
+                case PULL_OFF:
+                    GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN1);
+                    break;
+                case PULL_UP:
+                    GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN1);
+                    break;
+                default:;
+            }
             return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN1);
         case SENSOR14:
+            switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
+            {
+                case PULL_OFF:
+                    GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN6);
+                    break;
+                case PULL_UP:
+                    GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P1,GPIO_PIN6);
+                    break;
+                default:;
+            }
             return GPIO_getInputPinValue(GPIO_PORT_P1,GPIO_PIN6);
         default: return 0x00;
     }
@@ -78,6 +230,15 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
 
 uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
 {
+    while(REF_isRefGenBusy(REF_BASE));
+    REF_setReferenceVoltage(REF_BASE,REF_VREF2_5V);
+    REF_enableReferenceVoltage(REF_BASE);
+    REF_enableTempSensor(REF_BASE);
+    ADC10_A_init(ADC10_A_BASE,
+                 ADC10_A_SAMPLEHOLDSOURCE_SC,
+                 ADC10_A_CLOCKSOURCE_SMCLK,
+                 ADC10_A_CLOCKDIVIDER_1);
+    ADC10_A_enable(ADC10_A_BASE);
     switch (SENS_NUMBER)
     {
         case SENSOR1:
@@ -178,6 +339,7 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
     }
 }
 
+/*
 void SENSOR_enableDigitalMode(uint8_t SENS_NUMBER)
 {
     SENS[SENS_NUMBER-SENSOR1].SENS_MOD = DIGITAL_INP;
@@ -268,7 +430,9 @@ void SENSOR_enableDigitalMode(uint8_t SENS_NUMBER)
         default:;
     }
 }
+*/
 
+/*
 void SENSOR_enableAnalogMode(uint8_t SENS_NUMBER)
 {
     SENS[SENS_NUMBER-SENSOR1].SENS_MOD = ANALOG_INP;
@@ -340,6 +504,7 @@ void SENSOR_enableAnalogMode(uint8_t SENS_NUMBER)
         default:;
     }
 }
+*/
 
 //Handler
 uint8_t SENSOR_hadler(uint8_t SENS_NUMBER)
@@ -357,16 +522,6 @@ uint8_t SENSOR_hadler(uint8_t SENS_NUMBER)
         else
         {
             SENS[SENS_NUMBER-SENSOR1].SENS_MOD = DISABLE;
-        }
-
-        //Select between digital and analog mode
-        if (SENS[SENS_NUMBER-SENSOR1].SCTL & 0x2000)
-        {
-            SENSOR_enableAnalogMode(SENS_NUMBER);
-        }
-        else
-        {
-            SENSOR_enableDigitalMode(SENS_NUMBER);
         }
 
         //Enable reading sensor data

@@ -60,4 +60,8 @@
 //Busy table
 uint8_t busy_table[MAX_DEVICES];
 
+void initGlobalVars();
+void initReference();
+
+
 #endif
