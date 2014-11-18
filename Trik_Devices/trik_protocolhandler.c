@@ -369,6 +369,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
         //Sensors
         if ((devaddr1>=SENSOR1) && (devaddr1<=SENSOR14))
         {
+            SENSOR_hadler(devaddr1);
             if (regaddr1==SSCTL) PROTOCOL_recvResponse(out_str,devaddr1,SENS[devaddr1-SENSOR1].SSTA,regaddr1,SENS[devaddr1-SENSOR1].SCTL,REG_16bits);
             if (regaddr1==SSIDX) PROTOCOL_recvResponse(out_str,devaddr1,SENS[devaddr1-SENSOR1].SSTA,regaddr1,SENS[devaddr1-SENSOR1].SIDX,REG_16bits);
             if (regaddr1==SSVAL) PROTOCOL_recvResponse(out_str,devaddr1,SENS[devaddr1-SENSOR1].SSTA,regaddr1,SENS[devaddr1-SENSOR1].SVAL,REG_32bits);
