@@ -29,8 +29,11 @@
 #define MMVAL 0x05
 #define MMSTA 0x06
 
+//Motor errors
+#define MOT_NO_ERROR 0x00
+
 //Prototypes for the APIs
-uint8_t MOTOR_hadler(uint8_t MOT_NUMBER);
+void MOTOR_hadler(uint8_t MOT_NUMBER);
 void MOTOR_enableController(uint8_t MOT_NUMBER);
 void MOTOR_disableController(uint8_t MOT_NUMBER);
 //void MOTOR_rotationForward(uint8_t MOT_NUMBER);

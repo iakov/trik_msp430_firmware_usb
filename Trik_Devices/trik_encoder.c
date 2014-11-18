@@ -298,7 +298,7 @@ void ENCODER_fallingEdge(uint8_t ENC_NUMBER)
 */
 
 //Handler
-uint8_t ENCODER_hadler(uint8_t ENC_NUMBER)
+void ENCODER_hadler(uint8_t ENC_NUMBER)
 {
     //Async/single read mode
     if (ENC[ENC_NUMBER-ENCODER1].ECTL & 0x4000)
@@ -325,7 +325,8 @@ uint8_t ENCODER_hadler(uint8_t ENC_NUMBER)
         ENCODER_enableController(ENC_NUMBER);
     else
         ENCODER_disableController(ENC_NUMBER);
-    return 0x00;
+
+    ENC[ENC_NUMBER-ENCODER1].ESTA = ENC_NO_ERROR;
 }
 
 //Interrupts

@@ -25,8 +25,11 @@
 #define RIS_EDGE 0
 #define FAL_EDGE 1
 
+//Encoder errors
+#define ENC_NO_ERROR 0x00
+
 //Prototypes for the APIs
-uint8_t ENCODER_hadler(uint8_t ENC_NUMBER);
+void ENCODER_hadler(uint8_t ENC_NUMBER);
 void ENCODER_enableController(uint8_t ENC_NUMBER);
 void ENCODER_disableController(uint8_t ENC_NUMBER);
 //void ENCODER_enablePullup(uint8_t ENC_NUMBER);

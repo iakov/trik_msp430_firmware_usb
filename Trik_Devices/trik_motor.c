@@ -387,7 +387,7 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
 
 
 //Handler
-uint8_t MOTOR_hadler(uint8_t MOT_NUMBER)
+void MOTOR_hadler(uint8_t MOT_NUMBER)
 {
     //Continues/single mode
     if (MOT[MOT_NUMBER].MCTL & 0x4000)
@@ -419,5 +419,6 @@ uint8_t MOTOR_hadler(uint8_t MOT_NUMBER)
         MOTOR_enableController(MOT_NUMBER);
     else
         MOTOR_disableController(MOT_NUMBER);
-    return 0x00;
+
+    MOT[MOT_NUMBER].MSTA = MOT_NO_ERROR;
 }

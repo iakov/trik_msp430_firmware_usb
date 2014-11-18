@@ -285,8 +285,8 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
                 }
                 else
                 {
-                    errhandler=MOTOR_hadler(devaddr1);
-                    PROTOCOL_transResponse(out_str,devaddr1,errhandler);
+                    MOTOR_hadler(devaddr1);
+                    PROTOCOL_transResponse(out_str,devaddr1,MOT[devaddr1].MSTA);
                     return NO_ERROR;
                 }
             }
@@ -299,9 +299,9 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
             if (regaddr1==EECTL)
             {
                 ENC[devaddr1-ENCODER1].ECTL=regval1;
-                errhandler=ENCODER_hadler(devaddr1);
+                ENCODER_hadler(devaddr1);
             }
-            PROTOCOL_transResponse(out_str,devaddr1,errhandler);
+            PROTOCOL_transResponse(out_str,devaddr1,ENC[devaddr1-ENCODER1].ESTA);
             return NO_ERROR;
         }
 
@@ -312,9 +312,9 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
             if (regaddr1==SSCTL)
             {
                 SENS[devaddr1-SENSOR1].SCTL=regval1;
-                errhandler=SENSOR_hadler(devaddr1);
+                SENSOR_hadler(devaddr1);
             }
-            PROTOCOL_transResponse(out_str,devaddr1,errhandler);
+            PROTOCOL_transResponse(out_str,devaddr1,SENS[devaddr1-SENSOR1].SSTA);
             return NO_ERROR;
         }
 
@@ -326,17 +326,17 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
             if (regaddr1==AATCTL)
             {
                 ASYNCTMR.ATCTL=regval1;
-                errhandler=ASYNCTIMER_hadler();
+                ASYNCTIMER_hadler();
             }
-            PROTOCOL_transResponse(out_str,devaddr1,errhandler);
+            PROTOCOL_transResponse(out_str,devaddr1,NO_ERROR);
             return NO_ERROR;
         }
 
 	    //BSL
 	    if ((devaddr1==BSL) && (regaddr1==0x00))
 	    {
-	        errhandler=BSL_enterBSL(regval1);
-	        PROTOCOL_transResponse(out_str,devaddr1,errhandler);
+	        PROTOCOL_transResponse(out_str,devaddr1,
+	                BSL_enterBSL(regval1));
 	        return NO_ERROR;
 	    }
 
@@ -369,7 +369,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
-        //SensorsSENS[devaddr1-SENSOR1].SSTA
+        //Sensors
         if ((devaddr1>=SENSOR1) && (devaddr1<=SENSOR14))
         {
             if (regaddr1==SSCTL) PROTOCOL_recvResponse(out_str,devaddr1,SENS[devaddr1-SENSOR1].SSTA,regaddr1,SENS[devaddr1-SENSOR1].SCTL,REG_16bits);

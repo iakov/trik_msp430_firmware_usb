@@ -34,8 +34,11 @@
 #define PULL_OFF 0x00
 #define PULL_UP  0x01
 
+//Sensor errors
+#define SENS_NO_ERROR 0x00
+
 //Prototypes for the APIs
-uint8_t SENSOR_hadler(uint8_t SENS_NUMBER);
+void SENSOR_hadler(uint8_t SENS_NUMBER);
 uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER);
 uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER);
 uint32_t SENSOR_read_voltage(uint8_t SENS_NUMBER);
