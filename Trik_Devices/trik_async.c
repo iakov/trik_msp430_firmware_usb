@@ -38,13 +38,9 @@ void disableTimer_B()
 uint8_t ASYNCTIMER_hadler()
 {
     if (ASYNCTMR.ATCTL & 0x0003)
-    {
         enableTimer_B();
-    }
     else
-    {
         disableTimer_B();
-    }
     return 0x00;
 }
 
