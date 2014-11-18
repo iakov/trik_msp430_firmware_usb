@@ -17,13 +17,6 @@ void SENSOR_enableController(uint8_t SENS_NUMBER)
     {
         busy_table[SENS_NUMBER]=SENS_NUMBER;
         SENS[SENS_NUMBER-SENSOR1].SENS_EN = ENABLE;
-        switch (SENS_NUMBER)
-        {
-            case SENSOR1:
-
-                break;
-            default:;
-        }
     }
 }
 
@@ -31,13 +24,6 @@ void SENSOR_disableController(uint8_t SENS_NUMBER)
 {
     busy_table[SENS_NUMBER]=NNONE;
     SENS[SENS_NUMBER-SENSOR1].SENS_EN = DISABLE;
-    switch (SENS_NUMBER)
-    {
-        case SENSOR1:
-
-            break;
-        default:;
-    }
 }
 
 uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
@@ -233,6 +219,7 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
     switch (SENS_NUMBER)
     {
         case SENSOR1:
+            GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN5);
             ADC10_A_memoryConfigure(ADC10_A_BASE,
                     ADC10_A_INPUT_A5,
                     ADC10_A_VREFPOS_INT,
@@ -242,6 +229,7 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             while(ADC10_A_isBusy(ADC10_A_BASE));
             return ADC10_A_getResults(ADC10_A_BASE);
         case SENSOR2:
+            GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN4);
             ADC10_A_memoryConfigure(ADC10_A_BASE,
                     ADC10_A_INPUT_A4,
                     ADC10_A_VREFPOS_INT,
@@ -251,6 +239,7 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             while(ADC10_A_isBusy(ADC10_A_BASE));
             return ADC10_A_getResults(ADC10_A_BASE);
         case SENSOR3:
+            GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN3);
             ADC10_A_memoryConfigure(ADC10_A_BASE,
                     ADC10_A_INPUT_A3,
                     ADC10_A_VREFPOS_INT,
@@ -260,6 +249,7 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             while(ADC10_A_isBusy(ADC10_A_BASE));
             return ADC10_A_getResults(ADC10_A_BASE);
         case SENSOR4:
+            GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN2);
             ADC10_A_memoryConfigure(ADC10_A_BASE,
                     ADC10_A_INPUT_A2,
                     ADC10_A_VREFPOS_INT,
@@ -269,6 +259,7 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             while(ADC10_A_isBusy(ADC10_A_BASE));
             return ADC10_A_getResults(ADC10_A_BASE);
         case SENSOR5:
+            GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN1);
             ADC10_A_memoryConfigure(ADC10_A_BASE,
                     ADC10_A_INPUT_A1,
                     ADC10_A_VREFPOS_INT,
@@ -278,6 +269,7 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             while(ADC10_A_isBusy(ADC10_A_BASE));
             return ADC10_A_getResults(ADC10_A_BASE);
         case SENSOR6:
+            GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN0);
             ADC10_A_memoryConfigure(ADC10_A_BASE,
                     ADC10_A_INPUT_A0,
                     ADC10_A_VREFPOS_INT,
@@ -521,7 +513,6 @@ uint8_t SENSOR_hadler(uint8_t SENS_NUMBER)
             if (SENS[SENS_NUMBER-SENSOR1].SIDX==DIGITAL_INP) SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_digital(SENS_NUMBER);
             if (SENS[SENS_NUMBER-SENSOR1].SIDX==ANALOG_INP)  SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_analog(SENS_NUMBER);
         }
-
         return 0x00;
     }
     else
