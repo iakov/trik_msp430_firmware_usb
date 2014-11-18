@@ -105,6 +105,9 @@ void main (void)
     USB_setup(TRUE,TRUE);  // Init USB & events; if a host is present, connect
 
     initGlobalVars(); //Init variables and structires
+    initReference(); //Init ref and temp sensor
+    initADC10(); //Init ADC
+
 
     __enable_interrupt();  // Enable interrupts globally
 

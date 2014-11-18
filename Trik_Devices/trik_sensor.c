@@ -230,15 +230,6 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
 
 uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
 {
-    while(REF_isRefGenBusy(REF_BASE));
-    REF_setReferenceVoltage(REF_BASE,REF_VREF2_5V);
-    REF_enableReferenceVoltage(REF_BASE);
-    REF_enableTempSensor(REF_BASE);
-    ADC10_A_init(ADC10_A_BASE,
-                 ADC10_A_SAMPLEHOLDSOURCE_SC,
-                 ADC10_A_CLOCKSOURCE_SMCLK,
-                 ADC10_A_CLOCKDIVIDER_1);
-    ADC10_A_enable(ADC10_A_BASE);
     switch (SENS_NUMBER)
     {
         case SENSOR1:
