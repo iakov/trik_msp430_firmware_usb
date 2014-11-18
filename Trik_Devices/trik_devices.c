@@ -45,3 +45,10 @@ void initADC10()
                  ADC10_A_CLOCKDIVIDER_1);
     ADC10_A_enable(ADC10_A_BASE);
 }
+
+//Init B ports (PBEN)
+void initPBPorts()
+{
+    GPIO_setAsOutputPin(GPIO_PORT_P5,GPIO_PIN3);
+    GPIO_setOutputHighOnPin(GPIO_PORT_P5,GPIO_PIN3);
+}

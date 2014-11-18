@@ -107,6 +107,7 @@ void main (void)
     initGlobalVars(); //Init variables and structires
     initReference(); //Init ref and temp sensor
     initADC10(); //Init ADC
+    initPBPorts(); //Init B ports
 
 
     __enable_interrupt();  // Enable interrupts globally

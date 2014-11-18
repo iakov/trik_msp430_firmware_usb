@@ -15,9 +15,6 @@
 //API functions
 void ENCODER_enableController(uint8_t ENC_NUMBER)
 {
-    //PB_EN
-    GPIO_setAsOutputPin(GPIO_PORT_P5,GPIO_PIN3);
-    GPIO_setOutputHighOnPin(GPIO_PORT_P5,GPIO_PIN3);
     if ((busy_table[ENC_NUMBER]==NNONE) || (busy_table[ENC_NUMBER]==ENC_NUMBER))
     {
         busy_table[ENC_NUMBER]=ENC_NUMBER;
