@@ -22,7 +22,7 @@ void PROTOCOL_errResponse(char *r_str, uint8_t dev_addr, uint8_t func_code, uint
 {
 	char stmp1[MAX_STRING_LENGTH]; //Temp string
 	uint8_t crc;
-	memset(r_str,0,MAX_STRING_LENGTH);
+	//memset(r_str,0,MAX_STRING_LENGTH);
 	if (dev_addr<16)
 	    sprintf(r_str,":0%x",dev_addr);
 	else
@@ -53,7 +53,7 @@ void PROTOCOL_transResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code)
 {
     char stmp1[MAX_STRING_LENGTH]; //Temp string
     uint8_t crc;
-    memset(r_str,0,MAX_STRING_LENGTH);
+    //memset(r_str,0,MAX_STRING_LENGTH);
     if (dev_addr<16)
         sprintf(r_str,":0%x",dev_addr);
     else
@@ -85,7 +85,7 @@ void PROTOCOL_recvResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code, uin
     }
     t13=(uint8_t)((reg_val & 0x0000FF00) >> 8);
     t14=(uint8_t)(reg_val & 0x000000FF);
-    memset(r_str,0,MAX_STRING_LENGTH);
+    //memset(r_str,0,MAX_STRING_LENGTH);
     if (dev_addr<16)
         sprintf(r_str,":0%x",dev_addr);
     else
