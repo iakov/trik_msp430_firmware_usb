@@ -283,12 +283,9 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
                     PROTOCOL_errResponse(out_str,devaddr1,func1,REG_VAL_ERROR);
                     return REG_VAL_ERROR;
                 }
-                else
-                {
-                    MOTOR_hadler(devaddr1);
-                    PROTOCOL_transResponse(out_str,devaddr1,MOT[devaddr1].MSTA);
-                    return NO_ERROR;
-                }
+                MOTOR_hadler(devaddr1);
+                PROTOCOL_transResponse(out_str,devaddr1,MOT[devaddr1].MSTA);
+                return NO_ERROR;
             }
 	    }
 
