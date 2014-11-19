@@ -334,6 +334,18 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
     }
 }
 
+uint32_t SENSOR_read_temperature(uint8_t SENS_NUMBER)
+{
+    ADC10_A_memoryConfigure(ADC10_A_BASE,
+            ADC10_A_INPUT_TEMPSENSOR,
+            ADC10_A_VREFPOS_AVCC,
+            ADC10_A_VREFNEG_AVSS);
+    ADC10_A_startConversion(ADC10_A_BASE,
+            ADC10_A_SINGLECHANNEL);
+    while(ADC10_A_isBusy(ADC10_A_BASE));
+    return ADC10_A_getResults(ADC10_A_BASE);
+}
+
 /*
 void SENSOR_enableDigitalMode(uint8_t SENS_NUMBER)
 {
@@ -519,6 +531,7 @@ void SENSOR_hadler(uint8_t SENS_NUMBER)
         {
             if (SENS[SENS_NUMBER-SENSOR1].SIDX==DIGITAL_INP) SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_digital(SENS_NUMBER);
             if (SENS[SENS_NUMBER-SENSOR1].SIDX==ANALOG_INP)  SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_analog(SENS_NUMBER);
+            if (SENS[SENS_NUMBER-SENSOR1].SIDX==MCU_TEMP)    SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_temperature(SENS_NUMBER);
         }
     }
     else
