@@ -44,6 +44,9 @@ void initADC10()
                  ADC10_A_CLOCKSOURCE_SMCLK,
                  ADC10_A_CLOCKDIVIDER_1);
     ADC10_A_enable(ADC10_A_BASE);
+    ADC10_A_setupSamplingTimer(ADC10_A_BASE,
+            ADC10_A_CYCLEHOLD_16_CYCLES,
+            ADC10_A_MULTIPLESAMPLESDISABLE);
 }
 
 //Init B ports (PBEN)
