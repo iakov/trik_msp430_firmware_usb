@@ -504,17 +504,16 @@ void SENSOR_enableAnalogMode(uint8_t SENS_NUMBER)
 //Handler
 void SENSOR_hadler(uint8_t SENS_NUMBER)
 {
+    //Async/single read mode
+    if (SENS[SENS_NUMBER-SENSOR1].SCTL & 0x4000)
+        SENS[SENS_NUMBER-SENSOR1].SENS_MOD = ENABLE;
+    else
+        SENS[SENS_NUMBER-SENSOR1].SENS_MOD = DISABLE;
+    //Enable/disable and read
     if (SENS[SENS_NUMBER-SENSOR1].SCTL & 0x8000)
     {
         //Sensor enable
         SENSOR_enableController(SENS_NUMBER);
-
-        //Async/single read mode
-        if (SENS[SENS_NUMBER-SENSOR1].SCTL & 0x4000)
-            SENS[SENS_NUMBER-SENSOR1].SENS_MOD = ENABLE;
-        else
-            SENS[SENS_NUMBER-SENSOR1].SENS_MOD = DISABLE;
-
         //Enable reading sensor data
         if (SENS[SENS_NUMBER-SENSOR1].SCTL & 0x0001)
         {
@@ -523,10 +522,7 @@ void SENSOR_hadler(uint8_t SENS_NUMBER)
         }
     }
     else
-    {
-        //Sensor disable
         SENSOR_disableController(SENS_NUMBER);
-    }
 
     SENS[SENS_NUMBER-SENSOR1].SSTA = SENS_NO_ERROR;
 }
