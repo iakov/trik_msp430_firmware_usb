@@ -42,7 +42,7 @@ void initADC10()
     ADC10_A_init(ADC10_A_BASE,
                  ADC10_A_SAMPLEHOLDSOURCE_SC,
                  ADC10_A_CLOCKSOURCE_SMCLK,
-                 ADC10_A_CLOCKDIVIDER_1);
+                 ADC10_A_CLOCKDIVIDER_8);
     ADC10_A_enable(ADC10_A_BASE);
     ADC10_A_setupSamplingTimer(ADC10_A_BASE,
             ADC10_A_CYCLEHOLD_16_CYCLES,
