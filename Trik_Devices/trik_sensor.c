@@ -348,6 +348,7 @@ uint32_t SENSOR_read_temperature(uint8_t SENS_NUMBER)
 
 uint32_t SENSOR_read_voltage(uint8_t SENS_NUMBER)
 {
+    GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN6);
     ADC10_A_memoryConfigure(ADC10_A_BASE,
             ADC10_A_INPUT_A6,
             ADC10_A_VREFPOS_AVCC,
@@ -360,6 +361,7 @@ uint32_t SENSOR_read_voltage(uint8_t SENS_NUMBER)
 
 uint32_t SENSOR_read_current(uint8_t SENS_NUMBER)
 {
+    GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN7);
     ADC10_A_memoryConfigure(ADC10_A_BASE,
             ADC10_A_INPUT_A7,
             ADC10_A_VREFPOS_AVCC,
