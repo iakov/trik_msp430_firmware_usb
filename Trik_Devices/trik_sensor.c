@@ -222,7 +222,7 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN5);
             ADC10_A_memoryConfigure(ADC10_A_BASE,
                     ADC10_A_INPUT_A5,
-                    ADC10_A_VREFPOS_INT,
+                    ADC10_A_VREFPOS_AVCC,
                     ADC10_A_VREFNEG_AVSS);
             ADC10_A_startConversion(ADC10_A_BASE,
                     ADC10_A_SINGLECHANNEL);
@@ -232,7 +232,7 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN4);
             ADC10_A_memoryConfigure(ADC10_A_BASE,
                     ADC10_A_INPUT_A4,
-                    ADC10_A_VREFPOS_INT,
+                    ADC10_A_VREFPOS_AVCC,
                     ADC10_A_VREFNEG_AVSS);
             ADC10_A_startConversion(ADC10_A_BASE,
                     ADC10_A_SINGLECHANNEL);
@@ -242,7 +242,7 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN3);
             ADC10_A_memoryConfigure(ADC10_A_BASE,
                     ADC10_A_INPUT_A3,
-                    ADC10_A_VREFPOS_INT,
+                    ADC10_A_VREFPOS_AVCC,
                     ADC10_A_VREFNEG_AVSS);
             ADC10_A_startConversion(ADC10_A_BASE,
                     ADC10_A_SINGLECHANNEL);
@@ -252,7 +252,7 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN2);
             ADC10_A_memoryConfigure(ADC10_A_BASE,
                     ADC10_A_INPUT_A2,
-                    ADC10_A_VREFPOS_INT,
+                    ADC10_A_VREFPOS_AVCC,
                     ADC10_A_VREFNEG_AVSS);
             ADC10_A_startConversion(ADC10_A_BASE,
                     ADC10_A_SINGLECHANNEL);
@@ -262,7 +262,7 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN1);
             ADC10_A_memoryConfigure(ADC10_A_BASE,
                     ADC10_A_INPUT_A1,
-                    ADC10_A_VREFPOS_INT,
+                    ADC10_A_VREFPOS_AVCC,
                     ADC10_A_VREFNEG_AVSS);
             ADC10_A_startConversion(ADC10_A_BASE,
                     ADC10_A_SINGLECHANNEL);
@@ -272,7 +272,7 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN0);
             ADC10_A_memoryConfigure(ADC10_A_BASE,
                     ADC10_A_INPUT_A0,
-                    ADC10_A_VREFPOS_INT,
+                    ADC10_A_VREFPOS_AVCC,
                     ADC10_A_VREFNEG_AVSS);
             ADC10_A_startConversion(ADC10_A_BASE,
                     ADC10_A_SINGLECHANNEL);
