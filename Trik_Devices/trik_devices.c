@@ -30,9 +30,9 @@ void initGlobalVars()
 //Init reference and temperature sensor for ADC
 void initReference()
 {
-    while(REF_isRefGenBusy(REF_BASE));
-    REF_setReferenceVoltage(REF_BASE,REF_VREF2_5V);
-    REF_enableReferenceVoltage(REF_BASE);
+    //while(REF_isRefGenBusy(REF_BASE));
+    //REF_setReferenceVoltage(REF_BASE,REF_VREF2_5V);
+    //REF_enableReferenceVoltage(REF_BASE);
     REF_enableTempSensor(REF_BASE);
 }
 
