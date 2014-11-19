@@ -18,10 +18,6 @@
 #define SSVAL 0x02
 #define SSSTA 0x03
 
-//Sensor mode
-#define SING_MODE 0
-#define CONT_MODE 1
-
 //Sensor types
 #define DIGITAL_INP     0x0000
 #define ANALOG_INP      0x0001
