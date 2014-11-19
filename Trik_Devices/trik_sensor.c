@@ -231,6 +231,8 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             while(ADC10_A_isBusy(ADC10_A_BASE));
             return ADC10_A_getResults(ADC10_A_BASE);
         case SENSOR2:
+            GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN4);
+            GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN4);
             GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN4);
             ADC10_A_memoryConfigure(ADC10_A_BASE,
                     ADC10_A_INPUT_A4,
@@ -241,6 +243,8 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             //while(ADC10_A_isBusy(ADC10_A_BASE));
             return ADC10_A_getResults(ADC10_A_BASE);
         case SENSOR3:
+            GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN3);
+            GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN3);
             GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN3);
             ADC10_A_memoryConfigure(ADC10_A_BASE,
                     ADC10_A_INPUT_A3,
@@ -251,6 +255,8 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             //while(ADC10_A_isBusy(ADC10_A_BASE));
             return ADC10_A_getResults(ADC10_A_BASE);
         case SENSOR4:
+            GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN2);
+            GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN2);
             GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN2);
             ADC10_A_memoryConfigure(ADC10_A_BASE,
                     ADC10_A_INPUT_A2,
@@ -261,6 +267,8 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             //while(ADC10_A_isBusy(ADC10_A_BASE));
             return ADC10_A_getResults(ADC10_A_BASE);
         case SENSOR5:
+            GPIO_setOutputLowOnPin(GPIO_PORT_P3,GPIO_PIN2);
+            GPIO_setAsOutputPin(GPIO_PORT_P3,GPIO_PIN2);
             GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN1);
             ADC10_A_memoryConfigure(ADC10_A_BASE,
                     ADC10_A_INPUT_A1,
@@ -271,6 +279,8 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             //while(ADC10_A_isBusy(ADC10_A_BASE));
             return ADC10_A_getResults(ADC10_A_BASE);
         case SENSOR6:
+            GPIO_setOutputLowOnPin(GPIO_PORT_P3,GPIO_PIN4);
+            GPIO_setAsOutputPin(GPIO_PORT_P3,GPIO_PIN4);
             GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN0);
             ADC10_A_memoryConfigure(ADC10_A_BASE,
                     ADC10_A_INPUT_A0,
