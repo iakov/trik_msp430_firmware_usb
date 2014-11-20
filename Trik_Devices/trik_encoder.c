@@ -196,86 +196,87 @@ __attribute__((interrupt(PORT2_VECTOR)))
 #endif
 void PORT2_ISR(void)
 {
-        //JB1
-        if (GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN0))
+    //JB1
+    if (P2IFG & BIT0) //if (GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN0))
+    {
+        if (P2IN & BIT3) //if (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN3))
         {
-            if (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN3))
-            {
-                if (ENC[ENCODER1-ENCODER1].ENC_TYP==WIRE2)
-                    ENC[ENCODER1-ENCODER1].EVAL--;
-                else
-                    ENC[ENCODER1-ENCODER1].EVAL++;
-            }
+            if (ENC[ENCODER1-ENCODER1].ENC_TYP==WIRE2)
+                ENC[ENCODER1-ENCODER1].EVAL--;
             else
-            {
                 ENC[ENCODER1-ENCODER1].EVAL++;
-            }
-            if (MOT[MOTOR1].MOT_MOD==ANGLE_MODE)
-            {
-                MOT[MOTOR1].MVAL++;
-                if ((MOT[MOTOR1].MVAL>MOT[MOTOR1].MANG)) MOTOR_stop(MOTOR1);
-            }
         }
-
-        //JB2
-        if (GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN4))
+        else
         {
-            if (GPIO_getInputPinValue(GPIO_PORT_P1, GPIO_PIN0))
-            {
-                if (ENC[ENCODER2-ENCODER1].ENC_TYP==WIRE2)
-                    ENC[ENCODER2-ENCODER1].EVAL--;
-                else ENC[ENCODER2-ENCODER1].EVAL++;
-            }
-            else
-            {
-                ENC[ENCODER2-ENCODER1].EVAL++;
-            }
-            if (MOT[MOTOR2].MOT_MOD==ANGLE_MODE)
-            {
-                MOT[MOTOR2].MVAL++;
-                if ((MOT[MOTOR2].MVAL>MOT[MOTOR2].MANG)) MOTOR_stop(MOTOR2);
-            }
+            ENC[ENCODER1-ENCODER1].EVAL++;
         }
-
-        //JB3
-        if (GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN5))
+        if (MOT[MOTOR1].MOT_MOD==ANGLE_MODE)
         {
-            if (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN2))
-            {
-                if (ENC[ENCODER3-ENCODER1].ENC_TYP==WIRE2)
-                    ENC[ENCODER3-ENCODER1].EVAL--;
-                else ENC[ENCODER3-ENCODER1].EVAL++;
-            }
-            else
-            {
-                ENC[ENCODER3-ENCODER1].EVAL++;
-            }
-            if (MOT[MOTOR3].MOT_MOD==ANGLE_MODE)
-            {
-                MOT[MOTOR3].MVAL++;
-                if ((MOT[MOTOR3].MVAL>MOT[MOTOR3].MANG)) MOTOR_stop(MOTOR3);
-            }
+            MOT[MOTOR1].MVAL++;
+            if ((MOT[MOTOR1].MVAL>MOT[MOTOR1].MANG)) MOTOR_stop(MOTOR1);
         }
+    }
 
-        //JB4
-        if (GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN1))
+    //JB2
+    if (P2IFG & BIT4) //if (GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN4))
+    {
+        if (P1IN & BIT0) //if (GPIO_getInputPinValue(GPIO_PORT_P1, GPIO_PIN0))
         {
-            if (GPIO_getInputPinValue(GPIO_PORT_P1, GPIO_PIN6))
-            {
-                if (ENC[ENCODER4-ENCODER1].ENC_TYP==WIRE2)
-                    ENC[ENCODER4-ENCODER1].EVAL--;
-                else ENC[ENCODER4-ENCODER1].EVAL++;
-            }
-            else
-            {
-                ENC[ENCODER4-ENCODER1].EVAL++;
-            }
-            if (MOT[MOTOR4].MOT_MOD==ANGLE_MODE)
-            {
-                MOT[MOTOR4].MVAL++;
-                if ((MOT[MOTOR4].MVAL>MOT[MOTOR4].MANG)) MOTOR_stop(MOTOR4);
-            }
+            if (ENC[ENCODER2-ENCODER1].ENC_TYP==WIRE2)
+                ENC[ENCODER2-ENCODER1].EVAL--;
+            else ENC[ENCODER2-ENCODER1].EVAL++;
         }
+        else
+        {
+            ENC[ENCODER2-ENCODER1].EVAL++;
+        }
+        if (MOT[MOTOR2].MOT_MOD==ANGLE_MODE)
+        {
+            MOT[MOTOR2].MVAL++;
+            if ((MOT[MOTOR2].MVAL>MOT[MOTOR2].MANG)) MOTOR_stop(MOTOR2);
+        }
+    }
+
+    //JB3
+    if (P2IFG & BIT5) //if (GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN5))
+    {
+        if (P2IN & BIT2) //if (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN2))
+        {
+            if (ENC[ENCODER3-ENCODER1].ENC_TYP==WIRE2)
+                ENC[ENCODER3-ENCODER1].EVAL--;
+            else ENC[ENCODER3-ENCODER1].EVAL++;
+        }
+        else
+        {
+            ENC[ENCODER3-ENCODER1].EVAL++;
+        }
+        if (MOT[MOTOR3].MOT_MOD==ANGLE_MODE)
+        {
+            MOT[MOTOR3].MVAL++;
+            if ((MOT[MOTOR3].MVAL>MOT[MOTOR3].MANG)) MOTOR_stop(MOTOR3);
+        }
+    }
+
+    //JB4
+    if (P2IFG & BIT1) //if (GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN1))
+    {
+        if (P1IN & BIT6) //if (GPIO_getInputPinValue(GPIO_PORT_P1, GPIO_PIN6))
+        {
+            if (ENC[ENCODER4-ENCODER1].ENC_TYP==WIRE2)
+                ENC[ENCODER4-ENCODER1].EVAL--;
+            else ENC[ENCODER4-ENCODER1].EVAL++;
+        }
+        else
+        {
+            ENC[ENCODER4-ENCODER1].EVAL++;
+        }
+        if (MOT[MOTOR4].MOT_MOD==ANGLE_MODE)
+        {
+            MOT[MOTOR4].MVAL++;
+            if ((MOT[MOTOR4].MVAL>MOT[MOTOR4].MANG)) MOTOR_stop(MOTOR4);
+        }
+    }
+
     GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN1|GPIO_PIN2|GPIO_PIN3|GPIO_PIN4|GPIO_PIN5);
 }
 
