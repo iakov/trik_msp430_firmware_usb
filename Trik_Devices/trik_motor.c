@@ -161,7 +161,7 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
         case MOTOR1:
             if (MOT[MOT_NUMBER].MOT_BRK==ENABLE)
             {
-                GPIO_setOutputLowOnPin(GPIO_PORT_P5, GPIO_PIN4|GPIO_PIN5);
+                P5OUT &= ~(BIT4+BIT5); //GPIO_setOutputLowOnPin(GPIO_PORT_P5, GPIO_PIN4|GPIO_PIN5);
                 TIMER_A_generatePWM(TIMER_A0_BASE,
                         TIMER_A_CLOCKSOURCE_SMCLK,
                         TIMER_A_CLOCKSOURCE_DIVIDER_1,
@@ -184,7 +184,7 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
         case MOTOR2:
             if (MOT[MOT_NUMBER].MOT_BRK==ENABLE)
             {
-                GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN0|GPIO_PIN1);
+                P4OUT &= ~(BIT0+BIT1); //GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN0|GPIO_PIN1);
                 TIMER_A_generatePWM(TIMER_A0_BASE,
                         TIMER_A_CLOCKSOURCE_SMCLK,
                         TIMER_A_CLOCKSOURCE_DIVIDER_1,
@@ -207,7 +207,7 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
         case MOTOR3:
             if (MOT[MOT_NUMBER].MOT_BRK==ENABLE)
             {
-                GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN0|GPIO_PIN1);
+                PJOUT &= ~(BIT0+BIT1); //GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN0|GPIO_PIN1);
                 TIMER_A_generatePWM(TIMER_A0_BASE,
                         TIMER_A_CLOCKSOURCE_SMCLK,
                         TIMER_A_CLOCKSOURCE_DIVIDER_1,
@@ -230,7 +230,7 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
         case MOTOR4:
             if (MOT[MOT_NUMBER].MOT_BRK==ENABLE)
             {
-                GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN2|GPIO_PIN3);
+                PJOUT &= ~(BIT2+BIT3); //GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN2|GPIO_PIN3);
                 TIMER_A_generatePWM(TIMER_A0_BASE,
                         TIMER_A_CLOCKSOURCE_SMCLK,
                         TIMER_A_CLOCKSOURCE_DIVIDER_1,
