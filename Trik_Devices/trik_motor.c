@@ -73,8 +73,8 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                             MOT[MOT_NUMBER].MDUT);
                     */
                     TA0CCR0 = MOT[MOT_NUMBER].MPER;           // PWM Period
-                    TA0CCTL2 = OUTMOD_7;                      // CCR1 reset/set
-                    TA0CCR2 = MOT[MOT_NUMBER].MDUT;           // CCR1 PWM duty cycle
+                    TA0CCTL2 = OUTMOD_7;                      // CCR2 reset/set
+                    TA0CCR2 = MOT[MOT_NUMBER].MDUT;           // CCR2 PWM duty cycle
                     TA0CTL = TASSEL_2 + MC_1 + TACLR;         // SMCLK, up mode, clear TAR
                 } else
                     MOTOR_stop(MOT_NUMBER);
@@ -105,8 +105,8 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                             MOT[MOT_NUMBER].MDUT);
                     */
                     TA0CCR0 = MOT[MOT_NUMBER].MPER;           // PWM Period
-                    TA0CCTL3 = OUTMOD_7;                      // CCR1 reset/set
-                    TA0CCR3 = MOT[MOT_NUMBER].MDUT;           // CCR1 PWM duty cycle
+                    TA0CCTL3 = OUTMOD_7;                      // CCR3 reset/set
+                    TA0CCR3 = MOT[MOT_NUMBER].MDUT;           // CCR3 PWM duty cycle
                     TA0CTL = TASSEL_2 + MC_1 + TACLR;         // SMCLK, up mode, clear TAR
                 } else
                     MOTOR_stop(MOT_NUMBER);
@@ -137,8 +137,8 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                             MOT[MOT_NUMBER].MDUT);
                     */
                     TA0CCR0 = MOT[MOT_NUMBER].MPER;           // PWM Period
-                    TA0CCTL4 = OUTMOD_7;                      // CCR1 reset/set
-                    TA0CCR4 = MOT[MOT_NUMBER].MDUT;           // CCR1 PWM duty cycle
+                    TA0CCTL4 = OUTMOD_7;                      // CCR4 reset/set
+                    TA0CCR4 = MOT[MOT_NUMBER].MDUT;           // CCR4 PWM duty cycle
                     TA0CTL = TASSEL_2 + MC_1 + TACLR;         // SMCLK, up mode, clear TAR
                 } else
                     MOTOR_stop(MOT_NUMBER);
@@ -185,6 +185,7 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
             if (MOT[MOT_NUMBER].MOT_BRK==ENABLE)
             {
                 P5OUT &= ~(BIT4+BIT5); //GPIO_setOutputLowOnPin(GPIO_PORT_P5, GPIO_PIN4|GPIO_PIN5);
+                /*
                 TIMER_A_generatePWM(TIMER_A0_BASE,
                         TIMER_A_CLOCKSOURCE_SMCLK,
                         TIMER_A_CLOCKSOURCE_DIVIDER_1,
@@ -192,9 +193,15 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
                         TIMER_A_CAPTURECOMPARE_REGISTER_1,
                         TIMER_A_OUTPUTMODE_RESET_SET,
                         MOT[MOT_NUMBER].MPER-1);
+                */
+                TA0CCR0 = MOT[MOT_NUMBER].MPER;           // PWM Period
+                TA0CCTL1 = OUTMOD_7;                      // CCR1 reset/set
+                TA0CCR1 = MOT[MOT_NUMBER].MPER-1;         // CCR1 PWM duty cycle
+                TA0CTL = TASSEL_2 + MC_1 + TACLR;         // SMCLK, up mode, clear TAR
             }
             else
             {
+                /*
                 TIMER_A_generatePWM(TIMER_A0_BASE,
                         TIMER_A_CLOCKSOURCE_SMCLK,
                         TIMER_A_CLOCKSOURCE_DIVIDER_1,
@@ -202,12 +209,18 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
                         TIMER_A_CAPTURECOMPARE_REGISTER_1,
                         TIMER_A_OUTPUTMODE_RESET_SET,
                         0x0001);
+                */
+                TA0CCR0 = MOT[MOT_NUMBER].MPER;           // PWM Period
+                TA0CCTL1 = OUTMOD_7;                      // CCR1 reset/set
+                TA0CCR1 = 0x0001;                         // CCR1 PWM duty cycle
+                TA0CTL = TASSEL_2 + MC_1 + TACLR;         // SMCLK, up mode, clear TAR
             }
             break;
         case MOTOR2:
             if (MOT[MOT_NUMBER].MOT_BRK==ENABLE)
             {
                 P4OUT &= ~(BIT0+BIT1); //GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN0|GPIO_PIN1);
+                /*
                 TIMER_A_generatePWM(TIMER_A0_BASE,
                         TIMER_A_CLOCKSOURCE_SMCLK,
                         TIMER_A_CLOCKSOURCE_DIVIDER_1,
@@ -215,9 +228,15 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
                         TIMER_A_CAPTURECOMPARE_REGISTER_2,
                         TIMER_A_OUTPUTMODE_RESET_SET,
                         MOT[MOT_NUMBER].MPER-1);
+                */
+                TA0CCR0 = MOT[MOT_NUMBER].MPER;           // PWM Period
+                TA0CCTL2 = OUTMOD_7;                      // CCR2 reset/set
+                TA0CCR2 = MOT[MOT_NUMBER].MPER-1;         // CCR2 PWM duty cycle
+                TA0CTL = TASSEL_2 + MC_1 + TACLR;         // SMCLK, up mode, clear TAR
             }
             else
             {
+                /*
                 TIMER_A_generatePWM(TIMER_A0_BASE,
                         TIMER_A_CLOCKSOURCE_SMCLK,
                         TIMER_A_CLOCKSOURCE_DIVIDER_1,
@@ -225,12 +244,18 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
                         TIMER_A_CAPTURECOMPARE_REGISTER_2,
                         TIMER_A_OUTPUTMODE_RESET_SET,
                         0x0001);
+                */
+                TA0CCR0 = MOT[MOT_NUMBER].MPER;           // PWM Period
+                TA0CCTL2 = OUTMOD_7;                      // CCR2 reset/set
+                TA0CCR2 = 0x0001;                         // CCR2 PWM duty cycle
+                TA0CTL = TASSEL_2 + MC_1 + TACLR;         // SMCLK, up mode, clear TAR
             }
             break;
         case MOTOR3:
             if (MOT[MOT_NUMBER].MOT_BRK==ENABLE)
             {
                 PJOUT &= ~(BIT0+BIT1); //GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN0|GPIO_PIN1);
+                /*
                 TIMER_A_generatePWM(TIMER_A0_BASE,
                         TIMER_A_CLOCKSOURCE_SMCLK,
                         TIMER_A_CLOCKSOURCE_DIVIDER_1,
@@ -238,9 +263,15 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
                         TIMER_A_CAPTURECOMPARE_REGISTER_3,
                         TIMER_A_OUTPUTMODE_RESET_SET,
                         MOT[MOT_NUMBER].MPER-1);
+                */
+                TA0CCR0 = MOT[MOT_NUMBER].MPER;           // PWM Period
+                TA0CCTL3 = OUTMOD_7;                      // CCR3 reset/set
+                TA0CCR3 = MOT[MOT_NUMBER].MPER-1;         // CCR3 PWM duty cycle
+                TA0CTL = TASSEL_2 + MC_1 + TACLR;         // SMCLK, up mode, clear TAR
             }
             else
             {
+                /*
                 TIMER_A_generatePWM(TIMER_A0_BASE,
                         TIMER_A_CLOCKSOURCE_SMCLK,
                         TIMER_A_CLOCKSOURCE_DIVIDER_1,
@@ -248,12 +279,18 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
                         TIMER_A_CAPTURECOMPARE_REGISTER_3,
                         TIMER_A_OUTPUTMODE_RESET_SET,
                         0x0001);
+                */
+                TA0CCR0 = MOT[MOT_NUMBER].MPER;           // PWM Period
+                TA0CCTL3 = OUTMOD_7;                      // CCR3 reset/set
+                TA0CCR3 = 0x0001;                         // CCR3 PWM duty cycle
+                TA0CTL = TASSEL_2 + MC_1 + TACLR;         // SMCLK, up mode, clear TAR
             }
             break;
         case MOTOR4:
             if (MOT[MOT_NUMBER].MOT_BRK==ENABLE)
             {
                 PJOUT &= ~(BIT2+BIT3); //GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN2|GPIO_PIN3);
+                /*
                 TIMER_A_generatePWM(TIMER_A0_BASE,
                         TIMER_A_CLOCKSOURCE_SMCLK,
                         TIMER_A_CLOCKSOURCE_DIVIDER_1,
@@ -261,9 +298,15 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
                         TIMER_A_CAPTURECOMPARE_REGISTER_4,
                         TIMER_A_OUTPUTMODE_RESET_SET,
                         MOT[MOT_NUMBER].MPER-1);
+                */
+                TA0CCR0 = MOT[MOT_NUMBER].MPER;           // PWM Period
+                TA0CCTL4 = OUTMOD_7;                      // CCR4 reset/set
+                TA0CCR4 = MOT[MOT_NUMBER].MPER-1;         // CCR4 PWM duty cycle
+                TA0CTL = TASSEL_2 + MC_1 + TACLR;         // SMCLK, up mode, clear TAR
             }
             else
             {
+                /*
                 TIMER_A_generatePWM(TIMER_A0_BASE,
                         TIMER_A_CLOCKSOURCE_SMCLK,
                         TIMER_A_CLOCKSOURCE_DIVIDER_1,
@@ -271,6 +314,11 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
                         TIMER_A_CAPTURECOMPARE_REGISTER_4,
                         TIMER_A_OUTPUTMODE_RESET_SET,
                         0x0001);
+                */
+                TA0CCR0 = MOT[MOT_NUMBER].MPER;           // PWM Period
+                TA0CCTL4 = OUTMOD_7;                      // CCR4 reset/set
+                TA0CCR4 = 0x0001;                         // CCR4 PWM duty cycle
+                TA0CTL = TASSEL_2 + MC_1 + TACLR;         // SMCLK, up mode, clear TAR
             }
             break;
         default:;
