@@ -30,7 +30,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
     switch (SENS_NUMBER)
     {
         case SENSOR1:
-            GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN5);
+            P4OUT &= ~BIT5; //GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN5);
             GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN5);
             switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
             {
@@ -44,7 +44,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
             }
             return GPIO_getInputPinValue(GPIO_PORT_P6,GPIO_PIN5);
         case SENSOR2:
-            GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN4);
+            P4OUT &= ~BIT4; //GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN4);
             GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN4);
             switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
             {
@@ -58,7 +58,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
             }
             return GPIO_getInputPinValue(GPIO_PORT_P6,GPIO_PIN4);
         case SENSOR3:
-            GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN3);
+            P4OUT &= ~BIT3; //GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN3);
             GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN3);
             switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
             {
@@ -72,7 +72,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
             }
             return GPIO_getInputPinValue(GPIO_PORT_P6,GPIO_PIN3);
         case SENSOR4:
-            GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN2);
+            P4OUT &= ~BIT2; //GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN2);
             GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN2);
             switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
             {
@@ -86,7 +86,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
             }
             return GPIO_getInputPinValue(GPIO_PORT_P6,GPIO_PIN2);
         case SENSOR5:
-            GPIO_setOutputLowOnPin(GPIO_PORT_P3,GPIO_PIN2);
+            P3OUT &= ~BIT2; //GPIO_setOutputLowOnPin(GPIO_PORT_P3,GPIO_PIN2);
             GPIO_setAsOutputPin(GPIO_PORT_P3,GPIO_PIN2);
             switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
             {
@@ -100,7 +100,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
             }
             return GPIO_getInputPinValue(GPIO_PORT_P6,GPIO_PIN1);
         case SENSOR6:
-            GPIO_setOutputLowOnPin(GPIO_PORT_P3,GPIO_PIN4);
+            P3OUT &= ~BIT4; //GPIO_setOutputLowOnPin(GPIO_PORT_P3,GPIO_PIN4);
             GPIO_setAsOutputPin(GPIO_PORT_P3,GPIO_PIN4);
             switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
             {
@@ -218,7 +218,7 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
     switch (SENS_NUMBER)
     {
         case SENSOR1:
-            GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN5);
+            P4OUT &= ~BIT5; //GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN5);
             GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN5);
             GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN5);
             ADC10_A_memoryConfigure(ADC10_A_BASE,
@@ -230,7 +230,7 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             while(ADC10_A_isBusy(ADC10_A_BASE));
             return ADC10_A_getResults(ADC10_A_BASE);
         case SENSOR2:
-            GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN4);
+            P4OUT &= ~BIT4; //GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN4);
             GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN4);
             GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN4);
             ADC10_A_memoryConfigure(ADC10_A_BASE,
@@ -242,7 +242,7 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             while(ADC10_A_isBusy(ADC10_A_BASE));
             return ADC10_A_getResults(ADC10_A_BASE);
         case SENSOR3:
-            GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN3);
+            P4OUT &= ~BIT3; //GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN3);
             GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN3);
             GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN3);
             ADC10_A_memoryConfigure(ADC10_A_BASE,
@@ -254,7 +254,7 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             while(ADC10_A_isBusy(ADC10_A_BASE));
             return ADC10_A_getResults(ADC10_A_BASE);
         case SENSOR4:
-            GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN2);
+            P4OUT &= ~BIT2; //GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN2);
             GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN2);
             GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN2);
             ADC10_A_memoryConfigure(ADC10_A_BASE,
@@ -266,7 +266,7 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             while(ADC10_A_isBusy(ADC10_A_BASE));
             return ADC10_A_getResults(ADC10_A_BASE);
         case SENSOR5:
-            GPIO_setOutputLowOnPin(GPIO_PORT_P3,GPIO_PIN2);
+            P3OUT &= ~BIT2; //GPIO_setOutputLowOnPin(GPIO_PORT_P3,GPIO_PIN2);
             GPIO_setAsOutputPin(GPIO_PORT_P3,GPIO_PIN2);
             GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN1);
             ADC10_A_memoryConfigure(ADC10_A_BASE,
@@ -278,7 +278,7 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             while(ADC10_A_isBusy(ADC10_A_BASE));
             return ADC10_A_getResults(ADC10_A_BASE);
         case SENSOR6:
-            GPIO_setOutputLowOnPin(GPIO_PORT_P3,GPIO_PIN4);
+            P3OUT &= ~BIT4; //GPIO_setOutputLowOnPin(GPIO_PORT_P3,GPIO_PIN4);
             GPIO_setAsOutputPin(GPIO_PORT_P3,GPIO_PIN4);
             GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN0);
             ADC10_A_memoryConfigure(ADC10_A_BASE,
