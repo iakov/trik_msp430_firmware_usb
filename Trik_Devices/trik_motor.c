@@ -31,6 +31,7 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                 if (MOT[MOT_NUMBER].MOT_PWR==ENABLE)
                 {
                     if (MOT[MOT_NUMBER].MOT_MOD!=CONT_MODE) MOT[MOT_NUMBER].MVAL = 0;
+                    /*
                     TIMER_A_generatePWM(TIMER_A0_BASE,
                             TIMER_A_CLOCKSOURCE_SMCLK,
                             TIMER_A_CLOCKSOURCE_DIVIDER_1,
@@ -38,6 +39,11 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                             TIMER_A_CAPTURECOMPARE_REGISTER_1,
                             TIMER_A_OUTPUTMODE_RESET_SET,
                             MOT[MOT_NUMBER].MDUT);
+                    */
+                    TA0CCR0 = MOT[MOT_NUMBER].MPER;           // PWM Period
+                    TA0CCTL1 = OUTMOD_7;                      // CCR1 reset/set
+                    TA0CCR1 = MOT[MOT_NUMBER].MDUT;           // CCR1 PWM duty cycle
+                    TA0CTL = TASSEL_2 + MC_1 + TACLR;         // SMCLK, up mode, clear TAR
                 } else
                     MOTOR_stop(MOT_NUMBER);
                 P5DIR |= BIT4+BIT5; //GPIO_setAsOutputPin(GPIO_PORT_P5, GPIO_PIN4 | GPIO_PIN5);
