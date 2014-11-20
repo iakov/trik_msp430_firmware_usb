@@ -52,6 +52,6 @@ void initADC10()
 //Init B ports (PBEN)
 void initPBPorts()
 {
-    GPIO_setAsOutputPin(GPIO_PORT_P5,GPIO_PIN3);
-    GPIO_setOutputHighOnPin(GPIO_PORT_P5,GPIO_PIN3);
+    P5DIR |= BIT3; //GPIO_setAsOutputPin(GPIO_PORT_P5,GPIO_PIN3);
+    P5OUT |= BIT3; //GPIO_setOutputHighOnPin(GPIO_PORT_P5,GPIO_PIN3);
 }
