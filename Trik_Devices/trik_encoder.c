@@ -183,7 +183,7 @@ void PORT1_ISR(void)
         if (GPIO_getInterruptStatus(GPIO_PORT_P1, GPIO_PIN6)) ENC[ENCODER4-ENCODER1].EVAL++;
     }
     */
-    GPIO_clearInterruptFlag(GPIO_PORT_P1,GPIO_PIN0|GPIO_PIN6);
+    P1IFG &= ~(BIT0+BIT6); //GPIO_clearInterruptFlag(GPIO_PORT_P1,GPIO_PIN0|GPIO_PIN6);
 }
 
 #if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
@@ -275,7 +275,7 @@ void PORT2_ISR(void)
         }
     }
 
-    GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN1|GPIO_PIN2|GPIO_PIN3|GPIO_PIN4|GPIO_PIN5);
+    P2IFG &= ~(BIT0+BIT1+BIT2+BIT3+BIT4+BIT5); //GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN1|GPIO_PIN2|GPIO_PIN3|GPIO_PIN4|GPIO_PIN5);
 }
 
 
