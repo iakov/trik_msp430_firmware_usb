@@ -22,12 +22,12 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
             case MOTOR1:
                 if (MOT[MOT_NUMBER].MOT_DIR==FORWARD)
                 {
-                    GPIO_setOutputHighOnPin(GPIO_PORT_P5, GPIO_PIN4);
-                    GPIO_setOutputLowOnPin(GPIO_PORT_P5, GPIO_PIN5);
+                    P5OUT |= BIT4; //GPIO_setOutputHighOnPin(GPIO_PORT_P5, GPIO_PIN4);
+                    P5OUT &= ~BIT5; //GPIO_setOutputLowOnPin(GPIO_PORT_P5, GPIO_PIN5);
                 } else
                 {
-                    GPIO_setOutputHighOnPin(GPIO_PORT_P5, GPIO_PIN5);
-                    GPIO_setOutputLowOnPin(GPIO_PORT_P5, GPIO_PIN4);
+                    P5OUT |= BIT5; //GPIO_setOutputHighOnPin(GPIO_PORT_P5, GPIO_PIN5);
+                    P5OUT &= ~BIT4; //GPIO_setOutputLowOnPin(GPIO_PORT_P5, GPIO_PIN4);
                 }
                 GPIO_setAsOutputPin(GPIO_PORT_P5, GPIO_PIN4 | GPIO_PIN5);
                 GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN2);
@@ -48,12 +48,12 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
             case MOTOR2:
                 if (MOT[MOT_NUMBER].MOT_DIR==FORWARD)
                 {
-                    GPIO_setOutputHighOnPin(GPIO_PORT_P4, GPIO_PIN0);
-                    GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN1);
+                    P4OUT |= BIT0; //GPIO_setOutputHighOnPin(GPIO_PORT_P4, GPIO_PIN0);
+                    P4OUT &= ~BIT1; //GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN1);
                 } else
                 {
-                    GPIO_setOutputHighOnPin(GPIO_PORT_P4, GPIO_PIN1);
-                    GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN0);
+                    P4OUT |= BIT1; //GPIO_setOutputHighOnPin(GPIO_PORT_P4, GPIO_PIN1);
+                    P4OUT &= ~BIT0; //GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN0);
                 }
                 if (MOT[MOT_NUMBER].MOT_PWR==ENABLE)
                 {
@@ -74,12 +74,12 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
             case MOTOR3:
                 if (MOT[MOT_NUMBER].MOT_DIR==FORWARD)
                 {
-                    GPIO_setOutputHighOnPin(GPIO_PORT_PJ, GPIO_PIN0);
-                    GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN1);
+                    PJOUT |= BIT0; //GPIO_setOutputHighOnPin(GPIO_PORT_PJ, GPIO_PIN0);
+                    PJOUT &= ~BIT1; //GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN1);
                 } else
                 {
-                    GPIO_setOutputHighOnPin(GPIO_PORT_PJ, GPIO_PIN1);
-                    GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN0);
+                    PJOUT |= BIT1; //GPIO_setOutputHighOnPin(GPIO_PORT_PJ, GPIO_PIN1);
+                    PJOUT &= ~BIT0; //GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN0);
                 }
                 if (MOT[MOT_NUMBER].MOT_PWR==ENABLE)
                 {
@@ -100,12 +100,12 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
             case MOTOR4:
                 if (MOT[MOT_NUMBER].MOT_DIR==FORWARD)
                 {
-                    GPIO_setOutputHighOnPin(GPIO_PORT_PJ, GPIO_PIN2);
-                    GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN3);
+                    PJOUT |= BIT2; //GPIO_setOutputHighOnPin(GPIO_PORT_PJ, GPIO_PIN2);
+                    PJOUT &= ~BIT3; //GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN3);
                 } else
                 {
-                    GPIO_setOutputHighOnPin(GPIO_PORT_PJ, GPIO_PIN3);
-                    GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN2);
+                    PJOUT |= BIT3; //GPIO_setOutputHighOnPin(GPIO_PORT_PJ, GPIO_PIN3);
+                    PJOUT &= ~BIT2; //GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN2);
                 }
                 if (MOT[MOT_NUMBER].MOT_PWR==ENABLE)
                 {
