@@ -6,6 +6,7 @@
  */
 
 #include <stdint.h>
+#include <msp430f5510.h>
 #include "driverlib.h"
 #include "trik_devices.h"
 #include "Trik_Devices/trik_motor.h"
