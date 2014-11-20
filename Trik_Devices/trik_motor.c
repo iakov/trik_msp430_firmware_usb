@@ -189,20 +189,20 @@ void MOTOR_disableController(uint8_t MOT_NUMBER)
     switch (MOT_NUMBER)
     {
         case MOTOR1:
-            GPIO_setAsInputPin(GPIO_PORT_P5, GPIO_PIN4 | GPIO_PIN5);
-            GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN2);
+            P5DIR &= ~(BIT4+BIT5); //GPIO_setAsInputPin(GPIO_PORT_P5, GPIO_PIN4 | GPIO_PIN5);
+            P1DIR &= ~BIT2; //GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN2);
             break;
         case MOTOR2:
-            GPIO_setAsInputPin(GPIO_PORT_P4, GPIO_PIN0 | GPIO_PIN1);
-            GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN3);
+            P4DIR &= ~(BIT0+BIT1); //GPIO_setAsInputPin(GPIO_PORT_P4, GPIO_PIN0 | GPIO_PIN1);
+            P1DIR &= ~BIT3; //GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN3);
             break;
         case MOTOR3:
-            GPIO_setAsInputPin(GPIO_PORT_PJ, GPIO_PIN0 | GPIO_PIN1);
-            GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN4);
+            PJDIR &= ~(BIT0+BIT1); //GPIO_setAsInputPin(GPIO_PORT_PJ, GPIO_PIN0 | GPIO_PIN1);
+            P1DIR &= ~BIT4; //GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN4);
             break;
         case MOTOR4:
-            GPIO_setAsInputPin(GPIO_PORT_PJ, GPIO_PIN2 | GPIO_PIN3);
-            GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN5);
+            PJDIR &= ~(BIT2+BIT3); //GPIO_setAsInputPin(GPIO_PORT_PJ, GPIO_PIN2 | GPIO_PIN3);
+            P1DIR &= ~BIT5; //GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN5);
             break;
         default:;
     }
