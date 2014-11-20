@@ -12,7 +12,6 @@
 #include "trik_motor.h"
 #include "driverlib.h"
 
-//API functions
 void ENCODER_enableController(uint8_t ENC_NUMBER)
 {
     if ((busy_table[ENC_NUMBER]==NNONE) || (busy_table[ENC_NUMBER]==ENC_NUMBER))
@@ -134,7 +133,6 @@ void ENCODER_disableController(uint8_t ENC_NUMBER)
     }
 }
 
-//Handler
 void ENCODER_hadler(uint8_t ENC_NUMBER)
 {
     //Async/single read mode

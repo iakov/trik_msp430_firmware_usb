@@ -10,7 +10,6 @@
 #include "trik_bsl.h"
 #include "USB_API/USB_Common/usb.h"
 
-
 //Enter to BSL
 uint8_t BSL_enterBSL(uint32_t bslpswd)
 {

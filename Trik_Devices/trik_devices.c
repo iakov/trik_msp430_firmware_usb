@@ -1,12 +1,11 @@
 /*
  * trik_devices.c
  *
- *  Created on: 18 но€б. 2014 г.
+ *  Created on: November 18, 2014
  *      Author: Rostislav Varzar
  */
 
 #include <stdint.h>
-#include <msp430f5510.h>
 #include "driverlib.h"
 #include "trik_devices.h"
 #include "Trik_Devices/trik_motor.h"
