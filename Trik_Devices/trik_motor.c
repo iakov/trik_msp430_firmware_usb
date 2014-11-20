@@ -29,8 +29,6 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                     P5OUT |= BIT5; //GPIO_setOutputHighOnPin(GPIO_PORT_P5, GPIO_PIN5);
                     P5OUT &= ~BIT4; //GPIO_setOutputLowOnPin(GPIO_PORT_P5, GPIO_PIN4);
                 }
-                GPIO_setAsOutputPin(GPIO_PORT_P5, GPIO_PIN4 | GPIO_PIN5);
-                GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN2);
                 if (MOT[MOT_NUMBER].MOT_PWR==ENABLE)
                 {
                     if (MOT[MOT_NUMBER].MOT_MOD!=CONT_MODE) MOT[MOT_NUMBER].MVAL = 0;
@@ -43,6 +41,8 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                             MOT[MOT_NUMBER].MDUT);
                 } else
                     MOTOR_stop(MOT_NUMBER);
+                P5DIR |= BIT4+BIT5; //GPIO_setAsOutputPin(GPIO_PORT_P5, GPIO_PIN4 | GPIO_PIN5);
+                GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN2);
                 GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN1);
                 break;
             case MOTOR2:
@@ -67,7 +67,7 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                             MOT[MOT_NUMBER].MDUT);
                 } else
                     MOTOR_stop(MOT_NUMBER);
-                GPIO_setAsOutputPin(GPIO_PORT_P4, GPIO_PIN0 | GPIO_PIN1);
+                P4DIR |= BIT0+BIT1; //GPIO_setAsOutputPin(GPIO_PORT_P4, GPIO_PIN0 | GPIO_PIN1);
                 GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN3);
                 GPIO_setAsInputPin(GPIO_PORT_P2, GPIO_PIN6);
                 break;
@@ -93,7 +93,7 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                             MOT[MOT_NUMBER].MDUT);
                 } else
                     MOTOR_stop(MOT_NUMBER);
-                GPIO_setAsOutputPin(GPIO_PORT_PJ, GPIO_PIN0 | GPIO_PIN1);
+                PJDIR |= BIT0+BIT1; //GPIO_setAsOutputPin(GPIO_PORT_PJ, GPIO_PIN0 | GPIO_PIN1);
                 GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN4);
                 GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN7);
                 break;
@@ -119,7 +119,7 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                             MOT[MOT_NUMBER].MDUT);
                 } else
                     MOTOR_stop(MOT_NUMBER);
-                GPIO_setAsOutputPin(GPIO_PORT_PJ, GPIO_PIN2 | GPIO_PIN3);
+                PJDIR |= BIT2+BIT3; //GPIO_setAsOutputPin(GPIO_PORT_PJ, GPIO_PIN2 | GPIO_PIN3);
                 GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN5);
                 GPIO_setAsInputPin(GPIO_PORT_P2, GPIO_PIN7);
                 break;
