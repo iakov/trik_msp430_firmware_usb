@@ -32,9 +32,9 @@ void ENCODER_enableController(uint8_t ENC_NUMBER)
                 }
                 P2IE |= BIT0+BIT3; //GPIO_enableInterrupt(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3);
                 if (ENC[ENC_NUMBER-ENCODER1].ENC_EDG==RIS_EDGE)
-                    GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3,GPIO_LOW_TO_HIGH_TRANSITION);
+                    P2IES &= ~(BIT0+BIT3); //GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3,GPIO_LOW_TO_HIGH_TRANSITION);
                 else
-                    GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3,GPIO_HIGH_TO_LOW_TRANSITION);
+                    P2IES |= BIT0+BIT3; //GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3,GPIO_HIGH_TO_LOW_TRANSITION);
                 GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3);
                 break;
             case ENCODER2:
@@ -50,9 +50,9 @@ void ENCODER_enableController(uint8_t ENC_NUMBER)
                 P2IE |= BIT4; //GPIO_enableInterrupt(GPIO_PORT_P2,GPIO_PIN4);
                 //GPIO_enableInterrupt(GPIO_PORT_P1,GPIO_PIN0);
                 if (ENC[ENC_NUMBER-ENCODER1].ENC_EDG==RIS_EDGE)
-                    GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN4,GPIO_LOW_TO_HIGH_TRANSITION);
+                    P2IES &= ~BIT4; // GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN4,GPIO_LOW_TO_HIGH_TRANSITION);
                 else
-                    GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN4,GPIO_HIGH_TO_LOW_TRANSITION);
+                    P2IES |= BIT4; //GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN4,GPIO_HIGH_TO_LOW_TRANSITION);
                 //GPIO_interruptEdgeSelect(GPIO_PORT_P1,GPIO_PIN0,GPIO_LOW_TO_HIGH_TRANSITION);
                 GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN4);
                 //GPIO_clearInterruptFlag(GPIO_PORT_P1,GPIO_PIN0);
@@ -70,9 +70,9 @@ void ENCODER_enableController(uint8_t ENC_NUMBER)
                 P2IE |= BIT1; //GPIO_enableInterrupt(GPIO_PORT_P2,GPIO_PIN1);
                 //GPIO_enableInterrupt(GPIO_PORT_P1,GPIO_PIN6);
                 if (ENC[ENC_NUMBER-ENCODER1].ENC_EDG==RIS_EDGE)
-                    GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN1,GPIO_LOW_TO_HIGH_TRANSITION);
+                    P2IES &= ~BIT1; //GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN1,GPIO_LOW_TO_HIGH_TRANSITION);
                 else
-                    GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN1,GPIO_HIGH_TO_LOW_TRANSITION);
+                    P2IES |= BIT1; //GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN1,GPIO_HIGH_TO_LOW_TRANSITION);
                 //GPIO_interruptEdgeSelect(GPIO_PORT_P1,GPIO_PIN6,GPIO_LOW_TO_HIGH_TRANSITION);
                 GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN1);
                 //GPIO_clearInterruptFlag(GPIO_PORT_P1,GPIO_PIN6);
@@ -88,9 +88,9 @@ void ENCODER_enableController(uint8_t ENC_NUMBER)
                 }
                 P2IE |= BIT2+BIT5; //GPIO_enableInterrupt(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5);
                 if (ENC[ENC_NUMBER-ENCODER1].ENC_EDG==RIS_EDGE)
-                    GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5,GPIO_LOW_TO_HIGH_TRANSITION);
+                    P2IES &= ~(BIT2+BIT5); //GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5,GPIO_LOW_TO_HIGH_TRANSITION);
                 else
-                    GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5,GPIO_HIGH_TO_LOW_TRANSITION);
+                    P2IES |= BIT2+BIT5; //GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5,GPIO_HIGH_TO_LOW_TRANSITION);
                 GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5);
                 break;
             default:;
