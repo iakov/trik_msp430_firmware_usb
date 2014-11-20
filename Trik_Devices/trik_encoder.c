@@ -106,13 +106,13 @@ void ENCODER_disableController(uint8_t ENC_NUMBER)
     {
         case ENCODER1:
             GPIO_disableInterrupt(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3);
-            GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3);
+            P2IFG &= ~(BIT0+BIT3); //GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3);
             P2DIR &= ~(BIT0+BIT3); //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3);
             break;
         case ENCODER2:
             GPIO_disableInterrupt(GPIO_PORT_P2,GPIO_PIN4);
             //GPIO_disableInterrupt(GPIO_PORT_P1,GPIO_PIN0);
-            GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN4);
+            P2IFG &= ~BIT4; //GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN4);
             //GPIO_clearInterruptFlag(GPIO_PORT_P1,GPIO_PIN0);
             P1DIR &= ~BIT0; //GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN0);
             P2DIR &= ~BIT4; //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN4);
@@ -120,14 +120,14 @@ void ENCODER_disableController(uint8_t ENC_NUMBER)
         case ENCODER4:
             GPIO_disableInterrupt(GPIO_PORT_P2,GPIO_PIN1);
             //GPIO_disableInterrupt(GPIO_PORT_P1,GPIO_PIN6);
-            GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN1);
+            P2IFG &= ~BIT1; //GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN1);
             //GPIO_clearInterruptFlag(GPIO_PORT_P1,GPIO_PIN6);
             P1DIR &= ~BIT6; //GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN6);
             P2DIR &= ~BIT1; //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN1);
             break;
         case ENCODER3:
             GPIO_disableInterrupt(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5);
-            GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5);
+            P2IFG &= ~(BIT2+BIT5); //GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5);
             P2DIR &= ~(BIT2+BIT5); //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5);
             break;
         default:;
