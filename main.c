@@ -304,7 +304,8 @@ void TIMERB1_ISR(void)
         break;
     default: break;
     }
-    TIMER_B_clearTimerInterruptFlag(TIMER_B0_BASE);
+
+    TB0CTL &= ~TBIFG; //TIMER_B_clearTimerInterruptFlag(TIMER_B0_BASE);
 }
 
 
