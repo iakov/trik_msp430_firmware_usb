@@ -193,6 +193,7 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             P4OUT &= ~BIT5; //GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN5);
             P4DIR |= BIT5; //GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN5);
             P6SEL |= BIT5; P6DIR &= ~BIT5; //GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN5);
+            /*
             ADC10_A_memoryConfigure(ADC10_A_BASE,
                     ADC10_A_INPUT_A5,
                     ADC10_A_VREFPOS_AVCC,
@@ -201,10 +202,16 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
                     ADC10_A_SINGLECHANNEL);
             while(ADC10_A_isBusy(ADC10_A_BASE));
             return ADC10_A_getResults(ADC10_A_BASE);
+            */
+            ADC10MCTL0 = ADC10INCH0 + ADC10INCH2;
+            ADC10CTL0 |= ADC10SC + ADC10ENC;
+            while (ADC10CTL1 & ADC10BUSY);
+            return ADC10MEM0;
         case SENSOR2:
             P4OUT &= ~BIT4; //GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN4);
             P4DIR |= BIT4; //GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN4);
             P6SEL |= BIT4; P6DIR &= ~BIT4; //GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN4);
+            /*
             ADC10_A_memoryConfigure(ADC10_A_BASE,
                     ADC10_A_INPUT_A4,
                     ADC10_A_VREFPOS_AVCC,
@@ -213,10 +220,16 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
                     ADC10_A_SINGLECHANNEL);
             while(ADC10_A_isBusy(ADC10_A_BASE));
             return ADC10_A_getResults(ADC10_A_BASE);
+            */
+            ADC10MCTL0 = ADC10INCH2;
+            ADC10CTL0 |= ADC10SC + ADC10ENC;
+            while (ADC10CTL1 & ADC10BUSY);
+            return ADC10MEM0;
         case SENSOR3:
             P4OUT &= ~BIT3; //GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN3);
             P4DIR |= BIT3; //GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN3);
             P6SEL |= BIT3; P6DIR &= ~BIT3; //GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN3);
+            /*
             ADC10_A_memoryConfigure(ADC10_A_BASE,
                     ADC10_A_INPUT_A3,
                     ADC10_A_VREFPOS_AVCC,
@@ -225,10 +238,16 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
                     ADC10_A_SINGLECHANNEL);
             while(ADC10_A_isBusy(ADC10_A_BASE));
             return ADC10_A_getResults(ADC10_A_BASE);
+            */
+            ADC10MCTL0 = ADC10INCH0 + ADC10INCH1;
+            ADC10CTL0 |= ADC10SC + ADC10ENC;
+            while (ADC10CTL1 & ADC10BUSY);
+            return ADC10MEM0;
         case SENSOR4:
             P4OUT &= ~BIT2; //GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN2);
             P4DIR |= BIT2; //GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN2);
             P6SEL |= BIT2; P6DIR &= ~BIT2; //GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN2);
+            /*
             ADC10_A_memoryConfigure(ADC10_A_BASE,
                     ADC10_A_INPUT_A2,
                     ADC10_A_VREFPOS_AVCC,
@@ -237,10 +256,16 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
                     ADC10_A_SINGLECHANNEL);
             while(ADC10_A_isBusy(ADC10_A_BASE));
             return ADC10_A_getResults(ADC10_A_BASE);
+            */
+            ADC10MCTL0 = ADC10INCH1;
+            ADC10CTL0 |= ADC10SC + ADC10ENC;
+            while (ADC10CTL1 & ADC10BUSY);
+            return ADC10MEM0;
         case SENSOR5:
             P3OUT &= ~BIT2; //GPIO_setOutputLowOnPin(GPIO_PORT_P3,GPIO_PIN2);
             P3DIR |= BIT2; //GPIO_setAsOutputPin(GPIO_PORT_P3,GPIO_PIN2);
             P6SEL |= BIT1; P6DIR &= ~BIT1; //GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN1);
+            /*
             ADC10_A_memoryConfigure(ADC10_A_BASE,
                     ADC10_A_INPUT_A1,
                     ADC10_A_VREFPOS_AVCC,
@@ -249,10 +274,16 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
                     ADC10_A_SINGLECHANNEL);
             while(ADC10_A_isBusy(ADC10_A_BASE));
             return ADC10_A_getResults(ADC10_A_BASE);
+            */
+            ADC10MCTL0 = ADC10INCH0;
+            ADC10CTL0 |= ADC10SC + ADC10ENC;
+            while (ADC10CTL1 & ADC10BUSY);
+            return ADC10MEM0;
         case SENSOR6:
             P3OUT &= ~BIT4; //GPIO_setOutputLowOnPin(GPIO_PORT_P3,GPIO_PIN4);
             P3DIR |= BIT4; //GPIO_setAsOutputPin(GPIO_PORT_P3,GPIO_PIN4);
             P6SEL |= BIT0; P6DIR &= ~BIT0; //GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN0);
+            /*
             ADC10_A_memoryConfigure(ADC10_A_BASE,
                     ADC10_A_INPUT_A0,
                     ADC10_A_VREFPOS_AVCC,
@@ -261,6 +292,11 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
                     ADC10_A_SINGLECHANNEL);
             while(ADC10_A_isBusy(ADC10_A_BASE));
             return ADC10_A_getResults(ADC10_A_BASE);
+            */
+            ADC10MCTL0 = 0x00;
+            ADC10CTL0 |= ADC10SC + ADC10ENC;
+            while (ADC10CTL1 & ADC10BUSY);
+            return ADC10MEM0;
         case SENSOR7:
             if (P2IN & BIT0) //if (GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN0))
                 return 0xFFFFFFFF;
