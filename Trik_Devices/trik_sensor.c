@@ -35,7 +35,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
             switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
             {
                 case PULL_OFF:
-                    GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN5);
+                    P6DIR &= ~BIT5; //GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN5);
                     break;
                 case PULL_UP:
                     GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN5);
@@ -49,7 +49,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
             switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
             {
                 case PULL_OFF:
-                    GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN4);
+                    P6DIR &= ~BIT4; //GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN4);
                     break;
                 case PULL_UP:
                     GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN4);
@@ -63,7 +63,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
             switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
             {
                 case PULL_OFF:
-                    GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN3);
+                    P6DIR &= ~BIT3; //GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN3);
                     break;
                 case PULL_UP:
                     GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN3);
@@ -77,7 +77,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
             switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
             {
                 case PULL_OFF:
-                    GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN2);
+                    P6DIR &= ~BIT2; //GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN2);
                     break;
                 case PULL_UP:
                     GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN2);
@@ -91,7 +91,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
             switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
             {
                 case PULL_OFF:
-                    GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN1);
+                    P6DIR &= ~BIT1; //GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN1);
                     break;
                 case PULL_UP:
                     GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN1);
@@ -105,7 +105,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
             switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
             {
                 case PULL_OFF:
-                    GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN0);
+                    P6DIR &= ~BIT0; //GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN0);
                     break;
                 case PULL_UP:
                     GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN0);
@@ -117,7 +117,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
             switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
             {
                 case PULL_OFF:
-                    GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN0);
+                    P2DIR &= ~BIT0; //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN0);
                     break;
                 case PULL_UP:
                     GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN0);
@@ -129,7 +129,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
             switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
             {
                 case PULL_OFF:
-                    GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN3);
+                    P2DIR &= ~BIT3; //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN3);
                     break;
                 case PULL_UP:
                     GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN3);
@@ -141,7 +141,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
             switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
             {
                 case PULL_OFF:
-                    GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN4);
+                    P2DIR &= ~BIT4; //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN4);
                     break;
                 case PULL_UP:
                     GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN4);
@@ -153,7 +153,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
             switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
             {
                 case PULL_OFF:
-                    GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN0);
+                    P1DIR &= ~BIT0; //GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN0);
                     break;
                 case PULL_UP:
                     GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P1,GPIO_PIN0);
@@ -165,7 +165,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
             switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
             {
                 case PULL_OFF:
-                    GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN5);
+                    P2DIR &= ~BIT5; //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN5);
                     break;
                 case PULL_UP:
                     GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN5);
@@ -177,7 +177,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
             switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
             {
                 case PULL_OFF:
-                    GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN2);
+                    P2DIR &= ~BIT2; //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN2);
                     break;
                 case PULL_UP:
                     GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN2);
@@ -189,7 +189,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
             switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
             {
                 case PULL_OFF:
-                    GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN1);
+                    P2DIR &= ~BIT1; //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN1);
                     break;
                 case PULL_UP:
                     GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN1);
@@ -201,7 +201,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
             switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
             {
                 case PULL_OFF:
-                    GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN6);
+                    P1DIR &= ~BIT6; //GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN6);
                     break;
                 case PULL_UP:
                     GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P1,GPIO_PIN6);
