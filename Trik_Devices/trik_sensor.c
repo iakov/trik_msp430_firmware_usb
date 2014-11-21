@@ -32,181 +32,153 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
         case SENSOR1:
             P4OUT &= ~BIT5; //GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN5);
             P4DIR |= BIT5; //GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN5);
-            switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
             {
-                case PULL_OFF:
-                    P6DIR &= ~BIT5; P6REN &= ~BIT5; P6OUT &= ~BIT5; //GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN5);
-                    break;
-                case PULL_UP:
-                    P6DIR &= ~BIT5; P6OUT |= BIT5; P6REN |= BIT5; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN5);
-                    break;
-                default:;
+                P6DIR &= ~BIT5; P6OUT |= BIT5; P6REN |= BIT5; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN5);
+            }
+            else
+            {
+                P6DIR &= ~BIT5; P6REN &= ~BIT5; P6OUT &= ~BIT5; //GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN5);
             }
             return GPIO_getInputPinValue(GPIO_PORT_P6,GPIO_PIN5);
         case SENSOR2:
             P4OUT &= ~BIT4; //GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN4);
             P4DIR |= BIT4; //GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN4);
-            switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
             {
-                case PULL_OFF:
-                    P6DIR &= ~BIT4; P6REN &= ~BIT4; P6OUT &= ~BIT4; //GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN4);
-                    break;
-                case PULL_UP:
-                    P6DIR &= ~BIT4; P6OUT |= BIT4; P6REN |= BIT4; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN4);
-                    break;
-                default:;
+                P6DIR &= ~BIT4; P6OUT |= BIT4; P6REN |= BIT4; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN4);
+            }
+            else
+            {
+                P6DIR &= ~BIT4; P6REN &= ~BIT4; P6OUT &= ~BIT4; //GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN4);
             }
             return GPIO_getInputPinValue(GPIO_PORT_P6,GPIO_PIN4);
         case SENSOR3:
             P4OUT &= ~BIT3; //GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN3);
             P4DIR |= BIT3; //GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN3);
-            switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
             {
-                case PULL_OFF:
-                    P6DIR &= ~BIT3; P6REN &= ~BIT3; P6OUT &= ~BIT3; //GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN3);
-                    break;
-                case PULL_UP:
-                    P6DIR &= ~BIT3; P6OUT |= BIT3; P6REN |= BIT3; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN3);
-                    break;
-                default:;
+                P6DIR &= ~BIT3; P6OUT |= BIT3; P6REN |= BIT3; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN3);
+            }
+            else
+            {
+                P6DIR &= ~BIT3; P6REN &= ~BIT3; P6OUT &= ~BIT3; //GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN3);
             }
             return GPIO_getInputPinValue(GPIO_PORT_P6,GPIO_PIN3);
         case SENSOR4:
             P4OUT &= ~BIT2; //GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN2);
             P4DIR |= BIT2; //GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN2);
-            switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
             {
-                case PULL_OFF:
-                    P6DIR &= ~BIT2; P6REN &= ~BIT2; P6OUT &= ~BIT2; //GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN2);
-                    break;
-                case PULL_UP:
-                    P6DIR &= ~BIT2; P6OUT |= BIT2; P6REN |= BIT2; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN2);
-                    break;
-                default:;
+                P6DIR &= ~BIT2; P6OUT |= BIT2; P6REN |= BIT2; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN2);
+            }
+            else
+            {
+                P6DIR &= ~BIT2; P6REN &= ~BIT2; P6OUT &= ~BIT2; //GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN2);
             }
             return GPIO_getInputPinValue(GPIO_PORT_P6,GPIO_PIN2);
         case SENSOR5:
             P3OUT &= ~BIT2; //GPIO_setOutputLowOnPin(GPIO_PORT_P3,GPIO_PIN2);
             P3DIR |= BIT2; //GPIO_setAsOutputPin(GPIO_PORT_P3,GPIO_PIN2);
-            switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
             {
-                case PULL_OFF:
-                    P6DIR &= ~BIT1; P6REN &= ~BIT1; P6OUT &= ~BIT1; //GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN1);
-                    break;
-                case PULL_UP:
-                    P6DIR &= ~BIT1; P6OUT |= BIT1; P6REN |= BIT1; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN1);
-                    break;
-                default:;
+                P6DIR &= ~BIT1; P6OUT |= BIT1; P6REN |= BIT1; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN1);
+            }
+            else
+            {
+                P6DIR &= ~BIT1; P6REN &= ~BIT1; P6OUT &= ~BIT1; //GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN1);
             }
             return GPIO_getInputPinValue(GPIO_PORT_P6,GPIO_PIN1);
         case SENSOR6:
             P3OUT &= ~BIT4; //GPIO_setOutputLowOnPin(GPIO_PORT_P3,GPIO_PIN4);
             P3DIR |= BIT4; //GPIO_setAsOutputPin(GPIO_PORT_P3,GPIO_PIN4);
-            switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
             {
-                case PULL_OFF:
-                    P6DIR &= ~BIT0; P6REN &= ~BIT0; P6OUT &= ~BIT0; //GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN0);
-                    break;
-                case PULL_UP:
-                    P6DIR &= ~BIT0; P6OUT |= BIT0; P6REN |= BIT0; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN0);
-                    break;
-                default:;
+                P6DIR &= ~BIT0; P6OUT |= BIT0; P6REN |= BIT0; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN0);
+            }
+            else
+            {
+                P6DIR &= ~BIT0; P6REN &= ~BIT0; P6OUT &= ~BIT0; //GPIO_setAsInputPin(GPIO_PORT_P6,GPIO_PIN0);
             }
             return GPIO_getInputPinValue(GPIO_PORT_P6,GPIO_PIN0);
         case SENSOR7:
-            switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
             {
-                case PULL_OFF:
-                    P2DIR &= ~BIT0; P2REN &= ~BIT0; P2OUT &= ~BIT0; //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN0);
-                    break;
-                case PULL_UP:
-                    P2DIR &= ~BIT0; P2OUT |= BIT0; P2REN |= BIT0; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN0);
-                    break;
-                default:;
+                P2DIR &= ~BIT0; P2OUT |= BIT0; P2REN |= BIT0; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN0);
+            }
+            else
+            {
+                P2DIR &= ~BIT0; P2REN &= ~BIT0; P2OUT &= ~BIT0; //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN0);
             }
             return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN0);
         case SENSOR8:
-            switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
             {
-                case PULL_OFF:
-                    P2DIR &= ~BIT3; P2REN &= ~BIT3; P2OUT &= ~BIT3; //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN3);
-                    break;
-                case PULL_UP:
-                    P2DIR &= ~BIT3; P2OUT |= BIT3; P2REN |= BIT3; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN3);
-                    break;
-                default:;
+                P2DIR &= ~BIT3; P2OUT |= BIT3; P2REN |= BIT3; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN3);
+            }
+            else
+            {
+                P2DIR &= ~BIT3; P2REN &= ~BIT3; P2OUT &= ~BIT3; //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN3);
             }
             return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN3);
         case SENSOR9:
-            switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
             {
-                case PULL_OFF:
-                    P2DIR &= ~BIT4; P2REN &= ~BIT4; P2OUT &= ~BIT4; //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN4);
-                    break;
-                case PULL_UP:
-                    P2DIR &= ~BIT4; P2OUT |= BIT4; P2REN |= BIT4; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN4);
-                    break;
-                default:;
+                P2DIR &= ~BIT4; P2OUT |= BIT4; P2REN |= BIT4; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN4);
+            }
+            else
+            {
+                P2DIR &= ~BIT4; P2REN &= ~BIT4; P2OUT &= ~BIT4; //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN4);
             }
             return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN4);
         case SENSOR10:
-            switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
             {
-                case PULL_OFF:
-                    P1DIR &= ~BIT0; P1REN &= ~BIT0; P1OUT &= ~BIT0; //GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN0);
-                    break;
-                case PULL_UP:
-                    P1DIR &= ~BIT0; P1OUT |= BIT0; P1REN |= BIT0; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P1,GPIO_PIN0);
-                    break;
-                default:;
+                P1DIR &= ~BIT0; P1OUT |= BIT0; P1REN |= BIT0; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P1,GPIO_PIN0);
+            }
+            else
+            {
+                P1DIR &= ~BIT0; P1REN &= ~BIT0; P1OUT &= ~BIT0; //GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN0);
             }
             return GPIO_getInputPinValue(GPIO_PORT_P1,GPIO_PIN0);
         case SENSOR11:
-            switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
             {
-                case PULL_OFF:
-                    P2DIR &= ~BIT5; P2REN &= ~BIT5; P2OUT &= ~BIT5; //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN5);
-                    break;
-                case PULL_UP:
-                    P2DIR &= ~BIT5; P2OUT |= BIT5; P2REN |= BIT5; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN5);
-                    break;
-                default:;
+                P2DIR &= ~BIT5; P2OUT |= BIT5; P2REN |= BIT5; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN5);
+            }
+            else
+            {
+                P2DIR &= ~BIT5; P2REN &= ~BIT5; P2OUT &= ~BIT5; //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN5);
             }
             return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN5);
         case SENSOR12:
-            switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
             {
-                case PULL_OFF:
-                    P2DIR &= ~BIT2; P2REN &= ~BIT2; P2OUT &= ~BIT2; //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN2);
-                    break;
-                case PULL_UP:
-                    P2DIR &= ~BIT2; P2OUT |= BIT2; P2REN |= BIT2; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN2);
-                    break;
-                default:;
+                P2DIR &= ~BIT2; P2OUT |= BIT2; P2REN |= BIT2; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN2);
+            }
+            else
+            {
+                P2DIR &= ~BIT2; P2REN &= ~BIT2; P2OUT &= ~BIT2; //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN2);
             }
             return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN2);
         case SENSOR13:
-            switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
             {
-                case PULL_OFF:
-                    P2DIR &= ~BIT1; P2REN &= ~BIT1; P2OUT &= ~BIT1; //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN1);
-                    break;
-                case PULL_UP:
-                    P2DIR &= ~BIT1; P2OUT |= BIT1; P2REN |= BIT1; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN1);
-                    break;
-                default:;
+                P2DIR &= ~BIT1; P2OUT |= BIT1; P2REN |= BIT1; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN1);
+            }
+            else
+            {
+                P2DIR &= ~BIT1; P2REN &= ~BIT1; P2OUT &= ~BIT1; //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN1);
             }
             return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN1);
         case SENSOR14:
-            switch (SENS[SENS_NUMBER-SENSOR1].SENS_PUP)
+            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
             {
-                case PULL_OFF:
-                    P1DIR &= ~BIT6; P1REN &= ~BIT6; P1OUT &= ~BIT6; //GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN6);
-                    break;
-                case PULL_UP:
-                    P1DIR &= ~BIT6; P1OUT |= BIT6; P1REN |= BIT6; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P1,GPIO_PIN6);
-                    break;
-                default:;
+                P1DIR &= ~BIT6; P1OUT |= BIT6; P1REN |= BIT6; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P1,GPIO_PIN6);
+            }
+            else
+            {
+                P1DIR &= ~BIT6; P1REN &= ~BIT6; P1OUT &= ~BIT6; //GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN6);
             }
             return GPIO_getInputPinValue(GPIO_PORT_P1,GPIO_PIN6);
         default: return 0x00;
