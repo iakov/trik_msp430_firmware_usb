@@ -32,8 +32,10 @@ void initReferenceTemperature()
 {
     //while(REF_isRefGenBusy(REF_BASE));
     //REF_setReferenceVoltage(REF_BASE,REF_VREF2_5V);
-    REF_enableReferenceVoltage(REF_BASE);
-    REF_enableTempSensor(REF_BASE);
+    //REF_enableReferenceVoltage(REF_BASE);
+    //REF_enableTempSensor(REF_BASE);
+    while(REFCTL0 & REFGENBUSY);
+    REFCTL0 |= REFMSTR+REFON;
 }
 
 //Init ADC 10 bit
