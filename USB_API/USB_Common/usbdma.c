@@ -104,12 +104,12 @@ void * memcpyDMA (void * dest, const void *  source, size_t count)
     DMA_disableTransfers(USB_DMA_CHAN);
 #else
 
-    DMA_disableTransferDuringReadModifyWrite(DMA_BASE);
+    DMACTL4 |= DMARMWDIS; //DMA_disableTransferDuringReadModifyWrite(DMA_BASE);
     DMA_setSrcAddress(DMA_BASE, USB_DMA_CHAN, (uint32_t)source, DMA_DIRECTION_INCREMENT);
     DMA_setDstAddress(DMA_BASE, USB_DMA_CHAN, (uint32_t)dest, DMA_DIRECTION_INCREMENT);
     //DMA4 workaround - re-enable DMA transfers during read-modify-write CPU 
     //operations
-    DMA_enableTransferDuringReadModifyWrite(DMA_BASE);
+    DMACTL4 &= ~(DMARMWDIS); //DMA_enableTransferDuringReadModifyWrite(DMA_BASE);
     DMA_setTransferSize(DMA_BASE, USB_DMA_CHAN, count);
     DMA_enableTransfers(DMA_BASE, USB_DMA_CHAN);
     DMA_startTransfer(DMA_BASE, USB_DMA_CHAN);
