@@ -524,6 +524,7 @@ uint8_t USB_enable ()
     USBKEYPID = 0x9628;                                                         //set KEY and PID to 0x9628 -> access to
                                                                                 //configuration registers enabled
 #ifndef DRIVERLIB_LEGACY_MODE
+    /*
     if (USB_XT_FREQ_VALUE >= 24) {
     	//status = UCS_XT2StartWithTimeout(
     			//XT2DRIVE_3, 50000);
@@ -544,7 +545,10 @@ uint8_t USB_enable ()
     			//XT2DRIVE_0, 50000);
     	status = UCS_bypassXT2WithTimeout(50000);
     }
+    */
+    status = UCS_bypassXT2WithTimeout(50000);
 #else
+    /*
     if (USB_XT_FREQ_VALUE >= 24) {
     	//status = UCS_XT2StartWithTimeout(UCS_BASE,
     			//XT2DRIVE_3, 50000);
@@ -565,6 +569,8 @@ uint8_t USB_enable ()
     			//XT2DRIVE_0, 50000);
     	status = UCS_bypassXT2WithTimeout(UCS_BASE,50000);
     }
+    */
+    status = UCS_bypassXT2WithTimeout(UCS_BASE,50000);
 #endif
 
 	if (status == STATUS_FAIL) {
