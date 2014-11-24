@@ -661,7 +661,8 @@ uint8_t USB_enable_crystal (void)
     P7SEL |= BIT3; P7DIR |= BIT3; //GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P7, GPIO_PIN3);
 #endif
  
-#ifndef DRIVERLIB_LEGACY_MODE 
+#ifndef DRIVERLIB_LEGACY_MODE
+    /*
     if (USB_XT_FREQ_VALUE >= 24) {
     	//UCS_XT2StartWithTimeout(XT2DRIVE_3, 1);
     	UCS_bypassXT2WithTimeout(1);
@@ -678,8 +679,10 @@ uint8_t USB_enable_crystal (void)
     	//UCS_XT2StartWithTimeout(XT2DRIVE_0, 1);
     	UCS_bypassXT2WithTimeout(1);
     }
-
+    */
+    UCS_bypassXT2WithTimeout(1);
 #else
+    /*
     if (USB_XT_FREQ_VALUE >= 24) {
     	//UCS_XT2StartWithTimeout(UCS_BASE, XT2DRIVE_3, 1);
     	UCS_bypassXT2WithTimeout(UCS_BASE, 1);
@@ -696,7 +699,8 @@ uint8_t USB_enable_crystal (void)
     	//UCS_XT2StartWithTimeout(UCS_BASE, XT2DRIVE_0, 1);
     	UCS_bypassXT2WithTimeout(UCS_BASE, 1);
     }
-
+    */
+    UCS_bypassXT2WithTimeout(UCS_BASE, 1);
 #endif
 
     USB_handleCrystalStartedEvent();
