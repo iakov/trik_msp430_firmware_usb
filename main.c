@@ -81,9 +81,24 @@ uint8_t n_error = 0;
 
 uint8_t ReceiveError = 0, SendError = 0;
 
+uint32_t timerb_cnt = 0; //Timer B counter
+
+typedef struct {
+    uint8_t buttons;
+    uint8_t dX;
+    uint8_t dY;
+    uint8_t dZ;
+} MOUSE_REPORT;
+
+MOUSE_REPORT mouseReport = { 0, 0, 0, 0 };
+
+volatile uint8_t sendNewMousePosition = FALSE;  // Flag by which timer tells main loop to send a new report
+
+const int16_t tableSinCosLookUp[93][2];                 // Lookup table for mouse data;
+uint8_t index = 1;                                     // Index for lookup table
+
 uint8_t retInString (char* string);
 
-uint32_t timerb_cnt = 0; //Timer B counter
 
 /*  
  * ======== main ========
@@ -125,7 +140,9 @@ void main (void)
 
                 // Exit LPM because of a data-receive event, and fetch the received data
                 
-                if (bDataReceived_event0){                      // CDC0
+                //CDC0 events
+                if (bDataReceived_event0)
+                {
                     bDataReceived_event0 = FALSE;
                     memset(pieceOfString,0,MAX_STR_LENGTH);     // Clear pieceOfString
                     cdcReceiveDataInBuffer((uint8_t*)pieceOfString,
@@ -150,7 +167,9 @@ void main (void)
                     }
                 }
 
-                if (bDataReceived_event1){                      // CDC1
+                //CDC1 events
+                if (bDataReceived_event1)
+                {
                     bDataReceived_event1 = FALSE;               // Clear flag early -- just in case execution breaks below because of
                                                                 // an error
                     memset(pieceOfString,0,MAX_STR_LENGTH);     // Clear pieceOfString
@@ -160,6 +179,29 @@ void main (void)
                     strncat(wholeString,pieceOfString,strlen(pieceOfString));
                     memset(wholeString,0,MAX_STR_LENGTH);   // Clear wholeString
                 }
+
+                //Mouse test
+                if (sendNewMousePosition){
+
+                    // Build the report
+                    mouseReport.dX =
+                        (tableSinCosLookUp[index][0] -
+                         tableSinCosLookUp[index - 1][0]) >> 1;
+                    mouseReport.dY =
+                        (tableSinCosLookUp[index][1] -
+                         tableSinCosLookUp[index - 1][1]) >> 1;
+
+                    // Send the report
+                    USBHID_sendReport((void *)&mouseReport, HID0_INTFNUM);
+
+                    if (index++ >= 90){
+                        index = 1;
+                    }
+                }
+
+
+
+
                 break;
             // These cases are executed while your device is disconnected from
             // the host (meaning, not enumerated); enumerated but suspended
@@ -295,6 +337,8 @@ void TIMERB1_ISR(void)
             }
         }
 
+        sendNewMousePosition = TRUE;                 // Set flag telling main loop to send a report
+
         break;
     default: break;
     }
@@ -363,5 +407,100 @@ uint8_t retInString (char* string)
     return ( FALSE) ; // Otherwise, it wasn't found
 }
 
+// Lookup table for mouse position values.  "const" indicates it will be stored
+// in flash.
+const int16_t tableSinCosLookUp[93][2] = {
+    0,200,
+    14,200,
+    28,198,
+    42,196,
+    55,192,
+    68,188,
+    81,183,
+    94,177,
+    106,170,
+    118,162,
+    129,153,
+    139,144,
+    149,134,
+    158,123,
+    166,112,
+    173,100,
+    180,88,
+    185,75,
+    190,62,
+    194,48,
+    197,35,
+    199,21,
+    200,7,
+    200,-7,
+    199,-21,
+    197,-35,
+    194,-48,
+    190,-62,
+    185,-75,
+    180,-88,
+    173,-100,
+    166,-112,
+    158,-123,
+    149,-134,
+    139,-144,
+    129,-153,
+    118,-162,
+    106,-170,
+    94,-177,
+    81,-183,
+    68,-188,
+    55,-192,
+    42,-196,
+    28,-198,
+    14,-200,
+    0,-200,
+    -14,-200,
+    -28,-198,
+    -42,-196,
+    -55,-192,
+    -68,-188,
+    -81,-183,
+    -94,-177,
+    -106,-170,
+    -118,-162,
+    -129,-153,
+    -139,-144,
+    -149,-134,
+    -158,-123,
+    -166,-112,
+    -173,-100,
+    -180,-88,
+    -185,-75,
+    -190,-62,
+    -194,-48,
+    -197,-35,
+    -199,-21,
+    -200,-7,
+    -200,7,
+    -199,21,
+    -197,35,
+    -194,48,
+    -190,62,
+    -185,75,
+    -180,88,
+    -173,100,
+    -166,112,
+    -158,123,
+    -149,134,
+    -139,144,
+    -129,153,
+    -118,162,
+    -106,170,
+    -94,177,
+    -81,183,
+    -68,188,
+    -55,192,
+    -42,196,
+    -28,198,
+    -14,200,
+    0,200
+};
 
 //Released_Version_4_10_02
