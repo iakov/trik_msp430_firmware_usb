@@ -49,7 +49,7 @@
 #include "USB_API/USB_Common/device.h"
 #include "USB_API/USB_Common/usb.h"                 // USB-specific functions
 #include "USB_API/USB_CDC_API/UsbCdc.h"
-#include "USB_API/USB_HID_API/UsbHid.h"
+//#include "USB_API/USB_HID_API/UsbHid.h"
 #include "USB_app/usbConstructs.h"
 
 #include "Trik_Devices/trik_protocolhandler.h"
@@ -285,10 +285,6 @@ void TIMERB1_ISR(void)
             }
         }
 
-
-
-
-
         //Motors timer control
         for (uint8_t MOTNUM=MOTOR1; MOTNUM<=MOTOR4; MOTNUM++)
         {
@@ -298,8 +294,6 @@ void TIMERB1_ISR(void)
                 if ((MOT[MOTNUM].MVAL>MOT[MOTNUM].MTMR)) MOTOR_stop(MOTNUM);
             }
         }
-
-
 
         break;
     default: break;

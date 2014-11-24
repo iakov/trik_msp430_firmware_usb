@@ -515,11 +515,11 @@ uint8_t USB_enable ()
     }
 
 #if defined (__MSP430F552x) || defined (__MSP430F550x)
-	GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P5, GPIO_PIN2);
+    P5SEL |= BIT2; P5DIR |= BIT2; //GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P5, GPIO_PIN2);
 	//GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P5, GPIO_PIN3);
 #elif defined (__MSP430F563x_F663x) || defined (__MSP430F565x_F665x)
-	GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P7, GPIO_PIN2);
-	GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P7, GPIO_PIN3);
+    P7SEL |= BIT2; P7DIR |= BIT2; //GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P7, GPIO_PIN2);
+    P7SEL |= BIT3; P7DIR |= BIT3; //GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P7, GPIO_PIN3);
 #endif
     USBKEYPID = 0x9628;                                                         //set KEY and PID to 0x9628 -> access to
                                                                                 //configuration registers enabled
@@ -648,11 +648,11 @@ uint8_t USB_enable_crystal (void)
     }
 
 #if defined (__MSP430F552x) || defined (__MSP430F550x)
-	GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P5, GPIO_PIN2);
+    P5SEL |= BIT2; P5DIR |= BIT2; //GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P5, GPIO_PIN2);
 	//GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P5, GPIO_PIN3);
 #elif defined (__MSP430F563x_F663x) || defined (__MSP430F565x_F665x)
-	GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P7, GPIO_PIN2);
-	GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P7, GPIO_PIN3);
+    P7SEL |= BIT2; P7DIR |= BIT2; //GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P7, GPIO_PIN2);
+    P7SEL |= BIT3; P7DIR |= BIT3; //GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P7, GPIO_PIN3);
 #endif
  
 #ifndef DRIVERLIB_LEGACY_MODE 
