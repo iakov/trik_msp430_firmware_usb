@@ -13,6 +13,7 @@ void enableTimer_B()
 {
     //Overflow interrupt frequency is 10 kHz
     TB0CTL &= ~TBIFG; //TIMER_B_clearTimerInterruptFlag(TIMER_B0_BASE);
+    /*
     TIMER_B_startUpMode(TIMER_B0_BASE,
             TIMER_B_CLOCKSOURCE_SMCLK,
             TIMER_B_CLOCKSOURCE_DIVIDER_1,
@@ -20,10 +21,16 @@ void enableTimer_B()
             TIMER_B_TBIE_INTERRUPT_ENABLE,
             TIMER_B_CAPTURECOMPARE_INTERRUPT_DISABLE,
             TIMER_B_DO_CLEAR);
+    */
+    TB0CTL &= ~ID__8;
+    TB0EX0 = TBIDEX_0;
+    TBCCR0 = 0x0960;
+    TB0CTL = MC_1 + TBCLR + ID__1 + TBIE + TBSSEL_2;
 }
 
 void disableTimer_B()
 {
+    /*
     TIMER_B_startUpMode(TIMER_B0_BASE,
             TIMER_B_CLOCKSOURCE_SMCLK,
             TIMER_B_CLOCKSOURCE_DIVIDER_1,
@@ -31,7 +38,11 @@ void disableTimer_B()
             TIMER_B_TBIE_INTERRUPT_DISABLE,
             TIMER_B_CAPTURECOMPARE_INTERRUPT_DISABLE,
             TIMER_B_DO_CLEAR);
-    TB0CTL &= ~MC_3; //TIMER_B_stop(TIMER_B0_BASE);
+    */
+    TB0CTL &= ~(ID__8 + TBIE + MC_3); //TIMER_B_stop(TIMER_B0_BASE);
+    TB0EX0 = TBIDEX_0;
+    TBCCR0 = 0xFFFF;
+    TB0CTL = TBCLR + ID__1 + TBSSEL_2;
     TB0CTL &= ~TBIFG; //TIMER_B_clearTimerInterruptFlag(TIMER_B0_BASE);
 }
 
