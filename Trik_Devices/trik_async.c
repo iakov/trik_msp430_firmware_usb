@@ -31,7 +31,7 @@ void disableTimer_B()
             TIMER_B_TBIE_INTERRUPT_DISABLE,
             TIMER_B_CAPTURECOMPARE_INTERRUPT_DISABLE,
             TIMER_B_DO_CLEAR);
-    TIMER_B_stop(TIMER_B0_BASE);
+    TB0CTL &= ~MC_3; //TIMER_B_stop(TIMER_B0_BASE);
     TB0CTL &= ~TBIFG; //TIMER_B_clearTimerInterruptFlag(TIMER_B0_BASE);
 }
 
