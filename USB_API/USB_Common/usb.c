@@ -1210,9 +1210,9 @@ uint8_t USB_suspend (void)
 
     if (USB_DISABLE_XT_SUSPEND){
 #ifndef DRIVERLIB_LEGACY_MODE
-        UCS_XT2Off();         //disable XT2
+        UCSCTL6 |= XT2OFF; //UCS_XT2Off();         //disable XT2
 #else
-        UCS_XT2Off(UCS_BASE);         //disable XT2
+        UCSCTL6 |= XT2OFF; //UCS_XT2Off(UCS_BASE);         //disable XT2
 #endif
     }
 
