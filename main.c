@@ -73,15 +73,11 @@ volatile uint8_t bDataReceived_event1 = FALSE; // without an open rx operation,
 char wholeString[MAX_STR_LENGTH] = "";
 char newString[MAX_STR_LENGTH] = "";
 char pieceOfString[MAX_STR_LENGTH] = "";
-char s1[MAX_STR_LENGTH] = "";
-char s2[MAX_STR_LENGTH] = "";
-
 
 uint8_t n_error = 0;
-
 uint8_t ReceiveError = 0, SendError = 0;
 
-uint32_t timerb_cnt = 0; //Timer B counter
+volatile uint32_t timerb_cnt = 0; //Timer B counter
 
 typedef struct {
     uint8_t buttons;
