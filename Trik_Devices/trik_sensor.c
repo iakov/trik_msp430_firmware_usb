@@ -291,7 +291,7 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             return ADC10_A_getResults(ADC10_A_BASE);
             */
             ADC10CTL0 &= ~ADC10ENC;
-            ADC10MCTL0 = ADC10INCH0 + ADC10INCH2;
+            ADC10MCTL0 = ADC10INCH_5;
             ADC10CTL0 |= ADC10SC + ADC10ENC;
             while (ADC10CTL1 & ADC10BUSY)
                 ;
@@ -313,7 +313,7 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             return ADC10_A_getResults(ADC10_A_BASE);
             */
             ADC10CTL0 &= ~ADC10ENC;
-            ADC10MCTL0 = ADC10INCH2;
+            ADC10MCTL0 = ADC10INCH_4;
             ADC10CTL0 |= ADC10SC + ADC10ENC;
             while (ADC10CTL1 & ADC10BUSY)
                 ;
@@ -335,7 +335,7 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             return ADC10_A_getResults(ADC10_A_BASE);
             */
             ADC10CTL0 &= ~ADC10ENC;
-            ADC10MCTL0 = ADC10INCH0 + ADC10INCH1;
+            ADC10MCTL0 = ADC10INCH_3;
             ADC10CTL0 |= ADC10SC + ADC10ENC;
             while (ADC10CTL1 & ADC10BUSY)
                 ;
@@ -357,7 +357,7 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             return ADC10_A_getResults(ADC10_A_BASE);
             */
             ADC10CTL0 &= ~ADC10ENC;
-            ADC10MCTL0 = ADC10INCH1;
+            ADC10MCTL0 = ADC10INCH_2;
             ADC10CTL0 |= ADC10SC + ADC10ENC;
             while (ADC10CTL1 & ADC10BUSY)
                 ;
@@ -379,7 +379,7 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             return ADC10_A_getResults(ADC10_A_BASE);
             */
             ADC10CTL0 &= ~ADC10ENC;
-            ADC10MCTL0 = ADC10INCH0;
+            ADC10MCTL0 = ADC10INCH_1;
             ADC10CTL0 |= ADC10SC + ADC10ENC;
             while (ADC10CTL1 & ADC10BUSY)
                 ;
@@ -401,7 +401,7 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             return ADC10_A_getResults(ADC10_A_BASE);
             */
             ADC10CTL0 &= ~ADC10ENC;
-            ADC10MCTL0 = 0x00;
+            ADC10MCTL0 = ADC10INCH_0;
             ADC10CTL0 |= ADC10SC + ADC10ENC;
             while (ADC10CTL1 & ADC10BUSY)
                 ;
