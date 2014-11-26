@@ -313,10 +313,12 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
         default:
             break;
 	}
-	if ((func1==FUNCx03) || (func1==FUNCx04)) crc2=0-(devaddr1+func1+regaddr1+
-	        (uint8_t)(regval1 & 0x000000FF)+(uint8_t)((regval1 & 0x0000FF00) >> 8)+
-	        (uint8_t)((regval1 & 0x00FF0000) >> 16)+(uint8_t)((regval1 & 0xFF000000) >> 24));
-	if ((func1==FUNCx05) || (func1==FUNCx06)) crc2=0-(devaddr1+func1+regaddr1);
+	if ((func1==FUNCx03) || (func1==FUNCx04))
+	    crc2=0-(devaddr1+func1+regaddr1+
+	            (uint8_t)(regval1 & 0x000000FF)+(uint8_t)((regval1 & 0x0000FF00) >> 8)+
+	            (uint8_t)((regval1 & 0x00FF0000) >> 16)+(uint8_t)((regval1 & 0xFF000000) >> 24));
+	if ((func1==FUNCx05) || (func1==FUNCx06))
+	    crc2=0-(devaddr1+func1+regaddr1);
 	if (crc1!=crc2)
 	{
 	    PROTOCOL_errResponse(out_str,devaddr1,func1,CRC_ERROR);
@@ -329,12 +331,18 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	    //Motors
 	    if ((devaddr1>=MOTOR1) && (devaddr1<=MOTOR4))
 	    {
-	        if (regaddr1==MMDUT) MOT[devaddr1].MDUT=regval1;
-	        if (regaddr1==MMPER) MOT[devaddr1].MPER=regval1;
-	        if (regaddr1==MMANG) MOT[devaddr1].MANG=regval1;
-	        if (regaddr1==MMTMR) MOT[devaddr1].MTMR=regval1;
-	        if (regaddr1==MMVAL) MOT[devaddr1].MVAL=regval1;
-	        if (regaddr1==MMCTL) MOT[devaddr1].MCTL=regval1;
+	        if (regaddr1==MMDUT)
+	            MOT[devaddr1].MDUT = regval1;
+	        if (regaddr1==MMPER)
+	            MOT[devaddr1].MPER = regval1;
+	        if (regaddr1==MMANG)
+	            MOT[devaddr1].MANG = regval1;
+	        if (regaddr1==MMTMR)
+	            MOT[devaddr1].MTMR = regval1;
+	        if (regaddr1==MMVAL)
+	            MOT[devaddr1].MVAL = regval1;
+	        if (regaddr1==MMCTL)
+	            MOT[devaddr1].MCTL = regval1;
             //Error register values
             if ((MOT[devaddr1].MPER==0) || (MOT[devaddr1].MDUT>MOT[devaddr1].MPER))
             {
@@ -355,10 +363,11 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	    //Encoders
         if ((devaddr1>=ENCODER1) && (devaddr1<=ENCODER4))
         {
-            if (regaddr1==EEVAL) ENC[devaddr1-ENCODER1].EVAL=regval1;
+            if (regaddr1==EEVAL)
+                ENC[devaddr1-ENCODER1].EVAL = regval1;
             if (regaddr1==EECTL)
             {
-                ENC[devaddr1-ENCODER1].ECTL=regval1;
+                ENC[devaddr1-ENCODER1].ECTL = regval1;
                 ENCODER_hadler(devaddr1);
             }
             PROTOCOL_transResponse(out_str,devaddr1,ENC[devaddr1-ENCODER1].ESTA);
@@ -368,10 +377,11 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
         //Sensors
         if ((devaddr1>=SENSOR1) && (devaddr1<=SENSOR14))
         {
-            if (regaddr1==SSIDX) SENS[devaddr1-SENSOR1].SIDX=regval1;
+            if (regaddr1==SSIDX)
+                SENS[devaddr1-SENSOR1].SIDX = regval1;
             if (regaddr1==SSCTL)
             {
-                SENS[devaddr1-SENSOR1].SCTL=regval1;
+                SENS[devaddr1-SENSOR1].SCTL = regval1;
                 SENSOR_hadler(devaddr1);
             }
             PROTOCOL_transResponse(out_str,devaddr1,SENS[devaddr1-SENSOR1].SSTA);
@@ -381,8 +391,10 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
         //Async timer
         if ((devaddr1==ASYNCTIMER))
         {
-            if (regaddr1==AATPER) ASYNCTMR.ATPER=regval1+MAX_DEVICES;
-            if (regaddr1==AATVAL) ASYNCTMR.ATVAL=regval1;
+            if (regaddr1==AATPER)
+                ASYNCTMR.ATPER = regval1 + MAX_DEVICES;
+            if (regaddr1==AATVAL)
+                ASYNCTMR.ATVAL = regval1;
             if (regaddr1==AATCTL)
             {
                 ASYNCTMR.ATCTL=regval1;
@@ -412,20 +424,28 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
         //Motors
         if ((devaddr1>=MOTOR1) && (devaddr1<=MOTOR4))
         {
-            if (regaddr1==MMCTL) PROTOCOL_recvResponse(out_str,devaddr1,MOT[devaddr1].MSTA,regaddr1,MOT[devaddr1].MCTL,REG_16bits);
-            if (regaddr1==MMDUT) PROTOCOL_recvResponse(out_str,devaddr1,MOT[devaddr1].MSTA,regaddr1,MOT[devaddr1].MDUT,REG_16bits);
-            if (regaddr1==MMPER) PROTOCOL_recvResponse(out_str,devaddr1,MOT[devaddr1].MSTA,regaddr1,MOT[devaddr1].MPER,REG_16bits);
-            if (regaddr1==MMANG) PROTOCOL_recvResponse(out_str,devaddr1,MOT[devaddr1].MSTA,regaddr1,MOT[devaddr1].MANG,REG_32bits);
-            if (regaddr1==MMTMR) PROTOCOL_recvResponse(out_str,devaddr1,MOT[devaddr1].MSTA,regaddr1,MOT[devaddr1].MTMR,REG_32bits);
-            if (regaddr1==MMVAL) PROTOCOL_recvResponse(out_str,devaddr1,MOT[devaddr1].MSTA,regaddr1,MOT[devaddr1].MVAL,REG_32bits);
+            if (regaddr1==MMCTL)
+                PROTOCOL_recvResponse(out_str,devaddr1,MOT[devaddr1].MSTA,regaddr1,MOT[devaddr1].MCTL,REG_16bits);
+            if (regaddr1==MMDUT)
+                PROTOCOL_recvResponse(out_str,devaddr1,MOT[devaddr1].MSTA,regaddr1,MOT[devaddr1].MDUT,REG_16bits);
+            if (regaddr1==MMPER)
+                PROTOCOL_recvResponse(out_str,devaddr1,MOT[devaddr1].MSTA,regaddr1,MOT[devaddr1].MPER,REG_16bits);
+            if (regaddr1==MMANG)
+                PROTOCOL_recvResponse(out_str,devaddr1,MOT[devaddr1].MSTA,regaddr1,MOT[devaddr1].MANG,REG_32bits);
+            if (regaddr1==MMTMR)
+                PROTOCOL_recvResponse(out_str,devaddr1,MOT[devaddr1].MSTA,regaddr1,MOT[devaddr1].MTMR,REG_32bits);
+            if (regaddr1==MMVAL)
+                PROTOCOL_recvResponse(out_str,devaddr1,MOT[devaddr1].MSTA,regaddr1,MOT[devaddr1].MVAL,REG_32bits);
             return NO_ERROR;
         }
 
         //Encoders
         if ((devaddr1>=ENCODER1) && (devaddr1<=ENCODER4))
         {
-            if (regaddr1==EECTL) PROTOCOL_recvResponse(out_str,devaddr1,ENC[devaddr1-ENCODER1].ESTA,regaddr1,ENC[devaddr1-ENCODER1].ECTL,REG_16bits);
-            if (regaddr1==EEVAL) PROTOCOL_recvResponse(out_str,devaddr1,ENC[devaddr1-ENCODER1].ESTA,regaddr1,ENC[devaddr1-ENCODER1].EVAL,REG_32bits);
+            if (regaddr1==EECTL)
+                PROTOCOL_recvResponse(out_str,devaddr1,ENC[devaddr1-ENCODER1].ESTA,regaddr1,ENC[devaddr1-ENCODER1].ECTL,REG_16bits);
+            if (regaddr1==EEVAL)
+                PROTOCOL_recvResponse(out_str,devaddr1,ENC[devaddr1-ENCODER1].ESTA,regaddr1,ENC[devaddr1-ENCODER1].EVAL,REG_32bits);
             return NO_ERROR;
         }
 
@@ -433,18 +453,24 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
         if ((devaddr1>=SENSOR1) && (devaddr1<=SENSOR14))
         {
             SENSOR_hadler(devaddr1);
-            if (regaddr1==SSCTL) PROTOCOL_recvResponse(out_str,devaddr1,SENS[devaddr1-SENSOR1].SSTA,regaddr1,SENS[devaddr1-SENSOR1].SCTL,REG_16bits);
-            if (regaddr1==SSIDX) PROTOCOL_recvResponse(out_str,devaddr1,SENS[devaddr1-SENSOR1].SSTA,regaddr1,SENS[devaddr1-SENSOR1].SIDX,REG_16bits);
-            if (regaddr1==SSVAL) PROTOCOL_recvResponse(out_str,devaddr1,SENS[devaddr1-SENSOR1].SSTA,regaddr1,SENS[devaddr1-SENSOR1].SVAL,REG_32bits);
+            if (regaddr1==SSCTL)
+                PROTOCOL_recvResponse(out_str,devaddr1,SENS[devaddr1-SENSOR1].SSTA,regaddr1,SENS[devaddr1-SENSOR1].SCTL,REG_16bits);
+            if (regaddr1==SSIDX)
+                PROTOCOL_recvResponse(out_str,devaddr1,SENS[devaddr1-SENSOR1].SSTA,regaddr1,SENS[devaddr1-SENSOR1].SIDX,REG_16bits);
+            if (regaddr1==SSVAL)
+                PROTOCOL_recvResponse(out_str,devaddr1,SENS[devaddr1-SENSOR1].SSTA,regaddr1,SENS[devaddr1-SENSOR1].SVAL,REG_32bits);
             return NO_ERROR;
        }
 
         //Async timer
         if ((devaddr1==ASYNCTIMER))
         {
-            if (regaddr1==AATCTL) PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,ASYNCTMR.ATCTL,REG_16bits);
-            if (regaddr1==AATPER) PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,ASYNCTMR.ATPER,REG_16bits);
-            if (regaddr1==AATVAL) PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,ASYNCTMR.ATVAL,REG_32bits);
+            if (regaddr1==AATCTL)
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,ASYNCTMR.ATCTL,REG_16bits);
+            if (regaddr1==AATPER)
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,ASYNCTMR.ATPER,REG_16bits);
+            if (regaddr1==AATVAL)
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,ASYNCTMR.ATVAL,REG_32bits);
             return NO_ERROR;
         }
     }
