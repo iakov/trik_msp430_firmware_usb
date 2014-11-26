@@ -146,7 +146,8 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                 P1SEL |= BIT5; P1DIR |= BIT5; //GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN5);
                 P2DIR &= ~BIT7; //GPIO_setAsInputPin(GPIO_PORT_P2, GPIO_PIN7);
                 break;
-            default:;
+            default:
+                break;
         }
     }
 }
@@ -173,7 +174,8 @@ void MOTOR_disableController(uint8_t MOT_NUMBER)
             PJDIR &= ~(BIT2+BIT3); //GPIO_setAsInputPin(GPIO_PORT_PJ, GPIO_PIN2 | GPIO_PIN3);
             P1DIR &= ~BIT5; //GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN5);
             break;
-        default:;
+        default:
+            break;
     }
 }
 
@@ -321,7 +323,8 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
                 TA0CTL = TASSEL_2 + MC_1 + TACLR;         // SMCLK, up mode, clear TAR
             }
             break;
-        default:;
+        default:
+            break;
     }
     MOT[MOT_NUMBER].MOT_PWR = DISABLE;
     MOT[MOT_NUMBER].MOT_MOD = CONT_MODE;

@@ -75,7 +75,7 @@ char newString[MAX_STR_LENGTH] = "";
 char pieceOfString[MAX_STR_LENGTH] = "";
 
 uint8_t n_error = 0;
-uint8_t ReceiveError = 0, SendError = 0;
+volatile uint8_t ReceiveError = 0, SendError = 0;
 
 volatile uint32_t timerb_cnt = 0; //Timer B counter
 
@@ -153,7 +153,8 @@ void main (void)
 
                         //sprintf(newString,"TestNumber=%x %x %x %x\n",t11,t12,t13,t14);
                         if (cdcSendDataInBackground((uint8_t*)newString,
-                                strlen(newString),CDC0_INTFNUM,1)){  // Send message to other App
+                                strlen(newString),CDC0_INTFNUM,1))
+                        {  // Send message to other App
                             SendError = 0x01;                          // Something went wrong -- exit
                             break;
                         }
@@ -187,7 +188,8 @@ void main (void)
                     // Send the report
                     USBHID_sendReport((void *)&mouseReport, HID0_INTFNUM);
 
-                    if (index++ >= 90){
+                    if (index++ >= 90)
+                    {
                         index = 1;
                     }
                 }
@@ -213,7 +215,8 @@ void main (void)
             // communication is taking place here, and therefore the mode must
             // be LPM0 or active-CPU.
             case ST_ENUM_IN_PROGRESS:
-            default:;
+            default:
+                break;
         }
 
         if (ReceiveError || SendError){
@@ -333,7 +336,8 @@ void TIMERB1_ISR(void)
         sendNewMousePosition = TRUE;                 // Set flag telling main loop to send a report
 
         break;
-    default: break;
+    default:
+        break;
     }
 
     TB0CTL &= ~TBIFG; //TIMER_B_clearTimerInterruptFlag(TIMER_B0_BASE);

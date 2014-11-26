@@ -310,7 +310,8 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
             sprintf(stmp1,"%c%c",in_str[7],in_str[8]);
             crc1=strtoul(stmp1,&stmp1[2],16);
             break;
-        default:;
+        default:
+            break;
 	}
 	if ((func1==FUNCx03) || (func1==FUNCx04)) crc2=0-(devaddr1+func1+regaddr1+
 	        (uint8_t)(regval1 & 0x000000FF)+(uint8_t)((regval1 & 0x0000FF00) >> 8)+

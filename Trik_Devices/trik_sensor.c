@@ -181,7 +181,8 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
                 P1DIR &= ~BIT6; P1REN &= ~BIT6; P1OUT &= ~BIT6; //GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN6);
             }
             return (P1IN & BIT6); //return GPIO_getInputPinValue(GPIO_PORT_P1,GPIO_PIN6);
-        default: return 0x00;
+        default:
+            return 0x00;
     }
 }
 
@@ -343,7 +344,8 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
                 return 0xFFFFFFFF;
             else
                 return 0x00000000;
-        default: return 0x00;
+        default:
+            return 0x00;
     }
 }
 

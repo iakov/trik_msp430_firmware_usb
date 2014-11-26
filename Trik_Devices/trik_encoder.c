@@ -129,7 +129,8 @@ void ENCODER_disableController(uint8_t ENC_NUMBER)
             P2IFG &= ~(BIT2+BIT5); //GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5);
             P2DIR &= ~(BIT2+BIT5); P2REN &= ~(BIT2+BIT5); P2OUT &= ~(BIT2+BIT5); //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5);
             break;
-        default:;
+        default:
+            break;
     }
 }
 
