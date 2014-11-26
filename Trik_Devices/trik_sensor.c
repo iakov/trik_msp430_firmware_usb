@@ -464,7 +464,7 @@ uint32_t SENSOR_read_temperature(uint8_t SENS_NUMBER)
     return ADC10_A_getResults(ADC10_A_BASE);
     */
     ADC10CTL0 &= ~ADC10ENC;
-    ADC10MCTL0 = ADC10INCH1 + ADC10INCH3;
+    ADC10MCTL0 = ADC10INCH_10;
     ADC10CTL0 |= ADC10SC + ADC10ENC;
     while (ADC10CTL1 & ADC10BUSY)
         ;
@@ -487,7 +487,7 @@ uint32_t SENSOR_read_voltage(uint8_t SENS_NUMBER)
     return ADC10_A_getResults(ADC10_A_BASE);
     */
     ADC10CTL0 &= ~ADC10ENC;
-    ADC10MCTL0 = ADC10INCH1 + ADC10INCH2;
+    ADC10MCTL0 = ADC10INCH_6;
     ADC10CTL0 |= ADC10SC + ADC10ENC;
     while (ADC10CTL1 & ADC10BUSY)
         ;
@@ -510,7 +510,7 @@ uint32_t SENSOR_read_current(uint8_t SENS_NUMBER)
     return ADC10_A_getResults(ADC10_A_BASE);
     */
     ADC10CTL0 &= ~ADC10ENC;
-    ADC10MCTL0 = ADC10INCH0 + ADC10INCH1 + ADC10INCH2;
+    ADC10MCTL0 = ADC10INCH_7;
     ADC10CTL0 |= ADC10SC + ADC10ENC;
     while (ADC10CTL1 & ADC10BUSY)
         ;
