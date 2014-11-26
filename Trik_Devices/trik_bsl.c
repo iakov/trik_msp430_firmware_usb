@@ -21,6 +21,8 @@ uint8_t BSL_enterBSL(uint32_t bslpswd)
         return PSWD_OK;
     }
     else
+    {
         return PSWD_FAIL;
+    }
 }
 

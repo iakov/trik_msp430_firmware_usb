@@ -16,18 +16,24 @@ void ENCODER_enableController(uint8_t ENC_NUMBER)
 {
     if ((busy_table[ENC_NUMBER]==NNONE) || (busy_table[ENC_NUMBER]==ENC_NUMBER))
     {
-        busy_table[ENC_NUMBER]=ENC_NUMBER;
+        busy_table[ENC_NUMBER] = ENC_NUMBER;
         ENC[ENC_NUMBER-ENCODER1].ENC_EN = ENABLE;
         switch (ENC_NUMBER)
         {
             case ENCODER1:
                 if (ENC[ENC_NUMBER-ENCODER1].ENC_PUP==ENABLE)
                 {
-                    P2DIR &= ~(BIT0+BIT3); P2OUT |= BIT0+BIT3; P2REN |= BIT0+BIT3; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3);
+                    /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3);*/
+                    P2DIR &= ~(BIT0+BIT3);
+                    P2OUT |= BIT0+BIT3;
+                    P2REN |= BIT0+BIT3;
                 }
                 else
                 {
-                    P2DIR &= ~(BIT0+BIT3); P2REN &= ~(BIT0+BIT3); P2OUT &= ~(BIT0+BIT3); //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3);
+                    /*GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3);*/
+                    P2DIR &= ~(BIT0+BIT3);
+                    P2REN &= ~(BIT0+BIT3);
+                    P2OUT &= ~(BIT0+BIT3);
                 }
                 P2IE |= BIT0+BIT3; //GPIO_enableInterrupt(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3);
                 if (ENC[ENC_NUMBER-ENCODER1].ENC_EDG==RIS_EDGE)
@@ -39,51 +45,75 @@ void ENCODER_enableController(uint8_t ENC_NUMBER)
             case ENCODER2:
                 if (ENC[ENC_NUMBER-ENCODER1].ENC_PUP==ENABLE)
                 {
-                    P1DIR &= ~BIT0; P1OUT |= BIT0; P1REN |= BIT0; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P1,GPIO_PIN0);
-                    P2DIR &= ~BIT4; P2OUT |= BIT4; P2REN |= BIT4; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN4);
+                    /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P1,GPIO_PIN0);*/
+                    P1DIR &= ~BIT0;
+                    P1OUT |= BIT0;
+                    P1REN |= BIT0;
+                    /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN4);*/
+                    P2DIR &= ~BIT4;
+                    P2OUT |= BIT4;
+                    P2REN |= BIT4;
                 } else
                 {
-                    P1DIR &= ~BIT0; P1REN &= ~BIT0; P1OUT &= ~BIT0; //GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN0);
-                    P2DIR &= ~BIT4; P2REN &= ~BIT4; P2OUT &= ~BIT4; //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN4);
+                    /*GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN0);*/
+                    P1DIR &= ~BIT0;
+                    P1REN &= ~BIT0;
+                    P1OUT &= ~BIT0;
+                    /*GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN4);*/
+                    P2DIR &= ~BIT4;
+                    P2REN &= ~BIT4;
+                    P2OUT &= ~BIT4;
                 }
                 P2IE |= BIT4; //GPIO_enableInterrupt(GPIO_PORT_P2,GPIO_PIN4);
-                //GPIO_enableInterrupt(GPIO_PORT_P1,GPIO_PIN0);
                 if (ENC[ENC_NUMBER-ENCODER1].ENC_EDG==RIS_EDGE)
                     P2IES &= ~BIT4; // GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN4,GPIO_LOW_TO_HIGH_TRANSITION);
                 else
                     P2IES |= BIT4; //GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN4,GPIO_HIGH_TO_LOW_TRANSITION);
-                //GPIO_interruptEdgeSelect(GPIO_PORT_P1,GPIO_PIN0,GPIO_LOW_TO_HIGH_TRANSITION);
                 P2IFG &= ~BIT4; //GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN4);
-                //GPIO_clearInterruptFlag(GPIO_PORT_P1,GPIO_PIN0);
                 break;
             case ENCODER4:
                 if (ENC[ENC_NUMBER-ENCODER1].ENC_PUP==ENABLE)
                 {
-                    P1DIR &= ~BIT6; P1OUT |= BIT6; P1REN |= BIT6;//GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P1,GPIO_PIN6);
-                    P2DIR &= ~BIT1; P2OUT |= BIT1; P2REN |= BIT1;//GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN1);
+                    /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P1,GPIO_PIN6);*/
+                    P1DIR &= ~BIT6;
+                    P1OUT |= BIT6;
+                    P1REN |= BIT6;
+                    /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN1);*/
+                    P2DIR &= ~BIT1;
+                    P2OUT |= BIT1;
+                    P2REN |= BIT1;
                 } else
                 {
-                    P1DIR &= ~BIT6; P1REN &= ~BIT6; P1OUT &= ~BIT6; //GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN6);
-                    P2DIR &= ~BIT1; P2REN &= ~BIT1; P2OUT &= ~BIT1; //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN1);
+                    /*GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN6);*/
+                    P1DIR &= ~BIT6;
+                    P1REN &= ~BIT6;
+                    P1OUT &= ~BIT6;
+                    /*GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN1);*/
+                    P2DIR &= ~BIT1;
+                    P2REN &= ~BIT1;
+                    P2OUT &= ~BIT1;
                 }
                 P2IE |= BIT1; //GPIO_enableInterrupt(GPIO_PORT_P2,GPIO_PIN1);
-                //GPIO_enableInterrupt(GPIO_PORT_P1,GPIO_PIN6);
                 if (ENC[ENC_NUMBER-ENCODER1].ENC_EDG==RIS_EDGE)
                     P2IES &= ~BIT1; //GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN1,GPIO_LOW_TO_HIGH_TRANSITION);
                 else
                     P2IES |= BIT1; //GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN1,GPIO_HIGH_TO_LOW_TRANSITION);
-                //GPIO_interruptEdgeSelect(GPIO_PORT_P1,GPIO_PIN6,GPIO_LOW_TO_HIGH_TRANSITION);
                 P2IFG &= ~BIT1; //GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN1);
-                //GPIO_clearInterruptFlag(GPIO_PORT_P1,GPIO_PIN6);
                 break;
             case ENCODER3:
                 if (ENC[ENC_NUMBER-ENCODER1].ENC_PUP==ENABLE)
                 {
-                    P2DIR &= ~(BIT0+BIT3); P2OUT |= BIT2+BIT5; P2REN |= BIT2+BIT5; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5);
+                    /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5);*/
+                    P2DIR &= ~(BIT0+BIT3);
+                    P2OUT |= BIT2+BIT5;
+                    P2REN |= BIT2+BIT5;
                 }
                 else
                 {
-                    P2DIR &= ~(BIT2+BIT5); P2REN &= ~(BIT2+BIT5); P2OUT &= ~(BIT2+BIT5); //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5);
+                    /*GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5);*/
+                    P2DIR &= ~(BIT2+BIT5);
+                    P2REN &= ~(BIT2+BIT5);
+                    P2OUT &= ~(BIT2+BIT5);
                 }
                 P2IE |= BIT2+BIT5; //GPIO_enableInterrupt(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5);
                 if (ENC[ENC_NUMBER-ENCODER1].ENC_EDG==RIS_EDGE)
@@ -106,28 +136,42 @@ void ENCODER_disableController(uint8_t ENC_NUMBER)
         case ENCODER1:
             P2IE &= ~(BIT0+BIT3); //GPIO_disableInterrupt(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3);
             P2IFG &= ~(BIT0+BIT3); //GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3);
-            P2DIR &= ~(BIT0+BIT3); P2REN &= ~(BIT0+BIT3); P2OUT &= ~(BIT0+BIT3); //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3);
+            /*GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3);*/
+            P2DIR &= ~(BIT0+BIT3);
+            P2REN &= ~(BIT0+BIT3);
+            P2OUT &= ~(BIT0+BIT3);
             break;
         case ENCODER2:
             P2IE &= ~BIT4; //GPIO_disableInterrupt(GPIO_PORT_P2,GPIO_PIN4);
-            //GPIO_disableInterrupt(GPIO_PORT_P1,GPIO_PIN0);
             P2IFG &= ~BIT4; //GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN4);
-            //GPIO_clearInterruptFlag(GPIO_PORT_P1,GPIO_PIN0);
-            P1DIR &= ~BIT0; P1REN &= ~BIT0; P1OUT &= ~BIT0; //GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN0);
-            P2DIR &= ~BIT4; P2REN &= ~BIT4; P2OUT &= ~BIT4; //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN4);
+            /*GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN0);*/
+            P1DIR &= ~BIT0;
+            P1REN &= ~BIT0;
+            P1OUT &= ~BIT0;
+            /*GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN4);*/
+            P2DIR &= ~BIT4;
+            P2REN &= ~BIT4;
+            P2OUT &= ~BIT4;
             break;
         case ENCODER4:
             P2IE &= ~BIT1; //GPIO_disableInterrupt(GPIO_PORT_P2,GPIO_PIN1);
-            //GPIO_disableInterrupt(GPIO_PORT_P1,GPIO_PIN6);
             P2IFG &= ~BIT1; //GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN1);
-            //GPIO_clearInterruptFlag(GPIO_PORT_P1,GPIO_PIN6);
-            P1DIR &= ~BIT6; P1REN &= ~BIT6; P1OUT &= ~BIT6; //GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN6);
-            P2DIR &= ~BIT1; P2REN &= ~BIT1; P2OUT &= ~BIT1; //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN1);
+            /*GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN6);*/
+            P1DIR &= ~BIT6;
+            P1REN &= ~BIT6;
+            P1OUT &= ~BIT6;
+            /*GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN1);*/
+            P2DIR &= ~BIT1;
+            P2REN &= ~BIT1;
+            P2OUT &= ~BIT1;
             break;
         case ENCODER3:
             P2IE &= ~(BIT2+BIT5); //GPIO_disableInterrupt(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5);
             P2IFG &= ~(BIT2+BIT5); //GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5);
-            P2DIR &= ~(BIT2+BIT5); P2REN &= ~(BIT2+BIT5); P2OUT &= ~(BIT2+BIT5); //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5);
+            /*GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5);*/
+            P2DIR &= ~(BIT2+BIT5);
+            P2REN &= ~(BIT2+BIT5);
+            P2OUT &= ~(BIT2+BIT5);
             break;
         default:
             break;

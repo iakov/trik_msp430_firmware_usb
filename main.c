@@ -296,7 +296,11 @@ void TIMERB1_ISR(void)
         ASYNCTMR.ATVAL++;
 
         timerb_cnt++;
-        if (timerb_cnt > ASYNCTMR.ATPER) timerb_cnt = 0;
+
+        if (timerb_cnt > ASYNCTMR.ATPER)
+        {
+            timerb_cnt = 0;
+        }
 
         //Async output for encoder
         for (uint8_t nnn=ENCODER1; nnn<=ENCODER4; nnn++)
@@ -304,7 +308,8 @@ void TIMERB1_ISR(void)
             if ((timerb_cnt==nnn) && (ENC[nnn-ENCODER1].ENC_MOD==ENABLE))
             {
                 PROTOCOL_recvResponse(newString,nnn,NO_ERROR,EEVAL,ENC[nnn-ENCODER1].EVAL,REG_32bits);
-                if (cdcSendDataInBackground((uint8_t*)newString,strlen(newString),CDC0_INTFNUM,1)) {
+                if (cdcSendDataInBackground((uint8_t*)newString,strlen(newString),CDC0_INTFNUM,1))
+                {
                     SendError = 0x01;
                 }
             }
@@ -317,7 +322,8 @@ void TIMERB1_ISR(void)
             {
                 SENSOR_hadler(nnn);
                 PROTOCOL_recvResponse(newString,nnn,NO_ERROR,SSVAL,SENS[nnn-SENSOR1].SVAL,REG_32bits);
-                if (cdcSendDataInBackground((uint8_t*)newString,strlen(newString),CDC0_INTFNUM,1)) {
+                if (cdcSendDataInBackground((uint8_t*)newString,strlen(newString),CDC0_INTFNUM,1))
+                {
                     SendError = 0x01;
                 }
             }
@@ -329,7 +335,10 @@ void TIMERB1_ISR(void)
             if (MOT[MOTNUM].MOT_MOD==TIME_MODE)
             {
                 MOT[MOTNUM].MVAL++;
-                if ((MOT[MOTNUM].MVAL>MOT[MOTNUM].MTMR)) MOTOR_stop(MOTNUM);
+                if ((MOT[MOTNUM].MVAL>MOT[MOTNUM].MTMR))
+                {
+                    MOTOR_stop(MOTNUM);
+                }
             }
         }
 
