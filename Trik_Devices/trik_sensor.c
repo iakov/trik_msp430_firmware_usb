@@ -306,42 +306,42 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             return ADC10MEM0;
         case SENSOR7:
             if (P2IN & BIT0) //if (GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN0))
-                return 0xFFFFFFFF;
+                return UINT32_MAX;
             else
                 return 0x00000000;
         case SENSOR8:
             if (P2IN & BIT3) //if (GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN3))
-                return 0xFFFFFFFF;
+                return UINT32_MAX;
             else
                 return 0x00000000;
         case SENSOR9:
             if (P2IN & BIT4) //if (GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN4))
-                return 0xFFFFFFFF;
+                return UINT32_MAX;
             else
                 return 0x00000000;
         case SENSOR10:
             if (P1IN & BIT0) //if (GPIO_getInputPinValue(GPIO_PORT_P1,GPIO_PIN0))
-                return 0xFFFFFFFF;
+                return UINT32_MAX;
             else
                 return 0x00000000;
         case SENSOR11:
             if (P2IN & BIT5) //if (GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN5))
-                return 0xFFFFFFFF;
+                return UINT32_MAX;
             else
                 return 0x00000000;
         case SENSOR12:
             if (P2IN & BIT2) //if (GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN2))
-                return 0xFFFFFFFF;
+                return UINT32_MAX;
             else
                 return 0x00000000;
         case SENSOR13:
             if (P2IN & BIT1) //if (GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN1))
-                return 0xFFFFFFFF;
+                return UINT32_MAX;
             else
                 return 0x00000000;
         case SENSOR14:
             if (P1IN & BIT6) //if (GPIO_getInputPinValue(GPIO_PORT_P1,GPIO_PIN6))
-                return 0xFFFFFFFF;
+                return UINT32_MAX;
             else
                 return 0x00000000;
         default:
