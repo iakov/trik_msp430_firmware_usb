@@ -264,7 +264,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	}
 
 	//Sensor registers addresses range
-	if (((devaddr1>=SENSOR1) && (devaddr1<=SENSOR14)) && (regaddr1>0x03))
+	if (((devaddr1>=SENSOR1) && (devaddr1<=SENSOR18)) && (regaddr1>0x03))
 	{
 	    PROTOCOL_errResponse(out_str,devaddr1,func1,REG_ADDR_ERROR);
 		return REG_ADDR_ERROR;
@@ -375,7 +375,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
         }
 
         //Sensors
-        if ((devaddr1>=SENSOR1) && (devaddr1<=SENSOR14))
+        if ((devaddr1>=SENSOR1) && (devaddr1<=SENSOR18))
         {
             if (regaddr1==SSIDX)
                 SENS[devaddr1-SENSOR1].SIDX = regval1;
@@ -450,7 +450,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
         }
 
         //Sensors
-        if ((devaddr1>=SENSOR1) && (devaddr1<=SENSOR14))
+        if ((devaddr1>=SENSOR1) && (devaddr1<=SENSOR18))
         {
             SENSOR_hadler(devaddr1);
             if (regaddr1==SSCTL)
