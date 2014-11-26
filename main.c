@@ -91,10 +91,7 @@ MOUSE_REPORT mouseReport = { 0, 0, 0, 0 };
 volatile uint8_t sendNewMousePosition = FALSE;  // Flag by which timer tells main loop to send a new report
 
 const int16_t tableSinCosLookUp[93][2];                 // Lookup table for mouse data;
-uint8_t index = 1;                                     // Index for lookup table
-
-uint8_t retInString (char* string);
-
+volatile uint8_t index = 1;                                     // Index for lookup table
 
 /*  
  * ======== main ========
@@ -340,67 +337,6 @@ void TIMERB1_ISR(void)
     }
 
     TB0CTL &= ~TBIFG; //TIMER_B_clearTimerInterruptFlag(TIMER_B0_BASE);
-}
-
-
-
-/*  
- * ======== retInString ========
- */
-// This function returns true if there's an 0x0D character in the string; and if
-// so, it trims the 0x0D and anything that had followed it.
-uint8_t retInString (char* string)
-{
-    uint8_t retPos = 0,i,len;
-    char tempStr[MAX_STR_LENGTH] = "";
-
-    strncpy(tempStr,string,strlen(string));  // Make a copy of the string
-    len = strlen(tempStr);
-    
-    // Find 0x0D; if not found, retPos ends up at len
-    while ((tempStr[retPos] != 0x0A) && (tempStr[retPos] != 0x0D) &&
-           (retPos++ < len)) ;
-
-    // If 0x0A was actually found...
-    if ((retPos < len) && (tempStr[retPos] == 0x0A)){
-
-        // Empty the buffer
-        for (i = 0; i < MAX_STR_LENGTH; i++){
-            string[i] = 0x00;
-        }
-
-        //...trim the input string to just before 0x0D
-        strncpy(string,tempStr,retPos);
-
-        //...and tell the calling function that we did so
-        return ( TRUE) ;
-
-    } else if (tempStr[retPos] == 0x0A) {
-    
-        // Empty the buffer
-        for (i = 0; i < MAX_STR_LENGTH; i++){
-            string[i] = 0x00;
-        }
-        
-        //...trim the input string to just before 0x0D
-        strncpy(string,tempStr,retPos);
-        
-        //...and tell the calling function that we did so
-        return ( TRUE) ;
-    } else if (retPos < len){
-        // Empty the buffer
-        for (i = 0; i < MAX_STR_LENGTH; i++){
-            string[i] = 0x00;
-        }
-        
-        //...trim the input string to just before 0x0D
-        strncpy(string,tempStr,retPos);
-        
-        //...and tell the calling function that we did so
-        return ( TRUE) ;
-    }
-
-    return ( FALSE) ; // Otherwise, it wasn't found
 }
 
 // Lookup table for mouse position values.  "const" indicates it will be stored
