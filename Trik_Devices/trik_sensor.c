@@ -265,6 +265,60 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
                 P1OUT &= ~BIT6;
             }
             return (P1IN & BIT6); //return GPIO_getInputPinValue(GPIO_PORT_P1,GPIO_PIN6);
+        case SENSOR15:
+            ADC10CTL0 &= ~ADC10ENC;
+            ADC10MCTL0 = ADC10INCH_10;
+            ADC10CTL0 |= ADC10SC + ADC10ENC;
+            while (ADC10CTL1 & ADC10BUSY)
+                ;
+            return ADC10MEM0;
+        case SENSOR16:
+            /*GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN7);*/
+            P6SEL |= BIT7;
+            P6DIR &= ~BIT7;
+            /*
+            ADC10_A_memoryConfigure(ADC10_A_BASE,
+                    ADC10_A_INPUT_A7,
+                    ADC10_A_VREFPOS_AVCC,
+                    ADC10_A_VREFNEG_AVSS);
+            ADC10_A_startConversion(ADC10_A_BASE,
+                    ADC10_A_SINGLECHANNEL);
+            while(ADC10_A_isBusy(ADC10_A_BASE));
+            return ADC10_A_getResults(ADC10_A_BASE);
+            */
+            ADC10CTL0 &= ~ADC10ENC;
+            ADC10MCTL0 = ADC10INCH_7;
+            ADC10CTL0 |= ADC10SC + ADC10ENC;
+            while (ADC10CTL1 & ADC10BUSY)
+                ;
+            return ADC10MEM0;
+        case SENSOR17:
+            /*GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN6);*/
+            P6SEL |= BIT6;
+            P6DIR &= ~BIT6;
+            /*
+            ADC10_A_memoryConfigure(ADC10_A_BASE,
+                    ADC10_A_INPUT_A6,
+                    ADC10_A_VREFPOS_AVCC,
+                    ADC10_A_VREFNEG_AVSS);
+            ADC10_A_startConversion(ADC10_A_BASE,
+                    ADC10_A_SINGLECHANNEL);
+            while(ADC10_A_isBusy(ADC10_A_BASE));
+            return ADC10_A_getResults(ADC10_A_BASE);
+            */
+            ADC10CTL0 &= ~ADC10ENC;
+            ADC10MCTL0 = ADC10INCH_6;
+            ADC10CTL0 |= ADC10SC + ADC10ENC;
+            while (ADC10CTL1 & ADC10BUSY)
+                ;
+            return ADC10MEM0;
+        case SENSOR18:
+            ADC10CTL0 &= ~ADC10ENC;
+            ADC10MCTL0 = ADC10INCH_11;
+            ADC10CTL0 |= ADC10SC + ADC10ENC;
+            while (ADC10CTL1 & ADC10BUSY)
+                ;
+            return ADC10MEM0;
         default:
             return 0x00;
     }
@@ -446,75 +500,63 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
                 return UINT32_MAX;
             else
                 return 0x00000000;
+        case SENSOR15:
+            ADC10CTL0 &= ~ADC10ENC;
+            ADC10MCTL0 = ADC10INCH_10;
+            ADC10CTL0 |= ADC10SC + ADC10ENC;
+            while (ADC10CTL1 & ADC10BUSY)
+                ;
+            return ADC10MEM0;
+        case SENSOR16:
+            /*GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN7);*/
+            P6SEL |= BIT7;
+            P6DIR &= ~BIT7;
+            /*
+            ADC10_A_memoryConfigure(ADC10_A_BASE,
+                    ADC10_A_INPUT_A7,
+                    ADC10_A_VREFPOS_AVCC,
+                    ADC10_A_VREFNEG_AVSS);
+            ADC10_A_startConversion(ADC10_A_BASE,
+                    ADC10_A_SINGLECHANNEL);
+            while(ADC10_A_isBusy(ADC10_A_BASE));
+            return ADC10_A_getResults(ADC10_A_BASE);
+            */
+            ADC10CTL0 &= ~ADC10ENC;
+            ADC10MCTL0 = ADC10INCH_7;
+            ADC10CTL0 |= ADC10SC + ADC10ENC;
+            while (ADC10CTL1 & ADC10BUSY)
+                ;
+            return ADC10MEM0;
+        case SENSOR17:
+            /*GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN6);*/
+            P6SEL |= BIT6;
+            P6DIR &= ~BIT6;
+            /*
+            ADC10_A_memoryConfigure(ADC10_A_BASE,
+                    ADC10_A_INPUT_A6,
+                    ADC10_A_VREFPOS_AVCC,
+                    ADC10_A_VREFNEG_AVSS);
+            ADC10_A_startConversion(ADC10_A_BASE,
+                    ADC10_A_SINGLECHANNEL);
+            while(ADC10_A_isBusy(ADC10_A_BASE));
+            return ADC10_A_getResults(ADC10_A_BASE);
+            */
+            ADC10CTL0 &= ~ADC10ENC;
+            ADC10MCTL0 = ADC10INCH_6;
+            ADC10CTL0 |= ADC10SC + ADC10ENC;
+            while (ADC10CTL1 & ADC10BUSY)
+                ;
+            return ADC10MEM0;
+        case SENSOR18:
+            ADC10CTL0 &= ~ADC10ENC;
+            ADC10MCTL0 = ADC10INCH_11;
+            ADC10CTL0 |= ADC10SC + ADC10ENC;
+            while (ADC10CTL1 & ADC10BUSY)
+                ;
+            return ADC10MEM0;
         default:
             return 0x00;
     }
-}
-
-uint32_t SENSOR_read_temperature(uint8_t SENS_NUMBER)
-{
-    /*
-    ADC10_A_memoryConfigure(ADC10_A_BASE,
-            ADC10_A_INPUT_TEMPSENSOR,
-            ADC10_A_VREFPOS_AVCC,
-            ADC10_A_VREFNEG_AVSS);
-    ADC10_A_startConversion(ADC10_A_BASE,
-            ADC10_A_SINGLECHANNEL);
-    while(ADC10_A_isBusy(ADC10_A_BASE));
-    return ADC10_A_getResults(ADC10_A_BASE);
-    */
-    ADC10CTL0 &= ~ADC10ENC;
-    ADC10MCTL0 = ADC10INCH_10;
-    ADC10CTL0 |= ADC10SC + ADC10ENC;
-    while (ADC10CTL1 & ADC10BUSY)
-        ;
-    return ADC10MEM0;
-}
-
-uint32_t SENSOR_read_voltage(uint8_t SENS_NUMBER)
-{
-    //GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN6);
-    P6SEL |= BIT6;
-    P6DIR &= ~BIT6;
-    /*
-    ADC10_A_memoryConfigure(ADC10_A_BASE,
-            ADC10_A_INPUT_A6,
-            ADC10_A_VREFPOS_AVCC,
-            ADC10_A_VREFNEG_AVSS);
-    ADC10_A_startConversion(ADC10_A_BASE,
-            ADC10_A_SINGLECHANNEL);
-    while(ADC10_A_isBusy(ADC10_A_BASE));
-    return ADC10_A_getResults(ADC10_A_BASE);
-    */
-    ADC10CTL0 &= ~ADC10ENC;
-    ADC10MCTL0 = ADC10INCH_6;
-    ADC10CTL0 |= ADC10SC + ADC10ENC;
-    while (ADC10CTL1 & ADC10BUSY)
-        ;
-    return ADC10MEM0;
-}
-
-uint32_t SENSOR_read_current(uint8_t SENS_NUMBER)
-{
-    //GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN7);
-    P6SEL |= BIT7;
-    P6DIR &= ~BIT7;
-    /*
-    ADC10_A_memoryConfigure(ADC10_A_BASE,
-            ADC10_A_INPUT_A7,
-            ADC10_A_VREFPOS_AVCC,
-            ADC10_A_VREFNEG_AVSS);
-    ADC10_A_startConversion(ADC10_A_BASE,
-            ADC10_A_SINGLECHANNEL);
-    while(ADC10_A_isBusy(ADC10_A_BASE));
-    return ADC10_A_getResults(ADC10_A_BASE);
-    */
-    ADC10CTL0 &= ~ADC10ENC;
-    ADC10MCTL0 = ADC10INCH_7;
-    ADC10CTL0 |= ADC10SC + ADC10ENC;
-    while (ADC10CTL1 & ADC10BUSY)
-        ;
-    return ADC10MEM0;
 }
 
 void SENSOR_hadler(uint8_t SENS_NUMBER)
@@ -536,12 +578,6 @@ void SENSOR_hadler(uint8_t SENS_NUMBER)
                 SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_digital(SENS_NUMBER);
             if (SENS[SENS_NUMBER-SENSOR1].SIDX==ANALOG_INP)
                 SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_analog(SENS_NUMBER);
-            if (SENS[SENS_NUMBER-SENSOR1].SIDX==MCU_TEMP)
-                SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_temperature(SENS_NUMBER);
-            if (SENS[SENS_NUMBER-SENSOR1].SIDX==MOTOR_VOLTAGE)
-                SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_voltage(SENS_NUMBER);
-            if (SENS[SENS_NUMBER-SENSOR1].SIDX==MOTOR_CURRENT)
-                SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_current(SENS_NUMBER);
         }
     }
     else
