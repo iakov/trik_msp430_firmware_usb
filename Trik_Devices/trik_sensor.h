@@ -62,6 +62,6 @@ struct tSensorRegisters
 };
 
 //Motors registers array
-struct tSensorRegisters SENS[MAX_SENSORS];
+volatile struct tSensorRegisters SENS[MAX_SENSORS];
 
 #endif /* TRIK_SENSOR_H_ */

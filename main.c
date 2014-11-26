@@ -49,7 +49,7 @@
 #include "USB_API/USB_Common/device.h"
 #include "USB_API/USB_Common/usb.h"                 // USB-specific functions
 #include "USB_API/USB_CDC_API/UsbCdc.h"
-//#include "USB_API/USB_HID_API/UsbHid.h"
+#include "USB_API/USB_HID_API/UsbHid.h"
 #include "USB_app/usbConstructs.h"
 
 #include "Trik_Devices/trik_protocolhandler.h"

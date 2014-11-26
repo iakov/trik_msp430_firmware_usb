@@ -54,6 +54,6 @@ struct tEncoderRegisters
 };
 
 //Encoder registers array
-struct tEncoderRegisters ENC[MAX_ENCODERS];
+volatile struct tEncoderRegisters ENC[MAX_ENCODERS];
 
 #endif /* TRIK_ENCODER_H_ */

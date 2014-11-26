@@ -63,6 +63,6 @@ struct tMotorRegisters
 };
 
 //Motors registers array
-struct tMotorRegisters MOT[MAX_MOTORS];
+volatile struct tMotorRegisters MOT[MAX_MOTORS];
 
 #endif

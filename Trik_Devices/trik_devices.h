@@ -58,7 +58,7 @@
 #define MAX_DEVICES			0x31
 
 //Busy table
-uint8_t busy_table[MAX_DEVICES];
+volatile uint8_t busy_table[MAX_DEVICES];
 
 void initGlobalVars();
 void initReferenceTemperature();
