@@ -140,81 +140,129 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
         case SENSOR7:
             if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
             {
-                P2DIR &= ~BIT0; P2OUT |= BIT0; P2REN |= BIT0; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN0);
+                /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN0);*/
+                P2DIR &= ~BIT0;
+                P2OUT |= BIT0;
+                P2REN |= BIT0;
             }
             else
             {
-                P2DIR &= ~BIT0; P2REN &= ~BIT0; P2OUT &= ~BIT0; //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN0);
+                /*GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN0);*/
+                P2DIR &= ~BIT0;
+                P2REN &= ~BIT0;
+                P2OUT &= ~BIT0;
             }
             return (P2IN & BIT0); //return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN0);
         case SENSOR8:
             if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
             {
-                P2DIR &= ~BIT3; P2OUT |= BIT3; P2REN |= BIT3; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN3);
+                /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN3);*/
+                P2DIR &= ~BIT3;
+                P2OUT |= BIT3;
+                P2REN |= BIT3;
             }
             else
             {
-                P2DIR &= ~BIT3; P2REN &= ~BIT3; P2OUT &= ~BIT3; //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN3);
+                /*GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN3);*/
+                P2DIR &= ~BIT3;
+                P2REN &= ~BIT3;
+                P2OUT &= ~BIT3;
             }
             return (P2IN & BIT3); //return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN3);
         case SENSOR9:
             if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
             {
-                P2DIR &= ~BIT4; P2OUT |= BIT4; P2REN |= BIT4; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN4);
+                /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN4);*/
+                P2DIR &= ~BIT4;
+                P2OUT |= BIT4;
+                P2REN |= BIT4;
             }
             else
             {
-                P2DIR &= ~BIT4; P2REN &= ~BIT4; P2OUT &= ~BIT4; //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN4);
+                /*GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN4);*/
+                P2DIR &= ~BIT4;
+                P2REN &= ~BIT4;
+                P2OUT &= ~BIT4;
             }
             return (P2IN & BIT4); //return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN4);
         case SENSOR10:
             if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
             {
-                P1DIR &= ~BIT0; P1OUT |= BIT0; P1REN |= BIT0; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P1,GPIO_PIN0);
+                /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P1,GPIO_PIN0);*/
+                P1DIR &= ~BIT0;
+                P1OUT |= BIT0;
+                P1REN |= BIT0;
             }
             else
             {
-                P1DIR &= ~BIT0; P1REN &= ~BIT0; P1OUT &= ~BIT0; //GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN0);
+                /*GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN0);*/
+                P1DIR &= ~BIT0;
+                P1REN &= ~BIT0;
+                P1OUT &= ~BIT0;
             }
             return (P1IN & BIT0); //return GPIO_getInputPinValue(GPIO_PORT_P1,GPIO_PIN0);
         case SENSOR11:
             if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
             {
-                P2DIR &= ~BIT5; P2OUT |= BIT5; P2REN |= BIT5; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN5);
+                /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN5);*/
+                P2DIR &= ~BIT5;
+                P2OUT |= BIT5;
+                P2REN |= BIT5;
             }
             else
             {
-                P2DIR &= ~BIT5; P2REN &= ~BIT5; P2OUT &= ~BIT5; //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN5);
+                /*GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN5);*/
+                P2DIR &= ~BIT5;
+                P2REN &= ~BIT5;
+                P2OUT &= ~BIT5;
             }
             return (P2IN & BIT5); //return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN5);
         case SENSOR12:
             if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
             {
-                P2DIR &= ~BIT2; P2OUT |= BIT2; P2REN |= BIT2; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN2);
+                /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN2);*/
+                P2DIR &= ~BIT2;
+                P2OUT |= BIT2;
+                P2REN |= BIT2;
             }
             else
             {
-                P2DIR &= ~BIT2; P2REN &= ~BIT2; P2OUT &= ~BIT2; //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN2);
+                /*GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN2);*/
+                P2DIR &= ~BIT2;
+                P2REN &= ~BIT2;
+                P2OUT &= ~BIT2;
             }
             return (P2IN & BIT2); //return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN2);
         case SENSOR13:
             if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
             {
-                P2DIR &= ~BIT1; P2OUT |= BIT1; P2REN |= BIT1; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN1);
+                /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN1);*/
+                P2DIR &= ~BIT1;
+                P2OUT |= BIT1;
+                P2REN |= BIT1;
             }
             else
             {
-                P2DIR &= ~BIT1; P2REN &= ~BIT1; P2OUT &= ~BIT1; //GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN1);
+                /*GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN1);*/
+                P2DIR &= ~BIT1;
+                P2REN &= ~BIT1;
+                P2OUT &= ~BIT1;
             }
             return (P2IN & BIT1); //return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN1);
         case SENSOR14:
             if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
             {
-                P1DIR &= ~BIT6; P1OUT |= BIT6; P1REN |= BIT6; //GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P1,GPIO_PIN6);
+                /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P1,GPIO_PIN6);*/
+                P1DIR &= ~BIT6;
+                P1OUT |= BIT6;
+                P1REN |= BIT6;
             }
             else
             {
-                P1DIR &= ~BIT6; P1REN &= ~BIT6; P1OUT &= ~BIT6; //GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN6);
+                /*GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN6);*/
+                P1DIR &= ~BIT6;
+                P1REN &= ~BIT6;
+                P1OUT &= ~BIT6;
             }
             return (P1IN & BIT6); //return GPIO_getInputPinValue(GPIO_PORT_P1,GPIO_PIN6);
         default:
@@ -229,7 +277,9 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
         case SENSOR1:
             P4OUT &= ~BIT5; //GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN5);
             P4DIR |= BIT5; //GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN5);
-            P6SEL |= BIT5; P6DIR &= ~BIT5; //GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN5);
+            /*GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN5);*/
+            P6SEL |= BIT5;
+            P6DIR &= ~BIT5;
             /*
             ADC10_A_memoryConfigure(ADC10_A_BASE,
                     ADC10_A_INPUT_A5,
@@ -243,12 +293,15 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             ADC10CTL0 &= ~ADC10ENC;
             ADC10MCTL0 = ADC10INCH0 + ADC10INCH2;
             ADC10CTL0 |= ADC10SC + ADC10ENC;
-            while (ADC10CTL1 & ADC10BUSY);
+            while (ADC10CTL1 & ADC10BUSY)
+                ;
             return ADC10MEM0;
         case SENSOR2:
             P4OUT &= ~BIT4; //GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN4);
             P4DIR |= BIT4; //GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN4);
-            P6SEL |= BIT4; P6DIR &= ~BIT4; //GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN4);
+            /*GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN4);*/
+            P6SEL |= BIT4;
+            P6DIR &= ~BIT4;
             /*
             ADC10_A_memoryConfigure(ADC10_A_BASE,
                     ADC10_A_INPUT_A4,
@@ -262,12 +315,15 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             ADC10CTL0 &= ~ADC10ENC;
             ADC10MCTL0 = ADC10INCH2;
             ADC10CTL0 |= ADC10SC + ADC10ENC;
-            while (ADC10CTL1 & ADC10BUSY);
+            while (ADC10CTL1 & ADC10BUSY)
+                ;
             return ADC10MEM0;
         case SENSOR3:
             P4OUT &= ~BIT3; //GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN3);
             P4DIR |= BIT3; //GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN3);
-            P6SEL |= BIT3; P6DIR &= ~BIT3; //GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN3);
+            /*GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN3);*/
+            P6SEL |= BIT3;
+            P6DIR &= ~BIT3;
             /*
             ADC10_A_memoryConfigure(ADC10_A_BASE,
                     ADC10_A_INPUT_A3,
@@ -281,12 +337,15 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             ADC10CTL0 &= ~ADC10ENC;
             ADC10MCTL0 = ADC10INCH0 + ADC10INCH1;
             ADC10CTL0 |= ADC10SC + ADC10ENC;
-            while (ADC10CTL1 & ADC10BUSY);
+            while (ADC10CTL1 & ADC10BUSY)
+                ;
             return ADC10MEM0;
         case SENSOR4:
             P4OUT &= ~BIT2; //GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN2);
             P4DIR |= BIT2; //GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN2);
-            P6SEL |= BIT2; P6DIR &= ~BIT2; //GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN2);
+            /*GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN2);*/
+            P6SEL |= BIT2;
+            P6DIR &= ~BIT2;
             /*
             ADC10_A_memoryConfigure(ADC10_A_BASE,
                     ADC10_A_INPUT_A2,
@@ -300,12 +359,15 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             ADC10CTL0 &= ~ADC10ENC;
             ADC10MCTL0 = ADC10INCH1;
             ADC10CTL0 |= ADC10SC + ADC10ENC;
-            while (ADC10CTL1 & ADC10BUSY);
+            while (ADC10CTL1 & ADC10BUSY)
+                ;
             return ADC10MEM0;
         case SENSOR5:
             P3OUT &= ~BIT2; //GPIO_setOutputLowOnPin(GPIO_PORT_P3,GPIO_PIN2);
             P3DIR |= BIT2; //GPIO_setAsOutputPin(GPIO_PORT_P3,GPIO_PIN2);
-            P6SEL |= BIT1; P6DIR &= ~BIT1; //GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN1);
+            /*GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN1);*/
+            P6SEL |= BIT1;
+            P6DIR &= ~BIT1;
             /*
             ADC10_A_memoryConfigure(ADC10_A_BASE,
                     ADC10_A_INPUT_A1,
@@ -319,12 +381,15 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             ADC10CTL0 &= ~ADC10ENC;
             ADC10MCTL0 = ADC10INCH0;
             ADC10CTL0 |= ADC10SC + ADC10ENC;
-            while (ADC10CTL1 & ADC10BUSY);
+            while (ADC10CTL1 & ADC10BUSY)
+                ;
             return ADC10MEM0;
         case SENSOR6:
             P3OUT &= ~BIT4; //GPIO_setOutputLowOnPin(GPIO_PORT_P3,GPIO_PIN4);
             P3DIR |= BIT4; //GPIO_setAsOutputPin(GPIO_PORT_P3,GPIO_PIN4);
-            P6SEL |= BIT0; P6DIR &= ~BIT0; //GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN0);
+            //GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN0);
+            P6SEL |= BIT0;
+            P6DIR &= ~BIT0;
             /*
             ADC10_A_memoryConfigure(ADC10_A_BASE,
                     ADC10_A_INPUT_A0,
@@ -338,7 +403,8 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
             ADC10CTL0 &= ~ADC10ENC;
             ADC10MCTL0 = 0x00;
             ADC10CTL0 |= ADC10SC + ADC10ENC;
-            while (ADC10CTL1 & ADC10BUSY);
+            while (ADC10CTL1 & ADC10BUSY)
+                ;
             return ADC10MEM0;
         case SENSOR7:
             if (P2IN & BIT0) //if (GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN0))
@@ -400,13 +466,16 @@ uint32_t SENSOR_read_temperature(uint8_t SENS_NUMBER)
     ADC10CTL0 &= ~ADC10ENC;
     ADC10MCTL0 = ADC10INCH1 + ADC10INCH3;
     ADC10CTL0 |= ADC10SC + ADC10ENC;
-    while (ADC10CTL1 & ADC10BUSY);
+    while (ADC10CTL1 & ADC10BUSY)
+        ;
     return ADC10MEM0;
 }
 
 uint32_t SENSOR_read_voltage(uint8_t SENS_NUMBER)
 {
-    P6SEL |= BIT6; P6DIR &= ~BIT6; //GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN6);
+    //GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN6);
+    P6SEL |= BIT6;
+    P6DIR &= ~BIT6;
     /*
     ADC10_A_memoryConfigure(ADC10_A_BASE,
             ADC10_A_INPUT_A6,
@@ -420,13 +489,16 @@ uint32_t SENSOR_read_voltage(uint8_t SENS_NUMBER)
     ADC10CTL0 &= ~ADC10ENC;
     ADC10MCTL0 = ADC10INCH1 + ADC10INCH2;
     ADC10CTL0 |= ADC10SC + ADC10ENC;
-    while (ADC10CTL1 & ADC10BUSY);
+    while (ADC10CTL1 & ADC10BUSY)
+        ;
     return ADC10MEM0;
 }
 
 uint32_t SENSOR_read_current(uint8_t SENS_NUMBER)
 {
-    P6SEL |= BIT7; P6DIR &= ~BIT7; //GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN7);
+    //GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6,GPIO_PIN7);
+    P6SEL |= BIT7;
+    P6DIR &= ~BIT7;
     /*
     ADC10_A_memoryConfigure(ADC10_A_BASE,
             ADC10_A_INPUT_A7,
@@ -440,7 +512,8 @@ uint32_t SENSOR_read_current(uint8_t SENS_NUMBER)
     ADC10CTL0 &= ~ADC10ENC;
     ADC10MCTL0 = ADC10INCH0 + ADC10INCH1 + ADC10INCH2;
     ADC10CTL0 |= ADC10SC + ADC10ENC;
-    while (ADC10CTL1 & ADC10BUSY);
+    while (ADC10CTL1 & ADC10BUSY)
+        ;
     return ADC10MEM0;
 }
 
@@ -459,11 +532,16 @@ void SENSOR_hadler(uint8_t SENS_NUMBER)
         //Enable reading sensor data
         if (SENS[SENS_NUMBER-SENSOR1].SCTL & 0x0001)
         {
-            if (SENS[SENS_NUMBER-SENSOR1].SIDX==DIGITAL_INP) SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_digital(SENS_NUMBER);
-            if (SENS[SENS_NUMBER-SENSOR1].SIDX==ANALOG_INP) SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_analog(SENS_NUMBER);
-            if (SENS[SENS_NUMBER-SENSOR1].SIDX==MCU_TEMP) SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_temperature(SENS_NUMBER);
-            if (SENS[SENS_NUMBER-SENSOR1].SIDX==MOTOR_VOLTAGE) SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_voltage(SENS_NUMBER);
-            if (SENS[SENS_NUMBER-SENSOR1].SIDX==MOTOR_CURRENT) SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_current(SENS_NUMBER);
+            if (SENS[SENS_NUMBER-SENSOR1].SIDX==DIGITAL_INP)
+                SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_digital(SENS_NUMBER);
+            if (SENS[SENS_NUMBER-SENSOR1].SIDX==ANALOG_INP)
+                SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_analog(SENS_NUMBER);
+            if (SENS[SENS_NUMBER-SENSOR1].SIDX==MCU_TEMP)
+                SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_temperature(SENS_NUMBER);
+            if (SENS[SENS_NUMBER-SENSOR1].SIDX==MOTOR_VOLTAGE)
+                SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_voltage(SENS_NUMBER);
+            if (SENS[SENS_NUMBER-SENSOR1].SIDX==MOTOR_CURRENT)
+                SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_current(SENS_NUMBER);
         }
     }
     else
