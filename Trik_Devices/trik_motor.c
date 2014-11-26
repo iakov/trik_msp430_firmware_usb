@@ -30,7 +30,8 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                 }
                 if (MOT[MOT_NUMBER].MOT_PWR==ENABLE)
                 {
-                    if (MOT[MOT_NUMBER].MOT_MOD!=CONT_MODE) MOT[MOT_NUMBER].MVAL = 0;
+                    if (MOT[MOT_NUMBER].MOT_MOD!=CONT_MODE)
+                        MOT[MOT_NUMBER].MVAL = 0;
                     /*
                     TIMER_A_generatePWM(TIMER_A0_BASE,
                             TIMER_A_CLOCKSOURCE_SMCLK,
@@ -47,7 +48,9 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                 } else
                     MOTOR_stop(MOT_NUMBER);
                 P5DIR |= BIT4+BIT5; //GPIO_setAsOutputPin(GPIO_PORT_P5, GPIO_PIN4 | GPIO_PIN5);
-                P1SEL |= BIT2; P1DIR |= BIT2; //GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN2);
+                /*GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN2);*/
+                P1SEL |= BIT2;
+                P1DIR |= BIT2;
                 P1DIR &= ~BIT1; //GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN1);
                 break;
             case MOTOR2:
@@ -62,7 +65,8 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                 }
                 if (MOT[MOT_NUMBER].MOT_PWR==ENABLE)
                 {
-                    if (MOT[MOT_NUMBER].MOT_MOD!=CONT_MODE) MOT[MOT_NUMBER].MVAL = 0;
+                    if (MOT[MOT_NUMBER].MOT_MOD!=CONT_MODE)
+                        MOT[MOT_NUMBER].MVAL = 0;
                     /*
                     TIMER_A_generatePWM(TIMER_A0_BASE,
                             TIMER_A_CLOCKSOURCE_SMCLK,
@@ -79,7 +83,9 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                 } else
                     MOTOR_stop(MOT_NUMBER);
                 P4DIR |= BIT0+BIT1; //GPIO_setAsOutputPin(GPIO_PORT_P4, GPIO_PIN0 | GPIO_PIN1);
-                P1SEL |= BIT3; P1DIR |= BIT3; //GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN3);
+                /*GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN3);*/
+                P1SEL |= BIT3;
+                P1DIR |= BIT3;
                 P2DIR &= ~BIT6; //GPIO_setAsInputPin(GPIO_PORT_P2, GPIO_PIN6);
                 break;
             case MOTOR3:
@@ -94,7 +100,8 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                 }
                 if (MOT[MOT_NUMBER].MOT_PWR==ENABLE)
                 {
-                    if (MOT[MOT_NUMBER].MOT_MOD!=CONT_MODE) MOT[MOT_NUMBER].MVAL = 0;
+                    if (MOT[MOT_NUMBER].MOT_MOD!=CONT_MODE)
+                        MOT[MOT_NUMBER].MVAL = 0;
                     /*
                     TIMER_A_generatePWM(TIMER_A0_BASE,
                             TIMER_A_CLOCKSOURCE_SMCLK,
@@ -111,7 +118,9 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                 } else
                     MOTOR_stop(MOT_NUMBER);
                 PJDIR |= BIT0+BIT1; //GPIO_setAsOutputPin(GPIO_PORT_PJ, GPIO_PIN0 | GPIO_PIN1);
-                P1SEL |= BIT4; P1DIR |= BIT4; //GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN4);
+                /*GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN4);*/
+                P1SEL |= BIT4;
+                P1DIR |= BIT4;
                 P1DIR &= ~BIT7; //GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN7);
                 break;
             case MOTOR4:
@@ -126,7 +135,8 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                 }
                 if (MOT[MOT_NUMBER].MOT_PWR==ENABLE)
                 {
-                    if (MOT[MOT_NUMBER].MOT_MOD!=CONT_MODE) MOT[MOT_NUMBER].MVAL = 0;
+                    if (MOT[MOT_NUMBER].MOT_MOD!=CONT_MODE)
+                        MOT[MOT_NUMBER].MVAL = 0;
                     /*
                     TIMER_A_generatePWM(TIMER_A0_BASE,
                             TIMER_A_CLOCKSOURCE_SMCLK,
@@ -143,7 +153,9 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                 } else
                     MOTOR_stop(MOT_NUMBER);
                 PJDIR |= BIT2+BIT3; //GPIO_setAsOutputPin(GPIO_PORT_PJ, GPIO_PIN2 | GPIO_PIN3);
-                P1SEL |= BIT5; P1DIR |= BIT5; //GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN5);
+                /*GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN5);*/
+                P1SEL |= BIT5;
+                P1DIR |= BIT5;
                 P2DIR &= ~BIT7; //GPIO_setAsInputPin(GPIO_PORT_P2, GPIO_PIN7);
                 break;
             default:

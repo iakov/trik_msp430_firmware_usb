@@ -256,7 +256,8 @@ void PORT2_ISR(void)
         if (MOT[MOTOR1].MOT_MOD==ANGLE_MODE)
         {
             MOT[MOTOR1].MVAL++;
-            if ((MOT[MOTOR1].MVAL>MOT[MOTOR1].MANG)) MOTOR_stop(MOTOR1);
+            if ((MOT[MOTOR1].MVAL>MOT[MOTOR1].MANG))
+                MOTOR_stop(MOTOR1);
         }
     }
 
@@ -267,7 +268,8 @@ void PORT2_ISR(void)
         {
             if (ENC[ENCODER2-ENCODER1].ENC_TYP==WIRE2)
                 ENC[ENCODER2-ENCODER1].EVAL--;
-            else ENC[ENCODER2-ENCODER1].EVAL++;
+            else
+                ENC[ENCODER2-ENCODER1].EVAL++;
         }
         else
         {
@@ -276,7 +278,8 @@ void PORT2_ISR(void)
         if (MOT[MOTOR2].MOT_MOD==ANGLE_MODE)
         {
             MOT[MOTOR2].MVAL++;
-            if ((MOT[MOTOR2].MVAL>MOT[MOTOR2].MANG)) MOTOR_stop(MOTOR2);
+            if ((MOT[MOTOR2].MVAL>MOT[MOTOR2].MANG))
+                MOTOR_stop(MOTOR2);
         }
     }
 
@@ -287,7 +290,8 @@ void PORT2_ISR(void)
         {
             if (ENC[ENCODER3-ENCODER1].ENC_TYP==WIRE2)
                 ENC[ENCODER3-ENCODER1].EVAL--;
-            else ENC[ENCODER3-ENCODER1].EVAL++;
+            else
+                ENC[ENCODER3-ENCODER1].EVAL++;
         }
         else
         {
@@ -296,7 +300,8 @@ void PORT2_ISR(void)
         if (MOT[MOTOR3].MOT_MOD==ANGLE_MODE)
         {
             MOT[MOTOR3].MVAL++;
-            if ((MOT[MOTOR3].MVAL>MOT[MOTOR3].MANG)) MOTOR_stop(MOTOR3);
+            if ((MOT[MOTOR3].MVAL>MOT[MOTOR3].MANG))
+                MOTOR_stop(MOTOR3);
         }
     }
 
@@ -307,7 +312,8 @@ void PORT2_ISR(void)
         {
             if (ENC[ENCODER4-ENCODER1].ENC_TYP==WIRE2)
                 ENC[ENCODER4-ENCODER1].EVAL--;
-            else ENC[ENCODER4-ENCODER1].EVAL++;
+            else
+                ENC[ENCODER4-ENCODER1].EVAL++;
         }
         else
         {
@@ -316,7 +322,8 @@ void PORT2_ISR(void)
         if (MOT[MOTOR4].MOT_MOD==ANGLE_MODE)
         {
             MOT[MOTOR4].MVAL++;
-            if ((MOT[MOTOR4].MVAL>MOT[MOTOR4].MANG)) MOTOR_stop(MOTOR4);
+            if ((MOT[MOTOR4].MVAL>MOT[MOTOR4].MANG))
+                MOTOR_stop(MOTOR4);
         }
     }
 
