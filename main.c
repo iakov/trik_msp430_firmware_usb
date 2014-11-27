@@ -74,11 +74,12 @@ char wholeString[MAX_STR_LENGTH] = "";
 char newString[MAX_STR_LENGTH] = "";
 char pieceOfString[MAX_STR_LENGTH] = "";
 
-uint8_t n_error = 0;
+volatile uint8_t n_error = 0;
 volatile uint8_t ReceiveError = 0, SendError = 0;
 
 volatile uint32_t timerb_cnt = 0; //Timer B counter
 
+/*
 typedef struct {
     uint8_t buttons;
     uint8_t dX;
@@ -91,7 +92,8 @@ MOUSE_REPORT mouseReport = { 0, 0, 0, 0 };
 volatile uint8_t sendNewMousePosition = FALSE;  // Flag by which timer tells main loop to send a new report
 
 const int16_t tableSinCosLookUp[93][2];                 // Lookup table for mouse data;
-volatile uint8_t index = 1;                                     // Index for lookup table
+uint8_t index = 1;                                     // Index for lookup table
+*/
 
 /*  
  * ======== main ========
@@ -108,7 +110,7 @@ void main (void)
     PMM_setVCore(PMM_BASE, PMM_CORE_LEVEL_2);
 #endif
 
-    //initPorts();           // Config GPIOS for low-power (output low)
+    initPorts();           // Config GPIOS for low-power (output low)
     initClocks(24000000);   // Config clocks. MCLK=SMCLK=FLL=8MHz; ACLK=REFO=32kHz
     USB_setup(TRUE,TRUE);  // Init USB & events; if a host is present, connect
 
@@ -117,8 +119,7 @@ void main (void)
     initADC10(); //Init ADC
     initPBPorts(); //Init B ports
 
-
-    __enable_interrupt();  // Enable interrupts globally
+   __enable_interrupt();  // Enable interrupts globally
 
     while (1)
     {
@@ -132,7 +133,7 @@ void main (void)
                 __no_operation();                               // For debugger
 
                 // Exit LPM because of a data-receive event, and fetch the received data
-                
+
                 //CDC0 events
                 if (bDataReceived_event0)
                 {
@@ -147,7 +148,8 @@ void main (void)
                         memset(pieceOfString,0,MAX_STR_LENGTH);
                     }
                     strncat(wholeString,pieceOfString,strlen(pieceOfString));
-                    if (retInString(wholeString)){              // Wait for enter key to be pressed
+                    if (retInString(wholeString))
+                    {              // Wait for enter key to be pressed
                         n_error = PROTOCOL_hadler(wholeString,newString); //Protocol handler
                         memset(wholeString,0,MAX_STR_LENGTH);   // Clear wholeString
 
@@ -174,6 +176,9 @@ void main (void)
                     memset(wholeString,0,MAX_STR_LENGTH);   // Clear wholeString
                 }
 
+
+
+                /*
                 //Mouse test
                 if (sendNewMousePosition){
 
@@ -194,7 +199,7 @@ void main (void)
                     }
                 }
 
-
+*/
 
 
                 break;
@@ -219,9 +224,11 @@ void main (void)
                 break;
         }
 
+
         if (ReceiveError || SendError){
             // TO DO: User can place code here to handle error
         }
+
     }  // while(1)
 }  // main()
 
@@ -272,6 +279,7 @@ void __attribute__ ((interrupt(UNMI_VECTOR))) UNMI_ISR (void)
     }
 }
 
+
 // Timer_B7 Interrupt Vector (TBIV) handler
 #if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
 #pragma vector=TIMERB1_VECTOR
@@ -281,8 +289,7 @@ __attribute__((interrupt(TIMERB1_VECTOR)))
 #endif
 void TIMERB1_ISR(void)
 {
-    /* Any access, read or write, of the TBIV register automatically resets the
-       highest "pending" interrupt flag. */
+    //Any access, read or write, of the TBIV register automatically resets the  highest "pending" interrupt flag.
     switch(__even_in_range(TBIV,14))
     {
     case  0: break;                          // No interrupt
@@ -293,6 +300,7 @@ void TIMERB1_ISR(void)
     case 10: break;                          // CCR5 not used
     case 12: break;                          // CCR6 not used
     case 14:                                 // overflow
+
         ASYNCTMR.ATVAL++;
 
         timerb_cnt++;
@@ -316,7 +324,7 @@ void TIMERB1_ISR(void)
         }
 
         //Async output for sensor
-        for (uint8_t nnn=SENSOR1; nnn<=SENSOR14; nnn++)
+        for (uint8_t nnn=SENSOR1; nnn<=SENSOR18; nnn++)
         {
             if ((timerb_cnt==nnn) && (SENS[nnn-SENSOR1].SENS_MOD==ENABLE))
             {
@@ -342,7 +350,7 @@ void TIMERB1_ISR(void)
             }
         }
 
-        sendNewMousePosition = TRUE;                 // Set flag telling main loop to send a report
+        //sendNewMousePosition = TRUE;                 // Set flag telling main loop to send a report
 
         break;
     default:
@@ -352,6 +360,8 @@ void TIMERB1_ISR(void)
     TB0CTL &= ~TBIFG; //TIMER_B_clearTimerInterruptFlag(TIMER_B0_BASE);
 }
 
+
+    /*
 // Lookup table for mouse position values.  "const" indicates it will be stored
 // in flash.
 const int16_t tableSinCosLookUp[93][2] = {
@@ -448,4 +458,5 @@ const int16_t tableSinCosLookUp[93][2] = {
     0,200
 };
 
+*/
 //Released_Version_4_10_02

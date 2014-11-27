@@ -46,7 +46,9 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                     TA0CCR1 = MOT[MOT_NUMBER].MDUT;           // CCR1 PWM duty cycle
                     TA0CTL = TASSEL_2 + MC_1 + TACLR;         // SMCLK, up mode, clear TAR
                 } else
+                {
                     MOTOR_stop(MOT_NUMBER);
+                }
                 P5DIR |= BIT4+BIT5; //GPIO_setAsOutputPin(GPIO_PORT_P5, GPIO_PIN4 | GPIO_PIN5);
                 /*GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN2);*/
                 P1SEL |= BIT2;
@@ -81,7 +83,9 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                     TA0CCR2 = MOT[MOT_NUMBER].MDUT;           // CCR2 PWM duty cycle
                     TA0CTL = TASSEL_2 + MC_1 + TACLR;         // SMCLK, up mode, clear TAR
                 } else
+                {
                     MOTOR_stop(MOT_NUMBER);
+                }
                 P4DIR |= BIT0+BIT1; //GPIO_setAsOutputPin(GPIO_PORT_P4, GPIO_PIN0 | GPIO_PIN1);
                 /*GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN3);*/
                 P1SEL |= BIT3;
@@ -116,7 +120,9 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                     TA0CCR3 = MOT[MOT_NUMBER].MDUT;           // CCR3 PWM duty cycle
                     TA0CTL = TASSEL_2 + MC_1 + TACLR;         // SMCLK, up mode, clear TAR
                 } else
+                {
                     MOTOR_stop(MOT_NUMBER);
+                }
                 PJDIR |= BIT0+BIT1; //GPIO_setAsOutputPin(GPIO_PORT_PJ, GPIO_PIN0 | GPIO_PIN1);
                 /*GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN4);*/
                 P1SEL |= BIT4;
@@ -151,7 +157,9 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                     TA0CCR4 = MOT[MOT_NUMBER].MDUT;           // CCR4 PWM duty cycle
                     TA0CTL = TASSEL_2 + MC_1 + TACLR;         // SMCLK, up mode, clear TAR
                 } else
+                {
                     MOTOR_stop(MOT_NUMBER);
+                }
                 PJDIR |= BIT2+BIT3; //GPIO_setAsOutputPin(GPIO_PORT_PJ, GPIO_PIN2 | GPIO_PIN3);
                 /*GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN5);*/
                 P1SEL |= BIT5;
@@ -212,8 +220,7 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
                 TA0CCTL1 = OUTMOD_7;                      // CCR1 reset/set
                 TA0CCR1 = MOT[MOT_NUMBER].MPER-1;         // CCR1 PWM duty cycle
                 TA0CTL = TASSEL_2 + MC_1 + TACLR;         // SMCLK, up mode, clear TAR
-            }
-            else
+            } else
             {
                 /*
                 TIMER_A_generatePWM(TIMER_A0_BASE,
@@ -247,8 +254,7 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
                 TA0CCTL2 = OUTMOD_7;                      // CCR2 reset/set
                 TA0CCR2 = MOT[MOT_NUMBER].MPER-1;         // CCR2 PWM duty cycle
                 TA0CTL = TASSEL_2 + MC_1 + TACLR;         // SMCLK, up mode, clear TAR
-            }
-            else
+            } else
             {
                 /*
                 TIMER_A_generatePWM(TIMER_A0_BASE,
@@ -282,8 +288,7 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
                 TA0CCTL3 = OUTMOD_7;                      // CCR3 reset/set
                 TA0CCR3 = MOT[MOT_NUMBER].MPER-1;         // CCR3 PWM duty cycle
                 TA0CTL = TASSEL_2 + MC_1 + TACLR;         // SMCLK, up mode, clear TAR
-            }
-            else
+            } else
             {
                 /*
                 TIMER_A_generatePWM(TIMER_A0_BASE,
@@ -317,8 +322,7 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
                 TA0CCTL4 = OUTMOD_7;                      // CCR4 reset/set
                 TA0CCR4 = MOT[MOT_NUMBER].MPER-1;         // CCR4 PWM duty cycle
                 TA0CTL = TASSEL_2 + MC_1 + TACLR;         // SMCLK, up mode, clear TAR
-            }
-            else
+            } else
             {
                 /*
                 TIMER_A_generatePWM(TIMER_A0_BASE,

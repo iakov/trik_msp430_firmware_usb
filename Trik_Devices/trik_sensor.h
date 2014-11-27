@@ -44,7 +44,7 @@ void SENSOR_disableController(uint8_t SENS_NUMBER);
 //void SENSOR_enableAnalogMode(uint8_t SENS_NUMBER);
 
 //Max motors
-#define MAX_SENSORS 14
+#define MAX_SENSORS 18
 
 //Motor registers
 struct tSensorRegisters
