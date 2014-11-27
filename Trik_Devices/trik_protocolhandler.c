@@ -17,67 +17,73 @@
 #include "Trik_Devices/trik_devices.h"
 #include "Trik_Devices/trik_async.h"
 
+uint8_t TO_HEX(uint8_t i)
+{
+    return (i <= 9 ? '0' + i : 'A' - 10 + i);
+}
+
+void char2hex(char *string, uint8_t number)
+{
+    string[0] = TO_HEX((number & 0x00F0) >> 4);
+    string[1] = TO_HEX(number & 0x000F);
+    string[2] = '\0';
+}
+
 //Error response
 void PROTOCOL_errResponse(char *r_str, uint8_t dev_addr, uint8_t func_code, uint8_t err_code)
 {
 	char stmp1[MAX_STRING_LENGTH]; //Temp string
-	uint8_t crc;
-	//memset(r_str,0,MAX_STRING_LENGTH);
-	if (dev_addr<16)
-	    sprintf(r_str,":0%x",dev_addr);
-	else
-	    sprintf(r_str,":%x",dev_addr);
+	uint8_t crc; //Checksum
+
+	r_str[0]=':';
+	r_str[1]='\0';
+
+	char2hex(stmp1,dev_addr);
+	strcat(r_str,stmp1);
+
 	if (func_code<0x80) func_code+=0x80;
-	if (func_code<16)
-	    sprintf(stmp1,"0%x",func_code);
-	else
-	    sprintf(stmp1,"%x",func_code);
+	char2hex(stmp1,func_code);
 	strcat(r_str,stmp1);
-	if (err_code<16)
-	    sprintf(stmp1,"0%x",err_code);
-	else
-	    sprintf(stmp1,"%x",err_code);
-	strcat(r_str,stmp1);
+
+    char2hex(stmp1,err_code);
+    strcat(r_str,stmp1);
+
 	crc=0-(dev_addr+func_code+err_code);
-	if (crc<16)
-	    sprintf(stmp1,"0%x",crc);
-	else
-	    sprintf(stmp1,"%x",crc);
-	strcat(r_str,stmp1);
-	sprintf(stmp1,"\n");
-	strcat(r_str,stmp1);
+    char2hex(stmp1,crc);
+    strcat(r_str,stmp1);
+
+	strcat(r_str,"\n\0");
 }
 
 //Write register response
 void PROTOCOL_transResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code)
 {
     char stmp1[MAX_STRING_LENGTH]; //Temp string
-    uint8_t crc;
-    //memset(r_str,0,MAX_STRING_LENGTH);
-    if (dev_addr<16)
-        sprintf(r_str,":0%x",dev_addr);
-    else
-        sprintf(r_str,":%x",dev_addr);
-    if (resp_code<16)
-        sprintf(stmp1,"0%x",resp_code);
-    else
-        sprintf(stmp1,"%x",resp_code);
+    uint8_t crc; //Checksum
+
+    r_str[0]=':';
+    r_str[1]='\0';
+
+    char2hex(stmp1,dev_addr);
     strcat(r_str,stmp1);
+
+    char2hex(stmp1,resp_code);
+    strcat(r_str,stmp1);
+
     crc=0-(dev_addr+resp_code);
-    if (crc<16)
-        sprintf(stmp1,"0%x",crc);
-    else
-        sprintf(stmp1,"%x",crc);
+    char2hex(stmp1,crc);
     strcat(r_str,stmp1);
-    sprintf(stmp1,"\n");
-    strcat(r_str,stmp1);
+
+    strcat(r_str,"\n\0");
 }
 
 //Read register response
 void PROTOCOL_recvResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code, uint8_t reg_addr, uint32_t reg_val, uint8_t reg_size)
 {
     char stmp1[MAX_STRING_LENGTH]; //Temp string
-    uint8_t crc,t11,t12,t13,t14;
+    uint8_t t11,t12,t13,t14; //Temp vars
+    uint8_t crc; //Checksum
+
     if (reg_size==REG_32bits)
     {
         t11=(uint8_t)((reg_val & 0xFF000000) >> 24);
@@ -85,56 +91,39 @@ void PROTOCOL_recvResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code, uin
     }
     t13=(uint8_t)((reg_val & 0x0000FF00) >> 8);
     t14=(uint8_t)(reg_val & 0x000000FF);
-    //memset(r_str,0,MAX_STRING_LENGTH);
-    if (dev_addr<16)
-        sprintf(r_str,":0%x",dev_addr);
-    else
-        sprintf(r_str,":%x",dev_addr);
-    if (resp_code<16)
-        sprintf(stmp1,"0%x",resp_code);
-    else
-        sprintf(stmp1,"%x",resp_code);
+
+    r_str[0]=':';
+    r_str[1]='\0';
+
+    char2hex(stmp1,dev_addr);
     strcat(r_str,stmp1);
-    if (reg_addr<16)
-        sprintf(stmp1,"0%x",reg_addr);
-    else
-        sprintf(stmp1,"%x",reg_addr);
+
+    char2hex(stmp1,resp_code);
     strcat(r_str,stmp1);
+
+    char2hex(stmp1,reg_addr);
+    strcat(r_str,stmp1);
+
     if (reg_size==REG_32bits)
     {
-        if (t11<16)
-            sprintf(stmp1,"0%x",t11);
-        else
-            sprintf(stmp1,"%x",t11);
+        char2hex(stmp1,t11);
         strcat(r_str,stmp1);
-        if (t12<16)
-            sprintf(stmp1,"0%x",t12);
-        else
-            sprintf(stmp1,"%x",t12);
+        char2hex(stmp1,t12);
         strcat(r_str,stmp1);
-    }
-    else
+    } else
     {
         t11 = t12 = 0;
     }
-    if (t13<16)
-        sprintf(stmp1,"0%x",t13);
-    else
-        sprintf(stmp1,"%x",t13);
+    char2hex(stmp1,t13);
     strcat(r_str,stmp1);
-    if (t14<16)
-        sprintf(stmp1,"0%x",t14);
-    else
-        sprintf(stmp1,"%x",t14);
+    char2hex(stmp1,t14);
     strcat(r_str,stmp1);
+
     crc=0-(dev_addr+resp_code+reg_addr+t11+t12+t13+t14);
-    if (crc<16)
-        sprintf(stmp1,"0%x",crc);
-    else
-        sprintf(stmp1,"%x",crc);
+    char2hex(stmp1,crc);
     strcat(r_str,stmp1);
-    sprintf(stmp1,"\n");
-    strcat(r_str,stmp1);
+
+    strcat(r_str,"\n\0");
 }
 
 /*

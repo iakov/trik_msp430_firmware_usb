@@ -44,6 +44,10 @@ void PROTOCOL_transResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code);
 void PROTOCOL_recvResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code, uint8_t reg_addr, uint32_t reg_val, uint8_t reg_size);
 void PROTOCOL_errResponse(char *r_str, uint8_t dev_addr, uint8_t func_code, uint8_t err_code);
 
+//1 byte number to string hex
+uint8_t TO_HEX(uint8_t i);
+void char2hex(char *string, uint8_t number);
+
 //Function to find terminate char in string
 uint8_t retInString (char* string);
 
