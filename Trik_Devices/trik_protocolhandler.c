@@ -256,7 +256,8 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
 	}
 
 	//Motor registers addresses range
-	if (((devaddr1>=MOTOR1) && (devaddr1<=MOTOR4)) && (regaddr1>0x06))
+	//if (((devaddr1>=MOTOR1) && (devaddr1<=MOTOR4)) && (regaddr1>0x06))
+	if (((devaddr1<=MOTOR4)) && (regaddr1>0x06))
 	{
 	    PROTOCOL_errResponse(out_str,devaddr1,func1,REG_ADDR_ERROR);
 		return REG_ADDR_ERROR;
@@ -328,7 +329,8 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
 	if (((func1==FUNCx03) && (strlen(in_str)==13)) || ((func1==FUNCx04) && (strlen(in_str)==17)))
 	{
 	    //Motors
-	    if ((devaddr1>=MOTOR1) && (devaddr1<=MOTOR4))
+	    //if ((devaddr1>=MOTOR1) && (devaddr1<=MOTOR4))
+	    if ((devaddr1<=MOTOR4))
 	    {
 	        if (regaddr1==MMDUT)
 	            MOT[devaddr1].MDUT = regval1;
@@ -421,7 +423,8 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
     {
 
         //Motors
-        if ((devaddr1>=MOTOR1) && (devaddr1<=MOTOR4))
+        //if ((devaddr1>=MOTOR1) && (devaddr1<=MOTOR4))
+        if ((devaddr1<=MOTOR4))
         {
             if (regaddr1==MMCTL)
                 PROTOCOL_recvResponse(out_str,devaddr1,MOT[devaddr1].MSTA,regaddr1,MOT[devaddr1].MCTL,REG_16bits);
