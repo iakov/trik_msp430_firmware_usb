@@ -29,7 +29,7 @@
 #define ENC_NO_ERROR 0x00
 
 //Prototypes for the APIs
-void ENCODER_hadler(uint8_t ENC_NUMBER);
+void ENCODER_handler(uint8_t ENC_NUMBER);
 void ENCODER_enableController(uint8_t ENC_NUMBER);
 void ENCODER_disableController(uint8_t ENC_NUMBER);
 //void ENCODER_enablePullup(uint8_t ENC_NUMBER);

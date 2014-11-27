@@ -150,7 +150,7 @@ void main (void)
                     strncat(wholeString,pieceOfString,strlen(pieceOfString));
                     if (retInString(wholeString))
                     {              // Wait for enter key to be pressed
-                        n_error = PROTOCOL_hadler(wholeString,newString); //Protocol handler
+                        n_error = PROTOCOL_handler(wholeString,newString); //Protocol handler
                         memset(wholeString,0,MAX_STR_LENGTH);   // Clear wholeString
 
                         //sprintf(newString,"TestNumber=%x %x %x %x\n",t11,t12,t13,t14);
@@ -328,7 +328,7 @@ void TIMERB1_ISR(void)
         {
             if ((timerb_cnt==nnn) && (SENS[nnn-SENSOR1].SENS_MOD==ENABLE))
             {
-                SENSOR_hadler(nnn);
+                SENSOR_handler(nnn);
                 PROTOCOL_recvResponse(newString,nnn,NO_ERROR,SSVAL,SENS[nnn-SENSOR1].SVAL,REG_32bits);
                 if (cdcSendDataInBackground((uint8_t*)newString,strlen(newString),CDC0_INTFNUM,1))
                 {

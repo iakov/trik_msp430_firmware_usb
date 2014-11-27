@@ -545,7 +545,7 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
     }
 }
 
-void SENSOR_hadler(uint8_t SENS_NUMBER)
+void SENSOR_handler(uint8_t SENS_NUMBER)
 {
     //Async/single read mode
     if (SENS[SENS_NUMBER-SENSOR1].SCTL & 0x4000)

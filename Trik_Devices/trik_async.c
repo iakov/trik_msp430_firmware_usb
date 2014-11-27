@@ -46,7 +46,7 @@ void disableTimer_B()
     TB0CTL &= ~TBIFG; //TIMER_B_clearTimerInterruptFlag(TIMER_B0_BASE);
 }
 
-uint8_t ASYNCTIMER_hadler()
+uint8_t ASYNCTIMER_handler()
 {
     if (ASYNCTMR.ATCTL & 0x0003)
         enableTimer_B();

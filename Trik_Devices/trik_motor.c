@@ -346,7 +346,7 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
     MOT[MOT_NUMBER].MOT_MOD = CONT_MODE;
 }
 
-void MOTOR_hadler(uint8_t MOT_NUMBER)
+void MOTOR_handler(uint8_t MOT_NUMBER)
 {
     //Continues/single mode
     if (MOT[MOT_NUMBER].MCTL & 0x4000)

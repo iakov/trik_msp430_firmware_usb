@@ -179,7 +179,7 @@ void ENCODER_disableController(uint8_t ENC_NUMBER)
     }
 }
 
-void ENCODER_hadler(uint8_t ENC_NUMBER)
+void ENCODER_handler(uint8_t ENC_NUMBER)
 {
     //Async/single read mode
     if (ENC[ENC_NUMBER-ENCODER1].ECTL & 0x4000)

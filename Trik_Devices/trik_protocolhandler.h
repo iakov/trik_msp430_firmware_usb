@@ -37,7 +37,7 @@
 #define REG_32bits 1
 
 //Protocol handler
-uint8_t PROTOCOL_hadler(char *in_str, char *out_str);
+uint8_t PROTOCOL_handler(char *in_str, char *out_str);
 
 //Response functions
 void PROTOCOL_transResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code);

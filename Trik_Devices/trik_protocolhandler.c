@@ -197,7 +197,7 @@ uint8_t retInString (char* string)
 }
 
 //Protocol handler
-uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
+uint8_t PROTOCOL_handler(char *in_str, char *out_str)
 {
 	char stmp1[MAX_STRING_LENGTH]; //Temp string
 	uint8_t devaddr1 = 0; //Device address
@@ -206,7 +206,6 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
 	uint32_t regval1 = 0; //Register value
 	uint8_t crc1 = 0; //Cheksum
 	uint8_t crc2 = 0; //Calculated checksum
-	uint8_t errhandler = NO_ERROR; //Result code of handlers
 
 	//Clear output string
 	//memset(out_str,0,MAX_STRING_LENGTH);
@@ -355,7 +354,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
                 MOT[devaddr1].MCTL=regval1;
             }
             */
-            MOTOR_hadler(devaddr1);
+            MOTOR_handler(devaddr1);
             PROTOCOL_transResponse(out_str,devaddr1,MOT[devaddr1].MSTA);
             return NO_ERROR;
 	    }
@@ -368,7 +367,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
             if (regaddr1==EECTL)
             {
                 ENC[devaddr1-ENCODER1].ECTL = regval1;
-                ENCODER_hadler(devaddr1);
+                ENCODER_handler(devaddr1);
             }
             PROTOCOL_transResponse(out_str,devaddr1,ENC[devaddr1-ENCODER1].ESTA);
             return NO_ERROR;
@@ -382,7 +381,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
             if (regaddr1==SSCTL)
             {
                 SENS[devaddr1-SENSOR1].SCTL = regval1;
-                SENSOR_hadler(devaddr1);
+                SENSOR_handler(devaddr1);
             }
             PROTOCOL_transResponse(out_str,devaddr1,SENS[devaddr1-SENSOR1].SSTA);
             return NO_ERROR;
@@ -398,7 +397,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
             if (regaddr1==AATCTL)
             {
                 ASYNCTMR.ATCTL=regval1;
-                ASYNCTIMER_hadler();
+                ASYNCTIMER_handler();
             }
             PROTOCOL_transResponse(out_str,devaddr1,NO_ERROR);
             return NO_ERROR;
@@ -452,7 +451,7 @@ uint8_t PROTOCOL_hadler(char *in_str, char *out_str)
         //Sensors
         if ((devaddr1>=SENSOR1) && (devaddr1<=SENSOR18))
         {
-            SENSOR_hadler(devaddr1);
+            SENSOR_handler(devaddr1);
             if (regaddr1==SSCTL)
                 PROTOCOL_recvResponse(out_str,devaddr1,SENS[devaddr1-SENSOR1].SSTA,regaddr1,SENS[devaddr1-SENSOR1].SCTL,REG_16bits);
             if (regaddr1==SSIDX)
