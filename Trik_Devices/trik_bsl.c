@@ -13,7 +13,7 @@
 //Enter to BSL
 uint8_t BSL_enterBSL(uint32_t bslpswd)
 {
-    if (bslpswd == 0xA480E917)
+    if (bslpswd == PASSWORD)
     {
         USB_disable();
         __disable_interrupt();
