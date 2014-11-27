@@ -30,6 +30,7 @@ void char2hex(char *string, uint8_t number)
     string[2] = '\0';
 }
 
+/*
 uint8_t hex2char(char *string, uint8_t pos)
 {
     uint8_t an = string[pos] > '9' ? string[pos] - 'A' + 10 : string[pos] - '0';
@@ -45,6 +46,7 @@ uint16_t hex2int(char *string, uint8_t pos)
     uint8_t dn = string[pos+3] > '9' ? string[pos+3] - 'A' + 10 : string[pos+3] - '0';
     return (an << 12) | (bn << 8) | (cn << 4) | dn;
 }
+*/
 
 uint32_t hex2num(char *string, uint16_t pos, uint16_t numsize)
 {

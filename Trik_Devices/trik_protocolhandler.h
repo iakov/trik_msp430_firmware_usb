@@ -54,10 +54,10 @@ uint8_t TO_HEX(uint8_t i);
 void char2hex(char *string, uint8_t number);
 
 //String hex to 1 byte number
-uint8_t hex2char(char *string, uint8_t pos);
+//uint8_t hex2char(char *string, uint8_t pos);
 
 //String hex to 2 bytes number
-uint16_t hex2int(char *string, uint8_t pos);
+//uint16_t hex2int(char *string, uint8_t pos);
 
 //String HEX to N bytes number
 uint32_t hex2num(char *string, uint16_t pos, uint16_t numsize);
