@@ -12,16 +12,16 @@
 
 void SENSOR_enableController(uint8_t SENS_NUMBER)
 {
-    if ((busy_table[SENS_NUMBER]==NNONE) || (busy_table[SENS_NUMBER]==SENS_NUMBER))
+    if (!(isSlotBusy(SENS_NUMBER)))
     {
-        busy_table[SENS_NUMBER]=SENS_NUMBER;
+        reseveSlot(SENS_NUMBER);
         SENS[SENS_NUMBER-SENSOR1].SENS_EN = ENABLE;
     }
 }
 
 void SENSOR_disableController(uint8_t SENS_NUMBER)
 {
-    busy_table[SENS_NUMBER]=NNONE;
+    releaseSlot(SENS_NUMBER);
     SENS[SENS_NUMBER-SENSOR1].SENS_EN = DISABLE;
 }
 

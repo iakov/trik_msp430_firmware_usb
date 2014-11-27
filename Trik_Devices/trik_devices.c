@@ -74,3 +74,24 @@ void initPBPorts()
     P5DIR |= BIT3; //GPIO_setAsOutputPin(GPIO_PORT_P5,GPIO_PIN3);
     P5OUT |= BIT3; //GPIO_setOutputHighOnPin(GPIO_PORT_P5,GPIO_PIN3);
 }
+
+//Test, if slot busy by other device
+uint8_t isSlotBusy(uint8_t DEV_NUMBER)
+{
+    if ((busy_table[DEV_NUMBER]==NNONE) || (busy_table[DEV_NUMBER]==DEV_NUMBER))
+        return SLOT_FREE;
+    else
+        return SLOT_BUSY;
+}
+
+//Make slot busy
+void reseveSlot(uint8_t DEV_NUMBER)
+{
+    busy_table[DEV_NUMBER] = DEV_NUMBER;
+}
+
+//Make slot free
+void releaseSlot(uint8_t DEV_NUMBER)
+{
+    busy_table[DEV_NUMBER] = NNONE;
+}

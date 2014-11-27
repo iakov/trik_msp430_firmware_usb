@@ -14,9 +14,9 @@
 
 void ENCODER_enableController(uint8_t ENC_NUMBER)
 {
-    if ((busy_table[ENC_NUMBER]==NNONE) || (busy_table[ENC_NUMBER]==ENC_NUMBER))
+    if (!(isSlotBusy(ENC_NUMBER)))
     {
-        busy_table[ENC_NUMBER] = ENC_NUMBER;
+        reseveSlot(ENC_NUMBER);
         ENC[ENC_NUMBER-ENCODER1].ENC_EN = ENABLE;
         switch (ENC_NUMBER)
         {
@@ -130,7 +130,7 @@ void ENCODER_enableController(uint8_t ENC_NUMBER)
 
 void ENCODER_disableController(uint8_t ENC_NUMBER)
 {
-    busy_table[ENC_NUMBER]=NNONE;
+    releaseSlot(ENC_NUMBER);
     ENC[ENC_NUMBER-ENCODER1].ENC_EN = DISABLE;
     switch (ENC_NUMBER)
     {
