@@ -10,8 +10,8 @@
 
 #define MAX_STRING_LENGTH   32
 
-#define FALSE               0
-#define TRUE                1
+#define FALSE               0x00
+#define TRUE                0x01
 
 //Error defines
 #define NO_ERROR            0x00
@@ -33,8 +33,8 @@
 #define FUNCx06             0x06
 
 //Register size
-#define REG_16bits          0
-#define REG_32bits          1
+#define REG_16bits          0x00
+#define REG_32bits          0x01
 
 //HEX number sizes
 #define NUM_BYTE            0x02

@@ -9,13 +9,13 @@
 #define TRIK_ASYNC_H_
 
 //Timer registers defines
-#define AATCTL 0x00
-#define AATPER 0x01
-#define AATVAL 0x02
+#define AATCTL               0x00
+#define AATPER               0x01
+#define AATVAL               0x02
 
 //Timer period defines
-#define NORMAL_PERIOD 0x0960
-#define MAXIMUM_PERIOD 0xFFFF
+#define NORMAL_PERIOD        0x0960
+#define MAXIMUM_PERIOD       0xFFFF
 
 void enableTimer_B();
 void disableTimer_B();

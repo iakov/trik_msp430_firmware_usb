@@ -8,29 +8,32 @@
 #define TRIK_MOTOR_H_
 
 //Configuration parameters
-#define DISABLE				0
-#define ENABLE				1
+#define DISABLE				0x00
+#define ENABLE				0x01
 
 //Motor mode
-#define CONT_MODE           0
-#define ANGLE_MODE          1
-#define TIME_MODE           2
+#define CONT_MODE           0x00
+#define ANGLE_MODE          0x01
+#define TIME_MODE           0x02
 
 //Motor direction
-#define FORWARD             0
-#define BACKWARD            1
+#define FORWARD             0x00
+#define BACKWARD            0x01
 
 //Motor registers
-#define MMCTL 0x00
-#define MMDUT 0x01
-#define MMPER 0x02
-#define MMANG 0x03
-#define MMTMR 0x04
-#define MMVAL 0x05
-#define MMSTA 0x06
+#define MMCTL               0x00
+#define MMDUT               0x01
+#define MMPER               0x02
+#define MMANG               0x03
+#define MMTMR               0x04
+#define MMVAL               0x05
+#define MMSTA               0x06
 
 //Motor errors
-#define MOT_NO_ERROR 0x00
+#define MOT_NO_ERROR        0x00
+
+//Max motors
+#define MAX_MOTORS          0x04
 
 //Prototypes for the APIs
 void MOTOR_handler(uint8_t MOT_NUMBER);
@@ -41,9 +44,6 @@ void MOTOR_disableController(uint8_t MOT_NUMBER);
 //void MOTOR_fastBrake(uint8_t MOT_NUMBER);
 //void MOTOR_start(uint8_t MOT_NUMBER);
 void MOTOR_stop(uint8_t MOT_NUMBER);
-
-//Max motors
-#define MAX_MOTORS 4
 
 //Motor registers
 struct tMotorRegisters
