@@ -65,6 +65,9 @@
 //Max ports
 #define MAX_DEVICES			0x2F
 
+//Busy table
+volatile uint8_t busy_table[MAX_DEVICES];
+
 void initGlobalVars();
 void initReferenceTemperature();
 void initADC10();
@@ -72,8 +75,5 @@ void initPBPorts();
 uint8_t isSlotBusy(uint8_t DEV_NUMBER);
 void reseveSlot(uint8_t DEV_NUMBER);
 void releaseSlot(uint8_t DEV_NUMBER);
-
-//Busy table
-volatile uint8_t busy_table[MAX_DEVICES];
 
 #endif
