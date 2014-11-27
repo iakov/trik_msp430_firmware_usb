@@ -8,6 +8,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include "driverlib.h"
 #include "Trik_Devices/trik_protocolhandler.h"
 #include "Trik_Devices/trik_motor.h"
@@ -29,26 +30,56 @@ void char2hex(char *string, uint8_t number)
     string[2] = '\0';
 }
 
+uint8_t hex2char(char *string, uint8_t pos)
+{
+    uint8_t an = string[pos] > '9' ? string[pos] - 'A' + 10 : string[pos] - '0';
+    uint8_t bn = string[pos+1] > '9' ? string[pos+1] - 'A' + 10 : string[pos+1] - '0';
+    return (an << 4 ) | bn;
+}
+
+uint16_t hex2int(char *string, uint8_t pos)
+{
+    uint8_t an = string[pos] > '9' ? string[pos] - 'A' + 10 : string[pos] - '0';
+    uint8_t bn = string[pos+1] > '9' ? string[pos+1] - 'A' + 10 : string[pos+1] - '0';
+    uint8_t cn = string[pos+2] > '9' ? string[pos+2] - 'A' + 10 : string[pos+2] - '0';
+    uint8_t dn = string[pos+3] > '9' ? string[pos+3] - 'A' + 10 : string[pos+3] - '0';
+    return (an << 12) | (bn << 8) | (cn << 4) | dn;
+}
+
+uint32_t hex2num(char *string, uint16_t pos, uint16_t numsize)
+{
+    uint32_t resnum = 0;
+    uint32_t tmpnum = 0;
+    char c = 0;
+    for (uint16_t i = 0; i < numsize; i++)
+    {
+        c = toupper(string[pos+i]);
+        tmpnum = c > '9' ? c - 'A' + 10 : c - '0';
+        resnum |= (tmpnum << ((numsize - i - 1) * 4));
+    }
+    return resnum;
+}
+
 //Error response
 void PROTOCOL_errResponse(char *r_str, uint8_t dev_addr, uint8_t func_code, uint8_t err_code)
 {
 	char stmp1[MAX_STRING_LENGTH]; //Temp string
 	uint8_t crc; //Checksum
 
-	r_str[0]=':';
-	r_str[1]='\0';
+	r_str[0] = ':';
+	r_str[1] = '\0';
 
 	char2hex(stmp1,dev_addr);
 	strcat(r_str,stmp1);
 
-	if (func_code<0x80) func_code+=0x80;
+	if (func_code<0x80) func_code += 0x80;
 	char2hex(stmp1,func_code);
 	strcat(r_str,stmp1);
 
     char2hex(stmp1,err_code);
     strcat(r_str,stmp1);
 
-	crc=0-(dev_addr+func_code+err_code);
+	crc = 0 - (dev_addr + func_code + err_code);
     char2hex(stmp1,crc);
     strcat(r_str,stmp1);
 
@@ -61,8 +92,8 @@ void PROTOCOL_transResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code)
     char stmp1[MAX_STRING_LENGTH]; //Temp string
     uint8_t crc; //Checksum
 
-    r_str[0]=':';
-    r_str[1]='\0';
+    r_str[0] = ':';
+    r_str[1] = '\0';
 
     char2hex(stmp1,dev_addr);
     strcat(r_str,stmp1);
@@ -70,7 +101,7 @@ void PROTOCOL_transResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code)
     char2hex(stmp1,resp_code);
     strcat(r_str,stmp1);
 
-    crc=0-(dev_addr+resp_code);
+    crc = 0 - (dev_addr + resp_code);
     char2hex(stmp1,crc);
     strcat(r_str,stmp1);
 
@@ -86,14 +117,14 @@ void PROTOCOL_recvResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code, uin
 
     if (reg_size==REG_32bits)
     {
-        t11=(uint8_t)((reg_val & 0xFF000000) >> 24);
-        t12=(uint8_t)((reg_val & 0x00FF0000) >> 16);
+        t11 = (uint8_t)((reg_val & 0xFF000000) >> 24);
+        t12 = (uint8_t)((reg_val & 0x00FF0000) >> 16);
     }
-    t13=(uint8_t)((reg_val & 0x0000FF00) >> 8);
-    t14=(uint8_t)(reg_val & 0x000000FF);
+    t13 = (uint8_t)((reg_val & 0x0000FF00) >> 8);
+    t14 = (uint8_t)(reg_val & 0x000000FF);
 
-    r_str[0]=':';
-    r_str[1]='\0';
+    r_str[0] = ':';
+    r_str[1] = '\0';
 
     char2hex(stmp1,dev_addr);
     strcat(r_str,stmp1);
@@ -119,7 +150,7 @@ void PROTOCOL_recvResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code, uin
     char2hex(stmp1,t14);
     strcat(r_str,stmp1);
 
-    crc=0-(dev_addr+resp_code+reg_addr+t11+t12+t13+t14);
+    crc = 0 - (dev_addr + resp_code + reg_addr + t11 + t12 + t13 + t14);
     char2hex(stmp1,crc);
     strcat(r_str,stmp1);
 
@@ -188,7 +219,6 @@ uint8_t retInString (char* string)
 //Protocol handler
 uint8_t PROTOCOL_handler(char *in_str, char *out_str)
 {
-	char stmp1[MAX_STRING_LENGTH]; //Temp string
 	uint8_t devaddr1 = 0; //Device address
 	uint8_t func1 = 0; //Function number
 	uint8_t regaddr1 = 0; //Register address
@@ -196,46 +226,35 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
 	uint8_t crc1 = 0; //Cheksum
 	uint8_t crc2 = 0; //Calculated checksum
 
-	//Clear output string
-	//memset(out_str,0,MAX_STRING_LENGTH);
-
 	//Start condition error
 	if (in_str[0]!=':')
 	{
-		sprintf(out_str,":000013ED\n");
+		strcpy(out_str,":000013ED\n\0");
 		return START_ERROR;
 	}
 
 	//Incorrect packet length
 	if ((strlen(in_str)!=9) && (strlen(in_str)!=13) && (strlen(in_str)!=17))
 	{
-		sprintf(out_str,":000014EC\n");
+		strcpy(out_str,":000014EC\n\0");
 		return LENGTH_ERROR;
 	}
 
 	//Get device address
-	sprintf(stmp1,"%c%c",in_str[1],in_str[2]);
-	devaddr1=strtoul(stmp1,&stmp1[2],16);
+	devaddr1 = hex2num(in_str, 1, NUM_BYTE);
 
 	//Get function
-	sprintf(stmp1,"%c%c",in_str[3],in_str[4]);
-	func1=strtoul(stmp1,&stmp1[2],16);
+	func1 = hex2num(in_str, 3, NUM_BYTE);
 
 	//Get register address
-	sprintf(stmp1,"%c%c",in_str[5],in_str[6]);
-	regaddr1=strtoul(stmp1,&stmp1[2],16);
+	regaddr1 = hex2num(in_str, 5, NUM_BYTE);
 
 	//Get register value
 	if (func1==FUNCx03)
-	{
-	    sprintf(stmp1,"%c%c%c%c",in_str[7],in_str[8],in_str[9],in_str[10]);
-	    regval1=strtoul(stmp1,&stmp1[4],16);
-	}
+	    regval1 = hex2num(in_str, 7, NUM_WORD);
+
 	if (func1==FUNCx04)
-	{
-	    sprintf(stmp1,"%c%c%c%c%c%c%c%c",in_str[7],in_str[8],in_str[9],in_str[10],in_str[11],in_str[12],in_str[13],in_str[14]);
-	    regval1=strtoul(stmp1,&stmp1[8],16);
-	}
+	    regval1 = hex2num(in_str, 7, NUM_DWORD);
 
 	//Device addresses range
 	if ((devaddr1>MAX_DEVICES) && (devaddr1!=BSL))
@@ -284,20 +303,16 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
 	switch (func1)
 	{
 	    case FUNCx03:
-	        sprintf(stmp1,"%c%c",in_str[11],in_str[12]);
-	        crc1=strtoul(stmp1,&stmp1[2],16);
+	        crc1 = hex2num(in_str, 11, NUM_BYTE);
 	        break;
         case FUNCx04:
-            sprintf(stmp1,"%c%c",in_str[15],in_str[16]);
-            crc1=strtoul(stmp1,&stmp1[2],16);
+            crc1 = hex2num(in_str, 15, NUM_BYTE);
             break;
         case FUNCx05:
-            sprintf(stmp1,"%c%c",in_str[7],in_str[8]);
-            crc1=strtoul(stmp1,&stmp1[2],16);
+            crc1 = hex2num(in_str, 7, NUM_BYTE);
             break;
         case FUNCx06:
-            sprintf(stmp1,"%c%c",in_str[7],in_str[8]);
-            crc1=strtoul(stmp1,&stmp1[2],16);
+            crc1 = hex2num(in_str, 7, NUM_BYTE);
             break;
         default:
             break;
@@ -339,12 +354,6 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
                 PROTOCOL_errResponse(out_str,devaddr1,func1,REG_VAL_ERROR);
                 return REG_VAL_ERROR;
             }
-            /*
-            if (regaddr1==MMCTL)
-            {
-                MOT[devaddr1].MCTL=regval1;
-            }
-            */
             MOTOR_handler(devaddr1);
             PROTOCOL_transResponse(out_str,devaddr1,MOT[devaddr1].MSTA);
             return NO_ERROR;
