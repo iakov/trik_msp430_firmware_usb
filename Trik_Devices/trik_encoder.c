@@ -200,6 +200,14 @@ __attribute__((interrupt(PORT1_VECTOR)))
 #endif
 void PORT1_ISR(void)
 {
+    //M1 overcurrent interrupt
+    if (P1IFG & BIT1)
+        MOT[MOTOR1].MERR++;
+
+    //M3 overcurrent interrupt
+    if (P1IFG & BIT7)
+        MOT[MOTOR3].MERR++;
+
     P1IFG &= ~(BIT0+BIT6); //GPIO_clearInterruptFlag(GPIO_PORT_P1,GPIO_PIN0|GPIO_PIN6);
     P1IFG &= ~(BIT1+BIT7); //For overcurrent
 }
@@ -299,6 +307,14 @@ void PORT2_ISR(void)
                 MOTOR_stop(MOTOR4);
         }
     }
+
+    //M2 overcurrent interrupt
+    if (P2IFG & BIT6)
+        MOT[MOTOR2].MERR++;
+
+    //M4 overcurrent interrupt
+    if (P2IFG & BIT7)
+        MOT[MOTOR4].MERR++;
 
     P2IFG &= ~(BIT0+BIT1+BIT4+BIT5); //GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN1|GPIO_PIN4|GPIO_PIN5);
     P2IFG &= ~(BIT6+BIT7); //For overcurrent
