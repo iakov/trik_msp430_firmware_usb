@@ -393,12 +393,10 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
         //Ports
         if ((devaddr1>=PORT1) && (devaddr1<=PORTJ))
         {
-
             PORT_write(devaddr1, regaddr1, regval1);
             PROTOCOL_transResponse(out_str,devaddr1,NO_ERROR);
             return NO_ERROR;
         }
-
 
         //Async timer
         if ((devaddr1==ASYNCTIMER))
@@ -473,7 +471,15 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             if (regaddr1==SSVAL)
                 PROTOCOL_recvResponse(out_str,devaddr1,SENS[devaddr1-SENSOR1].SSTA,regaddr1,SENS[devaddr1-SENSOR1].SVAL,REG_32bits);
             return NO_ERROR;
-       }
+        }
+
+        //Ports
+        if ((devaddr1>=PORT1) && (devaddr1<=PORTJ))
+        {
+            PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,
+                    PORT_read(devaddr1,regaddr1),REG_16bits);
+            return NO_ERROR;
+        }
 
         //Async timer
         if ((devaddr1==ASYNCTIMER))
