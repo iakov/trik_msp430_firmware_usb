@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include "trik_devices.h"
 #include "trik_motor.h"
+#include "trik_encoder.h"
 #include "driverlib.h"
 
 //Motor enable and start
@@ -44,7 +45,11 @@ void MOTOR_start(uint8_t MOT_NUMBER)
                 /*GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN2);*/
                 P1SEL |= BIT2;
                 P1DIR |= BIT2;
-                P1DIR &= ~BIT1; //GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN1);
+                //Overcurrent interrupt init
+                P1DIR &= ~BIT1;
+                P1IES &= ~BIT1;
+                P1IE |= BIT1;
+                P1IFG &= ~BIT1;
                 break;
             case MOTOR2:
                 if (!(MOT[MOT_NUMBER].MCTL & MOT_BACK))
@@ -72,7 +77,11 @@ void MOTOR_start(uint8_t MOT_NUMBER)
                 /*GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN3);*/
                 P1SEL |= BIT3;
                 P1DIR |= BIT3;
-                P2DIR &= ~BIT6; //GPIO_setAsInputPin(GPIO_PORT_P2, GPIO_PIN6);
+                //Overcurrent interrupt init
+                P2DIR &= ~BIT6;
+                P2IES &= ~BIT6;
+                P2IE |= BIT6;
+                P2IFG &= ~BIT6;
                 break;
             case MOTOR3:
                 if (!(MOT[MOT_NUMBER].MCTL & MOT_BACK))
@@ -100,7 +109,11 @@ void MOTOR_start(uint8_t MOT_NUMBER)
                 /*GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN4);*/
                 P1SEL |= BIT4;
                 P1DIR |= BIT4;
-                P1DIR &= ~BIT7; //GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN7);
+                //Overcurrent interrupt init
+                P1DIR &= ~BIT7;
+                P1IES &= ~BIT7;
+                P1IE |= BIT7;
+                P1IFG &= ~BIT7;
                 break;
             case MOTOR4:
                 if (!(MOT[MOT_NUMBER].MCTL & MOT_BACK))
@@ -128,7 +141,11 @@ void MOTOR_start(uint8_t MOT_NUMBER)
                 /*GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN5);*/
                 P1SEL |= BIT5;
                 P1DIR |= BIT5;
-                P2DIR &= ~BIT7; //GPIO_setAsInputPin(GPIO_PORT_P2, GPIO_PIN7);
+                //Overcurrent interrupt init
+                P2DIR &= ~BIT7;
+                P2IES &= ~BIT7;
+                P2IE |= BIT7;
+                P2IFG &= ~BIT7;
                 break;
             default:
                 break;

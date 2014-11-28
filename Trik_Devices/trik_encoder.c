@@ -201,6 +201,7 @@ __attribute__((interrupt(PORT1_VECTOR)))
 void PORT1_ISR(void)
 {
     P1IFG &= ~(BIT0+BIT6); //GPIO_clearInterruptFlag(GPIO_PORT_P1,GPIO_PIN0|GPIO_PIN6);
+    P1IFG &= ~(BIT1+BIT7); //For overcurrent
 }
 
 #if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
@@ -300,6 +301,7 @@ void PORT2_ISR(void)
     }
 
     P2IFG &= ~(BIT0+BIT1+BIT4+BIT5); //GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN1|GPIO_PIN4|GPIO_PIN5);
+    P2IFG &= ~(BIT6+BIT7); //For overcurrent
 }
 
 
