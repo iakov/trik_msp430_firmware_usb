@@ -39,10 +39,6 @@ void initGlobalVars()
 //Init reference and temperature sensor for ADC
 void initReferenceTemperature()
 {
-    //while(REF_isRefGenBusy(REF_BASE));
-    //REF_setReferenceVoltage(REF_BASE,REF_VREF2_5V);
-    //REF_enableReferenceVoltage(REF_BASE);
-    //REF_enableTempSensor(REF_BASE);
     while(REFCTL0 & REFGENBUSY)
         ;
     REFCTL0 |= REFMSTR + REFON;
@@ -51,16 +47,6 @@ void initReferenceTemperature()
 //Init ADC 10 bit
 void initADC10()
 {
-    /*
-    ADC10_A_init(ADC10_A_BASE,
-                 ADC10_A_SAMPLEHOLDSOURCE_SC,
-                 ADC10_A_CLOCKSOURCE_SMCLK,
-                 ADC10_A_CLOCKDIVIDER_8);
-    ADC10_A_enable(ADC10_A_BASE);
-    ADC10_A_setupSamplingTimer(ADC10_A_BASE,
-            ADC10_A_CYCLEHOLD_16_CYCLES,
-            ADC10_A_MULTIPLESAMPLESDISABLE);
-    */
     ADC10CTL0 = ADC10SHT1 + ADC10ON;
     ADC10CTL1 = ADC10SHP + ADC10DIV0 + ADC10DIV1 + ADC10DIV2 + ADC10SSEL0 + ADC10SSEL1;
     ADC10CTL2 = ADC10RES;
