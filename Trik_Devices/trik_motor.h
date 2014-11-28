@@ -37,6 +37,8 @@
 #define MOT_AUTO            0x4000 //Autostop mode
 #define MOT_ANGLE           0x2000 //Angle autostop mode
 #define MOT_BACK            0x0010 //Backward direction
+#define MOT_BRAKE           0x0008 //Brake enable
+#define MOT_POWER           0x0003 //Motor power
 
 //Max motors
 #define MAX_MOTORS          0x04
@@ -61,8 +63,6 @@ struct tMotorRegisters
     uint32_t MTMR;
     uint32_t MVAL;
     uint16_t MSTA;
-    uint8_t MOT_PWR;
-    uint8_t MOT_BRK;
 };
 
 //Motors registers array

@@ -27,7 +27,7 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                     P5OUT |= BIT5; //GPIO_setOutputHighOnPin(GPIO_PORT_P5, GPIO_PIN5);
                     P5OUT &= ~BIT4; //GPIO_setOutputLowOnPin(GPIO_PORT_P5, GPIO_PIN4);
                 }
-                if (MOT[MOT_NUMBER].MOT_PWR==ENABLE)
+                if (MOT[MOT_NUMBER].MCTL & MOT_POWER)
                 {
                     if (MOT[MOT_NUMBER].MCTL & MOT_AUTO)
                         MOT[MOT_NUMBER].MVAL = 0;
@@ -55,7 +55,7 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                     P4OUT |= BIT1; //GPIO_setOutputHighOnPin(GPIO_PORT_P4, GPIO_PIN1);
                     P4OUT &= ~BIT0; //GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN0);
                 }
-                if (MOT[MOT_NUMBER].MOT_PWR==ENABLE)
+                if (MOT[MOT_NUMBER].MCTL & MOT_POWER)
                 {
                     if (MOT[MOT_NUMBER].MCTL & MOT_AUTO)
                         MOT[MOT_NUMBER].MVAL = 0;
@@ -83,7 +83,7 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                     PJOUT |= BIT1; //GPIO_setOutputHighOnPin(GPIO_PORT_PJ, GPIO_PIN1);
                     PJOUT &= ~BIT0; //GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN0);
                 }
-                if (MOT[MOT_NUMBER].MOT_PWR==ENABLE)
+                if (MOT[MOT_NUMBER].MCTL & MOT_POWER)
                 {
                     if (MOT[MOT_NUMBER].MCTL & MOT_AUTO)
                         MOT[MOT_NUMBER].MVAL = 0;
@@ -111,7 +111,7 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                     PJOUT |= BIT3; //GPIO_setOutputHighOnPin(GPIO_PORT_PJ, GPIO_PIN3);
                     PJOUT &= ~BIT2; //GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN2);
                 }
-                if (MOT[MOT_NUMBER].MOT_PWR==ENABLE)
+                if (MOT[MOT_NUMBER].MCTL & MOT_POWER)
                 {
                     if (MOT[MOT_NUMBER].MCTL & MOT_AUTO)
                         MOT[MOT_NUMBER].MVAL = 0;
@@ -166,7 +166,7 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
     switch (MOT_NUMBER)
     {
         case MOTOR1:
-            if (MOT[MOT_NUMBER].MOT_BRK==ENABLE)
+            if (MOT[MOT_NUMBER].MCTL & MOT_BRAKE)
             {
                 P5OUT &= ~(BIT4+BIT5); //GPIO_setOutputLowOnPin(GPIO_PORT_P5, GPIO_PIN4|GPIO_PIN5);
                 TA0CCR0 = MOT[MOT_NUMBER].MPER;           // PWM Period
@@ -182,7 +182,7 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
             }
             break;
         case MOTOR2:
-            if (MOT[MOT_NUMBER].MOT_BRK==ENABLE)
+            if (MOT[MOT_NUMBER].MCTL & MOT_BRAKE)
             {
                 P4OUT &= ~(BIT0+BIT1); //GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN0|GPIO_PIN1);
                 TA0CCR0 = MOT[MOT_NUMBER].MPER;           // PWM Period
@@ -198,7 +198,7 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
             }
             break;
         case MOTOR3:
-            if (MOT[MOT_NUMBER].MOT_BRK==ENABLE)
+            if (MOT[MOT_NUMBER].MCTL & MOT_BRAKE)
             {
                 PJOUT &= ~(BIT0+BIT1); //GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN0|GPIO_PIN1);
                 TA0CCR0 = MOT[MOT_NUMBER].MPER;           // PWM Period
@@ -214,7 +214,7 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
             }
             break;
         case MOTOR4:
-            if (MOT[MOT_NUMBER].MOT_BRK==ENABLE)
+            if (MOT[MOT_NUMBER].MCTL & MOT_BRAKE)
             {
                 PJOUT &= ~(BIT2+BIT3); //GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN2|GPIO_PIN3);
                 TA0CCR0 = MOT[MOT_NUMBER].MPER;           // PWM Period
@@ -232,23 +232,12 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
         default:
             break;
     }
-    MOT[MOT_NUMBER].MOT_PWR = DISABLE;
-    MOT[MOT_NUMBER].MCTL &= ~MOT_AUTO;
+    MOT[MOT_NUMBER].MCTL &= ~(MOT_POWER + MOT_AUTO);
 }
 
 void MOTOR_handler(uint8_t MOT_NUMBER)
 {
-    //Fast brake enable/disable
-    if (MOT[MOT_NUMBER].MCTL & 0x0008)
-        MOT[MOT_NUMBER].MOT_BRK = ENABLE;
-    else
-        MOT[MOT_NUMBER].MOT_BRK = DISABLE;
-    //Start/stop
-    if (MOT[MOT_NUMBER].MCTL & 0x0003)
-        MOT[MOT_NUMBER].MOT_PWR=ENABLE;
-    else
-        MOT[MOT_NUMBER].MOT_PWR=DISABLE;
-    //Enable/disable
+    //Enable (start) / disable
     if (MOT[MOT_NUMBER].MCTL & MOT_ENABLE)
         MOTOR_enableController(MOT_NUMBER);
     else

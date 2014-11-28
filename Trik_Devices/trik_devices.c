@@ -20,10 +20,7 @@ void initGlobalVars()
         busy_table[j]=NNONE;
 
     for (int j=0; j<MAX_MOTORS; j++)
-    {
         MOT[j].MCTL=MOT[j].MDUT=MOT[j].MPER=MOT[j].MANG=MOT[j].MTMR=MOT[j].MVAL=MOT[j].MSTA=0;
-        MOT[j].MOT_PWR=0;
-    }
 
     for (int j=0; j<MAX_ENCODERS; j++)
         ENC[j].ECTL=ENC[j].EVAL=ENC[j].ESTA=0;
