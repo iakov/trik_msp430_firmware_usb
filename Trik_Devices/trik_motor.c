@@ -15,7 +15,6 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
     if (!(isSlotBusy(MOT_NUMBER)))
     {
         reseveSlot(MOT_NUMBER);
-        MOT[MOT_NUMBER].MOT_EN = ENABLE;
         switch (MOT_NUMBER)
         {
             case MOTOR1:
@@ -175,7 +174,6 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
 void MOTOR_disableController(uint8_t MOT_NUMBER)
 {
     releaseSlot(MOT_NUMBER);
-    MOT[MOT_NUMBER].MOT_EN = DISABLE;
     switch (MOT_NUMBER)
     {
         case MOTOR1:

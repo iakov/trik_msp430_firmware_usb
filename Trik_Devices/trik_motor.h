@@ -55,7 +55,6 @@ struct tMotorRegisters
     uint32_t MTMR;
     uint32_t MVAL;
     uint16_t MSTA;
-    uint8_t MOT_EN;
     uint8_t MOT_PWR;
     uint8_t MOT_DIR;
     uint8_t MOT_BRK;
