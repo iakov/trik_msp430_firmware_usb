@@ -340,7 +340,7 @@ void TIMERB1_ISR(void)
         //Motors timer control
         for (uint8_t MOTNUM=MOTOR1; MOTNUM<=MOTOR4; MOTNUM++)
         {
-            if (MOT[MOTNUM].MOT_MOD==TIME_MODE)
+            if ((MOT[MOTNUM].MCTL & MOT_AUTO) && (!(MOT[MOTNUM].MCTL & MOT_ANGLE)))
             {
                 MOT[MOTNUM].MVAL++;
                 if ((MOT[MOTNUM].MVAL>MOT[MOTNUM].MTMR))

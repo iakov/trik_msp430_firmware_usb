@@ -21,7 +21,7 @@ void initGlobalVars()
     for (int j=0; j<MAX_MOTORS; j++)
     {
         MOT[j].MCTL=MOT[j].MDUT=MOT[j].MPER=MOT[j].MANG=MOT[j].MTMR=MOT[j].MVAL=MOT[j].MSTA=0;
-        MOT[j].MOT_PWR=MOT[j].MOT_DIR=MOT[j].MOT_DIR=0;
+        MOT[j].MOT_PWR=MOT[j].MOT_DIR=0;
     }
     for (int j=0; j<MAX_ENCODERS; j++)
     {

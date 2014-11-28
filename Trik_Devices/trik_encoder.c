@@ -226,7 +226,7 @@ void PORT2_ISR(void)
         {
             ENC[ENCODER1-ENCODER1].EVAL++;
         }
-        if (MOT[MOTOR1].MOT_MOD==ANGLE_MODE)
+        if ((MOT[MOTOR1].MCTL & MOT_AUTO) && (MOT[MOTOR1].MCTL & MOT_ANGLE))
         {
             MOT[MOTOR1].MVAL++;
             if ((MOT[MOTOR1].MVAL>MOT[MOTOR1].MANG))
@@ -248,7 +248,7 @@ void PORT2_ISR(void)
         {
             ENC[ENCODER2-ENCODER1].EVAL++;
         }
-        if (MOT[MOTOR2].MOT_MOD==ANGLE_MODE)
+        if ((MOT[MOTOR2].MCTL & MOT_AUTO) && (MOT[MOTOR2].MCTL & MOT_ANGLE))
         {
             MOT[MOTOR2].MVAL++;
             if ((MOT[MOTOR2].MVAL>MOT[MOTOR2].MANG))
@@ -270,7 +270,7 @@ void PORT2_ISR(void)
         {
             ENC[ENCODER3-ENCODER1].EVAL++;
         }
-        if (MOT[MOTOR3].MOT_MOD==ANGLE_MODE)
+        if ((MOT[MOTOR3].MCTL & MOT_AUTO) && (MOT[MOTOR3].MCTL & MOT_ANGLE))
         {
             MOT[MOTOR3].MVAL++;
             if ((MOT[MOTOR3].MVAL>MOT[MOTOR3].MANG))
@@ -292,7 +292,7 @@ void PORT2_ISR(void)
         {
             ENC[ENCODER4-ENCODER1].EVAL++;
         }
-        if (MOT[MOTOR4].MOT_MOD==ANGLE_MODE)
+        if ((MOT[MOTOR4].MCTL & MOT_AUTO) && (MOT[MOTOR4].MCTL & MOT_ANGLE))
         {
             MOT[MOTOR4].MVAL++;
             if ((MOT[MOTOR4].MVAL>MOT[MOTOR4].MANG))

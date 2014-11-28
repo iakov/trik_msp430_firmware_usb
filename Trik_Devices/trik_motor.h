@@ -32,6 +32,11 @@
 //Motor errors
 #define MOT_NO_ERROR        0x00
 
+//Masks for bits of control register
+#define MOT_ENABLE          0x8000 //Motor enable
+#define MOT_AUTO            0x4000 //Autostop mode
+#define MOT_ANGLE           0x2000 //Angle autostop mode
+
 //Max motors
 #define MAX_MOTORS          0x04
 
@@ -58,7 +63,6 @@ struct tMotorRegisters
     uint8_t MOT_PWR;
     uint8_t MOT_DIR;
     uint8_t MOT_BRK;
-    uint8_t MOT_MOD;
 };
 
 //Motors registers array

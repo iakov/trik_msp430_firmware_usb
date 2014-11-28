@@ -29,7 +29,7 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                 }
                 if (MOT[MOT_NUMBER].MOT_PWR==ENABLE)
                 {
-                    if (MOT[MOT_NUMBER].MOT_MOD!=CONT_MODE)
+                    if (MOT[MOT_NUMBER].MCTL & MOT_AUTO)
                         MOT[MOT_NUMBER].MVAL = 0;
                     /*
                     TIMER_A_generatePWM(TIMER_A0_BASE,
@@ -66,7 +66,7 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                 }
                 if (MOT[MOT_NUMBER].MOT_PWR==ENABLE)
                 {
-                    if (MOT[MOT_NUMBER].MOT_MOD!=CONT_MODE)
+                    if (MOT[MOT_NUMBER].MCTL & MOT_AUTO)
                         MOT[MOT_NUMBER].MVAL = 0;
                     /*
                     TIMER_A_generatePWM(TIMER_A0_BASE,
@@ -103,7 +103,7 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                 }
                 if (MOT[MOT_NUMBER].MOT_PWR==ENABLE)
                 {
-                    if (MOT[MOT_NUMBER].MOT_MOD!=CONT_MODE)
+                    if (MOT[MOT_NUMBER].MCTL & MOT_AUTO)
                         MOT[MOT_NUMBER].MVAL = 0;
                     /*
                     TIMER_A_generatePWM(TIMER_A0_BASE,
@@ -140,7 +140,7 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                 }
                 if (MOT[MOT_NUMBER].MOT_PWR==ENABLE)
                 {
-                    if (MOT[MOT_NUMBER].MOT_MOD!=CONT_MODE)
+                    if (MOT[MOT_NUMBER].MCTL & MOT_AUTO)
                         MOT[MOT_NUMBER].MVAL = 0;
                     /*
                     TIMER_A_generatePWM(TIMER_A0_BASE,
@@ -341,21 +341,11 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
             break;
     }
     MOT[MOT_NUMBER].MOT_PWR = DISABLE;
-    MOT[MOT_NUMBER].MOT_MOD = CONT_MODE;
+    MOT[MOT_NUMBER].MCTL &= ~MOT_AUTO;
 }
 
 void MOTOR_handler(uint8_t MOT_NUMBER)
 {
-    //Continues/single mode
-    if (MOT[MOT_NUMBER].MCTL & 0x4000)
-    {
-        if (MOT[MOT_NUMBER].MCTL & 0x2000)
-            MOT[MOT_NUMBER].MOT_MOD = ANGLE_MODE;
-        else
-            MOT[MOT_NUMBER].MOT_MOD = TIME_MODE;
-    }
-    else
-        MOT[MOT_NUMBER].MOT_MOD = CONT_MODE;
     //Forward/backward
     if (MOT[MOT_NUMBER].MCTL & 0x0010)
         MOT[MOT_NUMBER].MOT_DIR = BACKWARD;
@@ -372,7 +362,7 @@ void MOTOR_handler(uint8_t MOT_NUMBER)
     else
         MOT[MOT_NUMBER].MOT_PWR=DISABLE;
     //Enable/disable
-    if (MOT[MOT_NUMBER].MCTL & 0x8000)
+    if (MOT[MOT_NUMBER].MCTL & MOT_ENABLE)
         MOTOR_enableController(MOT_NUMBER);
     else
         MOTOR_disableController(MOT_NUMBER);
