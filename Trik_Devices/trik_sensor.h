@@ -29,18 +29,21 @@
 //Sensor errors
 #define SENS_NO_ERROR   0x00
 
-//Max motors
+//Max sensors
 #define MAX_SENSORS     18
+
+//Masks for bits of control register
+#define SENS_ENABLE     0x8000 //Enable bit
+#define SENS_ASYNC      0x4000 //Async mode
+#define SENS_PULL       0x2000 //Pull up resistors
+#define SENS_READ       0x0001 //Sensor read
 
 //Prototypes for the APIs
 void SENSOR_handler(uint8_t SENS_NUMBER);
 uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER);
 uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER);
-//uint32_t SENSOR_read_distance(uint8_t SENS_NUMBER);
 void SENSOR_enableController(uint8_t SENS_NUMBER);
 void SENSOR_disableController(uint8_t SENS_NUMBER);
-//void SENSOR_enableDigitalMode(uint8_t SENS_NUMBER);
-//void SENSOR_enableAnalogMode(uint8_t SENS_NUMBER);
 
 //Motor registers
 struct tSensorRegisters
