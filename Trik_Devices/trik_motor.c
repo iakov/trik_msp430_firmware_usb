@@ -10,7 +10,8 @@
 #include "trik_motor.h"
 #include "driverlib.h"
 
-void MOTOR_enableController(uint8_t MOT_NUMBER)
+//Motor enable and start
+void MOTOR_start(uint8_t MOT_NUMBER)
 {
     if (!(isSlotBusy(MOT_NUMBER)))
     {
@@ -135,7 +136,8 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
     }
 }
 
-void MOTOR_disableController(uint8_t MOT_NUMBER)
+//Motor disable
+void MOTOR_disable(uint8_t MOT_NUMBER)
 {
     releaseSlot(MOT_NUMBER);
     switch (MOT_NUMBER)
@@ -161,6 +163,7 @@ void MOTOR_disableController(uint8_t MOT_NUMBER)
     }
 }
 
+//Motor stop/brake
 void MOTOR_stop(uint8_t MOT_NUMBER)
 {
     switch (MOT_NUMBER)
@@ -235,13 +238,14 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
     MOT[MOT_NUMBER].MCTL &= ~(MOT_POWER + MOT_AUTO);
 }
 
+//Handler
 void MOTOR_handler(uint8_t MOT_NUMBER)
 {
     //Enable (start) / disable
     if (MOT[MOT_NUMBER].MCTL & MOT_ENABLE)
-        MOTOR_enableController(MOT_NUMBER);
+        MOTOR_start(MOT_NUMBER);
     else
-        MOTOR_disableController(MOT_NUMBER);
+        MOTOR_disable(MOT_NUMBER);
 
     MOT[MOT_NUMBER].MSTA = MOT_NO_ERROR;
 }

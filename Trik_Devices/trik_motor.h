@@ -32,13 +32,9 @@
 
 //Prototypes for the APIs
 void MOTOR_handler(uint8_t MOT_NUMBER);
-void MOTOR_enableController(uint8_t MOT_NUMBER);
-void MOTOR_disableController(uint8_t MOT_NUMBER);
-//void MOTOR_rotationForward(uint8_t MOT_NUMBER);
-//void MOTOR_rotationBackward(uint8_t MOT_NUMBER);
-//void MOTOR_fastBrake(uint8_t MOT_NUMBER);
-//void MOTOR_start(uint8_t MOT_NUMBER);
+void MOTOR_start(uint8_t MOT_NUMBER);
 void MOTOR_stop(uint8_t MOT_NUMBER);
+void MOTOR_disable(uint8_t MOT_NUMBER);
 
 //Motor registers
 struct tMotorRegisters
