@@ -349,6 +349,8 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
 	            MOT[devaddr1].MTMR = regval1;
 	        if (regaddr1==MMVAL)
 	            MOT[devaddr1].MVAL = regval1;
+            if (regaddr1==MMERR)
+                MOT[devaddr1].MERR = regval1;
 	        if (regaddr1==MMCTL)
 	            MOT[devaddr1].MCTL = regval1;
             //Error register values
@@ -447,6 +449,8 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
                 PROTOCOL_recvResponse(out_str,devaddr1,MOT[devaddr1].MSTA,regaddr1,MOT[devaddr1].MTMR,REG_32bits);
             if (regaddr1==MMVAL)
                 PROTOCOL_recvResponse(out_str,devaddr1,MOT[devaddr1].MSTA,regaddr1,MOT[devaddr1].MVAL,REG_32bits);
+            if (regaddr1==MMERR)
+                PROTOCOL_recvResponse(out_str,devaddr1,MOT[devaddr1].MSTA,regaddr1,MOT[devaddr1].MERR,REG_32bits);
             return NO_ERROR;
         }
 
