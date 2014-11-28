@@ -31,7 +31,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
         case SENSOR1:
             P4OUT &= ~BIT5; //GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN5);
             P4DIR |= BIT5; //GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN5);
-            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
+            if (SENS[SENS_NUMBER-SENSOR1].SCTL & SENS_PULL)
             {
                 /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN5);*/
                 P6DIR &= ~BIT5;
@@ -48,7 +48,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
         case SENSOR2:
             P4OUT &= ~BIT4; //GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN4);
             P4DIR |= BIT4; //GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN4);
-            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
+            if (SENS[SENS_NUMBER-SENSOR1].SCTL & SENS_PULL)
             {
                 /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN4);*/
                 P6DIR &= ~BIT4;
@@ -65,7 +65,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
         case SENSOR3:
             P4OUT &= ~BIT3; //GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN3);
             P4DIR |= BIT3; //GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN3);
-            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
+            if (SENS[SENS_NUMBER-SENSOR1].SCTL & SENS_PULL)
             {
                 /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN3);*/
                 P6DIR &= ~BIT3;
@@ -82,7 +82,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
         case SENSOR4:
             P4OUT &= ~BIT2; //GPIO_setOutputLowOnPin(GPIO_PORT_P4,GPIO_PIN2);
             P4DIR |= BIT2; //GPIO_setAsOutputPin(GPIO_PORT_P4,GPIO_PIN2);
-            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
+            if (SENS[SENS_NUMBER-SENSOR1].SCTL & SENS_PULL)
             {
                 /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN2);*/
                 P6DIR &= ~BIT2;
@@ -99,7 +99,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
         case SENSOR5:
             P3OUT &= ~BIT2; //GPIO_setOutputLowOnPin(GPIO_PORT_P3,GPIO_PIN2);
             P3DIR |= BIT2; //GPIO_setAsOutputPin(GPIO_PORT_P3,GPIO_PIN2);
-            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
+            if (SENS[SENS_NUMBER-SENSOR1].SCTL & SENS_PULL)
             {
                 /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN1);*/
                 P6DIR &= ~BIT1;
@@ -116,7 +116,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
         case SENSOR6:
             P3OUT &= ~BIT4; //GPIO_setOutputLowOnPin(GPIO_PORT_P3,GPIO_PIN4);
             P3DIR |= BIT4; //GPIO_setAsOutputPin(GPIO_PORT_P3,GPIO_PIN4);
-            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
+            if (SENS[SENS_NUMBER-SENSOR1].SCTL & SENS_PULL)
             {
                 /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P6,GPIO_PIN0);*/
                 P6DIR &= ~BIT0;
@@ -131,7 +131,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
             }
             return (P6IN & BIT0); //return GPIO_getInputPinValue(GPIO_PORT_P6,GPIO_PIN0);
         case SENSOR7:
-            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
+            if (SENS[SENS_NUMBER-SENSOR1].SCTL & SENS_PULL)
             {
                 /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN0);*/
                 P2DIR &= ~BIT0;
@@ -146,7 +146,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
             }
             return (P2IN & BIT0); //return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN0);
         case SENSOR8:
-            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
+            if (SENS[SENS_NUMBER-SENSOR1].SCTL & SENS_PULL)
             {
                 /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN3);*/
                 P2DIR &= ~BIT3;
@@ -161,7 +161,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
             }
             return (P2IN & BIT3); //return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN3);
         case SENSOR9:
-            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
+            if (SENS[SENS_NUMBER-SENSOR1].SCTL & SENS_PULL)
             {
                 /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN4);*/
                 P2DIR &= ~BIT4;
@@ -176,7 +176,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
             }
             return (P2IN & BIT4); //return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN4);
         case SENSOR10:
-            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
+            if (SENS[SENS_NUMBER-SENSOR1].SCTL & SENS_PULL)
             {
                 /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P1,GPIO_PIN0);*/
                 P1DIR &= ~BIT0;
@@ -191,7 +191,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
             }
             return (P1IN & BIT0); //return GPIO_getInputPinValue(GPIO_PORT_P1,GPIO_PIN0);
         case SENSOR11:
-            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
+            if (SENS[SENS_NUMBER-SENSOR1].SCTL & SENS_PULL)
             {
                 /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN5);*/
                 P2DIR &= ~BIT5;
@@ -206,7 +206,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
             }
             return (P2IN & BIT5); //return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN5);
         case SENSOR12:
-            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
+            if (SENS[SENS_NUMBER-SENSOR1].SCTL & SENS_PULL)
             {
                 /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN2);*/
                 P2DIR &= ~BIT2;
@@ -221,7 +221,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
             }
             return (P2IN & BIT2); //return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN2);
         case SENSOR13:
-            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
+            if (SENS[SENS_NUMBER-SENSOR1].SCTL & SENS_PULL)
             {
                 /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN1);*/
                 P2DIR &= ~BIT1;
@@ -236,7 +236,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
             }
             return (P2IN & BIT1); //return GPIO_getInputPinValue(GPIO_PORT_P2,GPIO_PIN1);
         case SENSOR14:
-            if (SENS[SENS_NUMBER-SENSOR1].SENS_PUP==PULL_UP)
+            if (SENS[SENS_NUMBER-SENSOR1].SCTL & SENS_PULL)
             {
                 /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P1,GPIO_PIN6);*/
                 P1DIR &= ~BIT6;

@@ -326,7 +326,7 @@ void TIMERB1_ISR(void)
         //Async output for sensor
         for (uint8_t nnn=SENSOR1; nnn<=SENSOR18; nnn++)
         {
-            if ((timerb_cnt==nnn) && (SENS[nnn-SENSOR1].SENS_MOD==ENABLE))
+            if ((timerb_cnt==nnn) && (SENS[nnn-SENSOR1].SCTL & SENS_ASYNC))
             {
                 SENSOR_handler(nnn);
                 PROTOCOL_recvResponse(newString,nnn,NO_ERROR,SSVAL,SENS[nnn-SENSOR1].SVAL,REG_32bits);
