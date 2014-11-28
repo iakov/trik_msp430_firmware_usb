@@ -84,5 +84,71 @@ void PORT_write(uint8_t PORT_NUMBER, uint8_t REG_ADDRESS, uint8_t REG_VALUE)
 //Read from port
 uint8_t PORT_read(uint8_t PORT_NUMBER, uint8_t REG_ADDRESS)
 {
+    switch (PORT_NUMBER)
+    {
+        case PORT1:
+            if (REG_ADDRESS == PIN) return P1IN;
+            if (REG_ADDRESS == POUT) return P1OUT;
+            if (REG_ADDRESS == PDIR) return P1DIR;
+            if (REG_ADDRESS == PREN) return P1REN;
+            if (REG_ADDRESS == PDS) return P1DS;
+            if (REG_ADDRESS == PSEL) return P1SEL;
+            if (REG_ADDRESS == PIE) return P1IE;
+            if (REG_ADDRESS == PIES) return P1IES;
+            if (REG_ADDRESS == PIFG) return P1IFG;
+            break;
+        case PORT2:
+            if (REG_ADDRESS == PIN) return P2IN;
+            if (REG_ADDRESS == POUT) return P2OUT;
+            if (REG_ADDRESS == PDIR) return P2DIR;
+            if (REG_ADDRESS == PREN) return P2REN;
+            if (REG_ADDRESS == PDS) return P2DS;
+            if (REG_ADDRESS == PSEL) return P2SEL;
+            if (REG_ADDRESS == PIE) return P2IE;
+            if (REG_ADDRESS == PIES) return P2IES;
+            if (REG_ADDRESS == PIFG) return P2IFG;
+            break;
+        case PORT3:
+            if (REG_ADDRESS == PIN) return P3IN;
+            if (REG_ADDRESS == POUT) return P3OUT;
+            if (REG_ADDRESS == PDIR) return P3DIR;
+            if (REG_ADDRESS == PREN) return P3REN;
+            if (REG_ADDRESS == PDS) return P3DS;
+            if (REG_ADDRESS == PSEL) return P3SEL;
+            break;
+        case PORT4:
+            if (REG_ADDRESS == PIN) return P4IN;
+            if (REG_ADDRESS == POUT) return P4OUT;
+            if (REG_ADDRESS == PDIR) return P4DIR;
+            if (REG_ADDRESS == PREN) return P4REN;
+            if (REG_ADDRESS == PDS) return P4DS;
+            if (REG_ADDRESS == PSEL) return P4SEL;
+            break;
+        case PORT5:
+            if (REG_ADDRESS == PIN) return P5IN;
+            if (REG_ADDRESS == POUT) return P5OUT;
+            if (REG_ADDRESS == PDIR) return P5DIR;
+            if (REG_ADDRESS == PREN) return P5REN;
+            if (REG_ADDRESS == PDS) return P5DS;
+            if (REG_ADDRESS == PSEL) return P5SEL;
+            break;
+        case PORT6:
+            if (REG_ADDRESS == PIN) return P6IN;
+            if (REG_ADDRESS == POUT) return P6OUT;
+            if (REG_ADDRESS == PDIR) return P6DIR;
+            if (REG_ADDRESS == PREN) return P6REN;
+            if (REG_ADDRESS == PDS) return P6DS;
+            if (REG_ADDRESS == PSEL) return P6SEL;
+            break;
+        case PORTJ:
+            if (REG_ADDRESS == PIN) return PJIN;
+            if (REG_ADDRESS == POUT) return PJOUT;
+            if (REG_ADDRESS == PDIR) return PJDIR;
+            if (REG_ADDRESS == PREN) return PJREN;
+            if (REG_ADDRESS == PDS) return PJDS;
+            break;
+        default:
+            break;
+    }
     return 0x00;
 }
