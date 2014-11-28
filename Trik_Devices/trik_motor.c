@@ -18,7 +18,7 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
         switch (MOT_NUMBER)
         {
             case MOTOR1:
-                if (MOT[MOT_NUMBER].MOT_DIR==FORWARD)
+                if (!(MOT[MOT_NUMBER].MCTL & MOT_BACK))
                 {
                     P5OUT |= BIT4; //GPIO_setOutputHighOnPin(GPIO_PORT_P5, GPIO_PIN4);
                     P5OUT &= ~BIT5; //GPIO_setOutputLowOnPin(GPIO_PORT_P5, GPIO_PIN5);
@@ -46,7 +46,7 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                 P1DIR &= ~BIT1; //GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN1);
                 break;
             case MOTOR2:
-                if (MOT[MOT_NUMBER].MOT_DIR==FORWARD)
+                if (!(MOT[MOT_NUMBER].MCTL & MOT_BACK))
                 {
                     P4OUT |= BIT0; //GPIO_setOutputHighOnPin(GPIO_PORT_P4, GPIO_PIN0);
                     P4OUT &= ~BIT1; //GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN1);
@@ -74,7 +74,7 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                 P2DIR &= ~BIT6; //GPIO_setAsInputPin(GPIO_PORT_P2, GPIO_PIN6);
                 break;
             case MOTOR3:
-                if (MOT[MOT_NUMBER].MOT_DIR==FORWARD)
+                if (!(MOT[MOT_NUMBER].MCTL & MOT_BACK))
                 {
                     PJOUT |= BIT0; //GPIO_setOutputHighOnPin(GPIO_PORT_PJ, GPIO_PIN0);
                     PJOUT &= ~BIT1; //GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN1);
@@ -102,7 +102,7 @@ void MOTOR_enableController(uint8_t MOT_NUMBER)
                 P1DIR &= ~BIT7; //GPIO_setAsInputPin(GPIO_PORT_P1, GPIO_PIN7);
                 break;
             case MOTOR4:
-                if (MOT[MOT_NUMBER].MOT_DIR==FORWARD)
+                if (!(MOT[MOT_NUMBER].MCTL & MOT_BACK))
                 {
                     PJOUT |= BIT2; //GPIO_setOutputHighOnPin(GPIO_PORT_PJ, GPIO_PIN2);
                     PJOUT &= ~BIT3; //GPIO_setOutputLowOnPin(GPIO_PORT_PJ, GPIO_PIN3);
@@ -238,11 +238,6 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
 
 void MOTOR_handler(uint8_t MOT_NUMBER)
 {
-    //Forward/backward
-    if (MOT[MOT_NUMBER].MCTL & 0x0010)
-        MOT[MOT_NUMBER].MOT_DIR = BACKWARD;
-    else
-        MOT[MOT_NUMBER].MOT_DIR = FORWARD;
     //Fast brake enable/disable
     if (MOT[MOT_NUMBER].MCTL & 0x0008)
         MOT[MOT_NUMBER].MOT_BRK = ENABLE;
