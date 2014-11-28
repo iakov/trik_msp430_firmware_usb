@@ -21,10 +21,6 @@
 //Sensor types
 #define DIGITAL_INP     0x0000
 #define ANALOG_INP      0x0001
-#define MOTOR_VOLTAGE   0x0002
-#define MOTOR_CURRENT   0x0003
-#define MCU_TEMP        0x0004
-#define DIST_SENSOR     0x0004
 
 //Pull resistors
 #define PULL_OFF        0x00
