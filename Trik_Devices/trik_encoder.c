@@ -6,7 +6,6 @@
  */
 
 #include <stdint.h>
-#include <math.h>
 #include "trik_devices.h"
 #include "trik_encoder.h"
 #include "trik_motor.h"

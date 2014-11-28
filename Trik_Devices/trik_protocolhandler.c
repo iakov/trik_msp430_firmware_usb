@@ -17,6 +17,7 @@
 #include "Trik_Devices/trik_bsl.h"
 #include "Trik_Devices/trik_devices.h"
 #include "Trik_Devices/trik_async.h"
+#include "Trik_Devices/trik_port.h"
 
 uint8_t TO_HEX(uint8_t i)
 {
