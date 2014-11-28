@@ -13,15 +13,6 @@ void enableTimer_B()
 {
     //Overflow interrupt frequency is 10 kHz
     TB0CTL &= ~TBIFG; //TIMER_B_clearTimerInterruptFlag(TIMER_B0_BASE);
-    /*
-    TIMER_B_startUpMode(TIMER_B0_BASE,
-            TIMER_B_CLOCKSOURCE_SMCLK,
-            TIMER_B_CLOCKSOURCE_DIVIDER_1,
-            NORMAL_PERIOD,
-            TIMER_B_TBIE_INTERRUPT_ENABLE,
-            TIMER_B_CAPTURECOMPARE_INTERRUPT_DISABLE,
-            TIMER_B_DO_CLEAR);
-    */
     TB0CTL &= ~ID__8;
     TB0EX0 = TBIDEX_0;
     TBCCR0 = NORMAL_PERIOD;
@@ -30,15 +21,6 @@ void enableTimer_B()
 
 void disableTimer_B()
 {
-    /*
-    TIMER_B_startUpMode(TIMER_B0_BASE,
-            TIMER_B_CLOCKSOURCE_SMCLK,
-            TIMER_B_CLOCKSOURCE_DIVIDER_1,
-            MAXIMUM_PERIOD,
-            TIMER_B_TBIE_INTERRUPT_DISABLE,
-            TIMER_B_CAPTURECOMPARE_INTERRUPT_DISABLE,
-            TIMER_B_DO_CLEAR);
-    */
     TB0CTL &= ~(ID__8 + TBIE + MC_3); //TIMER_B_stop(TIMER_B0_BASE);
     TB0EX0 = TBIDEX_0;
     TBCCR0 = MAXIMUM_PERIOD;
@@ -48,7 +30,7 @@ void disableTimer_B()
 
 uint8_t ASYNCTIMER_handler()
 {
-    if (ASYNCTMR.ATCTL & 0x0003)
+    if (ASYNCTMR.ATCTL & AT_EN)
         enableTimer_B();
     else
         disableTimer_B();

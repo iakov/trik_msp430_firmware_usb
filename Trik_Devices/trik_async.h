@@ -17,6 +17,9 @@
 #define NORMAL_PERIOD        0x0960
 #define MAXIMUM_PERIOD       0xFFFF
 
+//Timer enable mask bit
+#define AT_EN                0x0003
+
 void enableTimer_B();
 void disableTimer_B();
 uint8_t ASYNCTIMER_handler();
