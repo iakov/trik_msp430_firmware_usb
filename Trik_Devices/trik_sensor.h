@@ -8,10 +8,6 @@
 #ifndef TRIK_SENSOR_H_
 #define TRIK_SENSOR_H_
 
-//Configuration parameters
-#define DISABLE         0x00
-#define ENABLE          0x01
-
 //Sensor registers
 #define SSCTL           0x00
 #define SSIDX           0x01
@@ -21,10 +17,6 @@
 //Sensor types
 #define DIGITAL_INP     0x0000
 #define ANALOG_INP      0x0001
-
-//Pull resistors
-#define PULL_OFF        0x00
-#define PULL_UP         0x01
 
 //Sensor errors
 #define SENS_NO_ERROR   0x00
