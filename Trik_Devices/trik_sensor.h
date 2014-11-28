@@ -52,7 +52,6 @@ struct tSensorRegisters
     uint16_t SIDX;
     uint32_t SVAL;
     uint16_t SSTA;
-    uint8_t SENS_EN;
     uint8_t SENS_MOD;
     uint8_t SENS_PUP;
 };

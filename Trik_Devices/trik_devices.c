@@ -28,7 +28,7 @@ void initGlobalVars()
     for (int j=0; j<MAX_SENSORS; j++)
     {
         SENS[j].SCTL = SENS[j].SIDX = SENS[j].SVAL = SENS[j].SSTA = 0x0000;
-        SENS[j].SENS_EN=SENS[j].SENS_MOD=SENS[j].SENS_PUP=0;
+        SENS[j].SENS_MOD=SENS[j].SENS_PUP=0;
     }
     ASYNCTMR.ATCTL = ASYNCTMR.ATVAL = 0;
     ASYNCTMR.ATPER = MAX_DEVICES;

@@ -10,21 +10,20 @@
 #include "trik_sensor.h"
 #include "driverlib.h"
 
+//Sensor enable
 void SENSOR_enableController(uint8_t SENS_NUMBER)
 {
     if (!(isSlotBusy(SENS_NUMBER)))
-    {
         reseveSlot(SENS_NUMBER);
-        SENS[SENS_NUMBER-SENSOR1].SENS_EN = ENABLE;
-    }
 }
 
+//Sensor disable
 void SENSOR_disableController(uint8_t SENS_NUMBER)
 {
     releaseSlot(SENS_NUMBER);
-    SENS[SENS_NUMBER-SENSOR1].SENS_EN = DISABLE;
 }
 
+//Read digital value of sensor
 uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
 {
     switch (SENS_NUMBER)
@@ -290,6 +289,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
     }
 }
 
+//Read analog value of sensor
 uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
 {
     switch (SENS_NUMBER)
@@ -445,29 +445,26 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
     }
 }
 
+//Handler
 void SENSOR_handler(uint8_t SENS_NUMBER)
 {
-    //Async/single read mode
-    if (SENS[SENS_NUMBER-SENSOR1].SCTL & 0x4000)
-        SENS[SENS_NUMBER-SENSOR1].SENS_MOD = ENABLE;
-    else
-        SENS[SENS_NUMBER-SENSOR1].SENS_MOD = DISABLE;
     //Enable/disable and read
-    if (SENS[SENS_NUMBER-SENSOR1].SCTL & 0x8000)
+    if (SENS[SENS_NUMBER-SENSOR1].SCTL & SENS_ENABLE)
     {
         //Sensor enable
         SENSOR_enableController(SENS_NUMBER);
         //Enable reading sensor data
-        if (SENS[SENS_NUMBER-SENSOR1].SCTL & 0x0001)
+        if (SENS[SENS_NUMBER-SENSOR1].SCTL & SENS_READ)
         {
             if (SENS[SENS_NUMBER-SENSOR1].SIDX==DIGITAL_INP)
                 SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_digital(SENS_NUMBER);
             if (SENS[SENS_NUMBER-SENSOR1].SIDX==ANALOG_INP)
                 SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_analog(SENS_NUMBER);
         }
-    }
-    else
+    } else
+    {
         SENSOR_disableController(SENS_NUMBER);
+    }
 
     SENS[SENS_NUMBER-SENSOR1].SSTA = SENS_NO_ERROR;
 }
