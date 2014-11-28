@@ -42,10 +42,11 @@ struct tMotorRegisters
     uint16_t MCTL;
     uint16_t MDUT;
     uint16_t MPER;
+    uint16_t MSTA;
     uint32_t MANG;
     uint32_t MTMR;
     uint32_t MVAL;
-    uint16_t MSTA;
+    uint32_t MERR;
 };
 
 //Motors registers array
