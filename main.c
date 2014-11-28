@@ -313,7 +313,7 @@ void TIMERB1_ISR(void)
         //Async output for encoder
         for (uint8_t nnn=ENCODER1; nnn<=ENCODER4; nnn++)
         {
-            if ((timerb_cnt==nnn) && (ENC[nnn-ENCODER1].ENC_MOD==ENABLE))
+            if ((timerb_cnt==nnn) && (ENC[nnn-ENCODER1].ECTL & ENC_ASYNC))
             {
                 PROTOCOL_recvResponse(newString,nnn,NO_ERROR,EEVAL,ENC[nnn-ENCODER1].EVAL,REG_32bits);
                 if (cdcSendDataInBackground((uint8_t*)newString,strlen(newString),CDC0_INTFNUM,1))

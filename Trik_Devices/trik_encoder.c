@@ -12,16 +12,16 @@
 #include "trik_motor.h"
 #include "driverlib.h"
 
+//Enable encoder
 void ENCODER_enableController(uint8_t ENC_NUMBER)
 {
     if (!(isSlotBusy(ENC_NUMBER)))
     {
         reseveSlot(ENC_NUMBER);
-        ENC[ENC_NUMBER-ENCODER1].ENC_EN = ENABLE;
         switch (ENC_NUMBER)
         {
             case ENCODER1:
-                if (ENC[ENC_NUMBER-ENCODER1].ENC_PUP==ENABLE)
+                if (ENC[ENC_NUMBER-ENCODER1].ECTL & ENC_PUPEN)
                 {
                     /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN0|GPIO_PIN3);*/
                     P2DIR &= ~(BIT0+BIT3);
@@ -36,14 +36,14 @@ void ENCODER_enableController(uint8_t ENC_NUMBER)
                     P2OUT &= ~(BIT0+BIT3);
                 }
                 P2IE |= BIT0; //GPIO_enableInterrupt(GPIO_PORT_P2,GPIO_PIN0);
-                if (ENC[ENC_NUMBER-ENCODER1].ENC_EDG==RIS_EDGE)
-                    P2IES &= ~BIT0; //GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN0,GPIO_LOW_TO_HIGH_TRANSITION);
-                else
+                if (ENC[ENC_NUMBER-ENCODER1].ECTL & ENC_FALL)
                     P2IES |= BIT0; //GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN0,GPIO_HIGH_TO_LOW_TRANSITION);
+                else
+                    P2IES &= ~BIT0; //GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN0,GPIO_LOW_TO_HIGH_TRANSITION);
                 P2IFG &= ~BIT0; //GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN0);
                 break;
             case ENCODER2:
-                if (ENC[ENC_NUMBER-ENCODER1].ENC_PUP==ENABLE)
+                if (ENC[ENC_NUMBER-ENCODER1].ECTL & ENC_PUPEN)
                 {
                     /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P1,GPIO_PIN0);*/
                     P1DIR &= ~BIT0;
@@ -65,14 +65,14 @@ void ENCODER_enableController(uint8_t ENC_NUMBER)
                     P2OUT &= ~BIT4;
                 }
                 P2IE |= BIT4; //GPIO_enableInterrupt(GPIO_PORT_P2,GPIO_PIN4);
-                if (ENC[ENC_NUMBER-ENCODER1].ENC_EDG==RIS_EDGE)
-                    P2IES &= ~BIT4; // GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN4,GPIO_LOW_TO_HIGH_TRANSITION);
-                else
+                if (ENC[ENC_NUMBER-ENCODER1].ECTL & ENC_FALL)
                     P2IES |= BIT4; //GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN4,GPIO_HIGH_TO_LOW_TRANSITION);
+                else
+                    P2IES &= ~BIT4; // GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN4,GPIO_LOW_TO_HIGH_TRANSITION);
                 P2IFG &= ~BIT4; //GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN4);
                 break;
             case ENCODER3:
-                if (ENC[ENC_NUMBER-ENCODER1].ENC_PUP==ENABLE)
+                if (ENC[ENC_NUMBER-ENCODER1].ECTL & ENC_PUPEN)
                 {
                     /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5);*/
                     P2DIR &= ~(BIT2+BIT5);
@@ -87,14 +87,14 @@ void ENCODER_enableController(uint8_t ENC_NUMBER)
                     P2OUT &= ~(BIT2+BIT5);
                 }
                 P2IE |= BIT5; //GPIO_enableInterrupt(GPIO_PORT_P2,GPIO_PIN5);
-                if (ENC[ENC_NUMBER-ENCODER1].ENC_EDG==RIS_EDGE)
-                    P2IES &= ~BIT5; //GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN5,GPIO_LOW_TO_HIGH_TRANSITION);
-                else
+                if (ENC[ENC_NUMBER-ENCODER1].ECTL & ENC_FALL)
                     P2IES |= BIT5; //GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN5,GPIO_HIGH_TO_LOW_TRANSITION);
+                else
+                    P2IES &= ~BIT5; //GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN5,GPIO_LOW_TO_HIGH_TRANSITION);
                 P2IFG &= ~BIT5; //GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN5);
                 break;
             case ENCODER4:
-                if (ENC[ENC_NUMBER-ENCODER1].ENC_PUP==ENABLE)
+                if (ENC[ENC_NUMBER-ENCODER1].ECTL & ENC_PUPEN)
                 {
                     /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P1,GPIO_PIN6);*/
                     P1DIR &= ~BIT6;
@@ -116,10 +116,10 @@ void ENCODER_enableController(uint8_t ENC_NUMBER)
                     P2OUT &= ~BIT1;
                 }
                 P2IE |= BIT1; //GPIO_enableInterrupt(GPIO_PORT_P2,GPIO_PIN1);
-                if (ENC[ENC_NUMBER-ENCODER1].ENC_EDG==RIS_EDGE)
-                    P2IES &= ~BIT1; //GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN1,GPIO_LOW_TO_HIGH_TRANSITION);
-                else
+                if (ENC[ENC_NUMBER-ENCODER1].ECTL & ENC_FALL)
                     P2IES |= BIT1; //GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN1,GPIO_HIGH_TO_LOW_TRANSITION);
+                else
+                    P2IES &= ~BIT1; //GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN1,GPIO_LOW_TO_HIGH_TRANSITION);
                 P2IFG &= ~BIT1; //GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN1);
                 break;
             default:
@@ -128,10 +128,10 @@ void ENCODER_enableController(uint8_t ENC_NUMBER)
     }
 }
 
+//Disable encoder
 void ENCODER_disableController(uint8_t ENC_NUMBER)
 {
     releaseSlot(ENC_NUMBER);
-    ENC[ENC_NUMBER-ENCODER1].ENC_EN = DISABLE;
     switch (ENC_NUMBER)
     {
         case ENCODER1:
@@ -179,34 +179,16 @@ void ENCODER_disableController(uint8_t ENC_NUMBER)
     }
 }
 
+//Encoders handler
 void ENCODER_handler(uint8_t ENC_NUMBER)
 {
-    //Async/single read mode
-    if (ENC[ENC_NUMBER-ENCODER1].ECTL & 0x4000)
-        ENC[ENC_NUMBER-ENCODER1].ENC_MOD = ENABLE;
-    else
-        ENC[ENC_NUMBER-ENCODER1].ENC_MOD = DISABLE;
-    //1-wire/2-wire mode
-    if (ENC[ENC_NUMBER-ENCODER1].ECTL & 0x2000)
-        ENC[ENC_NUMBER-ENCODER1].ENC_TYP = WIRE2;
-    else
-        ENC[ENC_NUMBER-ENCODER1].ENC_TYP = WIRE1;
-    //Pull up resistors enable/disable
-    if (ENC[ENC_NUMBER-ENCODER1].ECTL & 0x1000)
-        ENC[ENC_NUMBER-ENCODER1].ENC_PUP = ENABLE;
-    else
-        ENC[ENC_NUMBER-ENCODER1].ENC_PUP = DISABLE;
-    //Edge select
-    if (ENC[ENC_NUMBER-ENCODER1].ECTL & 0x0800)
-        ENC[ENC_NUMBER-ENCODER1].ENC_EDG = FAL_EDGE;
-    else
-        ENC[ENC_NUMBER-ENCODER1].ENC_EDG = RIS_EDGE;
-    //Enable/disable
-    if (ENC[ENC_NUMBER-ENCODER1].ECTL & 0x8000)
+    //Enable/disable encoder
+    if (ENC[ENC_NUMBER-ENCODER1].ECTL & ENC_ENABLE)
         ENCODER_enableController(ENC_NUMBER);
     else
         ENCODER_disableController(ENC_NUMBER);
 
+    //Status register
     ENC[ENC_NUMBER-ENCODER1].ESTA = ENC_NO_ERROR;
 }
 
@@ -219,16 +201,6 @@ __attribute__((interrupt(PORT1_VECTOR)))
 #endif
 void PORT1_ISR(void)
 {
-    /*
-    if (ENC[ENCODER2-ENCODER1].ENC_TYP==WIRE1)
-    {
-        if (GPIO_getInterruptStatus(GPIO_PORT_P1, GPIO_PIN0)) ENC[ENCODER2-ENCODER1].EVAL++;
-    }
-    if (ENC[ENCODER4-ENCODER1].ENC_TYP==WIRE1)
-    {
-        if (GPIO_getInterruptStatus(GPIO_PORT_P1, GPIO_PIN6)) ENC[ENCODER4-ENCODER1].EVAL++;
-    }
-    */
     P1IFG &= ~(BIT0+BIT6); //GPIO_clearInterruptFlag(GPIO_PORT_P1,GPIO_PIN0|GPIO_PIN6);
 }
 
@@ -245,7 +217,7 @@ void PORT2_ISR(void)
     {
         if (P2IN & BIT3) //if (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN3))
         {
-            if (ENC[ENCODER1-ENCODER1].ENC_TYP==WIRE2)
+            if (ENC[ENCODER1-ENCODER1].ECTL & ENC_2WIRES)
                 ENC[ENCODER1-ENCODER1].EVAL--;
             else
                 ENC[ENCODER1-ENCODER1].EVAL++;
@@ -267,7 +239,7 @@ void PORT2_ISR(void)
     {
         if (P1IN & BIT0) //if (GPIO_getInputPinValue(GPIO_PORT_P1, GPIO_PIN0))
         {
-            if (ENC[ENCODER2-ENCODER1].ENC_TYP==WIRE2)
+            if (ENC[ENCODER2-ENCODER1].ECTL & ENC_2WIRES)
                 ENC[ENCODER2-ENCODER1].EVAL--;
             else
                 ENC[ENCODER2-ENCODER1].EVAL++;
@@ -289,7 +261,7 @@ void PORT2_ISR(void)
     {
         if (P2IN & BIT2) //if (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN2))
         {
-            if (ENC[ENCODER3-ENCODER1].ENC_TYP==WIRE2)
+            if (ENC[ENCODER3-ENCODER1].ECTL & ENC_2WIRES)
                 ENC[ENCODER3-ENCODER1].EVAL--;
             else
                 ENC[ENCODER3-ENCODER1].EVAL++;
@@ -311,7 +283,7 @@ void PORT2_ISR(void)
     {
         if (P1IN & BIT6) //if (GPIO_getInputPinValue(GPIO_PORT_P1, GPIO_PIN6))
         {
-            if (ENC[ENCODER4-ENCODER1].ENC_TYP==WIRE2)
+            if (ENC[ENCODER4-ENCODER1].ECTL & ENC_2WIRES)
                 ENC[ENCODER4-ENCODER1].EVAL--;
             else
                 ENC[ENCODER4-ENCODER1].EVAL++;

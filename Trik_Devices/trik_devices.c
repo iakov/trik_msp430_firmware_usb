@@ -26,7 +26,6 @@ void initGlobalVars()
     for (int j=0; j<MAX_ENCODERS; j++)
     {
         ENC[j].ECTL=ENC[j].EVAL=ENC[j].ESTA=0;
-        ENC[j].ENC_EN=ENC[j].ENC_PUP=ENC[j].ENC_TYP=0;
     }
     for (int j=0; j<MAX_SENSORS; j++)
     {
