@@ -275,25 +275,25 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
 	}
 
 	//Sensor registers addresses range
-	if (((devaddr1>=SENSOR1) && (devaddr1<=SENSOR18)) && (regaddr1>0x03))
+	if (((devaddr1>=SENSOR1) && (devaddr1<=SENSOR18)) && (regaddr1>0x02))
 	{
 	    PROTOCOL_errResponse(out_str,devaddr1,func1,REG_ADDR_ERROR);
 		return REG_ADDR_ERROR;
 	}
 
 	//Encoder registers addresses range
-	if (((devaddr1>=ENCODER1) && (devaddr1<=ENCODER4)) && (regaddr1>0x03))
+	if (((devaddr1>=ENCODER1) && (devaddr1<=ENCODER4)) && (regaddr1>0x01))
 	{
 	    PROTOCOL_errResponse(out_str,devaddr1,func1,REG_ADDR_ERROR);
 	    return REG_ADDR_ERROR;
 	}
 
-	//Actuator registers addresses range
-	if (((devaddr1>=ACTUATOR1) && (devaddr1<=ACTUATOR20)) && (regaddr1>0x04))
-	{
-	    PROTOCOL_errResponse(out_str,devaddr1,func1,REG_ADDR_ERROR);
-		return REG_ADDR_ERROR;
-	}
+    //Port registers addresses range
+    if (((devaddr1>=PORT1) && (devaddr1<=PORTJ)) && (regaddr1>0x08))
+    {
+        PROTOCOL_errResponse(out_str,devaddr1,func1,REG_ADDR_ERROR);
+        return REG_ADDR_ERROR;
+    }
 
 	//Function number check
 	if ((func1!=FUNCx03) && (func1!=FUNCx04) && (func1!=FUNCx05) && (func1!=FUNCx06))
@@ -389,6 +389,16 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             PROTOCOL_transResponse(out_str,devaddr1,SENS[devaddr1-SENSOR1].SSTA);
             return NO_ERROR;
         }
+
+        //Ports
+        if ((devaddr1>=PORT1) && (devaddr1<=PORTJ))
+        {
+
+            PORT_write(devaddr1, regaddr1, regval1);
+            PROTOCOL_transResponse(out_str,devaddr1,NO_ERROR);
+            return NO_ERROR;
+        }
+
 
         //Async timer
         if ((devaddr1==ASYNCTIMER))
