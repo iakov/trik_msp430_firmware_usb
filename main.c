@@ -58,6 +58,7 @@
 #include "Trik_Devices/trik_encoder.h"
 #include "Trik_Devices/trik_async.h"
 #include "Trik_Devices/trik_sensor.h"
+#include "Trik_Devices/trik_touch.h"
 /*
  * NOTE: Modify hal.h to select a specific evaluation board and customize for
  * your own board.
@@ -142,15 +143,20 @@ void main (void)
                     cdcReceiveDataInBuffer((uint8_t*)pieceOfString,
                         MAX_STR_LENGTH,
                         CDC0_INTFNUM);
+                    //Test for max length
                     if ((strlen(pieceOfString)+strlen(wholeString))>=MAX_STR_LENGTH)
                     {
                         memset(wholeString,0,MAX_STR_LENGTH);
                         memset(pieceOfString,0,MAX_STR_LENGTH);
                     }
                     strncat(wholeString,pieceOfString,strlen(pieceOfString));
+                    //Test for end symbol 0x0A
                     if (retInString(wholeString))
                     {              // Wait for enter key to be pressed
-                        n_error = PROTOCOL_handler(wholeString,newString); //Protocol handler
+                        //n_error = PROTOCOL_handler(wholeString,newString); //Protocol handler
+                        sprintf(newString,"%d\r\n",isTouched());
+
+
                         memset(wholeString,0,MAX_STR_LENGTH);   // Clear wholeString
 
                         //sprintf(newString,"TestNumber=%x %x %x %x\n",t11,t12,t13,t14);
