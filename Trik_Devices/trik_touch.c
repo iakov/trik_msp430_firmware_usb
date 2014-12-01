@@ -5,4 +5,8 @@
  *      Author: Rostislav Varzar
  */
 
-
+//Return 1, if panel is touched
+uint8_t isTouched()
+{
+    P2DIR &= ~(BIT0+BIT3);
+}

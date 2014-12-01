@@ -360,8 +360,7 @@ void TIMERB1_ISR(void)
     TB0CTL &= ~TBIFG; //TIMER_B_clearTimerInterruptFlag(TIMER_B0_BASE);
 }
 
-
-    /*
+/*
 // Lookup table for mouse position values.  "const" indicates it will be stored
 // in flash.
 const int16_t tableSinCosLookUp[93][2] = {
