@@ -80,6 +80,8 @@ volatile uint8_t ReceiveError = 0, SendError = 0;
 
 volatile uint32_t timerb_cnt = 0; //Timer B counter
 
+uint16_t t,x,y;
+
 /*
 typedef struct {
     uint8_t buttons;
@@ -154,7 +156,11 @@ void main (void)
                     if (retInString(wholeString))
                     {              // Wait for enter key to be pressed
                         //n_error = PROTOCOL_handler(wholeString,newString); //Protocol handler
-                        sprintf(newString,"%d\r\n",isTouched());
+                        //t = isTouched();
+                        t = 0;
+                        x = touchReadX();
+                        y = touchReadY();
+                        sprintf(newString,"%d %d %d\r\n",t,x,y);
 
 
                         memset(wholeString,0,MAX_STR_LENGTH);   // Clear wholeString
