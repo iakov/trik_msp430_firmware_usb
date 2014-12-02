@@ -17,7 +17,7 @@
 #include "Trik_Devices/trik_bsl.h"
 #include "Trik_Devices/trik_devices.h"
 #include "Trik_Devices/trik_async.h"
-#include "Trik_Devices/trik_port.h"
+//#include "Trik_Devices/trik_port.h"
 
 uint8_t TO_HEX(uint8_t i)
 {
@@ -392,6 +392,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
+        /*
         //Ports
         if ((devaddr1>=PORT1) && (devaddr1<=PORTJ))
         {
@@ -399,6 +400,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             PROTOCOL_transResponse(out_str,devaddr1,NO_ERROR);
             return NO_ERROR;
         }
+        */
 
         //Async timer
         if ((devaddr1==ASYNCTIMER))
@@ -477,6 +479,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
+        /*
         //Ports
         if ((devaddr1>=PORT1) && (devaddr1<=PORTJ))
         {
@@ -484,6 +487,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
                     PORT_read(devaddr1,regaddr1),REG_16bits);
             return NO_ERROR;
         }
+        */
 
         //Async timer
         if ((devaddr1==ASYNCTIMER))

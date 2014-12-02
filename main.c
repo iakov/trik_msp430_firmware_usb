@@ -78,11 +78,11 @@ char pieceOfString[MAX_STR_LENGTH] = "";
 volatile uint8_t n_error = 0;
 volatile uint8_t ReceiveError = 0, SendError = 0;
 
-volatile uint32_t timerb_cnt = 0; //Timer B counter
+volatile uint32_t timerb_cnt = 0; //Timer B counter 1
+volatile uint32_t timerb_ts = 0; //Timer B counter 2
 
 uint16_t t,x,y;
 
-/*
 typedef struct {
     uint8_t buttons;
     uint8_t dX;
@@ -91,12 +91,6 @@ typedef struct {
 } MOUSE_REPORT;
 
 MOUSE_REPORT mouseReport = { 0, 0, 0, 0 };
-
-volatile uint8_t sendNewMousePosition = FALSE;  // Flag by which timer tells main loop to send a new report
-
-const int16_t tableSinCosLookUp[93][2];                 // Lookup table for mouse data;
-uint8_t index = 1;                                     // Index for lookup table
-*/
 
 /*  
  * ======== main ========
@@ -155,19 +149,8 @@ void main (void)
                     //Test for end symbol 0x0A
                     if (retInString(wholeString))
                     {              // Wait for enter key to be pressed
-                        //n_error = PROTOCOL_handler(wholeString,newString); //Protocol handler
-                        t = isTouched();
-
-                        x = touchReadX();
-                        y = touchReadY();
-
-
-
-                        sprintf(newString,"%d %d %d\r\n",t,x,y);
-
-
+                        n_error = PROTOCOL_handler(wholeString,newString); //Protocol handler
                         memset(wholeString,0,MAX_STR_LENGTH);   // Clear wholeString
-
                         //sprintf(newString,"TestNumber=%x %x %x %x\n",t11,t12,t13,t14);
                         if (cdcSendDataInBackground((uint8_t*)newString,
                                 strlen(newString),CDC0_INTFNUM,1))
@@ -190,32 +173,6 @@ void main (void)
                     strncat(wholeString,pieceOfString,strlen(pieceOfString));
                     memset(wholeString,0,MAX_STR_LENGTH);   // Clear wholeString
                 }
-
-
-
-                /*
-                //Mouse test
-                if (sendNewMousePosition){
-
-                    // Build the report
-                    mouseReport.dX =
-                        (tableSinCosLookUp[index][0] -
-                         tableSinCosLookUp[index - 1][0]) >> 1;
-                    mouseReport.dY =
-                        (tableSinCosLookUp[index][1] -
-                         tableSinCosLookUp[index - 1][1]) >> 1;
-
-                    // Send the report
-                    USBHID_sendReport((void *)&mouseReport, HID0_INTFNUM);
-
-                    if (index++ >= 90)
-                    {
-                        index = 1;
-                    }
-                }
-
-*/
-
 
                 break;
             // These cases are executed while your device is disconnected from
@@ -318,12 +275,28 @@ void TIMERB1_ISR(void)
 
         ASYNCTMR.ATVAL++;
 
+        //For async output data
         timerb_cnt++;
-
         if (timerb_cnt > ASYNCTMR.ATPER)
         {
             timerb_cnt = 0;
         }
+
+        //For touch read event
+        timerb_ts++;
+        if (timerb_ts > 1000)
+        {
+             if (isTouched())
+             {
+                 // Build the report
+                 mouseReport.dX = touchReadX();
+                 mouseReport.dY = touchReadY();
+                 // Send the report
+                 USBHID_sendReport((void *)&mouseReport, HID0_INTFNUM);
+             }
+            timerb_ts = 0;
+        }
+
 
         //Async output for encoder
         for (uint8_t nnn=ENCODER1; nnn<=ENCODER4; nnn++)
@@ -365,8 +338,6 @@ void TIMERB1_ISR(void)
             }
         }
 
-        //sendNewMousePosition = TRUE;                 // Set flag telling main loop to send a report
-
         break;
     default:
         break;
@@ -375,102 +346,4 @@ void TIMERB1_ISR(void)
     TB0CTL &= ~TBIFG; //TIMER_B_clearTimerInterruptFlag(TIMER_B0_BASE);
 }
 
-/*
-// Lookup table for mouse position values.  "const" indicates it will be stored
-// in flash.
-const int16_t tableSinCosLookUp[93][2] = {
-    0,200,
-    14,200,
-    28,198,
-    42,196,
-    55,192,
-    68,188,
-    81,183,
-    94,177,
-    106,170,
-    118,162,
-    129,153,
-    139,144,
-    149,134,
-    158,123,
-    166,112,
-    173,100,
-    180,88,
-    185,75,
-    190,62,
-    194,48,
-    197,35,
-    199,21,
-    200,7,
-    200,-7,
-    199,-21,
-    197,-35,
-    194,-48,
-    190,-62,
-    185,-75,
-    180,-88,
-    173,-100,
-    166,-112,
-    158,-123,
-    149,-134,
-    139,-144,
-    129,-153,
-    118,-162,
-    106,-170,
-    94,-177,
-    81,-183,
-    68,-188,
-    55,-192,
-    42,-196,
-    28,-198,
-    14,-200,
-    0,-200,
-    -14,-200,
-    -28,-198,
-    -42,-196,
-    -55,-192,
-    -68,-188,
-    -81,-183,
-    -94,-177,
-    -106,-170,
-    -118,-162,
-    -129,-153,
-    -139,-144,
-    -149,-134,
-    -158,-123,
-    -166,-112,
-    -173,-100,
-    -180,-88,
-    -185,-75,
-    -190,-62,
-    -194,-48,
-    -197,-35,
-    -199,-21,
-    -200,-7,
-    -200,7,
-    -199,21,
-    -197,35,
-    -194,48,
-    -190,62,
-    -185,75,
-    -180,88,
-    -173,100,
-    -166,112,
-    -158,123,
-    -149,134,
-    -139,144,
-    -129,153,
-    -118,162,
-    -106,170,
-    -94,177,
-    -81,183,
-    -68,188,
-    -55,192,
-    -42,196,
-    -28,198,
-    -14,200,
-    0,200
-};
-
-*/
 //Released_Version_4_10_02

@@ -25,7 +25,10 @@ uint8_t isTouched()
         P5OUT |= BIT1;
         P5REN |= BIT1;
     }
-    return (P5IN & BIT1);
+    if (P5IN & BIT1)
+        return NOT_TOUCHED;
+    else
+        return TOUCHED;
 }
 
 //Return X coordinate of touch
