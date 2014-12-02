@@ -80,6 +80,7 @@ volatile uint8_t ReceiveError = 0, SendError = 0;
 
 volatile uint32_t timerb_cnt = 0; //Timer B counter 1
 volatile uint32_t timerb_ts = 0; //Timer B counter 2
+volatile uint16_t mx,my,moldx,moldy; //New and old touch screen coordinates
 
 uint16_t t,x,y;
 
@@ -174,6 +175,12 @@ void main (void)
                     memset(wholeString,0,MAX_STR_LENGTH);   // Clear wholeString
                 }
 
+
+
+
+
+
+
                 break;
             // These cases are executed while your device is disconnected from
             // the host (meaning, not enumerated); enumerated but suspended
@@ -195,7 +202,6 @@ void main (void)
             default:
                 break;
         }
-
 
         if (ReceiveError || SendError){
             // TO DO: User can place code here to handle error
@@ -282,21 +288,6 @@ void TIMERB1_ISR(void)
             timerb_cnt = 0;
         }
 
-        //For touch read event
-        timerb_ts++;
-        if (timerb_ts > 1000)
-        {
-             if (isTouched())
-             {
-                 // Build the report
-                 mouseReport.dX = touchReadX();
-                 mouseReport.dY = touchReadY();
-                 // Send the report
-                 USBHID_sendReport((void *)&mouseReport, HID0_INTFNUM);
-             }
-            timerb_ts = 0;
-        }
-
 
         //Async output for encoder
         for (uint8_t nnn=ENCODER1; nnn<=ENCODER4; nnn++)
@@ -337,6 +328,30 @@ void TIMERB1_ISR(void)
                 }
             }
         }
+
+        //For touch read event
+        timerb_ts++;
+        if (timerb_ts > 500)
+        {
+             if (isTouched())
+             {
+
+                 mx = touchReadX();
+                 my = touchReadY();
+                 //if ((abs(moldx-mx)>5) || (abs(moldy-my)>5))
+                 {
+                     mouseReport.dX = moldy - my;
+                     mouseReport.dY = moldx - mx;
+                 }
+                 moldx = mx;
+                 moldy = my;
+
+                 // Send the report
+                 USBHID_sendReport((void *)&mouseReport, HID0_INTFNUM);
+             }
+            timerb_ts = 0;
+        }
+
 
         break;
     default:
