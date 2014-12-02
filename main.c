@@ -331,13 +331,15 @@ void TIMERB1_ISR(void)
 
         //For touch read event
         timerb_ts++;
-        if (timerb_ts > 500)
+        if (timerb_ts > 5000)
         {
-             if (isTouched())
+/*
+            if (isTouched())
              {
 
                  mx = touchReadX();
                  my = touchReadY();
+
                  //if ((abs(moldx-mx)>5) || (abs(moldy-my)>5))
                  {
                      mouseReport.dX = moldy - my;
@@ -348,8 +350,39 @@ void TIMERB1_ISR(void)
 
                  // Send the report
                  USBHID_sendReport((void *)&mouseReport, HID0_INTFNUM);
-             }
+
+             }*/
             timerb_ts = 0;
+        }
+
+
+        if ((timerb_ts >= 1) && (timerb_ts <= 3))
+        {
+            mouseReport.dX = 100;
+            mouseReport.dY = 100;
+            USBHID_sendReport((void *)&mouseReport, HID0_INTFNUM);
+        }
+
+
+        if (timerb_ts == 1000)
+        {
+            //mouseReport.dX = -(touchReadY() / 8);
+            //mouseReport.dY = -(touchReadX() / 8);
+
+            mouseReport.dX = -20;
+            mouseReport.dY = -20;
+
+            USBHID_sendReport((void *)&mouseReport, HID0_INTFNUM);
+        }
+        if ((timerb_ts >= 1001) && (timerb_ts <= 1002))
+        {
+            //mouseReport.dX = -(touchReadY() / 8);
+            //mouseReport.dY = -(touchReadX() / 8);
+
+            mouseReport.dX = 0;
+            mouseReport.dY = 0;
+
+            USBHID_sendReport((void *)&mouseReport, HID0_INTFNUM);
         }
 
 
