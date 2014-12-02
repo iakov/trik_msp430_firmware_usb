@@ -157,8 +157,12 @@ void main (void)
                     {              // Wait for enter key to be pressed
                         //n_error = PROTOCOL_handler(wholeString,newString); //Protocol handler
                         t = isTouched();
+
                         x = touchReadX();
                         y = touchReadY();
+
+
+
                         sprintf(newString,"%d %d %d\r\n",t,x,y);
 
 

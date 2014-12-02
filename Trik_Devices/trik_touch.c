@@ -13,16 +13,18 @@
 //Return 1, if panel is touched
 uint8_t isTouched()
 {
+    P4DIR |= BIT6+BIT7;
+    P4OUT &= ~(BIT6+BIT7);
     P5DIR &= ~(BIT0+BIT1);
     P5OUT &= ~(BIT0+BIT1);
     P5SEL &= ~(BIT0+BIT1);
     P5REN &= ~(BIT0+BIT1);
-    P5OUT |= BIT1;
-    P5REN |= BIT1;
-
-    P4DIR |= BIT6+BIT7;
-    P4OUT &= ~(BIT6+BIT7);
-
+    //Problem with recharging touch panel or setting pull up
+    for (int d=0;d<50;d++)
+    {
+        P5OUT |= BIT1;
+        P5REN |= BIT1;
+    }
     return (P5IN & BIT1);
 }
 
