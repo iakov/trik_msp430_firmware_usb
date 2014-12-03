@@ -399,8 +399,10 @@ uint8_t const report_desc_HID0[]=
     0x09, 0x30,                // Usage (X)
     0x09, 0x31,                // Usage (Y)
     0x09, 0x38,                // Usage (Wheel)
-    0x15, 0x81,                // Log Min (-127)
-    0x25, 0x7F,                // Log Max (127)
+    //0x15, 0x81,                // Log Min (-127)
+    //0x25, 0x7F,                // Log Max (127)
+    0x15, 0x00,                // Log Min (0)
+    0x25, 0xFF,              // Log Max (255)
     0x75, 0x08,                 // Report Size
     0x95, 0x03,                // Report Count (3)
     //0x81, 0x06,                // Input: (Data, Variable, Relative)

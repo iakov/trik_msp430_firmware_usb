@@ -333,8 +333,8 @@ void TIMERB1_ISR(void)
         {
             if (isTouched())
             {
-                mouseReport.dX = (touchReadY() / 4);
-                mouseReport.dY = (touchReadX() / 4);
+                mouseReport.dX = 255 - (touchReadY() / 4);
+                mouseReport.dY = 255 - (touchReadX() / 4);
                 USBHID_sendReport((void *)&mouseReport, HID0_INTFNUM);
             }
             timerb_ts = 0;
