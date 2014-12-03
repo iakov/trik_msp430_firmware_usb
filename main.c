@@ -79,8 +79,10 @@ volatile uint8_t n_error = 0;
 volatile uint8_t ReceiveError = 0, SendError = 0;
 
 volatile uint32_t timerb_cnt = 0; //Timer B counter 1
+
 volatile uint32_t timerb_ts = 0; //Timer B counter 2
 volatile uint16_t mx,my,moldx,moldy; //New and old touch screen coordinates
+volatile uint8_t isPressed = 0; //Touch screen push event flag
 
 uint16_t t,x,y;
 
@@ -174,10 +176,6 @@ void main (void)
                     strncat(wholeString,pieceOfString,strlen(pieceOfString));
                     memset(wholeString,0,MAX_STR_LENGTH);   // Clear wholeString
                 }
-
-
-
-
 
 
 
@@ -331,59 +329,20 @@ void TIMERB1_ISR(void)
 
         //For touch read event
         timerb_ts++;
-        if (timerb_ts > 5000)
+        if (timerb_ts > 500)
         {
-/*
             if (isTouched())
-             {
-
-                 mx = touchReadX();
-                 my = touchReadY();
-
-                 //if ((abs(moldx-mx)>5) || (abs(moldy-my)>5))
-                 {
-                     mouseReport.dX = moldy - my;
-                     mouseReport.dY = moldx - mx;
-                 }
-                 moldx = mx;
-                 moldy = my;
-
-                 // Send the report
-                 USBHID_sendReport((void *)&mouseReport, HID0_INTFNUM);
-
-             }*/
+            {
+                mouseReport.dX = (touchReadY() / 4);
+                mouseReport.dY = (touchReadX() / 4);
+                USBHID_sendReport((void *)&mouseReport, HID0_INTFNUM);
+            }
             timerb_ts = 0;
         }
 
 
-        if ((timerb_ts >= 1) && (timerb_ts <= 3))
-        {
-            mouseReport.dX = 100;
-            mouseReport.dY = 100;
-            USBHID_sendReport((void *)&mouseReport, HID0_INTFNUM);
-        }
 
 
-        if (timerb_ts == 1000)
-        {
-            //mouseReport.dX = -(touchReadY() / 8);
-            //mouseReport.dY = -(touchReadX() / 8);
-
-            mouseReport.dX = -20;
-            mouseReport.dY = -20;
-
-            USBHID_sendReport((void *)&mouseReport, HID0_INTFNUM);
-        }
-        if ((timerb_ts >= 1001) && (timerb_ts <= 1002))
-        {
-            //mouseReport.dX = -(touchReadY() / 8);
-            //mouseReport.dY = -(touchReadX() / 8);
-
-            mouseReport.dX = 0;
-            mouseReport.dY = 0;
-
-            USBHID_sendReport((void *)&mouseReport, HID0_INTFNUM);
-        }
 
 
         break;
