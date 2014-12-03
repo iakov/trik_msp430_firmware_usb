@@ -84,16 +84,26 @@ volatile uint32_t timerb_ts = 0; //Timer B counter 2
 volatile uint16_t mx,my,moldx,moldy; //New and old touch screen coordinates
 volatile uint8_t isPressed = 0; //Touch screen push event flag
 
+uint8_t idx1  = 0;
+
 uint16_t t,x,y;
 
+/*
 typedef struct {
-    uint8_t buttons;
-    uint8_t dX;
-    uint8_t dY;
-    uint8_t dZ;
+    int8_t buttons;
+    int8_t dX;
+    int8_t dY;
+    int8_t dZ;
+} MOUSE_REPORT;
+*/
+typedef struct {
+    int8_t buttons;
+    int16_t dX;
+    int16_t dY;
 } MOUSE_REPORT;
 
-MOUSE_REPORT mouseReport = { 0, 0, 0, 0 };
+
+volatile MOUSE_REPORT mouseReport = { 0,0,0 };
 
 /*  
  * ======== main ========
@@ -118,6 +128,7 @@ void main (void)
     initReferenceTemperature(); //Init ref and temp sensor
     initADC10(); //Init ADC
     initPBPorts(); //Init B ports
+    enableTimer_B(); //Enable async timer
 
    __enable_interrupt();  // Enable interrupts globally
 
@@ -152,7 +163,17 @@ void main (void)
                     //Test for end symbol 0x0A
                     if (retInString(wholeString))
                     {              // Wait for enter key to be pressed
-                        n_error = PROTOCOL_handler(wholeString,newString); //Protocol handler
+                        //n_error = PROTOCOL_handler(wholeString,newString); //Protocol handler
+
+
+                        mouseReport.dX = -32;
+                        mouseReport.dY --;
+                        sprintf(newString,"%d %d\r\n",mouseReport.dX,mouseReport.dY);
+
+                        USBHID_sendReport((void *)&mouseReport, HID0_INTFNUM);
+
+
+
                         memset(wholeString,0,MAX_STR_LENGTH);   // Clear wholeString
                         //sprintf(newString,"TestNumber=%x %x %x %x\n",t11,t12,t13,t14);
                         if (cdcSendDataInBackground((uint8_t*)newString,
@@ -176,7 +197,6 @@ void main (void)
                     strncat(wholeString,pieceOfString,strlen(pieceOfString));
                     memset(wholeString,0,MAX_STR_LENGTH);   // Clear wholeString
                 }
-
 
 
                 break;
@@ -333,8 +353,12 @@ void TIMERB1_ISR(void)
         {
             if (isTouched())
             {
-                mouseReport.dX = 255 - (touchReadY() / 4);
-                mouseReport.dY = 255 - (touchReadX() / 4);
+                //mouseReport.dX = 255 - (touchReadY() / 3);
+                //mouseReport.dY = 255 - (touchReadX() / 3);
+                mouseReport.buttons = 1;
+                mouseReport.dX++;
+                mouseReport.dY++;
+                //mouseReport.dZ++;
                 USBHID_sendReport((void *)&mouseReport, HID0_INTFNUM);
             }
             timerb_ts = 0;
