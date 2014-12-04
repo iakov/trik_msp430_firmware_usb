@@ -97,13 +97,13 @@ typedef struct {
 } MOUSE_REPORT;
 */
 typedef struct {
-    int16_t buttons;
-    int16_t dX;
-    int16_t dY;
+    uint8_t buttons;
+    uint16_t dX;
+    uint16_t dY;
 } MOUSE_REPORT;
 
 
-volatile MOUSE_REPORT mouseReport = { 0,0,0 };
+volatile MOUSE_REPORT mouseReport = {7, 0, 0};
 
 /*  
  * ======== main ========
@@ -166,9 +166,12 @@ void main (void)
                         //n_error = PROTOCOL_handler(wholeString,newString); //Protocol handler
 
 
-                        mouseReport.dX = -32;
-                        mouseReport.dY --;
-                        sprintf(newString,"%d %d\r\n",mouseReport.dX,mouseReport.dY);
+                        mouseReport.dX += 1;
+                        mouseReport.dY += 1;
+                        //mouseReport.buttons += 1;
+                        //if (mouseReport.dX > 319) mouseReport.dX = 0;
+                        //if (mouseReport.dY > 319) mouseReport.dY = 0;
+                        sprintf(newString,"%d %d %d\r\n",mouseReport.dX,mouseReport.dY, mouseReport.buttons);
 
                         USBHID_sendReport((void *)&mouseReport, HID0_INTFNUM);
 
@@ -347,17 +350,18 @@ void TIMERB1_ISR(void)
             }
         }
 
+
         //For touch read event
         timerb_ts++;
         if (timerb_ts > 500)
         {
             if (isTouched())
             {
-                //mouseReport.dX = 255 - (touchReadY() / 3);
-                //mouseReport.dY = 255 - (touchReadX() / 3);
-                mouseReport.buttons = 1;
-                mouseReport.dX++;
-                mouseReport.dY++;
+                mouseReport.dX = 20 - (touchReadY() / 25);
+                mouseReport.dY = 32 - (touchReadX() / 16);
+                //mouseReport.buttons = 1;
+                //mouseReport.dX++;
+                //mouseReport.dY++;
                 //mouseReport.dZ++;
                 USBHID_sendReport((void *)&mouseReport, HID0_INTFNUM);
             }

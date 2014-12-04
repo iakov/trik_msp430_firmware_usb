@@ -48,7 +48,7 @@ uint16_t const report_desc_size[HID_NUM_INTERFACES] =
 uint8_t const report_len_input[HID_NUM_INTERFACES] =
 {
 //4
-        6
+        5
 };
 /*-----------------------------------------------------------------------------+
 | Device Descriptor                                                            |
@@ -381,71 +381,6 @@ uint8_t const abromStringDescriptor[] = {
 
 uint8_t const report_desc_HID0[]=
 {
-
-    /*
-    0x05, 0x01,                // Usage Pg (Generic Desktop)
-    0x09, 0x02,                // Usage (Mouse)
-    0xA1, 0x01,                // Collection: (Application)
-    0x09, 0x01,                 // Usage Page (Vendor Defined)
-    0xA1, 0x00,                // Collection (Linked)
-    0x05, 0x09,                // Usage (Button)
-    0x19, 0x01,                // Usage Min (#)
-    0x29, 0x05,                // Usage Max (#)
-    0x15, 0x00,                // Log Min (0)
-    0x25, 0x01,                 // Usage Maximum
-    0x95, 0x05,                // Report count (5)
-    0x75, 0x01,                // Report Size (1)
-    0x81, 0x02,                 // Input (Data,Var,Abs)
-    0x95, 0x01,                // Report Count (1)
-    0x75, 0x03,                // Report Size (3)
-    0x81, 0x01,                // Input: (Constant)
-    0x05, 0x01,                // Usage Pg (Generic Desktop)
-    0x09, 0x30,                // Usage (X)
-    0x09, 0x31,                // Usage (Y)
-    0x09, 0x38,                // Usage (Wheel)
-    0x15, 0x81,                // Log Min (-127)
-    0x25, 0x7F,                // Log Max (127)
-    0x75, 0x08,                 // Report Size
-    0x95, 0x03,                // Report Count (3)
-    0x81, 0x02,                  //     INPUT (Data,Var,Abs)
-    0xC0,                      // End Collection
-    0xC0                       // End Collection
-    */
-
-
-        /*
-        0x05, 0x01, // USAGE_PAGE (Generic Desktop)
-        0x09, 0x02, // USAGE (Mouse)
-        0xa1, 0x01, // COLLECTION (Application)
-        0x09, 0x01, // USAGE (Pointer)
-        0xa1, 0x00, // COLLECTION (Physical)
-        0x05, 0x09, // USAGE_PAGE (Button)
-        0x19, 0x01, // USAGE_MINIMUM (Button 1)
-        0x29, 0x03, // USAGE_MAXIMUM (Button 3)
-        0x15, 0x00, // LOGICAL_MINIMUM (0)
-        0x25, 0x01, // LOGICAL_MAXIMUM (1)
-        0x95, 0x03, // REPORT_COUNT (3)
-        0x75, 0x01, // REPORT_SIZE (1)
-        0x81, 0x02, // INPUT (Data,Var,Abs)
-        0x95, 0x01, // REPORT_COUNT (1)
-        0x75, 0x05, // REPORT_SIZE (5)
-        0x81, 0x03, // INPUT (Cnst,Var,Abs)
-        0x05, 0x01, // USAGE_PAGE (Generic Desktop)
-        0x09, 0x30, // USAGE (X)
-        0x09, 0x31, // USAGE (Y)
-        0x35, 0x00, // PHYSICAL_MINIMUM (0)
-        0x46, 0x9d, 0x0b, // PHYSICAL_MAXIMUM (2973)
-        0x15, 0x00, // LOGICAL_MINIMUM (0)
-        0x26, 0x9d, 0x0b, // LOGICAL_MAXIMUM (2973)
-        0x65, 0x11, // UNIT (SI Lin:Distance)
-        0x55, 0x0e, // UNIT_EXPONENT (-2)
-        0x75, 0x10, // REPORT_SIZE (16)
-        0x95, 0x02, // REPORT_COUNT (2)
-        0x81, 0x02, // INPUT (Data,Var,Abs)
-        0xc0, // END_COLLECTION
-        0xc0 // END_COLLECTION
-        */
-
         0x05, 0x01, /* Usage Page (Generic Desktop) */
         0x09, 0x02, /* Usage (Mouse) */
         0xA1, 0x01, /* Collection (Application) */
@@ -465,13 +400,12 @@ uint8_t const report_desc_HID0[]=
         0x05, 0x01, /* Usage Page (Generic Desktop) */
         0x09, 0x30, /* Usage (X) */
         0x09, 0x31, /* Usage (Y) */
-        0x16, 0x00, 0xFD, // USAGE_MINIMUM
-        0x26, 0x00, 0x03, // USAGE_MAXIMUM
+        0x16, 0x00, 0x00, // USAGE_MINIMUM
+        0x26, 0xE0, 0x2E, // USAGE_MAXIMUM
         0x75, 0x10, /* Report Size (16) */
         0x95, 0x02, /* Report Count (2) */
         0x81, 0x02, /* Input (Data, Variable, Absolute) */
         0xC0, 0xC0
-
 };
 const uint8_t* report_desc[HID_NUM_INTERFACES] =
 {
