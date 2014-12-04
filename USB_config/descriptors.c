@@ -400,7 +400,7 @@ uint8_t const report_desc_HID0[]=
         0x05, 0x01, /* Usage Page (Generic Desktop) */
         0x09, 0x30, /* Usage (X) */
         0x09, 0x31, /* Usage (Y) */
-        0x16, 0x00, 0x00, // USAGE_MINIMUM
+        0x16, 0x20, 0xD1, // USAGE_MINIMUM
         0x26, 0xE0, 0x2E, // USAGE_MAXIMUM
         0x75, 0x10, /* Report Size (16) */
         0x95, 0x02, /* Report Count (2) */
