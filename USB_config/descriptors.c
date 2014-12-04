@@ -48,7 +48,7 @@ uint16_t const report_desc_size[HID_NUM_INTERFACES] =
 uint8_t const report_len_input[HID_NUM_INTERFACES] =
 {
 //4
-        5
+        6
 };
 /*-----------------------------------------------------------------------------+
 | Device Descriptor                                                            |

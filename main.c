@@ -97,7 +97,7 @@ typedef struct {
 } MOUSE_REPORT;
 */
 typedef struct {
-    int8_t buttons;
+    int16_t buttons;
     int16_t dX;
     int16_t dY;
 } MOUSE_REPORT;
