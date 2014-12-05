@@ -366,6 +366,7 @@ void TIMERB1_ISR(void)
                 //mouseReport.dY = 32 - (touchReadX() / 16);
                 //mouseReport.buttons = 1;
 
+                //mouseReport.lx+=5;
                 mouseReport.lx++;
                 if ( mouseReport.lx == 0) mouseReport.hx++;
                 mouseReport.ly++;
