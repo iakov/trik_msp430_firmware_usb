@@ -419,6 +419,32 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
+        //Touch controller
+        if ((devaddr1==TOUCHDEVICE))
+        {
+            if (regaddr1==TTMOD)
+                TOUCH.TMOD = regval1;
+            if (regaddr1==TMINX)
+                TOUCH.MINX = regval1;
+            if (regaddr1==TMAXX)
+                TOUCH.MAXX = regval1;
+            if (regaddr1==TMINY)
+                TOUCH.MINY = regval1;
+            if (regaddr1==TMAXY)
+                TOUCH.MAXY = regval1;
+            if (regaddr1==TSCRX)
+                TOUCH.SCRX = regval1;
+            if (regaddr1==TSCRY)
+                TOUCH.SCRY = regval1;
+            if (regaddr1==TCURX)
+                TOUCH.CURX = regval1;
+            if (regaddr1==TCURY)
+                TOUCH.CURY = regval1;
+            PROTOCOL_transResponse(out_str,devaddr1,NO_ERROR);
+            return NO_ERROR;
+        }
+
+
 	    //BSL
 	    if ((devaddr1==BSL) && (regaddr1==0x00))
 	    {
