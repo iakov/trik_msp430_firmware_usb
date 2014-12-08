@@ -98,16 +98,13 @@ typedef struct {
 */
 typedef struct {
     uint8_t buttons;
-    uint8_t hx;
-    uint8_t lx;
-    uint8_t hy;
-    uint8_t ly;
-
-
+    uint16_t xx;
+    uint16_t yy;
+    uint16_t zz;
 } MOUSE_REPORT;
 
 
-MOUSE_REPORT mouseReport = {0,0,0,0,0};
+MOUSE_REPORT mouseReport = {0,0,0,0};
 
 /*  
  * ======== main ========
@@ -169,16 +166,16 @@ void main (void)
                     {              // Wait for enter key to be pressed
                         //n_error = PROTOCOL_handler(wholeString,newString); //Protocol handler
 
-                        /*
-                        mouseReport.dX += 1;
-                        mouseReport.dY += 1;
+
+                        mouseReport.xx += 1;
+                        mouseReport.yy += 1;
                         //mouseReport.buttons += 1;
                         //if (mouseReport.dX > 319) mouseReport.dX = 0;
                         //if (mouseReport.dY > 319) mouseReport.dY = 0;
-                        sprintf(newString,"%d %d %d\r\n",mouseReport.dX,mouseReport.dY, mouseReport.buttons);
+                        sprintf(newString,"%d %d %d\r\n",mouseReport.xx,mouseReport.yy, mouseReport.buttons);
 
                         USBHID_sendReport((void *)&mouseReport, HID0_INTFNUM);
-                        */
+
 
 
 
@@ -367,11 +364,8 @@ void TIMERB1_ISR(void)
                 //mouseReport.buttons = 1;
 
                 //mouseReport.lx+=5;
-                mouseReport.lx++;
-                if ( mouseReport.lx == 0) mouseReport.hx++;
-                mouseReport.ly++;
-                if ( mouseReport.ly == 0) mouseReport.hy++;
-
+                mouseReport.xx++;
+                mouseReport.yy++;
 
                 //mouseReport.dZ++;
                 USBHID_sendReport((void *)&mouseReport, HID0_INTFNUM);

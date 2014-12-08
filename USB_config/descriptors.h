@@ -152,7 +152,7 @@ extern "C"
 #define SIZEOF_DEVICE_DESCRIPTOR  0x12
 #define MAX_STRING_DESCRIPTOR_INDEX 7
 //#define report_desc_size_HID0 52
-#define report_desc_size_HID0 58
+#define report_desc_size_HID0 85
 //#define SIZEOF_REPORT_DESCRIPTOR  36
 //#define USBHID_REPORT_LENGTH      64  // length of whole HID report (including Report ID)
 #define CONFIG_STRING_INDEX       4
