@@ -88,23 +88,16 @@ uint8_t idx1  = 0;
 
 uint16_t t,x,y;
 
-/*
-typedef struct {
-    int8_t buttons;
-    int8_t dX;
-    int8_t dY;
-    int8_t dZ;
-} MOUSE_REPORT;
-*/
 typedef struct {
     uint8_t buttons;
-    uint16_t xx;
-    uint16_t yy;
-    uint16_t zz;
+    uint8_t lx;
+    uint8_t hx;
+    uint8_t ly;
+    uint8_t hy;
+    //uint16_t zz;
 } MOUSE_REPORT;
 
-
-MOUSE_REPORT mouseReport = {0,0,0,0};
+volatile MOUSE_REPORT mouseReport = {0,0,0};
 
 /*  
  * ======== main ========
@@ -164,17 +157,27 @@ void main (void)
                     //Test for end symbol 0x0A
                     if (retInString(wholeString))
                     {              // Wait for enter key to be pressed
-                        //n_error = PROTOCOL_handler(wholeString,newString); //Protocol handler
+                        n_error = PROTOCOL_handler(wholeString,newString); //Protocol handler
 
 
-                        mouseReport.xx += 1;
-                        mouseReport.yy += 1;
+                        //mouseReport.xx += 1;
+                        //mouseReport.yy += 1;
                         //mouseReport.buttons += 1;
                         //if (mouseReport.dX > 319) mouseReport.dX = 0;
                         //if (mouseReport.dY > 319) mouseReport.dY = 0;
-                        sprintf(newString,"%d %d %d\r\n",mouseReport.xx,mouseReport.yy, mouseReport.buttons);
 
-                        USBHID_sendReport((void *)&mouseReport, HID0_INTFNUM);
+                        //mouseReport.lx++;
+                        //if ( mouseReport.lx == 0) mouseReport.hx++;
+                        //mouseReport.ly = 20;
+                        //mouseReport.hy = 0;
+
+                        //mouseReport.ly++;
+                        //if ( mouseReport.ly == 0) mouseReport.hy++;
+
+
+                        //sprintf(newString,"%d %d %d %d %d\r\n",mouseReport.lx,mouseReport.hx,mouseReport.ly,mouseReport.hy,mouseReport.buttons);
+
+                        //USBHID_sendReport((void *)&mouseReport, HID0_INTFNUM);
 
 
 
@@ -359,13 +362,14 @@ void TIMERB1_ISR(void)
         {
             if (isTouched())
             {
-                //mouseReport.dX = 20 - (touchReadY() / 25);
-                //mouseReport.dY = 32 - (touchReadX() / 16);
-                //mouseReport.buttons = 1;
+                x = 320 - touchReadX() * 10 / 16;
+                y = touchReadY() * 10 / 21;
 
-                //mouseReport.lx+=5;
-                mouseReport.xx++;
-                mouseReport.yy++;
+                mouseReport.lx = (uint8_t)(x & 0xFF);
+                mouseReport.hx = (uint8_t)((x >> 8) & 0xFF);
+                mouseReport.ly = (uint8_t)(y & 0xFF);
+                mouseReport.hy = (uint8_t)((y >> 8) & 0xFF);
+
 
                 //mouseReport.dZ++;
                 USBHID_sendReport((void *)&mouseReport, HID0_INTFNUM);
