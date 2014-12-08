@@ -358,8 +358,21 @@ void TIMERB1_ISR(void)
         {
             if (isTouched())
             {
-                TOUCH.CURX = 320 - touchReadX() * 10 / 16;
-                TOUCH.CURY = touchReadY() * 10 / 21;
+                //TOUCH.CURX = 320 - touchReadX() * 10 / 16;
+                //TOUCH.CURY = touchReadY() * 10 / 21;
+
+                TOUCH.CURX = touchReadX();
+                TOUCH.CURY = touchReadY();
+
+                //Calibration routine
+                if (TOUCH.TMOD)
+                {
+                    if (TOUCH.CURX < TOUCH.MINX) TOUCH.MINX = TOUCH.CURX;
+                    if (TOUCH.CURY < TOUCH.MINY) TOUCH.MINY = TOUCH.CURY;
+                    if (TOUCH.CURX > TOUCH.MAXX) TOUCH.MAXX = TOUCH.CURX;
+                    if (TOUCH.CURY > TOUCH.MAXY) TOUCH.MAXY = TOUCH.CURY;
+                }
+
 
                 mouseReport.lx = (uint8_t)(TOUCH.CURX & 0xFF);
                 mouseReport.hx = (uint8_t)((TOUCH.CURX >> 8) & 0xFF);
