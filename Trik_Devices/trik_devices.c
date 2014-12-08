@@ -37,8 +37,8 @@ void initGlobalVars()
     TOUCH.MAXX = 0;
     TOUCH.MINY = UINT16_MAX;
     TOUCH.MAXY = 0;
-    TOUCH.SCRX = 319;
-    TOUCH.SCRY = 239;
+    TOUCH.SCRX = 320;
+    TOUCH.SCRY = 240;
     TOUCH.CURX = 0;
     TOUCH.CURY = 0;
 

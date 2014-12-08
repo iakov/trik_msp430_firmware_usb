@@ -81,8 +81,6 @@ volatile uint8_t ReceiveError = 0, SendError = 0;
 volatile uint32_t timerb_cnt = 0; //Timer B counter 1
 
 volatile uint32_t timerb_ts = 0; //Timer B counter 2
-volatile uint16_t mx,my,moldx,moldy; //New and old touch screen coordinates
-volatile uint8_t isPressed = 0; //Touch screen push event flag
 
 typedef struct {
     uint8_t buttons;
@@ -90,10 +88,11 @@ typedef struct {
     uint8_t hx;
     uint8_t ly;
     uint8_t hy;
-    //uint16_t zz;
 } MOUSE_REPORT;
 
-volatile MOUSE_REPORT mouseReport = {0,0,0};
+float kx, ky, xx, yy;
+
+volatile MOUSE_REPORT mouseReport = {0,0,0,0,0};
 
 /*  
  * ======== main ========
@@ -373,14 +372,17 @@ void TIMERB1_ISR(void)
                     if (TOUCH.CURY > TOUCH.MAXY) TOUCH.MAXY = TOUCH.CURY;
                 }
 
+                kx = (float)TOUCH.SCRX / (float)(TOUCH.MAXX - TOUCH.MINX);
+                ky = (float)TOUCH.SCRY / (float)(TOUCH.MAXY - TOUCH.MINY);
 
-                mouseReport.lx = (uint8_t)(TOUCH.CURX & 0xFF);
-                mouseReport.hx = (uint8_t)((TOUCH.CURX >> 8) & 0xFF);
-                mouseReport.ly = (uint8_t)(TOUCH.CURY & 0xFF);
-                mouseReport.hy = (uint8_t)((TOUCH.CURY >> 8) & 0xFF);
+                xx = (float)TOUCH.SCRX - (float)(TOUCH.CURX - TOUCH.MINX) * kx;
+                yy = (float)(TOUCH.CURY - TOUCH.MINY) * ky;
 
+                mouseReport.lx = (uint8_t)((uint16_t)xx & 0xFF);
+                mouseReport.hx = (uint8_t)(((uint16_t)xx >> 8) & 0xFF);
+                mouseReport.ly = (uint8_t)((uint16_t)yy & 0xFF);
+                mouseReport.hy = (uint8_t)(((uint16_t)yy >> 8) & 0xFF);
 
-                //mouseReport.dZ++;
                 USBHID_sendReport((void *)&mouseReport, HID0_INTFNUM);
             }
             timerb_ts = 0;
