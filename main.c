@@ -84,10 +84,6 @@ volatile uint32_t timerb_ts = 0; //Timer B counter 2
 volatile uint16_t mx,my,moldx,moldy; //New and old touch screen coordinates
 volatile uint8_t isPressed = 0; //Touch screen push event flag
 
-uint8_t idx1  = 0;
-
-uint16_t t,x,y;
-
 typedef struct {
     uint8_t buttons;
     uint8_t lx;
@@ -362,13 +358,13 @@ void TIMERB1_ISR(void)
         {
             if (isTouched())
             {
-                x = 320 - touchReadX() * 10 / 16;
-                y = touchReadY() * 10 / 21;
+                TOUCH.CURX = 320 - touchReadX() * 10 / 16;
+                TOUCH.CURY = touchReadY() * 10 / 21;
 
-                mouseReport.lx = (uint8_t)(x & 0xFF);
-                mouseReport.hx = (uint8_t)((x >> 8) & 0xFF);
-                mouseReport.ly = (uint8_t)(y & 0xFF);
-                mouseReport.hy = (uint8_t)((y >> 8) & 0xFF);
+                mouseReport.lx = (uint8_t)(TOUCH.CURX & 0xFF);
+                mouseReport.hx = (uint8_t)((TOUCH.CURX >> 8) & 0xFF);
+                mouseReport.ly = (uint8_t)(TOUCH.CURY & 0xFF);
+                mouseReport.hy = (uint8_t)((TOUCH.CURY >> 8) & 0xFF);
 
 
                 //mouseReport.dZ++;

@@ -39,6 +39,9 @@ void initGlobalVars()
     TOUCH.MAXY = 0;
     TOUCH.SCRX = 319;
     TOUCH.SCRY = 239;
+    TOUCH.CURX = 0;
+    TOUCH.CURY = 0;
+
 }
 
 //Init reference and temperature sensor for ADC
