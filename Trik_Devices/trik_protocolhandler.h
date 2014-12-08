@@ -10,8 +10,8 @@
 
 #define MAX_STRING_LENGTH   32
 
-#define FALSE               0x00
-#define TRUE                0x01
+#define False               0x00
+#define True                0x01
 
 //Error defines
 #define NO_ERROR            0x00

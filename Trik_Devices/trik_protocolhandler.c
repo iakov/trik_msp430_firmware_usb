@@ -189,7 +189,7 @@ uint8_t retInString (char* string)
         strncpy(string,tempStr,retPos);
 
         //...and tell the calling function that we did so
-        return ( TRUE) ;
+        return (True) ;
 
     } else if (tempStr[retPos] == 0x0A) {
 
@@ -202,7 +202,7 @@ uint8_t retInString (char* string)
         strncpy(string,tempStr,retPos);
 
         //...and tell the calling function that we did so
-        return ( TRUE) ;
+        return (True) ;
     } else if (retPos < len){
         // Empty the buffer
         for (i = 0; i < MAX_STRING_LENGTH; i++){
@@ -213,10 +213,10 @@ uint8_t retInString (char* string)
         strncpy(string,tempStr,retPos);
 
         //...and tell the calling function that we did so
-        return (TRUE) ;
+        return (True) ;
     }
 
-    return (FALSE) ; // Otherwise, it wasn't found
+    return (False) ; // Otherwise, it wasn't found
 }
 
 //Protocol handler
