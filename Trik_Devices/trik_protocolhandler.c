@@ -519,6 +519,10 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
                 PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,TOUCH.SCRX,REG_16bits);
             if (regaddr1==TSCRY)
                 PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,TOUCH.SCRY,REG_16bits);
+            if (regaddr1==TCURX)
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,TOUCH.CURX,REG_16bits);
+            if (regaddr1==TCURY)
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,TOUCH.CURY,REG_16bits);
             return NO_ERROR;
         }
 

@@ -29,6 +29,9 @@ void stopCal();
 #define TMAXY               0x04
 #define TSCRX               0x05
 #define TSCRY               0x06
+#define TCURX               0x07
+#define TCURY               0x08
+
 
 //Touch registers
 struct tTouchRegisters
@@ -40,6 +43,8 @@ struct tTouchRegisters
     uint16_t MAXY;
     uint16_t SCRX;
     uint16_t SCRY;
+    uint16_t CURX;
+    uint16_t CURY;
 };
 
 //Motors registers array
