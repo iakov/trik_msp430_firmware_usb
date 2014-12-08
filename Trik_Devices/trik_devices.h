@@ -42,6 +42,7 @@
 #define PORT6			    0x1F
 #define PORTJ			    0x20
 #define ASYNCTIMER          0x2E
+#define TOUCHDEVICE         0x2F
 #define BSL                 0xEE
 #define NNONE				0xFF
 
@@ -50,7 +51,7 @@
 #define SLOT_BUSY           0x01
 
 //Max ports
-#define MAX_DEVICES			0x2F
+#define MAX_DEVICES			0x30
 
 //Busy table
 volatile uint8_t busy_table[MAX_DEVICES];

@@ -21,6 +21,15 @@ uint16_t touchReadY();
 void startCal();
 void stopCal();
 
+//Defines for register numbers
+#define TTMOD               0x00
+#define TMINX               0x01
+#define TMAXX               0x02
+#define TMINY               0x03
+#define TMAXY               0x04
+#define TSCRX               0x05
+#define TSCRY               0x06
+
 //Touch registers
 struct tTouchRegisters
 {
@@ -35,9 +44,5 @@ struct tTouchRegisters
 
 //Motors registers array
 volatile struct tTouchRegisters TOUCH;
-
-
-
-volatile uint8_t cal_mode;
 
 #endif /* TRIK_TOUCH_H_ */

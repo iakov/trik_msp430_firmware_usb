@@ -33,10 +33,10 @@ void initGlobalVars()
     ASYNCTMR.ATPER = MAX_DEVICES;
 
     TOUCH.TMOD = CAL_OFF;
-    TOUCH.MINX = 0;
-    TOUCH.MAXX = 511;
-    TOUCH.MINY = 0;
-    TOUCH.MAXY = 511;
+    TOUCH.MINX = UINT16_MAX;
+    TOUCH.MAXX = 0;
+    TOUCH.MINY = UINT16_MAX;
+    TOUCH.MAXY = 0;
     TOUCH.SCRX = 319;
     TOUCH.SCRY = 239;
 }

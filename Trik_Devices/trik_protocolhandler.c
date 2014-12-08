@@ -17,6 +17,7 @@
 #include "Trik_Devices/trik_bsl.h"
 #include "Trik_Devices/trik_devices.h"
 #include "Trik_Devices/trik_async.h"
+#include "Trik_Devices/trik_touch.h"
 //#include "Trik_Devices/trik_port.h"
 
 uint8_t TO_HEX(uint8_t i)
@@ -500,6 +501,27 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
                 PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,ASYNCTMR.ATVAL,REG_32bits);
             return NO_ERROR;
         }
+
+        //Touch controller
+        if ((devaddr1==TOUCHDEVICE))
+        {
+            if (regaddr1==TTMOD)
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,TOUCH.TMOD,REG_16bits);
+            if (regaddr1==TMINX)
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,TOUCH.MINX,REG_16bits);
+            if (regaddr1==TMAXX)
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,TOUCH.MAXX,REG_16bits);
+            if (regaddr1==TMINY)
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,TOUCH.MINY,REG_16bits);
+            if (regaddr1==TMAXY)
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,TOUCH.MAXY,REG_16bits);
+            if (regaddr1==TSCRX)
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,TOUCH.SCRX,REG_16bits);
+            if (regaddr1==TSCRY)
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,TOUCH.SCRY,REG_16bits);
+            return NO_ERROR;
+        }
+
     }
 
     PROTOCOL_errResponse(out_str,devaddr1,func1,LENGTH_ERROR);
