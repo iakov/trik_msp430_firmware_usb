@@ -342,13 +342,10 @@ void TIMERB1_ISR(void)
 
         //For touch read event
         timerb_ts++;
-        if (timerb_ts > 2000)
+        if (timerb_ts > 384)
         {
             if (isTouched())
             {
-                //TOUCH.CURX = 320 - touchReadX() * 10 / 16;
-                //TOUCH.CURY = touchReadY() * 10 / 21;
-
                 TOUCH.CURX = touchReadX();
                 TOUCH.CURY = touchReadY();
 
