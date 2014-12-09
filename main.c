@@ -372,7 +372,7 @@ void TIMERB1_ISR(void)
                 mouseReport.ly = (uint8_t)((uint16_t)yy & 0xFF);
                 mouseReport.hy = (uint8_t)(((uint16_t)yy >> 8) & 0xFF);
 
-                mouseReport.buttons = 0x01;
+                mouseReport.buttons = 0x07;
 
                 USBHID_sendReport((void *)&mouseReport, HID0_INTFNUM);
             }
