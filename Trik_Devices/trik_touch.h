@@ -50,4 +50,15 @@ struct tTouchRegisters
 //Motors registers array
 volatile struct tTouchRegisters TOUCH;
 
+//Touch HID report
+typedef struct {
+    uint8_t buttons;
+    uint8_t lx;
+    uint8_t hx;
+    uint8_t ly;
+    uint8_t hy;
+} MOUSE_REPORT;
+
+volatile MOUSE_REPORT mouseReport;
+
 #endif /* TRIK_TOUCH_H_ */

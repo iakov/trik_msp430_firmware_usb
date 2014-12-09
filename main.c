@@ -79,20 +79,9 @@ volatile uint8_t n_error = 0;
 volatile uint8_t ReceiveError = 0, SendError = 0;
 
 volatile uint32_t timerb_cnt = 0; //Timer B counter 1
-
 volatile uint32_t timerb_ts = 0; //Timer B counter 2
 
-typedef struct {
-    uint8_t buttons;
-    uint8_t lx;
-    uint8_t hx;
-    uint8_t ly;
-    uint8_t hy;
-} MOUSE_REPORT;
-
-float kx, ky, xx, yy;
-
-volatile MOUSE_REPORT mouseReport = {0,0,0,0,0};
+float kx, ky, xx, yy; //Temp vars
 
 /*  
  * ======== main ========
@@ -353,7 +342,7 @@ void TIMERB1_ISR(void)
 
         //For touch read event
         timerb_ts++;
-        if (timerb_ts > 500)
+        if (timerb_ts > 384)
         {
             if (isTouched())
             {
@@ -382,6 +371,8 @@ void TIMERB1_ISR(void)
                 mouseReport.hx = (uint8_t)(((uint16_t)xx >> 8) & 0xFF);
                 mouseReport.ly = (uint8_t)((uint16_t)yy & 0xFF);
                 mouseReport.hy = (uint8_t)(((uint16_t)yy >> 8) & 0xFF);
+
+                mouseReport.buttons = 0x01;
 
                 USBHID_sendReport((void *)&mouseReport, HID0_INTFNUM);
             }

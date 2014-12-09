@@ -47,6 +47,7 @@ void initGlobalVars()
     TOUCH.SCRX = 320;
     TOUCH.SCRY = 240;
     resetTouch();
+    mouseReport.lx = mouseReport.ly = mouseReport.hx = mouseReport.hy = mouseReport.buttons = 0;
 }
 
 //Init reference and temperature sensor for ADC
