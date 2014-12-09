@@ -14,6 +14,17 @@
 #include "Trik_Devices/trik_sensor.h"
 #include "Trik_Devices/trik_touch.h"
 
+//Reset touch parameters
+void resetTouch()
+{
+    TOUCH.MINX = UINT16_MAX;
+    TOUCH.MAXX = 0;
+    TOUCH.MINY = UINT16_MAX;
+    TOUCH.MAXY = 0;
+    TOUCH.CURX = 0;
+    TOUCH.CURY = 0;
+}
+
 //Init variables, arrays and structures
 void initGlobalVars()
 {
@@ -33,15 +44,9 @@ void initGlobalVars()
     ASYNCTMR.ATPER = MAX_DEVICES;
 
     TOUCH.TMOD = CAL_OFF;
-    TOUCH.MINX = UINT16_MAX;
-    TOUCH.MAXX = 0;
-    TOUCH.MINY = UINT16_MAX;
-    TOUCH.MAXY = 0;
     TOUCH.SCRX = 320;
     TOUCH.SCRY = 240;
-    TOUCH.CURX = 0;
-    TOUCH.CURY = 0;
-
+    resetTouch();
 }
 
 //Init reference and temperature sensor for ADC

@@ -423,7 +423,10 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
         if ((devaddr1==TOUCHDEVICE))
         {
             if (regaddr1==TTMOD)
+            {
                 TOUCH.TMOD = regval1;
+                if (regval1) resetTouch();
+            }
             if (regaddr1==TMINX)
                 TOUCH.MINX = regval1;
             if (regaddr1==TMAXX)
@@ -443,7 +446,6 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             PROTOCOL_transResponse(out_str,devaddr1,NO_ERROR);
             return NO_ERROR;
         }
-
 
 	    //BSL
 	    if ((devaddr1==BSL) && (regaddr1==0x00))
