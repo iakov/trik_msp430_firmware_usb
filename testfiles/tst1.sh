@@ -2,6 +2,8 @@
 
 # Test1 for motors
 
+echo 1 > /sys/class/gpio/gpio62/value
+
 stty -F /dev/ttyACM0 -echo -onlcr
 
 cat /dev/ttyACM0 &
@@ -112,7 +114,7 @@ stop_motor ()
 	return
 }
 
-break_motor ()
+brake_motor ()
 {
 	local crc
 	local func=3
@@ -211,21 +213,80 @@ reverse_motor ()
 	return
 }
 
-
 #Init PWM period
+period=10000
 devaddr=0; set_period_for_motor
 devaddr=1; set_period_for_motor
 devaddr=2; set_period_for_motor
 devaddr=3; set_period_for_motor
 
-#devaddr=0; duty=800; set_duty_for_motor
-#devaddr=1; duty=800; set_duty_for_motor
-#devaddr=2; duty=800; set_duty_for_motor
-#devaddr=3; duty=800; set_duty_for_motor
+#Init PWM duty
+duty=1
+devaddr=0; set_duty_for_motor
+devaddr=1; set_duty_for_motor
+devaddr=2; set_duty_for_motor
+devaddr=3; set_duty_for_motor
 
-#duty=999
-#while [ $duty -gt 0 ]; do
-	#devaddr=0; set_duty_for_motor
-	#duty=$((duty-10))
-#done
+devaddr=0;
+
+REPLY=1
+while [[ $REPLY != 0 ]]; do
+	clear
+	echo "
+	Please Select:
+	1. Select motor number: $((devaddr+1))
+	2. Change PWM period: $period
+	3. Change PWM duty: $duty
+	4. Start motor forward
+	5. Start motor backward
+	6. Brake motor
+	7. Stop motor
+	0. Exit
+	"
+	read -p "Enter selection [0-7] > "
+	case $REPLY in
+		1)	read -p "Enter motor number [1-4]: " mnum
+		if [[ $mnum -lt 1 || $mnum -gt 4 ]]; then
+			echo "Incorrect motor number!"
+			usleep 2000000
+		else 
+			devaddr=$((mnum-1))
+		fi
+		;;
+		2)	read -p "Enter PWM period [1..65535]: " mper
+		if [[ $mper -lt 1 || $mper -gt 65535 ]]; then
+			echo "PWM period must be in [1..65535] range!"
+			usleep 2000000
+		elif [[ $mper -lt $duty ]]; then
+			echo "PWM period must be greater than PWM duty!"
+			usleep 2000000
+		else 
+			period=$mper
+			set_period_for_motor
+		fi
+		;;
+		3)	read -p "Enter PWM duty [1..65535]: " mdut
+		if [[ $mdut -lt 1 || $mdut -gt 65535 ]]; then
+			echo "PWM duty must be in [1..65535] range!"
+			usleep 2000000
+		elif [[ $mdut -gt $period ]]; then
+			echo "PWM duty must be less than PWM period!"
+			usleep 2000000
+		else 
+			duty=$mdut
+			set_duty_for_motor
+		fi
+		;;
+		4) start_motor
+		;;
+		5) reverse_motor
+		;;
+		6) brake_motor
+		;;
+		7) stop_motor
+		;;
+	esac
+done	
+echo "Program terminated"
+
 
