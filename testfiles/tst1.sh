@@ -393,8 +393,8 @@ devaddr=3; set_duty_for_motor
 
 devaddr=0;
 
-REPLY=1
-while [[ $REPLY != 0 ]]; do
+SELNUM=1
+while [[ $SELNUM != 0 ]]; do
 	clear
 	echo "
 	Please Select:
@@ -407,8 +407,12 @@ while [[ $REPLY != 0 ]]; do
 	7. Stop motor
 	0. Exit
 	"
-	read -p "Enter selection [0-7] > "
-	case $REPLY in
+	read -p "Enter selection [0-7] > " SELNUM
+	#Testing valid input
+	if [[ -z $SELNUM ]]; then 
+		SELNUM=1000;
+	fi
+	case $SELNUM in
 		1)	read -p "Enter motor number [1-4]: " mnum
 		if [[ $mnum -lt 1 || $mnum -gt 4 ]]; then
 			echo "Incorrect motor number!"
@@ -448,6 +452,9 @@ while [[ $REPLY != 0 ]]; do
 		6) brake_motor
 		;;
 		7) stop_motor
+		;;
+		1000) echo "Invalid input!"
+		usleep 2000000
 		;;
 	esac
 done	
