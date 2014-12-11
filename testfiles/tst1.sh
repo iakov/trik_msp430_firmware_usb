@@ -2,85 +2,142 @@
 
 # Test1 for motors
 
+#Power on 12 volts power
 echo 1 > /sys/class/gpio/gpio62/value
 
+#Configure com port for raw data format
 stty -F /dev/ttyACM0 -echo -onlcr
 
-cat /dev/ttyACM0 &
+#cat /dev/ttyACM0 &
 
+#Set alternative output device
 #out_device="/dev/tty"
 out_device="/dev/ttyACM0"
 #out_device="000.txt"
 
-printf "Privet!\n" > $out_device; printf "Privet!\n";
+#Test packet
+printf "Privet!\n" > $out_device; 
+printf "Privet!\n";
 
-period=1000
-duty=800
-
+#Set motor period
 set_period_for_motor ()
 {
 	local crc
 	local func=3
 	local regaddr=2
 	#Start condition
-	printf ":" >> $out_device; printf ":";
+	printf ":" >> $out_device; 
+	printf ":";
 	#Motor number
-	if [ $devaddr -lt 16 ]; then printf "0%X" $devaddr >> $out_device; printf "0%X" $devaddr;
-		else printf "%X" $devaddr >> $out_device; printf "%X" $devaddr;
+	if [ $devaddr -lt 16 ]; then 
+		printf "0%X" $devaddr >> $out_device; 
+		printf "0%X" $devaddr;
+	else 
+		printf "%X" $devaddr >> $out_device; 
+		printf "%X" $devaddr;
 	fi
 	#Function number
-	if [ $func -lt 16 ]; then printf "0%X" $func >> $out_device; printf "0%X" $func;
-		else printf "%X" $func >> $out_device; printf "%X" $func;
+	if [ $func -lt 16 ]; then 
+		printf "0%X" $func >> $out_device; 
+		printf "0%X" $func;
+	else 
+		printf "%X" $func >> $out_device; 
+		printf "%X" $func;
 	fi
 	#Register number
-	if [ $regaddr -lt 16 ]; then printf "0%X" $regaddr >> $out_device; printf "0%X" $regaddr;
-		else printf "%X" $regaddr >> $out_device; printf "%X" $regaddr;
+	if [ $regaddr -lt 16 ]; then 
+		printf "0%X" $regaddr >> $out_device; 
+		printf "0%X" $regaddr;
+	else 
+		printf "%X" $regaddr >> $out_device; 
+		printf "%X" $regaddr;
 	fi
 	#Register value
-	if [ $period -lt 16 ]; then printf "000%X" $period >> $out_device; printf "000%X" $period;
-		elif [ $period -lt 256 ]; then printf "00%X" $period >> $out_device; printf "00%X" $period;
-		elif [ $period -lt 4096 ]; then printf "0%X" $period >> $out_device; printf "0%X" $period;
-		else printf "%X" $period >> $out_device; printf "%X" $period;
+	if [ $period -lt 16 ]; then 
+		printf "000%X" $period >> $out_device; 
+		printf "000%X" $period;
+	elif [ $period -lt 256 ]; then 
+		printf "00%X" $period >> $out_device; 
+		printf "00%X" $period;
+	elif [ $period -lt 4096 ]; then 
+		printf "0%X" $period >> $out_device; 
+		printf "0%X" $period;
+	else 
+		printf "%X" $period >> $out_device; 
+		printf "%X" $period;
 	fi
+	#Checksum
 	crc=$((((0-($devaddr+$func+$regaddr+(($period>>8)&255)+($period&255)))&255)))
-	if [ $crc -lt 16 ]; then printf "0%X\n" $crc >> $out_device; printf "0%X\n" $crc;
-		else printf "%X\n" $crc >> $out_device; printf "%X\n" $crc;
+	if [ $crc -lt 16 ]; then 
+		printf "0%X\n" $crc >> $out_device; 
+		printf "0%X\n" $crc;
+	else 
+		printf "%X\n" $crc >> $out_device; 
+		printf "%X\n" $crc;
 	fi
 	return
 }
 
+#Set motor power by duty
 set_duty_for_motor ()
 {
 	local crc
 	local func=3
 	local regaddr=1
 	#Start condition
-	printf ":" >> $out_device; printf ":";
+	printf ":" >> $out_device; 
+	printf ":";
 	#Motor number
-	if [ $devaddr -lt 16 ]; then printf "0%X" $devaddr >> $out_device; printf "0%X" $devaddr;
-		else printf "%X" $devaddr >> $out_device; printf "%X" $devaddr;
+	if [ $devaddr -lt 16 ]; then 
+		printf "0%X" $devaddr >> $out_device; 
+		printf "0%X" $devaddr;
+	else 
+		printf "%X" $devaddr >> $out_device; 
+		printf "%X" $devaddr;
 	fi
 	#Function number
-	if [ $func -lt 16 ]; then printf "0%X" $func >> $out_device; printf "0%X" $func;
-		else printf "%X" $func >> $out_device; printf "%X" $func;
+	if [ $func -lt 16 ]; then 
+		printf "0%X" $func >> $out_device; 
+		printf "0%X" $func;
+	else 
+		printf "%X" $func >> $out_device; 
+		printf "%X" $func;
 	fi
 	#Register number
-	if [ $regaddr -lt 16 ]; then printf "0%X" $regaddr >> $out_device; printf "0%X" $regaddr;
-		else printf "%X" $regaddr >> $out_device; printf "%X" $regaddr;
+	if [ $regaddr -lt 16 ]; then 
+		printf "0%X" $regaddr >> $out_device; 
+		printf "0%X" $regaddr;
+	else 
+		printf "%X" $regaddr >> $out_device; 
+		printf "%X" $regaddr;
 	fi
 	#Register value
-	if [ $duty -lt 16 ]; then printf "000%X" $duty >> $out_device; printf "000%X" $duty;
-		elif [ $duty -lt 256 ]; then printf "00%X" $duty >> $out_device; printf "00%X" $duty;
-		elif [ $duty -lt 4096 ]; then printf "0%X" $duty >> $out_device; printf "0%X" $duty;
-		else printf "%X" $duty >> $out_device; printf "%X" $duty;
+	if [ $duty -lt 16 ]; then 
+		printf "000%X" $duty >> $out_device; 
+		printf "000%X" $duty;
+	elif [ $duty -lt 256 ]; then 
+		printf "00%X" $duty >> $out_device; 
+		printf "00%X" $duty;
+	elif [ $duty -lt 4096 ]; then 
+		printf "0%X" $duty >> $out_device; 
+		printf "0%X" $duty;
+	else 
+		printf "%X" $duty >> $out_device; 
+		printf "%X" $duty;
 	fi
+	#Checksum
 	crc=$((((0-($devaddr+$func+$regaddr+(($duty>>8)&255)+($duty&255)))&255)))
-	if [ $crc -lt 16 ]; then printf "0%X\n" $crc >> $out_device; printf "0%X\n" $crc;
-		else printf "%X\n" $crc >> $out_device; printf "%X\n" $crc;
+	if [ $crc -lt 16 ]; then 
+		printf "0%X\n" $crc >> $out_device; 
+		printf "0%X\n" $crc;
+	else 
+		printf "%X\n" $crc >> $out_device; 
+		printf "%X\n" $crc;
 	fi
 	return
 }
 
+#Stop motor
 stop_motor ()
 {
 	local crc
@@ -88,32 +145,59 @@ stop_motor ()
 	local regaddr=0
 	local ctrl_reg=32768
 	#Start condition
-	printf ":" >> $out_device; printf ":";
+	printf ":" >> $out_device; 
+	printf ":";
 	#Motor number
-	if [ $devaddr -lt 16 ]; then printf "0%X" $devaddr >> $out_device; printf "0%X" $devaddr;
-		else printf "%X" $devaddr >> $out_device; printf "%X" $devaddr;
+	if [ $devaddr -lt 16 ]; then 
+		printf "0%X" $devaddr >> $out_device; 
+		printf "0%X" $devaddr;
+	else 
+		printf "%X" $devaddr >> $out_device; 
+		printf "%X" $devaddr;
 	fi
 	#Function number
-	if [ $func -lt 16 ]; then printf "0%X" $func >> $out_device; printf "0%X" $func;
-		else printf "%X" $func >> $out_device; printf "%X" $func;
+	if [ $func -lt 16 ]; then 
+		printf "0%X" $func >> $out_device; 
+		printf "0%X" $func;
+	else 
+		printf "%X" $func >> $out_device; 
+		printf "%X" $func;
 	fi
 	#Register number
-	if [ $regaddr -lt 16 ]; then printf "0%X" $regaddr >> $out_device; printf "0%X" $regaddr;
-		else printf "%X" $regaddr >> $out_device; printf "%X" $regaddr;
+	if [ $regaddr -lt 16 ]; then 
+		printf "0%X" $regaddr >> $out_device; 
+		printf "0%X" $regaddr;
+	else 
+		printf "%X" $regaddr >> $out_device; 
+		printf "%X" $regaddr;
 	fi
 	#Register value
-	if [ $ctrl_reg -lt 16 ]; then printf "000%X" $ctrl_reg >> $out_device; printf "000%X" $ctrl_reg;
-		elif [ $ctrl_reg -lt 256 ]; then printf "00%X" $ctrl_reg >> $out_device; printf "00%X" $ctrl_reg;
-		elif [ $ctrl_reg -lt 4096 ]; then printf "0%X" $ctrl_reg >> $out_device; printf "0%X" $ctrl_reg;
-		else printf "%X" $ctrl_reg >> $out_device; printf "%X" $ctrl_reg;
+	if [ $ctrl_reg -lt 16 ]; then 
+		printf "000%X" $ctrl_reg >> $out_device; 
+		printf "000%X" $ctrl_reg;
+	elif [ $ctrl_reg -lt 256 ]; then 
+		printf "00%X" $ctrl_reg >> $out_device; 
+		printf "00%X" $ctrl_reg;
+	elif [ $ctrl_reg -lt 4096 ]; then 
+		printf "0%X" $ctrl_reg >> $out_device; 
+		printf "0%X" $ctrl_reg;
+	else 
+		printf "%X" $ctrl_reg >> $out_device; 
+		printf "%X" $ctrl_reg;
 	fi
+	#Checksum
 	crc=$((((0-($devaddr+$func+$regaddr+(($ctrl_reg>>8)&255)+($ctrl_reg&255)))&255)))
-	if [ $crc -lt 16 ]; then printf "0%X\n" $crc >> $out_device; printf "0%X\n" $crc;
-		else printf "%X\n" $crc >> $out_device; printf "%X\n" $crc;
+	if [ $crc -lt 16 ]; then 
+		printf "0%X\n" $crc >> $out_device; 
+		printf "0%X\n" $crc;
+	else 
+		printf "%X\n" $crc >> $out_device; 
+		printf "%X\n" $crc;
 	fi
 	return
 }
 
+#Stop motor with braking
 brake_motor ()
 {
 	local crc
@@ -121,32 +205,59 @@ brake_motor ()
 	local regaddr=0
 	local ctrl_reg=32776
 	#Start condition
-	printf ":" >> $out_device; printf ":";
+	printf ":" >> $out_device; 
+	printf ":";
 	#Motor number
-	if [ $devaddr -lt 16 ]; then printf "0%X" $devaddr >> $out_device; printf "0%X" $devaddr;
-		else printf "%X" $devaddr >> $out_device; printf "%X" $devaddr;
+	if [ $devaddr -lt 16 ]; then 
+		printf "0%X" $devaddr >> $out_device; 
+		printf "0%X" $devaddr;
+	else 
+		printf "%X" $devaddr >> $out_device; 
+		printf "%X" $devaddr;
 	fi
 	#Function number
-	if [ $func -lt 16 ]; then printf "0%X" $func >> $out_device; printf "0%X" $func;
-		else printf "%X" $func >> $out_device; printf "%X" $func;
+	if [ $func -lt 16 ]; then 
+		printf "0%X" $func >> $out_device; 
+		printf "0%X" $func;
+	else 
+		printf "%X" $func >> $out_device; 
+		printf "%X" $func;
 	fi
 	#Register number
-	if [ $regaddr -lt 16 ]; then printf "0%X" $regaddr >> $out_device; printf "0%X" $regaddr;
-		else printf "%X" $regaddr >> $out_device; printf "%X" $regaddr;
+	if [ $regaddr -lt 16 ]; then 
+		printf "0%X" $regaddr >> $out_device; 
+		printf "0%X" $regaddr;
+	else 
+		printf "%X" $regaddr >> $out_device; 
+		printf "%X" $regaddr;
 	fi
 	#Register value
-	if [ $ctrl_reg -lt 16 ]; then printf "000%X" $ctrl_reg >> $out_device; printf "000%X" $ctrl_reg;
-		elif [ $ctrl_reg -lt 256 ]; then printf "00%X" $ctrl_reg >> $out_device; printf "00%X" $ctrl_reg;
-		elif [ $ctrl_reg -lt 4096 ]; then printf "0%X" $ctrl_reg >> $out_device; printf "0%X" $ctrl_reg;
-		else printf "%X" $ctrl_reg >> $out_device; printf "%X" $ctrl_reg;
+	if [ $ctrl_reg -lt 16 ]; then 
+		printf "000%X" $ctrl_reg >> $out_device; 
+		printf "000%X" $ctrl_reg;
+	elif [ $ctrl_reg -lt 256 ]; then 
+		printf "00%X" $ctrl_reg >> $out_device; 
+		printf "00%X" $ctrl_reg;
+	elif [ $ctrl_reg -lt 4096 ]; then 
+		printf "0%X" $ctrl_reg >> $out_device; 
+		printf "0%X" $ctrl_reg;
+	else 
+		printf "%X" $ctrl_reg >> $out_device; 
+		printf "%X" $ctrl_reg;
 	fi
+	#Checksum
 	crc=$((((0-($devaddr+$func+$regaddr+(($ctrl_reg>>8)&255)+($ctrl_reg&255)))&255)))
-	if [ $crc -lt 16 ]; then printf "0%X\n" $crc >> $out_device; printf "0%X\n" $crc;
-		else printf "%X\n" $crc >> $out_device; printf "%X\n" $crc;
+	if [ $crc -lt 16 ]; then 
+		printf "0%X\n" $crc >> $out_device; 
+		printf "0%X\n" $crc;
+	else 
+		printf "%X\n" $crc >> $out_device; 
+		printf "%X\n" $crc;
 	fi
 	return
 }
 
+#Start motor forward
 start_motor ()
 {
 	local crc
@@ -154,32 +265,59 @@ start_motor ()
 	local regaddr=0
 	local ctrl_reg=32775
 	#Start condition
-	printf ":" >> $out_device; printf ":";
+	printf ":" >> $out_device; 
+	printf ":";
 	#Motor number
-	if [ $devaddr -lt 16 ]; then printf "0%X" $devaddr >> $out_device; printf "0%X" $devaddr;
-		else printf "%X" $devaddr >> $out_device; printf "%X" $devaddr;
+	if [ $devaddr -lt 16 ]; then 
+		printf "0%X" $devaddr >> $out_device; 
+		printf "0%X" $devaddr;
+	else 
+		printf "%X" $devaddr >> $out_device; 
+		printf "%X" $devaddr;
 	fi
 	#Function number
-	if [ $func -lt 16 ]; then printf "0%X" $func >> $out_device; printf "0%X" $func;
-		else printf "%X" $func >> $out_device; printf "%X" $func;
+	if [ $func -lt 16 ]; then 
+		printf "0%X" $func >> $out_device; 
+		printf "0%X" $func;
+	else 
+		printf "%X" $func >> $out_device; 
+		printf "%X" $func;
 	fi
 	#Register number
-	if [ $regaddr -lt 16 ]; then printf "0%X" $regaddr >> $out_device; printf "0%X" $regaddr;
-		else printf "%X" $regaddr >> $out_device; printf "%X" $regaddr;
+	if [ $regaddr -lt 16 ]; then 
+		printf "0%X" $regaddr >> $out_device; 
+		printf "0%X" $regaddr;
+	else 
+		printf "%X" $regaddr >> $out_device; 
+		printf "%X" $regaddr;
 	fi
 	#Register value
-	if [ $ctrl_reg -lt 16 ]; then printf "000%X" $ctrl_reg >> $out_device; printf "000%X" $ctrl_reg;
-		elif [ $ctrl_reg -lt 256 ]; then printf "00%X" $ctrl_reg >> $out_device; printf "00%X" $ctrl_reg;
-		elif [ $ctrl_reg -lt 4096 ]; then printf "0%X" $ctrl_reg >> $out_device; printf "0%X" $ctrl_reg;
-		else printf "%X" $ctrl_reg >> $out_device; printf "%X" $ctrl_reg;
+	if [ $ctrl_reg -lt 16 ]; then 
+		printf "000%X" $ctrl_reg >> $out_device; 
+		printf "000%X" $ctrl_reg;
+	elif [ $ctrl_reg -lt 256 ]; then 
+		printf "00%X" $ctrl_reg >> $out_device; 
+		printf "00%X" $ctrl_reg;
+	elif [ $ctrl_reg -lt 4096 ]; then 
+		printf "0%X" $ctrl_reg >> $out_device; 
+		printf "0%X" $ctrl_reg;
+	else 
+		printf "%X" $ctrl_reg >> $out_device; 
+		printf "%X" $ctrl_reg;
 	fi
+	#Checksum
 	crc=$((((0-($devaddr+$func+$regaddr+(($ctrl_reg>>8)&255)+($ctrl_reg&255)))&255)))
-	if [ $crc -lt 16 ]; then printf "0%X\n" $crc >> $out_device; printf "0%X\n" $crc;
-		else printf "%X\n" $crc >> $out_device; printf "%X\n" $crc;
+	if [ $crc -lt 16 ]; then 
+		printf "0%X\n" $crc >> $out_device; 
+		printf "0%X\n" $crc;
+	else 
+		printf "%X\n" $crc >> $out_device; 
+		printf "%X\n" $crc;
 	fi
 	return
 }
 
+#Start motor backward
 reverse_motor ()
 {
 	local crc
@@ -187,28 +325,54 @@ reverse_motor ()
 	local regaddr=0
 	local ctrl_reg=32791
 	#Start condition
-	printf ":" >> $out_device; printf ":";
+	printf ":" >> $out_device; 
+	printf ":";
 	#Motor number
-	if [ $devaddr -lt 16 ]; then printf "0%X" $devaddr >> $out_device; printf "0%X" $devaddr;
-		else printf "%X" $devaddr >> $out_device; printf "0%X" $devaddr;
+	if [ $devaddr -lt 16 ]; then 
+		printf "0%X" $devaddr >> $out_device; 
+		printf "0%X" $devaddr;
+	else 
+		printf "%X" $devaddr >> $out_device; 
+		printf "%X" $devaddr;
 	fi
 	#Function number
-	if [ $func -lt 16 ]; then printf "0%X" $func >> $out_device; printf "0%X" $devaddr;
-		else printf "%X" $func >> $out_device; printf "0%X" $devaddr;
+	if [ $func -lt 16 ]; then 
+		printf "0%X" $func >> $out_device; 
+		printf "0%X" $func;
+	else 
+		printf "%X" $func >> $out_device; 
+		printf "%X" $func;
 	fi
 	#Register number
-	if [ $regaddr -lt 16 ]; then printf "0%X" $regaddr >> $out_device; printf "0%X" $devaddr;
-		else printf "%X" $regaddr >> $out_device; printf "0%X" $devaddr;
+	if [ $regaddr -lt 16 ]; then 
+		printf "0%X" $regaddr >> $out_device; 
+		printf "0%X" $regaddr;
+	else 
+		printf "%X" $regaddr >> $out_device; 
+		printf "%X" $regaddr;
 	fi
 	#Register value
-	if [ $ctrl_reg -lt 16 ]; then printf "000%X" $ctrl_reg >> $out_device; printf "0%X" $devaddr;
-		elif [ $ctrl_reg -lt 256 ]; then printf "00%X" $ctrl_reg >> $out_device; printf "0%X" $devaddr;
-		elif [ $ctrl_reg -lt 4096 ]; then printf "0%X" $ctrl_reg >> $out_device; printf "0%X" $devaddr;
-		else printf "%X" $ctrl_reg >> $out_device; printf "0%X" $devaddr;
+	if [ $ctrl_reg -lt 16 ]; then 
+		printf "000%X" $ctrl_reg >> $out_device; 
+		printf "000%X" $ctrl_reg;
+	elif [ $ctrl_reg -lt 256 ]; then 
+		printf "00%X" $ctrl_reg >> $out_device; 
+		printf "00%X" $ctrl_reg;
+	elif [ $ctrl_reg -lt 4096 ]; then 
+		printf "0%X" $ctrl_reg >> $out_device; 
+		printf "0%X" $ctrl_reg;
+	else 
+		printf "%X" $ctrl_reg >> $out_device; 
+		printf "%X" $ctrl_reg;
 	fi
+	#Checksum
 	crc=$((((0-($devaddr+$func+$regaddr+(($ctrl_reg>>8)&255)+($ctrl_reg&255)))&255)))
-	if [ $crc -lt 16 ]; then printf "0%X\n" $crc >> $out_device; printf "0%X" $devaddr;
-		else printf "%X\n" $crc >> $out_device; printf "0%X" $devaddr;
+	if [ $crc -lt 16 ]; then 
+		printf "0%X\n" $crc >> $out_device; 
+		printf "0%X\n" $crc;
+	else 
+		printf "%X\n" $crc >> $out_device; 
+		printf "%X\n" $crc;
 	fi
 	return
 }
