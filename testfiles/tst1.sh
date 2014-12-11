@@ -12,8 +12,12 @@ stty -F /dev/ttyACM0 -echo -onlcr
 
 #Set alternative output device
 #out_device="/dev/tty"
-out_device="/dev/ttyACM0"
 #out_device="000.txt"
+out_device="/dev/ttyACM0"
+
+
+#Set device to read responses
+resp_device="000.data"
 
 #Test packet
 printf "Privet!\n" > $out_device; 
@@ -377,6 +381,40 @@ reverse_motor ()
 	return
 }
 
+: <<'END'
+#Start process to read responses
+start_response_reading ()
+{
+	killall cat
+	killall cat
+	killall cat
+	killall cat
+	killall cat
+	usleep 2000000;
+	rm $resp_device
+	touch $resp_device
+	cat $out_device >> $resp_device &
+	usleep 2000000;
+	return
+}
+END
+
+: <<'END'
+#Determine last responses
+determine_last_response ()
+{
+	local i=0
+	while read line           
+	do
+		tmpstr[$i]="$line"
+		i=$((i+1))
+	done < "$resp_device"
+	laststring=$((tmpstr[0]))
+	echo $i 
+	return
+}
+END
+
 #Init PWM period
 period=10000
 devaddr=0; set_period_for_motor
@@ -459,5 +497,4 @@ while [[ $SELNUM != 0 ]]; do
 	esac
 done	
 echo "Program terminated"
-
 
