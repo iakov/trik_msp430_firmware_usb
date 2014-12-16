@@ -20,6 +20,14 @@ def write_32bit_reg(devaddr, funcnum, regaddr, regval):
     f1.close()
     print(stmp)
 
+# Set PWM period for motor
+def set_motor_period(motnum, pwmper):
+    write_16bit_reg(motnum, 0x03, 0x02, pwmper)
+
+# Set PWM duty for motor
+def set_motor_duty(motnum, pwmdut):
+    write_16bit_reg(motnum, 0x03, 0x01, pwmdut)
+
 
 write_32bit_reg(0x00,0x04,0x03,0x8662)
 
