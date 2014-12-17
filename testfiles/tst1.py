@@ -4,8 +4,8 @@ import termios, fcntl, sys, os
 motor_menu = 0x00
 
 # Output device
-fname1 = "000.txt"
-# fname1 = "/dev/ttyACM0"
+# fname1 = "000.txt"
+fname1 = "/dev/ttyACM0"
 
 # Motor addresses
 motor1 = 0x00
@@ -54,7 +54,7 @@ def init_key_press():
 
 # Print text of menu
 def print_menu(menu_page):
-    os.system('clear')
+    os.system("clear")
     if menu_page == 0x00:
         print ("""
 Select menu item:
@@ -69,22 +69,33 @@ Select menu item:
 <ESC> Exit/Quit
             """) % (0, 0, 0)
 
-
-
+# Init async key press
 init_key_press()
 
+# Print menu
 menu_pg = motor_menu
-
 print_menu(menu_pg)
 
+# Init tty device
+sty1 = "stty -F %s -echo -onlcr" % (fname1)
+os.system(sty1)
+
+# Open device to read data
+f2 = open(fname1, "r")
+
+# Main cycle
 try:
     while 1:
         try:
             c = ord(sys.stdin.read(1))
             print_menu(menu_pg)
+            set_motor_period(motor1, 1000)
+            s1 = f2.readline()
+            print s1
             if c == 0x1B:
                 break
         except IOError: pass
 finally:
     termios.tcsetattr(fd, termios.TCSAFLUSH, oldterm)
     fcntl.fcntl(fd, fcntl.F_SETFL, oldflags)
+f2.close()
