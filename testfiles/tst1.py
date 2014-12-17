@@ -39,6 +39,9 @@ def set_motor_period(motnum, pwmper):
 def set_motor_duty(motnum, pwmdut):
     write_16bit_reg(motnum, 0x03, 0x01, pwmdut)
 
+# Read registers of selected motor
+
+
 # Init async key press input without press <ENTER>
 def init_key_press():
     global fd
