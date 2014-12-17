@@ -1,6 +1,17 @@
+import termios, fcntl, sys, os
+
+# Defines for menu pages
+motor_menu = 0x00
+
 # Output device
 fname1 = "000.txt"
 # fname1 = "/dev/ttyACM0"
+
+# Motor addresses
+motor1 = 0x00
+motor2 = 0x01
+motor3 = 0x02
+motor4 = 0x03
 
 # Write single 16bit register
 def write_16bit_reg(devaddr, funcnum, regaddr, regval):
@@ -28,8 +39,52 @@ def set_motor_period(motnum, pwmper):
 def set_motor_duty(motnum, pwmdut):
     write_16bit_reg(motnum, 0x03, 0x01, pwmdut)
 
+# Init async key press input without press <ENTER>
+def init_key_press():
+    global fd
+    global oldterm
+    global oldflags
+    fd = sys.stdin.fileno()
+    oldterm = termios.tcgetattr(fd)
+    newattr = termios.tcgetattr(fd)
+    newattr[3] = newattr[3] & ~termios.ICANON & ~termios.ECHO
+    termios.tcsetattr(fd, termios.TCSANOW, newattr)
+    oldflags = fcntl.fcntl(fd, fcntl.F_GETFL)
+    fcntl.fcntl(fd, fcntl.F_SETFL, oldflags | os.O_NONBLOCK)
 
-write_32bit_reg(0x00,0x04,0x03,0x8662)
+# Print text of menu
+def print_menu(menu_page):
+    os.system('clear')
+    if menu_page == 0x00:
+        print ("""
+Select menu item:
+
+<1/2> Select motor    %u
+<3/4> Set PWM period  %u
+<5/6> Set PWM duty    %u
+<7>   Start motor
+<8>   Reverse motor
+<9>   Brake motor
+<0>   Stop motor
+<ESC> Exit/Quit
+            """) % (0, 0, 0)
 
 
 
+init_key_press()
+
+menu_pg = motor_menu
+
+print_menu(menu_pg)
+
+try:
+    while 1:
+        try:
+            c = ord(sys.stdin.read(1))
+            print_menu(menu_pg)
+            if c == 0x1B:
+                break
+        except IOError: pass
+finally:
+    termios.tcsetattr(fd, termios.TCSAFLUSH, oldterm)
+    fcntl.fcntl(fd, fcntl.F_SETFL, oldflags)
