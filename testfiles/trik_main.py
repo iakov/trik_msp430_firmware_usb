@@ -164,6 +164,27 @@ try:
                 trik_motor.brake_motor(motnum)
             if c == "0":
                 trik_motor.stop_motor(motnum)
+            if c.upper() == "Q":
+                motangle = motangle - 10
+                if motangle <= 0x00000000:
+                    motangle = 0x00000000
+                trik_motor.set_motor_angle(motnum, motangle)
+            if c.upper() == "W":
+                motangle = motangle + 10
+                if motangle >= 0xFFFFFFFF:
+                    motangle = 0xFFFFFFFF
+                trik_motor.set_motor_angle(motnum, motangle)
+            if c.upper() == "E":
+                mottime = mottime - 10
+                if mottime <= 0x00000000:
+                    mottime = 0x00000000
+                trik_motor.set_motor_time(motnum, mottime)
+            if c.upper() == "R":
+                mottime = mottime + 10
+                if mottime >= 0xFFFFFFFF:
+                    mottime = 0xFFFFFFFF
+                trik_motor.set_motor_time(motnum, mottime)
+
 
 
 

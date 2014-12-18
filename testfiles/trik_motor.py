@@ -33,6 +33,13 @@ def set_motor_period(motnum, pwmper):
 def set_motor_duty(motnum, pwmdut):
     trik_protocol.write_16bit_reg(motnum, mdut, pwmdut)
 
+# Set rotation angle
+def set_motor_angle(motnum, motangle):
+    trik_protocol.write_32bit_reg(motnum, mang, motangle)
+
+# Set rotation time
+def set_motor_time(motnum, mottime):
+    trik_protocol.write_32bit_reg(motnum, mtmr, mottime)
 
 
 
