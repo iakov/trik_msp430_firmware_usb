@@ -15,16 +15,49 @@ motor4 = 0x03
 
 # Function to recognize response packets
 def get_reg_value(stmp):
-    rval = -1
     if len(stmp) == 8:
         devaddr = int(("0x" + stmp[1] + stmp[2]), 16)
         respcode = int(("0x" + stmp[3] + stmp[4]), 16)
         crc1 = int(("0x" + stmp[5] + stmp[6]), 16)
         crc2 = (0xFF - (devaddr + respcode) + 1) & 0xFF
-        print devaddr
-        print respcode
-        print crc1
-        print crc2
+        if crc1 != crc2:
+            rval = -1
+        else:
+            rval = respcode
+    elif len(stmp) == 14:
+        devaddr = int(("0x" + stmp[1] + stmp[2]), 16)
+        respcode = int(("0x" + stmp[3] + stmp[4]), 16)
+        regaddr = int(("0x" + stmp[5] + stmp[6]), 16)
+        regval = int(("0x" + stmp[7] + stmp[8] + stmp[9] + stmp[10]), 16)
+        crc1 = int(("0x" + stmp[11] + stmp[12]), 16)
+        crc2 = (0xFF - (devaddr + respcode + regaddr + (regval & 0xFF) + ((regval >> 8) & 0xFF)) + 1) & 0xFF
+        if crc1 != crc2:
+            rval = -2
+        else:
+            rval = regval
+    elif len(stmp) == 18:
+        devaddr = int(("0x" + stmp[1] + stmp[2]), 16)
+        respcode = int(("0x" + stmp[3] + stmp[4]), 16)
+        regaddr = int(("0x" + stmp[5] + stmp[6]), 16)
+        regval = int(("0x" + stmp[7] + stmp[8] + stmp[9] + stmp[10]), 16)
+        crc1 = int(("0x" + stmp[11] + stmp[12]), 16)
+        crc2 = (0xFF - (devaddr + respcode + regaddr + (regval & 0xFF) + ((regval >> 8) & 0xFF) + ((regval >> 16) & 0xFF) + ((regval >> 24) & 0xFF)) + 1) & 0xFF
+        if crc1 != crc2:
+            rval = -3
+        else:
+            rval = regval
+    elif len(stmp) == 10:
+        devaddr = int(("0x" + stmp[1] + stmp[2]), 16)
+        funccode = int(("0x" + stmp[3] + stmp[4]), 16)
+        errcode = int(("0x" + stmp[5] + stmp[6]), 16)
+        crc1 = int(("0x" + stmp[7] + stmp[8]), 16)
+        crc2 = (0xFF - (devaddr + funccode + errcode) + 1) & 0xFF
+        if crc1 != crc2:
+            rval = -4
+        else:
+            rval = errcode
+    else:
+        rval = -5
     return rval
 
 # Write single 16bit register
@@ -145,7 +178,7 @@ try:
             print_menu(menu_pg)
             #read_16bit_reg(0x00, 0x00)
             #read_32bit_reg(0x00, 0x04)
-            get_reg_value(":000000\n")
+            print get_reg_value(":031101EB\n")
 
 
 
