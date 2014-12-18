@@ -5,6 +5,12 @@ import trik_protocol, trik_motor
 
 # Defines for menu pages
 motor_menu = 0x00
+motor_enchanced_menu = 0x01
+
+motnum = trik_motor.motor1
+pwmper = 10000
+pwmdut = 0
+
 
 # Init async key press input without press <ENTER>
 def init_key_press():
@@ -34,7 +40,7 @@ Select menu item:
 <9>   Brake motor
 <0>   Stop motor
 <ESC> Exit/Quit
-            """) % (0, 0, 0)
+            """) % (motnum, pwmper, pwmdut)
 
 # Init async key press
 init_key_press()
@@ -52,15 +58,42 @@ os.system(sty1)
 try:
     while 1:
         try:
-            c = ord(sys.stdin.read(1))
+            c = sys.stdin.read(1)
+            if c == "1":
+                motnum = motnum - 1
+                if motnum <= trik_motor.motor1:
+                    motnum = trik_motor.motor1
+            if c == "2":
+                motnum = motnum + 1
+                if motnum >= trik_motor.motor4:
+                    motnum = trik_motor.motor4
+            if c == "3":
+                if pwmper > pwmdut:
+                    pwmper = pwmper - 100
+                    if pwmper <= 0:
+                        pwmper = 0
+                else:
+                    pwmper = pwmdut
+            if c == "4":
+                pwmper = pwmper + 100
+                if pwmper >= 0xFFFF:
+                    pwmper = 0xFFFF
+            if c == "5":
+                pwmdut = pwmdut - 100
+                if pwmdut <= 0:
+                    pwmdut = 0
+            if c == "6":
+                pwmdut = pwmdut + 100
+                if pwmdut >= pwmper:
+                    pwmdut = pwmper
+
+
+
             print_menu(menu_pg)
-            #read_16bit_reg(0x00, 0x00)
-            #read_32bit_reg(0x00, 0x04)
-            print trik_protocol.get_reg_value(":031101EB\n")
 
 
 
-            if c == 0x1B:
+            if c == chr(0x1B):
                 break
         except IOError: pass
 finally:
