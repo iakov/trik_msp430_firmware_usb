@@ -93,3 +93,6 @@ def brake_motor(motnum):
 def stop_motor(motnum):
     trik_protocol.write_16bit_reg(motnum, mctl, mot_enable)
 
+
+
+
