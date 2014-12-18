@@ -19,3 +19,18 @@ enc_2wires = 0x2000
 enc_pupen = 0x1000
 enc_fall = 0x0800
 
+# Enable encoder
+def enable_encoder(encnum, numwires, pullup, edge):
+    encctl = enc_enable
+    if numwires >= 2:
+        encctl = encctl + enc_2wires
+    if pullup:
+        encctl = encctl + enc_pupen
+    if edge:
+        encctl = encctl + enc_fall
+    trik_protocol.write_16bit_reg(encnum, ectl, encctl)
+
+# Read encoder value
+def read_encoder(encnum):
+    return trik_protocol.read_32bit_reg(encnum, ectl)
+
