@@ -17,6 +17,14 @@ mtmr = 0x04
 mval = 0x05
 merr = 0x06
 
+# MCTL bits
+mot_enable = 0x8000
+mot_auto = 0x4000
+mot_angle = 0x2000
+mot_back = 0x0010
+mot_brake = 0x0008
+mot_power = 0x0003
+
 # Set PWM period for motor
 def set_motor_period(motnum, pwmper):
     trik_protocol.write_16bit_reg(motnum, mper, pwmper)
@@ -32,3 +40,20 @@ def get_motor_period(motnum):
 # Get PWM duty of motor
 def get_motor_duty(motnum):
     return trik_protocol.read_16bit_reg(motnum, mdut)
+
+# Start motor
+def start_motor(motnum):
+    trik_protocol.write_16bit_reg(motnum, mctl, mot_enable + mot_power)
+
+# Reverse start motor
+def reverse_motor(motnum):
+    trik_protocol.write_16bit_reg(motnum, mctl, mot_enable + mot_back + mot_power)
+
+# Brake motor
+def brake_motor(motnum):
+    trik_protocol.write_16bit_reg(motnum, mctl, mot_enable + mot_brake)
+
+# Stop motor
+def stop_motor(motnum):
+    trik_protocol.write_16bit_reg(motnum, mctl, mot_enable)
+

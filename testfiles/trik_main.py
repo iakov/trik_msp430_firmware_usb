@@ -2,6 +2,7 @@ __author__ = 'Rostislav Varzar'
 
 import termios, fcntl, sys, os
 import trik_protocol, trik_motor
+import trik_stty, trik_power
 
 # Defines for menu pages
 motor_menu = 0x00
@@ -45,13 +46,17 @@ Select menu item:
 # Init async key press
 init_key_press()
 
+# Init Serial TTY device
+trik_stty.init_stty()
+
+# Init 12 V power in ARM controller
+trik_power.init_power()
+
 # Print menu
 menu_pg = motor_menu
 print_menu(menu_pg)
 
-# Init tty device
-sty1 = "stty -F %s -echo -onlcr" % (trik_protocol.fname1)
-os.system(sty1)
+
 
 
 # Main cycle
@@ -94,12 +99,16 @@ try:
                 if pwmdut >= pwmper:
                     pwmdut = pwmper
                 trik_motor.set_motor_duty(motnum, pwmdut)
-
-
+            if c == "7":
+                trik_motor.start_motor(motnum)
+            if c == "8":
+                trik_motor.reverse_motor(motnum)
+            if c == "9":
+                trik_motor.brake_motor(motnum)
+            if c == "0":
+                trik_motor.stop_motor(motnum)
 
             print_menu(menu_pg)
-
-
 
             if c == chr(0x1B):
                 break
