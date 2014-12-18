@@ -14,32 +14,71 @@ motor3 = 0x02
 motor4 = 0x03
 
 # Write single 16bit register
-def write_16bit_reg(devaddr, funcnum, regaddr, regval):
+def write_16bit_reg(devaddr, regaddr, regval):
+    f2 = open(fname1, "r")
+    funcnum = 0x03
     crc = 0xFF - (devaddr + funcnum + regaddr + (regval & 0xFF) + ((regval >> 8) & 0xFF)) + 1
     stmp = ":%02X%02X%02X%04X%02X\n" % (devaddr, funcnum, regaddr, regval, crc)
     f1 = open(fname1, "wb")
     f1.write(stmp)
     f1.close()
+    stmp = f2.readline()
+    f2.close()
     print(stmp)
 
 # Write single 32bit register
-def write_32bit_reg(devaddr, funcnum, regaddr, regval):
+def write_32bit_reg(devaddr, regaddr, regval):
+    f2 = open(fname1, "r")
+    funcnum = 0x04
     crc = 0xFF - (devaddr + funcnum + regaddr + (regval & 0xFF) + ((regval >> 8) & 0xFF) + ((regval >> 16) & 0xFF) + ((regval >> 24) & 0xFF)) + 1
     stmp = ":%02X%02X%02X%08X%02X\n" % (devaddr, funcnum, regaddr, regval, crc)
     f1 = open(fname1, "wb")
     f1.write(stmp)
     f1.close()
+    stmp = f2.readline()
+    f2.close()
     print(stmp)
+
+# Read single 16 bit register
+def read_16bit_reg(devaddr, regaddr):
+    f2 = open(fname1, "r")
+    funcnum = 0x05
+    crc = 0xFF - (devaddr + funcnum + regaddr) + 1
+    stmp = ":%02X%02X%02X%02X\n" % (devaddr, funcnum, regaddr, crc)
+    f1 = open(fname1, "wb")
+    f1.write(stmp)
+    f1.close()
+    stmp = f2.readline()
+    f2.close()
+    print(stmp)
+
+# Read single 32 bit register
+def read_32bit_reg(devaddr, regaddr):
+    f2 = open(fname1, "r")
+    funcnum = 0x06
+    crc = 0xFF - (devaddr + funcnum + regaddr) + 1
+    stmp = ":%02X%02X%02X%02X\n" % (devaddr, funcnum, regaddr, crc)
+    f1 = open(fname1, "wb")
+    f1.write(stmp)
+    f1.close()
+    stmp = f2.readline()
+    f2.close()
+    print(stmp)
+
+
+
+
+
 
 # Set PWM period for motor
 def set_motor_period(motnum, pwmper):
-    write_16bit_reg(motnum, 0x03, 0x02, pwmper)
+    write_16bit_reg(motnum, 0x02, pwmper)
 
 # Set PWM duty for motor
 def set_motor_duty(motnum, pwmdut):
-    write_16bit_reg(motnum, 0x03, 0x01, pwmdut)
+    write_16bit_reg(motnum, 0x01, pwmdut)
 
-# Read registers of selected motor
+
 
 
 # Init async key press input without press <ENTER>
@@ -83,8 +122,6 @@ print_menu(menu_pg)
 sty1 = "stty -F %s -echo -onlcr" % (fname1)
 os.system(sty1)
 
-# Open device to read data
-f2 = open(fname1, "r")
 
 # Main cycle
 try:
@@ -92,13 +129,14 @@ try:
         try:
             c = ord(sys.stdin.read(1))
             print_menu(menu_pg)
-            set_motor_period(motor1, 1000)
-            s1 = f2.readline()
-            print s1
+            read_16bit_reg(0x00, 0x00)
+            read_32bit_reg(0x00, 0x04)
+
+
+
             if c == 0x1B:
                 break
         except IOError: pass
 finally:
     termios.tcsetattr(fd, termios.TCSAFLUSH, oldterm)
     fcntl.fcntl(fd, fcntl.F_SETFL, oldflags)
-f2.close()
