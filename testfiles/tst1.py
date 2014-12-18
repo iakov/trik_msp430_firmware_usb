@@ -13,11 +13,25 @@ motor2 = 0x01
 motor3 = 0x02
 motor4 = 0x03
 
+# Function to recognize response packets
+def get_reg_value(stmp):
+    rval = -1
+    if len(stmp) == 8:
+        devaddr = int(("0x" + stmp[1] + stmp[2]), 16)
+        respcode = int(("0x" + stmp[3] + stmp[4]), 16)
+        crc1 = int(("0x" + stmp[5] + stmp[6]), 16)
+        crc2 = (0xFF - (devaddr + respcode) + 1) & 0xFF
+        print devaddr
+        print respcode
+        print crc1
+        print crc2
+    return rval
+
 # Write single 16bit register
 def write_16bit_reg(devaddr, regaddr, regval):
     f2 = open(fname1, "r")
     funcnum = 0x03
-    crc = 0xFF - (devaddr + funcnum + regaddr + (regval & 0xFF) + ((regval >> 8) & 0xFF)) + 1
+    crc = (0xFF - (devaddr + funcnum + regaddr + (regval & 0xFF) + ((regval >> 8) & 0xFF)) + 1) & 0xFF
     stmp = ":%02X%02X%02X%04X%02X\n" % (devaddr, funcnum, regaddr, regval, crc)
     f1 = open(fname1, "wb")
     f1.write(stmp)
@@ -30,7 +44,7 @@ def write_16bit_reg(devaddr, regaddr, regval):
 def write_32bit_reg(devaddr, regaddr, regval):
     f2 = open(fname1, "r")
     funcnum = 0x04
-    crc = 0xFF - (devaddr + funcnum + regaddr + (regval & 0xFF) + ((regval >> 8) & 0xFF) + ((regval >> 16) & 0xFF) + ((regval >> 24) & 0xFF)) + 1
+    crc = (0xFF - (devaddr + funcnum + regaddr + (regval & 0xFF) + ((regval >> 8) & 0xFF) + ((regval >> 16) & 0xFF) + ((regval >> 24) & 0xFF)) + 1) & 0xFF
     stmp = ":%02X%02X%02X%08X%02X\n" % (devaddr, funcnum, regaddr, regval, crc)
     f1 = open(fname1, "wb")
     f1.write(stmp)
@@ -43,7 +57,7 @@ def write_32bit_reg(devaddr, regaddr, regval):
 def read_16bit_reg(devaddr, regaddr):
     f2 = open(fname1, "r")
     funcnum = 0x05
-    crc = 0xFF - (devaddr + funcnum + regaddr) + 1
+    crc = (0xFF - (devaddr + funcnum + regaddr) + 1) & 0xFF
     stmp = ":%02X%02X%02X%02X\n" % (devaddr, funcnum, regaddr, crc)
     f1 = open(fname1, "wb")
     f1.write(stmp)
@@ -56,7 +70,7 @@ def read_16bit_reg(devaddr, regaddr):
 def read_32bit_reg(devaddr, regaddr):
     f2 = open(fname1, "r")
     funcnum = 0x06
-    crc = 0xFF - (devaddr + funcnum + regaddr) + 1
+    crc = (0xFF - (devaddr + funcnum + regaddr) + 1) & 0xFF
     stmp = ":%02X%02X%02X%02X\n" % (devaddr, funcnum, regaddr, crc)
     f1 = open(fname1, "wb")
     f1.write(stmp)
@@ -129,8 +143,9 @@ try:
         try:
             c = ord(sys.stdin.read(1))
             print_menu(menu_pg)
-            read_16bit_reg(0x00, 0x00)
-            read_32bit_reg(0x00, 0x04)
+            #read_16bit_reg(0x00, 0x00)
+            #read_32bit_reg(0x00, 0x04)
+            get_reg_value(":000000\n")
 
 
 
