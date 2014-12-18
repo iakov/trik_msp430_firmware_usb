@@ -44,6 +44,11 @@ Select menu item:
 <ESC> Exit/Quit
             """) % (motnum, pwmper, pwmdut)
 
+# Print text in certain coordinates
+def print_there(x, y, text):
+     sys.stdout.write("\x1b7\x1b[%d;%df%s\x1b8" % (y + 1, x + 1, text))
+     sys.stdout.flush()
+
 # Init async key press
 init_key_press()
 
