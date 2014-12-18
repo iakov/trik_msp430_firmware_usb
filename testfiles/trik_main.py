@@ -78,18 +78,22 @@ try:
                         pwmper = 0
                 else:
                     pwmper = pwmdut
+                trik_motor.set_motor_period(motnum, pwmper)
             if c == "4":
                 pwmper = pwmper + 100
                 if pwmper >= 0xFFFF:
                     pwmper = 0xFFFF
+                trik_motor.set_motor_period(motnum, pwmper)
             if c == "5":
                 pwmdut = pwmdut - 100
                 if pwmdut <= 0:
                     pwmdut = 0
+                trik_motor.set_motor_duty(motnum, pwmdut)
             if c == "6":
                 pwmdut = pwmdut + 100
                 if pwmdut >= pwmper:
                     pwmdut = pwmper
+                trik_motor.set_motor_duty(motnum, pwmdut)
 
 
 
