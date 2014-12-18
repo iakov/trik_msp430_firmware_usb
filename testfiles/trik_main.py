@@ -63,10 +63,14 @@ try:
                 motnum = motnum - 1
                 if motnum <= trik_motor.motor1:
                     motnum = trik_motor.motor1
+                pwmper = trik_protocol.get_reg_value(trik_motor.get_motor_period(motnum))
+                pwmdut = trik_protocol.get_reg_value(trik_motor.get_motor_duty(motnum))
             if c == "2":
                 motnum = motnum + 1
                 if motnum >= trik_motor.motor4:
                     motnum = trik_motor.motor4
+                pwmper = trik_protocol.get_reg_value(trik_motor.get_motor_period(motnum))
+                pwmdut = trik_protocol.get_reg_value(trik_motor.get_motor_duty(motnum))
             if c == "3":
                 if pwmper > pwmdut:
                     pwmper = pwmper - 100

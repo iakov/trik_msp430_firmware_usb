@@ -24,3 +24,11 @@ def set_motor_period(motnum, pwmper):
 # Set PWM duty for motor
 def set_motor_duty(motnum, pwmdut):
     trik_protocol.write_16bit_reg(motnum, mdut, pwmdut)
+
+# Get PWM period of motor
+def get_motor_period(motnum):
+    return trik_protocol.read_16bit_reg(motnum, mper)
+
+# Get PWM duty of motor
+def get_motor_duty(motnum):
+    return trik_protocol.read_16bit_reg(motnum, mdut)
