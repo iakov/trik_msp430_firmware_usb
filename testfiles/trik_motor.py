@@ -33,6 +33,11 @@ def set_motor_period(motnum, pwmper):
 def set_motor_duty(motnum, pwmdut):
     trik_protocol.write_16bit_reg(motnum, mdut, pwmdut)
 
+
+
+
+
+
 # Get PWM period of motor
 def get_motor_period(motnum):
     return trik_protocol.read_16bit_reg(motnum, mper)
@@ -40,6 +45,30 @@ def get_motor_period(motnum):
 # Get PWM duty of motor
 def get_motor_duty(motnum):
     return trik_protocol.read_16bit_reg(motnum, mdut)
+
+# Get MCTL register
+def get_motor_control(motnum):
+    return trik_protocol.read_16bit_reg(motnum, mctl)
+
+# Get ANGLE register
+def get_motor_angle(motnum):
+    return trik_protocol.read_32bit_reg(motnum, mang)
+
+# Get TIME register
+def get_motor_time(motnum):
+    return trik_protocol.read_32bit_reg(motnum, mtmr)
+
+# Get MERR register
+def get_motor_overcurrent(motnum):
+    return trik_protocol.read_32bit_reg(motnum, merr)
+
+# Get Feed-Back register
+def get_motor_feedback(motnum):
+    return trik_protocol.read_32bit_reg(motnum, mval)
+
+
+
+
 
 # Start motor
 def start_motor(motnum):

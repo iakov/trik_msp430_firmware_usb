@@ -30,8 +30,8 @@ def get_reg_value(stmp):
         devaddr = int(("0x" + stmp[1] + stmp[2]), 16)
         respcode = int(("0x" + stmp[3] + stmp[4]), 16)
         regaddr = int(("0x" + stmp[5] + stmp[6]), 16)
-        regval = int(("0x" + stmp[7] + stmp[8] + stmp[9] + stmp[10]), 16)
-        crc1 = int(("0x" + stmp[11] + stmp[12]), 16)
+        regval = int(("0x" + stmp[7] + stmp[8] + stmp[9] + stmp[10] + stmp[11] + stmp[12] + stmp[13] + stmp[14]), 16)
+        crc1 = int(("0x" + stmp[15] + stmp[16]), 16)
         crc2 = (0xFF - (devaddr + respcode + regaddr + (regval & 0xFF) + ((regval >> 8) & 0xFF) + ((regval >> 16) & 0xFF) + ((regval >> 24) & 0xFF)) + 1) & 0xFF
         if crc1 != crc2:
             rval = -3
