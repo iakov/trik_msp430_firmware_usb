@@ -32,5 +32,5 @@ def enable_encoder(encnum, numwires, pullup, edge):
 
 # Read encoder value
 def read_encoder(encnum):
-    return trik_protocol.read_32bit_reg(encnum, ectl)
+    return trik_protocol.read_32bit_reg(encnum, eval)
 

@@ -1,7 +1,7 @@
 __author__ = 'Rostislav Varzar'
 
 import termios, fcntl, sys, os
-import trik_protocol, trik_motor
+import trik_protocol, trik_motor, trik_encoder
 import trik_stty, trik_power
 import time
 
@@ -108,6 +108,7 @@ def read_all_data():
     motctl = trik_protocol.get_reg_value(trik_motor.get_motor_control(motnum))
     moterr = trik_protocol.get_reg_value(trik_motor.get_motor_overcurrent(motnum))
     motfb = trik_protocol.get_reg_value(trik_motor.get_motor_feedback(motnum))
+    encval =  trik_protocol.get_reg_value(trik_encoder.read_encoder(motnum + trik_encoder.encoder1))
 
 # Read all registers of motor
 read_all_data()
@@ -184,6 +185,14 @@ try:
                 if mottime >= 0xFFFFFFFF:
                     mottime = 0xFFFFFFFF
                 trik_motor.set_motor_time(motnum, mottime)
+            if c.upper() == "A":
+                trik_encoder.enable_encoder(motnum + trik_encoder.encoder1, 2, 1, 0)
+                trik_motor.rotate_motor_angle(motnum)
+            if c.upper() == "S":
+                trik_encoder.enable_encoder(motnum + trik_encoder.encoder1, 2, 1, 0)
+                trik_motor.reverse_motor_angle(motnum)
+
+
 
 
 

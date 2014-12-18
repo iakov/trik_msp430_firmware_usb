@@ -93,6 +93,12 @@ def brake_motor(motnum):
 def stop_motor(motnum):
     trik_protocol.write_16bit_reg(motnum, mctl, mot_enable)
 
+# Rotate motor by angle
+def rotate_motor_angle(motnum):
+    trik_protocol.write_16bit_reg(motnum, mctl, mot_enable + mot_power + mot_auto + mot_angle + mot_brake)
 
+# Reverse motor by angle
+def reverse_motor_angle(motnum):
+    trik_protocol.write_16bit_reg(motnum, mctl, mot_enable + mot_power + mot_auto + mot_angle + mot_back + mot_brake)
 
 
