@@ -7,6 +7,7 @@ fname2 = "/dev/ttyACM1"
 
 # Function to recognize response packets
 def get_reg_value(stmp):
+    devaddr = 0x00
     if len(stmp) == 8:
         devaddr = int(("0x" + stmp[1] + stmp[2]), 16)
         respcode = int(("0x" + stmp[3] + stmp[4]), 16)
@@ -50,7 +51,7 @@ def get_reg_value(stmp):
             rval = errcode
     else:
         rval = -5
-    return rval
+    return rval, devaddr
 
 # Write single 16bit register
 def write_16bit_reg(devaddr, regaddr, regval):
@@ -106,7 +107,7 @@ def read_32bit_reg(devaddr, regaddr):
 
 # Read single register from async port
 # Use this function only when async mode is active!!!!!
-def read_async_reg(devaddr, regaddr):
+def read_async_reg():
     f2 = open(fname2, "r")
     stmp = f2.readline()
     f2.close()

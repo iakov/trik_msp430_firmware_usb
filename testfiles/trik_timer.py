@@ -20,3 +20,8 @@ def timer_enable():
 # Disable timer
 def timer_disable():
     trik_protocol.write_16bit_reg(timer1, atctl, 0x0000)
+
+# Set timer period
+def set_timer_period(tmper):
+    trik_protocol.write_16bit_reg(timer1, atper, tmper)
+

@@ -1,6 +1,6 @@
 __author__ = 'Rostislav Varzar'
 
-import termios, fcntl, sys, os
+import termios, fcntl, sys, os, struct
 import trik_protocol, trik_motor, trik_encoder, trik_timer
 import trik_stty, trik_power
 import time
@@ -45,6 +45,11 @@ ewr1 = 0
 ewr2 = 0
 ewr3 = 0
 ewr4 = 0
+eper = 0x0000
+
+# Async counter
+acnt = 0
+cnti = acnt
 
 # Init async key press input without press <ENTER>
 def init_key_press():
@@ -100,18 +105,20 @@ def print_menu(menu_page):
         print_there(0, 14, "<D>   Encoder3 fall/rise edge")
         print_there(0, 15, "<F>   Encoder4 fall/rise edge")
         print_there(0, 16, "<C>   Redraw screen")
-        print_there(0, 17, "<R>   Enter async mode")
-        print_there(0, 18, "<NUM> Exit async mode")
-        print_there(0, 19, "<TAB> Change device group")
-        print_there(0, 20, "<ESC> Exit/Quit")
-        print_there(0, 22, "Encoder1 control")
-        print_there(0, 23, "Encoder2 control")
-        print_there(0, 24, "Encoder3 control")
-        print_there(0, 25, "Encoder4 control")
-        print_there(0, 26, "Encoder1 value")
-        print_there(0, 27, "Encoder2 value")
-        print_there(0, 28, "Encoder3 value")
-        print_there(0, 29, "Encoder4 value")
+        print_there(0, 17, "<9/0> Reading interval")
+        print_there(0, 18, "<R>   Enter async mode")
+        print_there(0, 19, "<N/M> Set async counter")
+        print_there(0, 20, "<TAB> Change device group")
+        print_there(0, 21, "<ESC> Exit/Quit")
+        print_there(0, 23, "Encoder1 control")
+        print_there(0, 24, "Encoder2 control")
+        print_there(0, 25, "Encoder3 control")
+        print_there(0, 26, "Encoder4 control")
+        print_there(0, 27, "Encoder1 value")
+        print_there(0, 28, "Encoder2 value")
+        print_there(0, 29, "Encoder3 value")
+        print_there(0, 30, "Encoder4 value")
+        print_there(0, 31, "Async counter")
     elif menu_page == sensor_menu:
         print_there(0, 1, "SENSORs MENU")
         print_there(0, 2, "Select menu item:")
@@ -158,6 +165,7 @@ def print_registers(menu_page):
     global ewr2
     global ewr3
     global ewr4
+    global eper
     if menu_page == motor_menu:
         print_there(25, 4, "0x%02X " % motnum)
         print_there(25, 5, "%05u " % pwmper)
@@ -181,14 +189,17 @@ def print_registers(menu_page):
         print_there(30, 13, "%01u " % eedg2)
         print_there(30, 14, "%01u " % eedg3)
         print_there(30, 15, "%01u " % eedg4)
-        print_there(30, 22, "0x%04X " % ectl1)
-        print_there(30, 23, "0x%04X " % ectl2)
-        print_there(30, 24, "0x%04X " % ectl3)
-        print_there(30, 25, "0x%04X " % ectl4)
-        print_there(30, 26, "%010u " % eval1)
-        print_there(30, 27, "%010u " % eval2)
-        print_there(30, 28, "%010u " % eval3)
-        print_there(30, 29, "%010u " % eval4)
+        print_there(30, 17, "%05u " % eper)
+        print_there(30, 19, "%010u " % acnt)
+        print_there(30, 23, "0x%04X " % ectl1)
+        print_there(30, 24, "0x%04X " % ectl2)
+        print_there(30, 25, "0x%04X " % ectl3)
+        print_there(30, 26, "0x%04X " % ectl4)
+        print_there(30, 27, "%010u " % eval1)
+        print_there(30, 28, "%010u " % eval2)
+        print_there(30, 29, "%010u " % eval3)
+        print_there(30, 30, "%010u " % eval4)
+        print_there(30, 31, "%010u " % cnti)
 
 # Print text in certain coordinates
 def print_there(x, y, text):
@@ -234,24 +245,25 @@ def read_all_data(menu_page):
     global ewr2
     global ewr3
     global ewr4
+    global eper
     if menu_page == motor_menu:
-        pwmper = trik_protocol.get_reg_value(trik_motor.get_motor_period(motnum))
-        pwmdut = trik_protocol.get_reg_value(trik_motor.get_motor_duty(motnum))
-        motangle = trik_protocol.get_reg_value(trik_motor.get_motor_angle(motnum))
-        mottime = trik_protocol.get_reg_value(trik_motor.get_motor_time(motnum))
-        motctl = trik_protocol.get_reg_value(trik_motor.get_motor_control(motnum))
-        moterr = trik_protocol.get_reg_value(trik_motor.get_motor_overcurrent(motnum))
-        motfb = trik_protocol.get_reg_value(trik_motor.get_motor_feedback(motnum))
-        encval = trik_protocol.get_reg_value(trik_encoder.read_encoder(motnum + trik_encoder.encoder1))
+        pwmper, daddr = trik_protocol.get_reg_value(trik_motor.get_motor_period(motnum))
+        pwmdut, daddr = trik_protocol.get_reg_value(trik_motor.get_motor_duty(motnum))
+        motangle, daddr = trik_protocol.get_reg_value(trik_motor.get_motor_angle(motnum))
+        mottime, daddr = trik_protocol.get_reg_value(trik_motor.get_motor_time(motnum))
+        motctl, daddr = trik_protocol.get_reg_value(trik_motor.get_motor_control(motnum))
+        moterr, daddr = trik_protocol.get_reg_value(trik_motor.get_motor_overcurrent(motnum))
+        motfb, daddr = trik_protocol.get_reg_value(trik_motor.get_motor_feedback(motnum))
+        encval, daddr = trik_protocol.get_reg_value(trik_encoder.read_encoder(motnum + trik_encoder.encoder1))
     elif menu_page == encoder_menu:
-        ectl1 = trik_protocol.get_reg_value(trik_encoder.get_encoder_control(trik_encoder.encoder1))
-        ectl2 = trik_protocol.get_reg_value(trik_encoder.get_encoder_control(trik_encoder.encoder2))
-        ectl3 = trik_protocol.get_reg_value(trik_encoder.get_encoder_control(trik_encoder.encoder3))
-        ectl4 = trik_protocol.get_reg_value(trik_encoder.get_encoder_control(trik_encoder.encoder4))
-        eval1 = trik_protocol.get_reg_value(trik_encoder.read_encoder(trik_encoder.encoder1))
-        eval2 = trik_protocol.get_reg_value(trik_encoder.read_encoder(trik_encoder.encoder2))
-        eval3 = trik_protocol.get_reg_value(trik_encoder.read_encoder(trik_encoder.encoder3))
-        eval4 = trik_protocol.get_reg_value(trik_encoder.read_encoder(trik_encoder.encoder4))
+        ectl1, daddr = trik_protocol.get_reg_value(trik_encoder.get_encoder_control(trik_encoder.encoder1))
+        ectl2, daddr = trik_protocol.get_reg_value(trik_encoder.get_encoder_control(trik_encoder.encoder2))
+        ectl3, daddr = trik_protocol.get_reg_value(trik_encoder.get_encoder_control(trik_encoder.encoder3))
+        ectl4, daddr = trik_protocol.get_reg_value(trik_encoder.get_encoder_control(trik_encoder.encoder4))
+        eval1, daddr = trik_protocol.get_reg_value(trik_encoder.read_encoder(trik_encoder.encoder1))
+        eval2, daddr = trik_protocol.get_reg_value(trik_encoder.read_encoder(trik_encoder.encoder2))
+        eval3, daddr = trik_protocol.get_reg_value(trik_encoder.read_encoder(trik_encoder.encoder3))
+        eval4, daddr = trik_protocol.get_reg_value(trik_encoder.read_encoder(trik_encoder.encoder4))
 
 # Read all registers of motor
 read_all_data(menu_pg)
@@ -377,9 +389,42 @@ try:
                 if c.upper() == "F":
                     eedg4 = 1 - eedg4
                     trik_encoder.enable_encoder(trik_encoder.encoder4, ewr4, epul4, eedg4)
-
-
-
+                if c == "9":
+                    eper = eper - 1
+                    if eper <= 0:
+                        eper = 0
+                if c == "0":
+                    eper = eper + 1
+                    if eper >= 0xFFFF:
+                        eper = 0xFFFF
+                if c.upper() == "N":
+                    acnt = acnt - 100
+                    if acnt <= 0:
+                        acnt = 0
+                if c.upper() == "M":
+                    acnt = acnt + 100
+                    if acnt >= 0xFFFFFFFF:
+                        acnt = 0xFFFFFFFF
+                if c.upper() == "R":
+                    trik_timer.set_timer_period(eper)
+                    trik_timer.timer_enable()
+                    trik_encoder.enable_encoder_in_async(trik_encoder.encoder1, ewr1, epul1, eedg1)
+                    trik_encoder.enable_encoder_in_async(trik_encoder.encoder2, ewr2, epul2, eedg2)
+                    trik_encoder.enable_encoder_in_async(trik_encoder.encoder3, ewr3, epul3, eedg3)
+                    trik_encoder.enable_encoder_in_async(trik_encoder.encoder4, ewr4, epul4, eedg4)
+                    cnti = acnt
+                    while cnti > 0:
+                        rval, daddr = trik_protocol.get_reg_value(trik_protocol.read_async_reg())
+                        if daddr == trik_encoder.encoder1:
+                            eval1 = rval
+                        if daddr == trik_encoder.encoder2:
+                            eval2 = rval
+                        if daddr == trik_encoder.encoder3:
+                            eval3 = rval
+                        if daddr == trik_encoder.encoder4:
+                            eval4 = rval
+                        print_registers(menu_pg)
+                        cnti = cnti - 1
             if c.upper() == "C":
                 os.system("clear")
                 print_menu(menu_pg)

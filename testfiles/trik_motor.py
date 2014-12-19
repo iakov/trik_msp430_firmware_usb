@@ -41,10 +41,6 @@ def set_motor_angle(motnum, motangle):
 def set_motor_time(motnum, mottime):
     trik_protocol.write_32bit_reg(motnum, mtmr, mottime)
 
-
-
-
-
 # Get PWM period of motor
 def get_motor_period(motnum):
     return trik_protocol.read_16bit_reg(motnum, mper)
@@ -72,10 +68,6 @@ def get_motor_overcurrent(motnum):
 # Get Feed-Back register
 def get_motor_feedback(motnum):
     return trik_protocol.read_32bit_reg(motnum, mval)
-
-
-
-
 
 # Start motor
 def start_motor(motnum):
