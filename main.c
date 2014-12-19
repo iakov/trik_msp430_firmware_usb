@@ -281,7 +281,7 @@ void TIMERB1_ISR(void)
             if ((timerb_cnt==nnn) && (ENC[nnn-ENCODER1].ECTL & ENC_ASYNC))
             {
                 PROTOCOL_recvResponse(newString,nnn,NO_ERROR,EEVAL,ENC[nnn-ENCODER1].EVAL,REG_32bits);
-                if (cdcSendDataInBackground((uint8_t*)newString,strlen(newString),CDC0_INTFNUM,1))
+                if (cdcSendDataInBackground((uint8_t*)newString,strlen(newString),CDC1_INTFNUM,1))
                 {
                     SendError = 0x01;
                 }
@@ -295,7 +295,7 @@ void TIMERB1_ISR(void)
             {
                 SENSOR_handler(nnn);
                 PROTOCOL_recvResponse(newString,nnn,NO_ERROR,SSVAL,SENS[nnn-SENSOR1].SVAL,REG_32bits);
-                if (cdcSendDataInBackground((uint8_t*)newString,strlen(newString),CDC0_INTFNUM,1))
+                if (cdcSendDataInBackground((uint8_t*)newString,strlen(newString),CDC1_INTFNUM,1))
                 {
                     SendError = 0x01;
                 }
