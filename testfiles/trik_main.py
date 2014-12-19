@@ -51,7 +51,7 @@ def print_menu(menu_page):
         print_there(0, 14, "<S>   Reverse angle")
         print_there(0, 15, "<T>   Rotate time")
         print_there(0, 16, "<Y>   Reverse time")
-        print_there(0, 17, "<C>   Clear screen")
+        print_there(0, 17, "<C>   Redraw screen")
         print_there(0, 18, "<TAB> Change device group")
         print_there(0, 19, "<ESC> Exit/Quit")
         print_there(0, 21, "Control register")
@@ -71,14 +71,14 @@ def print_registers(menu_page):
     global moterr
     if menu_page == motor_menu:
         print_there(25, 4, "0x%02X     " % motnum)
-        print_there(25, 5, "0x%04X     " % pwmper)
-        print_there(25, 6, "0x%04X     " % pwmdut)
-        print_there(25, 11, "0x%08X     " % motangle)
-        print_there(25, 12, "0x%08X     " % mottime)
+        print_there(25, 5, "%05u     " % pwmper)
+        print_there(25, 6, "%05u     " % pwmdut)
+        print_there(25, 11, "%010u     " % motangle)
+        print_there(25, 12, "%010u     " % mottime)
         print_there(25, 21, "0x%04X     " % motctl)
-        print_there(25, 22, "0x%08X     " % motfb)
-        print_there(25, 23, "0x%08X     " % encval)
-        print_there(25, 24, "0x%08X     " % moterr)
+        print_there(25, 22, "%010u     " % motfb)
+        print_there(25, 23, "%010u     " % encval)
+        print_there(25, 24, "%010u     " % moterr)
 
 # Print text in certain coordinates
 def print_there(x, y, text):
@@ -202,7 +202,7 @@ try:
                 trik_motor.reverse_motor_time(motnum)
             if c.upper() == "C":
                 os.system("clear")
-
+                print_menu(menu_pg)
 
 
 
