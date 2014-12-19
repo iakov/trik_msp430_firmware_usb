@@ -104,3 +104,11 @@ def read_32bit_reg(devaddr, regaddr):
     f2.close()
     return stmp
 
+# Read single register from async port
+# Use this function only when async mode is active!!!!!
+def read_async_reg(devaddr, regaddr):
+    f2 = open(fname2, "r")
+    stmp = f2.readline()
+    f2.close()
+    return stmp
+
