@@ -1,7 +1,7 @@
 __author__ = 'Rostislav Varzar'
 
 import termios, fcntl, sys, os
-import trik_protocol, trik_motor, trik_encoder
+import trik_protocol, trik_motor, trik_encoder, trik_timer
 import trik_stty, trik_power
 import time
 
