@@ -7,7 +7,11 @@ import time
 
 # Defines for menu pages
 motor_menu = 0x00
-motor_enchanced_menu = 0x01
+encoder_menu = 0x01
+sensor_menu = 0x02
+timer_menu = 0x03
+bsl_menu = 0x04
+menu_pg = motor_menu
 
 motnum = trik_motor.motor1
 pwmper = 0x0000
@@ -18,7 +22,6 @@ moterr = 0x00000000
 motfb = 0x00000000
 encval = 0x00000000
 motctl = 0x0000
-
 
 # Init async key press input without press <ENTER>
 def init_key_press():
@@ -58,6 +61,26 @@ def print_menu(menu_page):
         print_there(0, 22, "Feed-back value")
         print_there(0, 23, "Encoder value")
         print_there(0, 24, "Overcurrent errors")
+    elif menu_page == encoder_menu:
+        print_there(0, 1, "ENCODERs MENU")
+        print_there(0, 2, "Select menu item:")
+        print_there(0, 18, "<TAB> Change device group")
+        print_there(0, 19, "<ESC> Exit/Quit")
+    elif menu_page == sensor_menu:
+        print_there(0, 1, "SENSORs MENU")
+        print_there(0, 2, "Select menu item:")
+        print_there(0, 18, "<TAB> Change device group")
+        print_there(0, 19, "<ESC> Exit/Quit")
+    elif menu_page == timer_menu:
+        print_there(0, 1, "TIMER MENU")
+        print_there(0, 2, "Select menu item:")
+        print_there(0, 18, "<TAB> Change device group")
+        print_there(0, 19, "<ESC> Exit/Quit")
+    elif menu_page == bsl_menu:
+        print_there(0, 1, "BSL MENU")
+        print_there(0, 2, "Select menu item:")
+        print_there(0, 18, "<TAB> Change device group")
+        print_there(0, 19, "<ESC> Exit/Quit")
 
 # Print register values
 def print_registers(menu_page):
@@ -70,15 +93,15 @@ def print_registers(menu_page):
     global encval
     global moterr
     if menu_page == motor_menu:
-        print_there(25, 4, "0x%02X     " % motnum)
-        print_there(25, 5, "%05u     " % pwmper)
-        print_there(25, 6, "%05u     " % pwmdut)
-        print_there(25, 11, "%010u     " % motangle)
-        print_there(25, 12, "%010u     " % mottime)
-        print_there(25, 21, "0x%04X     " % motctl)
-        print_there(25, 22, "%010u     " % motfb)
-        print_there(25, 23, "%010u     " % encval)
-        print_there(25, 24, "%010u     " % moterr)
+        print_there(25, 4, "0x%02X " % motnum)
+        print_there(25, 5, "%05u " % pwmper)
+        print_there(25, 6, "%05u " % pwmdut)
+        print_there(25, 11, "%010u " % motangle)
+        print_there(25, 12, "%010u " % mottime)
+        print_there(25, 21, "0x%04X " % motctl)
+        print_there(25, 22, "%010u " % motfb)
+        print_there(25, 23, "%010u " % encval)
+        print_there(25, 24, "%010u " % moterr)
 
 # Print text in certain coordinates
 def print_there(x, y, text):
@@ -95,7 +118,7 @@ trik_stty.init_stty()
 trik_power.init_power()
 
 # Read all registers of motor
-def read_all_data():
+def read_all_data(menu_page):
     global pwmper
     global pwmdut
     global motangle
@@ -104,23 +127,23 @@ def read_all_data():
     global motfb
     global encval
     global moterr
-    pwmper = trik_protocol.get_reg_value(trik_motor.get_motor_period(motnum))
-    pwmdut = trik_protocol.get_reg_value(trik_motor.get_motor_duty(motnum))
-    motangle = trik_protocol.get_reg_value(trik_motor.get_motor_angle(motnum))
-    mottime = trik_protocol.get_reg_value(trik_motor.get_motor_time(motnum))
-    motctl = trik_protocol.get_reg_value(trik_motor.get_motor_control(motnum))
-    moterr = trik_protocol.get_reg_value(trik_motor.get_motor_overcurrent(motnum))
-    motfb = trik_protocol.get_reg_value(trik_motor.get_motor_feedback(motnum))
-    encval =  trik_protocol.get_reg_value(trik_encoder.read_encoder(motnum + trik_encoder.encoder1))
+    if menu_page == motor_menu:
+        pwmper = trik_protocol.get_reg_value(trik_motor.get_motor_period(motnum))
+        pwmdut = trik_protocol.get_reg_value(trik_motor.get_motor_duty(motnum))
+        motangle = trik_protocol.get_reg_value(trik_motor.get_motor_angle(motnum))
+        mottime = trik_protocol.get_reg_value(trik_motor.get_motor_time(motnum))
+        motctl = trik_protocol.get_reg_value(trik_motor.get_motor_control(motnum))
+        moterr = trik_protocol.get_reg_value(trik_motor.get_motor_overcurrent(motnum))
+        motfb = trik_protocol.get_reg_value(trik_motor.get_motor_feedback(motnum))
+        encval =  trik_protocol.get_reg_value(trik_encoder.read_encoder(motnum + trik_encoder.encoder1))
 
 # Read all registers of motor
-read_all_data()
+read_all_data(menu_pg)
 
 # Clear screen
 os.system("clear")
 
 # Print menu
-menu_pg = motor_menu
 print_menu(menu_pg)
 print_registers(menu_pg)
 
@@ -203,17 +226,19 @@ try:
             if c.upper() == "C":
                 os.system("clear")
                 print_menu(menu_pg)
+            if c == chr(0x09):
+                menu_pg = menu_pg + 1
+                if menu_pg > bsl_menu:
+                    menu_pg = motor_menu
+                os.system("clear")
+                print_menu(menu_pg)
 
-
-
-
-
-
-            read_all_data()
-            print_registers(menu_pg)
 
             if c == chr(0x1B):
                 break
+
+            read_all_data(menu_pg)
+            print_registers(menu_pg)
         except IOError: pass
 finally:
     termios.tcsetattr(fd, termios.TCSAFLUSH, oldterm)
