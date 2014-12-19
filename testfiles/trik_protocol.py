@@ -1,8 +1,9 @@
 __author__ = 'Rostislav Varzar'
 
-# Output device
+# Output devices
 # fname1 = "000.txt"
 fname1 = "/dev/ttyACM0"
+fname2 = "/dev/ttyACM1"
 
 # Function to recognize response packets
 def get_reg_value(stmp):

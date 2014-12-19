@@ -142,32 +142,7 @@ void main (void)
                     if (retInString(wholeString))
                     {              // Wait for enter key to be pressed
                         n_error = PROTOCOL_handler(wholeString,newString); //Protocol handler
-
-
-                        //mouseReport.xx += 1;
-                        //mouseReport.yy += 1;
-                        //mouseReport.buttons += 1;
-                        //if (mouseReport.dX > 319) mouseReport.dX = 0;
-                        //if (mouseReport.dY > 319) mouseReport.dY = 0;
-
-                        //mouseReport.lx++;
-                        //if ( mouseReport.lx == 0) mouseReport.hx++;
-                        //mouseReport.ly = 20;
-                        //mouseReport.hy = 0;
-
-                        //mouseReport.ly++;
-                        //if ( mouseReport.ly == 0) mouseReport.hy++;
-
-
-                        //sprintf(newString,"%d %d %d %d %d\r\n",mouseReport.lx,mouseReport.hx,mouseReport.ly,mouseReport.hy,mouseReport.buttons);
-
-                        //USBHID_sendReport((void *)&mouseReport, HID0_INTFNUM);
-
-
-
-
                         memset(wholeString,0,MAX_STR_LENGTH);   // Clear wholeString
-                        //sprintf(newString,"TestNumber=%x %x %x %x\n",t11,t12,t13,t14);
                         if (cdcSendDataInBackground((uint8_t*)newString,
                                 strlen(newString),CDC0_INTFNUM,1))
                         {  // Send message to other App
@@ -186,8 +161,9 @@ void main (void)
                     cdcReceiveDataInBuffer((uint8_t*)pieceOfString,
                         MAX_STR_LENGTH,
                         CDC1_INTFNUM);
-                    strncat(wholeString,pieceOfString,strlen(pieceOfString));
-                    memset(wholeString,0,MAX_STR_LENGTH);   // Clear wholeString
+                    //strncat(wholeString,pieceOfString,strlen(pieceOfString));
+                    //memset(wholeString,0,MAX_STR_LENGTH);   // Clear wholeString
+                    memset(pieceOfString,0,MAX_STR_LENGTH);   // Clear wholeString
                 }
 
 
@@ -375,11 +351,6 @@ void TIMERB1_ISR(void)
             }
             timerb_ts = 0;
         }
-
-
-
-
-
 
         break;
     default:
