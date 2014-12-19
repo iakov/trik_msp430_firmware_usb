@@ -181,6 +181,14 @@ def print_registers(menu_page):
         print_there(30, 13, "%01u " % eedg2)
         print_there(30, 14, "%01u " % eedg3)
         print_there(30, 15, "%01u " % eedg4)
+        print_there(30, 22, "0x%04X " % ectl1)
+        print_there(30, 23, "0x%04X " % ectl2)
+        print_there(30, 24, "0x%04X " % ectl3)
+        print_there(30, 25, "0x%04X " % ectl4)
+        print_there(30, 26, "%010u " % eval1)
+        print_there(30, 27, "%010u " % eval2)
+        print_there(30, 28, "%010u " % eval3)
+        print_there(30, 29, "%010u " % eval4)
 
 # Print text in certain coordinates
 def print_there(x, y, text):
@@ -234,7 +242,16 @@ def read_all_data(menu_page):
         motctl = trik_protocol.get_reg_value(trik_motor.get_motor_control(motnum))
         moterr = trik_protocol.get_reg_value(trik_motor.get_motor_overcurrent(motnum))
         motfb = trik_protocol.get_reg_value(trik_motor.get_motor_feedback(motnum))
-        encval =  trik_protocol.get_reg_value(trik_encoder.read_encoder(motnum + trik_encoder.encoder1))
+        encval = trik_protocol.get_reg_value(trik_encoder.read_encoder(motnum + trik_encoder.encoder1))
+    elif menu_page == encoder_menu:
+        ectl1 = trik_protocol.get_reg_value(trik_encoder.get_encoder_control(trik_encoder.encoder1))
+        ectl2 = trik_protocol.get_reg_value(trik_encoder.get_encoder_control(trik_encoder.encoder2))
+        ectl3 = trik_protocol.get_reg_value(trik_encoder.get_encoder_control(trik_encoder.encoder3))
+        ectl4 = trik_protocol.get_reg_value(trik_encoder.get_encoder_control(trik_encoder.encoder4))
+        eval1 = trik_protocol.get_reg_value(trik_encoder.read_encoder(trik_encoder.encoder1))
+        eval2 = trik_protocol.get_reg_value(trik_encoder.read_encoder(trik_encoder.encoder2))
+        eval3 = trik_protocol.get_reg_value(trik_encoder.read_encoder(trik_encoder.encoder3))
+        eval4 = trik_protocol.get_reg_value(trik_encoder.read_encoder(trik_encoder.encoder4))
 
 # Read all registers of motor
 read_all_data(menu_pg)
