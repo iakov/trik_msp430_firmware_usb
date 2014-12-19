@@ -36,25 +36,28 @@ def init_key_press():
 # Print text of menu
 def print_menu(menu_page):
     if menu_page == 0x00:
-        print_there(0, 1, "Select menu item:")
-        print_there(0, 3, "<1/2> Select motor")
-        print_there(0, 4, "<3/4> Set PWM period")
-        print_there(0, 5, "<5/6> Set PWM duty")
-        print_there(0, 6, "<7>   Start motor")
-        print_there(0, 7, "<8>   Reverse motor")
-        print_there(0, 8, "<9>   Brake motor")
-        print_there(0, 9, "<0>   Stop motor")
-        print_there(0, 10, "<Q/W> Set angle")
-        print_there(0, 11, "<E/R> Set time")
-        print_there(0, 12, "<A>   Rotate angle")
-        print_there(0, 13, "<S>   Reverse angle")
-        print_there(0, 14, "<T>   Rotate time")
-        print_there(0, 15, "<S>   Reverse time")
-        print_there(0, 16, "<ESC> Exit/Quit")
-        print_there(0, 18, "Control register")
-        print_there(0, 19, "Feed-back value")
-        print_there(0, 20, "Encoder value")
-        print_there(0, 21, "Overcurrent errors")
+        print_there(0, 1, "MOTORs MENU")
+        print_there(0, 2, "Select menu item:")
+        print_there(0, 4, "<1/2> Select motor")
+        print_there(0, 5, "<3/4> Set PWM period")
+        print_there(0, 6, "<5/6> Set PWM duty")
+        print_there(0, 7, "<7>   Start motor")
+        print_there(0, 8, "<8>   Reverse motor")
+        print_there(0, 9, "<9>   Brake motor")
+        print_there(0, 10, "<0>   Stop motor")
+        print_there(0, 11, "<Q/W> Set angle")
+        print_there(0, 12, "<E/R> Set time")
+        print_there(0, 13, "<A>   Rotate angle")
+        print_there(0, 14, "<S>   Reverse angle")
+        print_there(0, 15, "<T>   Rotate time")
+        print_there(0, 16, "<S>   Reverse time")
+        print_there(0, 17, "<C>   Clear screen")
+        print_there(0, 18, "<TAB> Change device group")
+        print_there(0, 19, "<ESC> Exit/Quit")
+        print_there(0, 21, "Control register")
+        print_there(0, 22, "Feed-back value")
+        print_there(0, 23, "Encoder value")
+        print_there(0, 24, "Overcurrent errors")
 
 # Print register values
 def print_registers(menu_page):
@@ -67,15 +70,15 @@ def print_registers(menu_page):
     global encval
     global moterr
     if menu_page == 0x00:
-        print_there(25, 3, "0x%02X     " % motnum)
-        print_there(25, 4, "0x%04X     " % pwmper)
-        print_there(25, 5, "0x%04X     " % pwmdut)
-        print_there(25, 10, "0x%08X     " % motangle)
-        print_there(25, 11, "0x%08X     " % mottime)
-        print_there(25, 18, "0x%04X     " % motctl)
-        print_there(25, 19, "0x%08X     " % motfb)
-        print_there(25, 20, "0x%08X     " % encval)
-        print_there(25, 21, "0x%08X     " % moterr)
+        print_there(25, 4, "0x%02X     " % motnum)
+        print_there(25, 5, "0x%04X     " % pwmper)
+        print_there(25, 6, "0x%04X     " % pwmdut)
+        print_there(25, 11, "0x%08X     " % motangle)
+        print_there(25, 12, "0x%08X     " % mottime)
+        print_there(25, 21, "0x%04X     " % motctl)
+        print_there(25, 22, "0x%08X     " % motfb)
+        print_there(25, 23, "0x%08X     " % encval)
+        print_there(25, 24, "0x%08X     " % moterr)
 
 # Print text in certain coordinates
 def print_there(x, y, text):
