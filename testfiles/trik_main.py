@@ -194,6 +194,8 @@ try:
             if c.upper() == "S":
                 trik_encoder.enable_encoder(motnum + trik_encoder.encoder1, 2, 1, 0)
                 trik_motor.reverse_motor_angle(motnum)
+            if c.upper() == "C":
+                os.system("clear")
 
 
 
