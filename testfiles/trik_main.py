@@ -35,7 +35,7 @@ def init_key_press():
 
 # Print text of menu
 def print_menu(menu_page):
-    if menu_page == 0x00:
+    if menu_page == motor_menu:
         print_there(0, 1, "MOTORs MENU")
         print_there(0, 2, "Select menu item:")
         print_there(0, 4, "<1/2> Select motor")
@@ -50,7 +50,7 @@ def print_menu(menu_page):
         print_there(0, 13, "<A>   Rotate angle")
         print_there(0, 14, "<S>   Reverse angle")
         print_there(0, 15, "<T>   Rotate time")
-        print_there(0, 16, "<S>   Reverse time")
+        print_there(0, 16, "<Y>   Reverse time")
         print_there(0, 17, "<C>   Clear screen")
         print_there(0, 18, "<TAB> Change device group")
         print_there(0, 19, "<ESC> Exit/Quit")
@@ -69,7 +69,7 @@ def print_registers(menu_page):
     global motfb
     global encval
     global moterr
-    if menu_page == 0x00:
+    if menu_page == motor_menu:
         print_there(25, 4, "0x%02X     " % motnum)
         print_there(25, 5, "0x%04X     " % pwmper)
         print_there(25, 6, "0x%04X     " % pwmdut)
@@ -194,6 +194,12 @@ try:
             if c.upper() == "S":
                 trik_encoder.enable_encoder(motnum + trik_encoder.encoder1, 2, 1, 0)
                 trik_motor.reverse_motor_angle(motnum)
+            if c.upper() == "T":
+                trik_timer.timer_enable()
+                trik_motor.rotate_motor_time(motnum)
+            if c.upper() == "Y":
+                trik_timer.timer_enable()
+                trik_motor.reverse_motor_time(motnum)
             if c.upper() == "C":
                 os.system("clear")
 

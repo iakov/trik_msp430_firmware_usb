@@ -101,4 +101,11 @@ def rotate_motor_angle(motnum):
 def reverse_motor_angle(motnum):
     trik_protocol.write_16bit_reg(motnum, mctl, mot_enable + mot_power + mot_auto + mot_angle + mot_back + mot_brake)
 
+# Rotate motor by time
+def rotate_motor_time(motnum):
+    trik_protocol.write_16bit_reg(motnum, mctl, mot_enable + mot_power + mot_auto + mot_brake)
+
+# Reverse motor by time
+def reverse_motor_time(motnum):
+    trik_protocol.write_16bit_reg(motnum, mctl, mot_enable + mot_power + mot_auto + mot_back + mot_brake)
 
