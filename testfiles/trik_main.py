@@ -13,6 +13,7 @@ timer_menu = 0x03
 bsl_menu = 0x04
 menu_pg = motor_menu
 
+# Motor registers values
 motnum = trik_motor.motor1
 pwmper = 0x0000
 pwmdut = 0x0000
@@ -22,6 +23,28 @@ moterr = 0x00000000
 motfb = 0x00000000
 encval = 0x00000000
 motctl = 0x0000
+
+# Encoder registers values
+ectl1 = 0x0000
+ectl2 = 0x0000
+ectl3 = 0x0000
+ectl4 = 0x0000
+eval1 = 0x00000000
+eval2 = 0x00000000
+eval3 = 0x00000000
+eval4 = 0x00000000
+epul1 = 0
+epul2 = 0
+epul3 = 0
+epul4 = 0
+eedg1 = 0
+eedg2 = 0
+eedg3 = 0
+eedg4 = 0
+ewr1 = 0
+ewr2 = 0
+ewr3 = 0
+ewr4 = 0
 
 # Init async key press input without press <ENTER>
 def init_key_press():
@@ -64,8 +87,31 @@ def print_menu(menu_page):
     elif menu_page == encoder_menu:
         print_there(0, 1, "ENCODERs MENU")
         print_there(0, 2, "Select menu item:")
-        print_there(0, 18, "<TAB> Change device group")
-        print_there(0, 19, "<ESC> Exit/Quit")
+        print_there(0, 4, "<1>   Encoder1 pullup on/off")
+        print_there(0, 5, "<2>   Encoder2 pullup on/off")
+        print_there(0, 6, "<3>   Encoder3 pullup on/off")
+        print_there(0, 7, "<4>   Encoder4 pullup on/off")
+        print_there(0, 8, "<5>   Encoder1 1wire/2wires")
+        print_there(0, 9, "<6>   Encoder2 1wire/2wires")
+        print_there(0, 10, "<7>   Encoder3 1wire/2wires")
+        print_there(0, 11, "<8>   Encoder4 1wire/2wires")
+        print_there(0, 12, "<A>   Encoder1 fall/rise edge")
+        print_there(0, 13, "<S>   Encoder2 fall/rise edge")
+        print_there(0, 14, "<D>   Encoder3 fall/rise edge")
+        print_there(0, 15, "<F>   Encoder4 fall/rise edge")
+        print_there(0, 16, "<C>   Redraw screen")
+        print_there(0, 17, "<R>   Enter async mode")
+        print_there(0, 18, "<NUM> Exit async mode")
+        print_there(0, 19, "<TAB> Change device group")
+        print_there(0, 20, "<ESC> Exit/Quit")
+        print_there(0, 22, "Encoder1 control")
+        print_there(0, 23, "Encoder2 control")
+        print_there(0, 24, "Encoder3 control")
+        print_there(0, 25, "Encoder4 control")
+        print_there(0, 26, "Encoder1 value")
+        print_there(0, 27, "Encoder2 value")
+        print_there(0, 28, "Encoder3 value")
+        print_there(0, 29, "Encoder4 value")
     elif menu_page == sensor_menu:
         print_there(0, 1, "SENSORs MENU")
         print_there(0, 2, "Select menu item:")
@@ -92,6 +138,26 @@ def print_registers(menu_page):
     global motfb
     global encval
     global moterr
+    global ectl1
+    global ectl2
+    global ectl3
+    global ectl4
+    global eval1
+    global eval2
+    global eval3
+    global eval4
+    global epul1
+    global epul2
+    global epul3
+    global epul4
+    global eedg1
+    global eedg2
+    global eedg3
+    global eedg4
+    global ewr1
+    global ewr2
+    global ewr3
+    global ewr4
     if menu_page == motor_menu:
         print_there(25, 4, "0x%02X " % motnum)
         print_there(25, 5, "%05u " % pwmper)
@@ -102,6 +168,19 @@ def print_registers(menu_page):
         print_there(25, 22, "%010u " % motfb)
         print_there(25, 23, "%010u " % encval)
         print_there(25, 24, "%010u " % moterr)
+    elif menu_page == encoder_menu:
+        print_there(30, 4, "%01u " % epul1)
+        print_there(30, 5, "%01u " % epul2)
+        print_there(30, 6, "%01u " % epul3)
+        print_there(30, 7, "%01u " % epul4)
+        print_there(30, 8, "%01u " % ewr1)
+        print_there(30, 9, "%01u " % ewr2)
+        print_there(30, 10, "%01u " % ewr3)
+        print_there(30, 11, "%01u " % ewr4)
+        print_there(30, 12, "%01u " % eedg1)
+        print_there(30, 13, "%01u " % eedg1)
+        print_there(30, 14, "%01u " % eedg1)
+        print_there(30, 15, "%01u " % eedg1)
 
 # Print text in certain coordinates
 def print_there(x, y, text):
@@ -127,6 +206,26 @@ def read_all_data(menu_page):
     global motfb
     global encval
     global moterr
+    global ectl1
+    global ectl2
+    global ectl3
+    global ectl4
+    global eval1
+    global eval2
+    global eval3
+    global eval4
+    global epul1
+    global epul2
+    global epul3
+    global epul4
+    global eedg1
+    global eedg2
+    global eedg3
+    global eedg4
+    global ewr1
+    global ewr2
+    global ewr3
+    global ewr4
     if menu_page == motor_menu:
         pwmper = trik_protocol.get_reg_value(trik_motor.get_motor_period(motnum))
         pwmdut = trik_protocol.get_reg_value(trik_motor.get_motor_duty(motnum))
@@ -152,77 +251,106 @@ try:
     while 1:
         try:
             c = sys.stdin.read(1)
-            if c == "1":
-                motnum = motnum - 1
-                if motnum <= trik_motor.motor1:
-                    motnum = trik_motor.motor1
-            if c == "2":
-                motnum = motnum + 1
-                if motnum >= trik_motor.motor4:
-                    motnum = trik_motor.motor4
-            if c == "3":
-                if pwmper > pwmdut:
-                    pwmper = pwmper - 100
-                    if pwmper <= 0:
-                        pwmper = 0
-                else:
-                    pwmper = pwmdut
-                trik_motor.set_motor_period(motnum, pwmper)
-            if c == "4":
-                pwmper = pwmper + 100
-                if pwmper >= 0xFFFF:
-                    pwmper = 0xFFFF
-                trik_motor.set_motor_period(motnum, pwmper)
-            if c == "5":
-                pwmdut = pwmdut - 100
-                if pwmdut <= 0:
-                    pwmdut = 0
-                trik_motor.set_motor_duty(motnum, pwmdut)
-            if c == "6":
-                pwmdut = pwmdut + 100
-                if pwmdut >= pwmper:
-                    pwmdut = pwmper
-                trik_motor.set_motor_duty(motnum, pwmdut)
-            if c == "7":
-                trik_motor.start_motor(motnum)
-            if c == "8":
-                trik_motor.reverse_motor(motnum)
-            if c == "9":
-                trik_motor.brake_motor(motnum)
-            if c == "0":
-                trik_motor.stop_motor(motnum)
-            if c.upper() == "Q":
-                motangle = motangle - 10
-                if motangle <= 0x00000000:
-                    motangle = 0x00000000
-                trik_motor.set_motor_angle(motnum, motangle)
-            if c.upper() == "W":
-                motangle = motangle + 10
-                if motangle >= 0xFFFFFFFF:
-                    motangle = 0xFFFFFFFF
-                trik_motor.set_motor_angle(motnum, motangle)
-            if c.upper() == "E":
-                mottime = mottime - 10
-                if mottime <= 0x00000000:
-                    mottime = 0x00000000
-                trik_motor.set_motor_time(motnum, mottime)
-            if c.upper() == "R":
-                mottime = mottime + 10
-                if mottime >= 0xFFFFFFFF:
-                    mottime = 0xFFFFFFFF
-                trik_motor.set_motor_time(motnum, mottime)
-            if c.upper() == "A":
-                trik_encoder.enable_encoder(motnum + trik_encoder.encoder1, 2, 1, 0)
-                trik_motor.rotate_motor_angle(motnum)
-            if c.upper() == "S":
-                trik_encoder.enable_encoder(motnum + trik_encoder.encoder1, 2, 1, 0)
-                trik_motor.reverse_motor_angle(motnum)
-            if c.upper() == "T":
-                trik_timer.timer_enable()
-                trik_motor.rotate_motor_time(motnum)
-            if c.upper() == "Y":
-                trik_timer.timer_enable()
-                trik_motor.reverse_motor_time(motnum)
+            if menu_pg == motor_menu:
+                if c == "1":
+                    motnum = motnum - 1
+                    if motnum <= trik_motor.motor1:
+                        motnum = trik_motor.motor1
+                if c == "2":
+                    motnum = motnum + 1
+                    if motnum >= trik_motor.motor4:
+                        motnum = trik_motor.motor4
+                if c == "3":
+                    if pwmper > pwmdut:
+                        pwmper = pwmper - 100
+                        if pwmper <= 0:
+                            pwmper = 0
+                    else:
+                        pwmper = pwmdut
+                    trik_motor.set_motor_period(motnum, pwmper)
+                if c == "4":
+                    pwmper = pwmper + 100
+                    if pwmper >= 0xFFFF:
+                        pwmper = 0xFFFF
+                    trik_motor.set_motor_period(motnum, pwmper)
+                if c == "5":
+                    pwmdut = pwmdut - 100
+                    if pwmdut <= 0:
+                        pwmdut = 0
+                    trik_motor.set_motor_duty(motnum, pwmdut)
+                if c == "6":
+                    pwmdut = pwmdut + 100
+                    if pwmdut >= pwmper:
+                        pwmdut = pwmper
+                    trik_motor.set_motor_duty(motnum, pwmdut)
+                if c == "7":
+                    trik_motor.start_motor(motnum)
+                if c == "8":
+                    trik_motor.reverse_motor(motnum)
+                if c == "9":
+                    trik_motor.brake_motor(motnum)
+                if c == "0":
+                    trik_motor.stop_motor(motnum)
+                if c.upper() == "Q":
+                    motangle = motangle - 10
+                    if motangle <= 0x00000000:
+                        motangle = 0x00000000
+                    trik_motor.set_motor_angle(motnum, motangle)
+                if c.upper() == "W":
+                    motangle = motangle + 10
+                    if motangle >= 0xFFFFFFFF:
+                        motangle = 0xFFFFFFFF
+                    trik_motor.set_motor_angle(motnum, motangle)
+                if c.upper() == "E":
+                    mottime = mottime - 10
+                    if mottime <= 0x00000000:
+                        mottime = 0x00000000
+                    trik_motor.set_motor_time(motnum, mottime)
+                if c.upper() == "R":
+                    mottime = mottime + 10
+                    if mottime >= 0xFFFFFFFF:
+                        mottime = 0xFFFFFFFF
+                    trik_motor.set_motor_time(motnum, mottime)
+                if c.upper() == "A":
+                    trik_encoder.enable_encoder(motnum + trik_encoder.encoder1, 1, 1, 0)
+                    trik_motor.rotate_motor_angle(motnum)
+                if c.upper() == "S":
+                    trik_encoder.enable_encoder(motnum + trik_encoder.encoder1, 1, 1, 0)
+                    trik_motor.reverse_motor_angle(motnum)
+                if c.upper() == "T":
+                    trik_timer.timer_enable()
+                    trik_motor.rotate_motor_time(motnum)
+                if c.upper() == "Y":
+                    trik_timer.timer_enable()
+                    trik_motor.reverse_motor_time(motnum)
+            elif menu_pg == encoder_menu:
+                if c == "1":
+                    epul1 = 1 - epul1
+                if c == "2":
+                    epul2 = 1 - epul2
+                if c == "3":
+                    epul3 = 1 - epul3
+                if c == "4":
+                    epul4 = 1 - epul4
+                if c == "5":
+                    ewr1 = 1 - ewr1
+                if c == "6":
+                    ewr2 = 1 - ewr2
+                if c == "7":
+                    ewr3 = 1 - ewr3
+                if c == "8":
+                    ewr4 = 1 - ewr4
+                if c.upper() == "A":
+                    eedg1 = 1 - eedg1
+                if c.upper() == "S":
+                    eedg2 = 1 - eedg2
+                if c.upper() == "D":
+                    eedg3 = 1 - eedg3
+                if c.upper() == "F":
+                    eedg4 = 1 - eedg4
+
+
+
             if c.upper() == "C":
                 os.system("clear")
                 print_menu(menu_pg)
@@ -232,8 +360,6 @@ try:
                     menu_pg = motor_menu
                 os.system("clear")
                 print_menu(menu_pg)
-
-
             if c == chr(0x1B):
                 break
 

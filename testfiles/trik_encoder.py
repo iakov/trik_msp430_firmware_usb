@@ -22,7 +22,7 @@ enc_fall = 0x0800
 # Enable encoder
 def enable_encoder(encnum, numwires, pullup, edge):
     encctl = enc_enable
-    if numwires >= 2:
+    if numwires:
         encctl = encctl + enc_2wires
     if pullup:
         encctl = encctl + enc_pupen
