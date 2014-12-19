@@ -178,9 +178,9 @@ def print_registers(menu_page):
         print_there(30, 10, "%01u " % ewr3)
         print_there(30, 11, "%01u " % ewr4)
         print_there(30, 12, "%01u " % eedg1)
-        print_there(30, 13, "%01u " % eedg1)
-        print_there(30, 14, "%01u " % eedg1)
-        print_there(30, 15, "%01u " % eedg1)
+        print_there(30, 13, "%01u " % eedg2)
+        print_there(30, 14, "%01u " % eedg3)
+        print_there(30, 15, "%01u " % eedg4)
 
 # Print text in certain coordinates
 def print_there(x, y, text):
@@ -326,28 +326,40 @@ try:
             elif menu_pg == encoder_menu:
                 if c == "1":
                     epul1 = 1 - epul1
+                    trik_encoder.enable_encoder(trik_encoder.encoder1, ewr1, epul1, eedg1)
                 if c == "2":
                     epul2 = 1 - epul2
+                    trik_encoder.enable_encoder(trik_encoder.encoder2, ewr2, epul2, eedg2)
                 if c == "3":
                     epul3 = 1 - epul3
+                    trik_encoder.enable_encoder(trik_encoder.encoder3, ewr3, epul3, eedg3)
                 if c == "4":
                     epul4 = 1 - epul4
+                    trik_encoder.enable_encoder(trik_encoder.encoder4, ewr4, epul4, eedg4)
                 if c == "5":
                     ewr1 = 1 - ewr1
+                    trik_encoder.enable_encoder(trik_encoder.encoder1, ewr1, epul1, eedg1)
                 if c == "6":
                     ewr2 = 1 - ewr2
+                    trik_encoder.enable_encoder(trik_encoder.encoder2, ewr2, epul2, eedg2)
                 if c == "7":
                     ewr3 = 1 - ewr3
+                    trik_encoder.enable_encoder(trik_encoder.encoder3, ewr3, epul3, eedg3)
                 if c == "8":
                     ewr4 = 1 - ewr4
+                    trik_encoder.enable_encoder(trik_encoder.encoder4, ewr4, epul4, eedg4)
                 if c.upper() == "A":
                     eedg1 = 1 - eedg1
+                    trik_encoder.enable_encoder(trik_encoder.encoder1, ewr1, epul1, eedg1)
                 if c.upper() == "S":
                     eedg2 = 1 - eedg2
+                    trik_encoder.enable_encoder(trik_encoder.encoder2, ewr2, epul2, eedg2)
                 if c.upper() == "D":
                     eedg3 = 1 - eedg3
+                    trik_encoder.enable_encoder(trik_encoder.encoder3, ewr3, epul3, eedg3)
                 if c.upper() == "F":
                     eedg4 = 1 - eedg4
+                    trik_encoder.enable_encoder(trik_encoder.encoder4, ewr4, epul4, eedg4)
 
 
 
