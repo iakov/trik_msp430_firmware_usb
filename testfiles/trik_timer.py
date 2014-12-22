@@ -25,3 +25,11 @@ def timer_disable():
 def set_timer_period(tmper):
     trik_protocol.write_16bit_reg(timer1, atper, tmper)
 
+# Get TCTL register
+def get_timer_control():
+    return trik_protocol.read_16bit_reg(timer1, atctl)
+
+# Get TVAL register
+def get_timer_value():
+    return trik_protocol.read_32bit_reg(timer1, atval)
+
