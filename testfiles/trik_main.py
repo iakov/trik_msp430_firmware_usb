@@ -1,7 +1,7 @@
 __author__ = 'Rostislav Varzar'
 
 import termios, fcntl, sys, os, struct
-import trik_protocol, trik_motor, trik_encoder, trik_timer, trik_sensor
+import trik_protocol, trik_motor, trik_encoder, trik_timer, trik_sensor, trik_touch
 import trik_stty, trik_power
 import time
 
@@ -114,6 +114,19 @@ spul11 = 0
 spul12 = 0
 spul13 = 0
 spul14 = 0
+
+# Touch screen registers
+tsmod = 0
+tsfile = ""
+tsminx = 0x0000
+tsmaxx = 0x0000
+tsminy = 0x0000
+tsmaxy = 0x0000
+tsscrx = 0x0000
+tsscry = 0x0000
+tsposx = 0x0000
+tsposy = 0x0000
+tssctl = 0x0000
 
 # Async counter
 acnt = 0
@@ -232,19 +245,26 @@ def print_menu(menu_page):
     elif menu_page == touch_menu:
         print_there(0, 1, "TOUCH SCREEN MENU")
         print_there(0, 2, "Select menu item:")
-        print_there(0, 4, "<1>   Enter calibration mode")
-        print_there(0, 5, "<0>   Exit calibration mode")
-        print_there(0, 6, "<C>   Redraw screen")
-        print_there(0, 7, "<TAB> Change device group")
-        print_there(0, 8, "<ESC> Exit/Quit")
-        print_there(0, 10, "MIN X  = ")
-        print_there(0, 11, "MAX X  = ")
-        print_there(0, 12, "MIN Y  = ")
-        print_there(0, 13, "MAX Y  = ")
-        print_there(0, 14, "SCR X  = ")
-        print_there(0, 15, "SCR Y  = ")
-        print_there(0, 16, "POS X  = ")
-        print_there(0, 17, "POS Y  = ")
+        print_there(0, 4, "<0/1> Exit/Enter calibration mode")
+        print_there(0, 5, "<2>   Activate ts driver for Qt")
+        print_there(0, 6, "<3>   Set test program file")
+        print_there(0, 7, "<4>   Start test program file")
+        print_there(0, 8, "<5>   Stop test program file")
+        print_there(0, 10, "MIN X = ")
+        print_there(0, 11, "MAX X = ")
+        print_there(0, 12, "MIN Y = ")
+        print_there(0, 13, "MAX Y = ")
+        print_there(0, 14, "SCR X = ")
+        print_there(0, 15, "SCR Y = ")
+        print_there(0, 16, "POS X = ")
+        print_there(0, 17, "POS Y = ")
+        print_there(0, 18, "TMOD  = ")
+        print_there(0, 20, "<N/M> Set async counter")
+        print_there(0, 21, "<R>   Enter async mode")
+        print_there(0, 22, "Read cycles remain")
+        print_there(0, 24, "<C>   Redraw screen")
+        print_there(0, 25, "<TAB> Change device group")
+        print_there(0, 26, "<ESC> Exit/Quit")
     elif menu_page == bsl_menu:
         print_there(0, 1, "BSL MENU")
         print_there(0, 2, "Select menu item:")
@@ -351,6 +371,17 @@ def print_registers(menu_page):
     global tper
     global t_en
     global tval
+    global tsmod
+    global tsfile
+    global tsminx
+    global tsmaxx
+    global tsminy
+    global tsmaxy
+    global tsscrx
+    global tsscry
+    global tsposx
+    global tsposy
+    global tssctl
     if menu_page == motor_menu:
         print_there(25, 4, "0x%02X " % motnum)
         print_there(25, 5, "%05u " % pwmper)
@@ -442,6 +473,20 @@ def print_registers(menu_page):
         print_there(25, 9, "%010u " % cnti)
         print_there(25, 11, "0x%04X " % tctl)
         print_there(25, 12, "%010u " % tval)
+    elif menu_page == touch_menu:
+        print_there(35, 4, "%01u " % tsmod)
+        print_there(35, 6, "%s " % tsfile)
+        print_there(8, 10, "%05u " % tsminx)
+        print_there(8, 11, "%05u " % tsmaxx)
+        print_there(8, 12, "%05u " % tsminy)
+        print_there(8, 13, "%05u " % tsmaxy)
+        print_there(8, 14, "%05u " % tsscrx)
+        print_there(8, 15, "%05u " % tsscry)
+        print_there(8, 16, "%05u " % tsposx)
+        print_there(8, 17, "%05u " % tsposy)
+        print_there(8, 18, "0x%04X " % tssctl)
+        print_there(25, 20, "%010u " % acnt)
+        print_there(25, 22, "%010u " % cnti)
 
 # Print text in certain coordinates
 def print_there(x, y, text):
@@ -552,6 +597,17 @@ def read_all_data(menu_page):
     global tper
     global t_en
     global tval
+    global tsmod
+    global tsfile
+    global tsminx
+    global tsmaxx
+    global tsminy
+    global tsmaxy
+    global tsscrx
+    global tsscry
+    global tsposx
+    global tsposy
+    global tssctl
     if menu_page == motor_menu:
         pwmper, daddr = trik_protocol.get_reg_value(trik_motor.get_motor_period(motnum))
         pwmdut, daddr = trik_protocol.get_reg_value(trik_motor.get_motor_duty(motnum))
@@ -728,6 +784,17 @@ def read_all_data(menu_page):
             t_en = 0
         else:
             t_en = 1
+    elif menu_page == touch_menu:
+        tssctl, daddr = trik_protocol.get_reg_value(trik_touch.get_touch_control())
+        tsminx, daddr = trik_protocol.get_reg_value(trik_touch.get_touch_minx())
+        tsmaxx, daddr = trik_protocol.get_reg_value(trik_touch.get_touch_maxx())
+        tsminy, daddr = trik_protocol.get_reg_value(trik_touch.get_touch_miny())
+        tsmaxy, daddr = trik_protocol.get_reg_value(trik_touch.get_touch_maxy())
+        tsscrx, daddr = trik_protocol.get_reg_value(trik_touch.get_touch_scrx())
+        tsscry, daddr = trik_protocol.get_reg_value(trik_touch.get_touch_scry())
+        tsposx, daddr = trik_protocol.get_reg_value(trik_touch.get_touch_posx())
+        tsposy, daddr = trik_protocol.get_reg_value(trik_touch.get_touch_posy())
+        tsmod = tssctl & 1
 
 # Read all registers
 read_all_data(motor_menu)
@@ -1053,6 +1120,37 @@ try:
                     cnti = acnt
                     while cnti > 0:
                         tval, daddr = trik_protocol.get_reg_value(trik_timer.get_timer_value())
+                        print_registers(menu_pg)
+                        cnti = cnti - 1
+            elif menu_pg == touch_menu:
+                if c == "0":
+                    tsmod = 0
+                    trik_touch.touch_cal_off()
+                if c == "1":
+                    tsmod = 1
+                    trik_touch.touch_cal_on()
+                if c == "2":
+                    trik_touch.activate_touch_driver()
+                if c == "3":
+                    tsfile = raw_input("Enter file name: ")
+                if c == "4":
+                    stmp0 = "./%s -qws &" % (tsfile)
+                    os.system(stmp0)
+                if c == "5":
+                    stmp0 = "killall %s" % (tsfile)
+                    os.system(stmp0)
+                if c.upper() == "R":
+                    cnti = acnt
+                    while cnti > 0:
+                        tssctl, daddr = trik_protocol.get_reg_value(trik_touch.get_touch_control())
+                        tsminx, daddr = trik_protocol.get_reg_value(trik_touch.get_touch_minx())
+                        tsmaxx, daddr = trik_protocol.get_reg_value(trik_touch.get_touch_maxx())
+                        tsminy, daddr = trik_protocol.get_reg_value(trik_touch.get_touch_miny())
+                        tsmaxy, daddr = trik_protocol.get_reg_value(trik_touch.get_touch_maxy())
+                        tsscrx, daddr = trik_protocol.get_reg_value(trik_touch.get_touch_scrx())
+                        tsscry, daddr = trik_protocol.get_reg_value(trik_touch.get_touch_scry())
+                        tsposx, daddr = trik_protocol.get_reg_value(trik_touch.get_touch_posx())
+                        tsposy, daddr = trik_protocol.get_reg_value(trik_touch.get_touch_posy())
                         print_registers(menu_pg)
                         cnti = cnti - 1
             """
