@@ -1,9 +1,8 @@
 __author__ = 'Rostislav Varzar'
 
 import termios, fcntl, sys, os, struct
-import trik_protocol, trik_motor, trik_encoder, trik_timer, trik_sensor, trik_touch
+import trik_protocol, trik_motor, trik_encoder, trik_timer, trik_sensor, trik_touch, trik_bsl
 import trik_stty, trik_power
-import time
 
 # Defines for menu pages
 motor_menu = 0x00
@@ -117,7 +116,7 @@ spul14 = 0
 
 # Touch screen registers
 tsmod = 0
-tsfile = ""
+tsfile = "test3"
 tsminx = 0x0000
 tsmaxx = 0x0000
 tsminy = 0x0000
@@ -128,9 +127,18 @@ tsposx = 0x0000
 tsposy = 0x0000
 tssctl = 0x0000
 
+# BSL registers
+bslpswd = 0xA480E917
+bslfile = "trik_usb_project_1.txt"
+
 # Async counter
 acnt = 0
 cnti = acnt
+
+# Print text in certain coordinates
+def print_there(x, y, text):
+     sys.stdout.write("\x1b7\x1b[%d;%df%s\x1b8" % (y + 1, x + 1, text))
+     sys.stdout.flush()
 
 # Init async key press input without press <ENTER>
 def init_key_press():
@@ -247,7 +255,7 @@ def print_menu(menu_page):
         print_there(0, 2, "Select menu item:")
         print_there(0, 4, "<0/1> Exit/Enter calibration mode")
         print_there(0, 5, "<2>   Activate ts driver for Qt")
-        print_there(0, 6, "<3>   Set test program file")
+        print_there(0, 6, "<3>   Set test program file: ")
         print_there(0, 7, "<4>   Start test program file")
         print_there(0, 8, "<5>   Stop test program file")
         print_there(0, 10, "MIN X = ")
@@ -269,12 +277,14 @@ def print_menu(menu_page):
         print_there(0, 1, "BSL MENU")
         print_there(0, 2, "Select menu item:")
         print_there(0, 4, "<1>   Set firmware file: ")
-        print_there(0, 5, "<3>   Enter BSL mode")
-        print_there(0, 6, "<5>   Write firmware")
-        print_there(0, 7, "<0>   Hard reset")
-        print_there(0, 8, "<C>   Redraw screen")
-        print_there(0, 9, "<TAB> Change device group")
-        print_there(0, 10, "<ESC> Exit/Quit")
+        print_there(0, 5, "<2>   Set BSL password: ")
+        print_there(0, 6, "<3>   Load BSL mode")
+        print_there(0, 7, "<5>   Write firmware")
+        print_there(0, 8, "<7>   Soft reset")
+        print_there(0, 9, "<0>   Hard reset")
+        print_there(0, 11, "<C>   Redraw screen")
+        print_there(0, 12, "<TAB> Change device group")
+        print_there(0, 13, "<ESC> Exit/Quit")
 
 # Print register values
 def print_registers(menu_page):
@@ -382,6 +392,8 @@ def print_registers(menu_page):
     global tsposx
     global tsposy
     global tssctl
+    global bslfile
+    global bslpswd
     if menu_page == motor_menu:
         print_there(25, 4, "0x%02X " % motnum)
         print_there(25, 5, "%05u " % pwmper)
@@ -487,11 +499,9 @@ def print_registers(menu_page):
         print_there(8, 18, "0x%04X " % tssctl)
         print_there(25, 20, "%010u " % acnt)
         print_there(25, 22, "%010u " % cnti)
-
-# Print text in certain coordinates
-def print_there(x, y, text):
-     sys.stdout.write("\x1b7\x1b[%d;%df%s\x1b8" % (y + 1, x + 1, text))
-     sys.stdout.flush()
+    elif menu_page == bsl_menu:
+        print_there(35, 4, "%s " % bslfile)
+        print_there(35, 5, "0x%08X " % bslpswd)
 
 # Init async key press
 init_key_press()
@@ -608,6 +618,8 @@ def read_all_data(menu_page):
     global tsposx
     global tsposy
     global tssctl
+    global bslfile
+    global bslpswd
     if menu_page == motor_menu:
         pwmper, daddr = trik_protocol.get_reg_value(trik_motor.get_motor_period(motnum))
         pwmdut, daddr = trik_protocol.get_reg_value(trik_motor.get_motor_duty(motnum))
@@ -626,51 +638,51 @@ def read_all_data(menu_page):
         eval2, daddr = trik_protocol.get_reg_value(trik_encoder.read_encoder(trik_encoder.encoder2))
         eval3, daddr = trik_protocol.get_reg_value(trik_encoder.read_encoder(trik_encoder.encoder3))
         eval4, daddr = trik_protocol.get_reg_value(trik_encoder.read_encoder(trik_encoder.encoder4))
-        if ectl1 & 0x2000:
+        if ectl1 & trik_encoder.enc_2wires:
             ewr1 = 1
         else:
             ewr1 = 0
-        if ectl2 & 0x2000:
+        if ectl2 & trik_encoder.enc_2wires:
             ewr2 = 1
         else:
             ewr2 = 0
-        if ectl3 & 0x2000:
+        if ectl3 & trik_encoder.enc_2wires:
             ewr3 = 1
         else:
             ewr3 = 0
-        if ectl4 & 0x2000:
+        if ectl4 & trik_encoder.enc_2wires:
             ewr4 = 1
         else:
             ewr4 = 0
-        if ectl1 & 0x1000:
+        if ectl1 & trik_encoder.enc_pupen:
             epul1 = 1
         else:
             epul1 = 0
-        if ectl2 & 0x1000:
+        if ectl2 & trik_encoder.enc_pupen:
             epul2 = 1
         else:
             epul2 = 0
-        if ectl3 & 0x1000:
+        if ectl3 & trik_encoder.enc_pupen:
             epul3 = 1
         else:
             epul3 = 0
-        if ectl4 & 0x1000:
+        if ectl4 & trik_encoder.enc_pupen:
             epul4 = 1
         else:
             epul4 = 0
-        if ectl1 & 0x0800:
+        if ectl1 & trik_encoder.enc_fall:
             eedg1 = 1
         else:
             eedg1 = 0
-        if ectl2 & 0x0800:
+        if ectl2 & trik_encoder.enc_fall:
             eedg2 = 1
         else:
             eedg2 = 0
-        if ectl3 & 0x0800:
+        if ectl3 & trik_encoder.enc_fall:
             eedg3 = 1
         else:
             eedg3 = 0
-        if ectl4 & 0x0800:
+        if ectl4 & trik_encoder.enc_fall:
             eedg4 = 1
         else:
             eedg4 = 0
@@ -1133,12 +1145,18 @@ try:
                     trik_touch.activate_touch_driver()
                 if c == "3":
                     tsfile = raw_input("Enter file name: ")
+                    os.system("clear")
+                    print_menu(menu_pg)
                 if c == "4":
                     stmp0 = "./%s -qws &" % (tsfile)
                     os.system(stmp0)
+                    os.system("clear")
+                    print_menu(menu_pg)
                 if c == "5":
                     stmp0 = "killall %s" % (tsfile)
                     os.system(stmp0)
+                    os.system("clear")
+                    print_menu(menu_pg)
                 if c.upper() == "R":
                     cnti = acnt
                     while cnti > 0:
@@ -1153,6 +1171,35 @@ try:
                         tsposy, daddr = trik_protocol.get_reg_value(trik_touch.get_touch_posy())
                         print_registers(menu_pg)
                         cnti = cnti - 1
+            elif menu_pg == bsl_menu:
+                if c == "1":
+                    bslfile = raw_input("Enter file name: ")
+                    os.system("clear")
+                    print_menu(menu_pg)
+                if c == "2":
+                    bslpswd = int(raw_input("Enter BSL password: "))
+                    os.system("clear")
+                    print_menu(menu_pg)
+                if c == "3":
+                    trik_bsl.enter_bsl(bslpswd)
+                    os.system("clear")
+                    print_menu(menu_pg)
+                if c == "5":
+                    stmp0 = "msp-flasher -o %s" % (bslfile)
+                    os.system(stmp0)
+                    os.system(stmp0)
+                    os.system("clear")
+                    print_menu(menu_pg)
+                if c == "7":
+                    stmp0 = "msp-flasher -r 1"
+                    os.system(stmp0)
+                    os.system("clear")
+                    print_menu(menu_pg)
+                if c == "0":
+                    stmp0 = "./reset_msp.sh"
+                    os.system(stmp0)
+                    os.system("clear")
+                    print_menu(menu_pg)
             """
             if c == "9":
                 eper = eper - 100
@@ -1182,7 +1229,6 @@ try:
                 print_menu(menu_pg)
             if c == chr(0x1B):
                 break
-
             read_all_data(menu_pg)
             print_registers(menu_pg)
         except IOError: pass
