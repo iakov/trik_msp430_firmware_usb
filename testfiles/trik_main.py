@@ -16,17 +16,17 @@ menu_pg = motor_menu
 # Motor registers values
 motnum = trik_motor.motor1
 pwmper = 0x0000
-pwmdut = 0x0000
-motangle = 0x00000000
-mottime = 0x00000000
+pwmdut = [0, 0, 0, 0]
+motangle = [0, 0, 0, 0]
+mottime = [0, 0, 0, 0]
 moterr = 0x00000000
 motfb = 0x00000000
 encval = 0x00000000
 motctl = 0x0000
 mper = 0x0000
-mdut = 0x0000
-mang = 0x00000000
-mtim = 0x00000000
+mdut = [0, 0, 0, 0]
+mang = [0, 0, 0, 0]
+mtim = [0, 0, 0, 0]
 
 # Encoder registers values
 ectl1 = 0x0000
@@ -286,6 +286,7 @@ def print_menu(menu_page):
 
 # Print register values
 def print_registers(menu_page):
+    global motnum
     global pwmper
     global pwmdut
     global motangle
@@ -400,14 +401,14 @@ def print_registers(menu_page):
     if menu_page == motor_menu:
         print_there(25, 4, "0x%02X " % motnum)
         print_there(25, 5, "%05u " % mper)
-        print_there(25, 6, "%05u " % mdut)
-        print_there(25, 11, "%010u " % mang)
-        print_there(25, 12, "%010u " % mtim)
+        print_there(25, 6, "%05u " % mdut[motnum])
+        print_there(25, 11, "%010u " % mang[motnum])
+        print_there(25, 12, "%010u " % mtim[motnum])
         print_there(25, 18, "0x%04X " % motctl)
         print_there(25, 19, "%05u " % pwmper)
-        print_there(25, 20, "%05u " % pwmdut)
-        print_there(25, 21, "%010u " % motangle)
-        print_there(25, 22, "%010u " % mottime)
+        print_there(25, 20, "%05u " % pwmdut[motnum])
+        print_there(25, 21, "%010u " % motangle[motnum])
+        print_there(25, 22, "%010u " % mottime[motnum])
         print_there(25, 23, "%010u " % motfb)
         print_there(25, 24, "%010u " % encval)
         print_there(25, 25, "%010u " % moterr)
@@ -516,6 +517,7 @@ trik_power.enable_power()
 
 # Read all registers of motor
 def read_all_data(menu_page):
+    global motnum
     global pwmper
     global pwmdut
     global motangle
@@ -629,9 +631,18 @@ def read_all_data(menu_page):
     global mtim
     if menu_page == motor_menu:
         pwmper, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_motor.get_motor_period(motnum))
-        pwmdut, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_motor.get_motor_duty(motnum))
-        motangle, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_motor.get_motor_angle(motnum))
-        mottime, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_motor.get_motor_time(motnum))
+        pwmdut[trik_motor.motor1], daddr, rcode, ecode = trik_protocol.get_reg_value(trik_motor.get_motor_duty(trik_motor.motor1))
+        pwmdut[trik_motor.motor2], daddr, rcode, ecode = trik_protocol.get_reg_value(trik_motor.get_motor_duty(trik_motor.motor2))
+        pwmdut[trik_motor.motor3], daddr, rcode, ecode = trik_protocol.get_reg_value(trik_motor.get_motor_duty(trik_motor.motor3))
+        pwmdut[trik_motor.motor4], daddr, rcode, ecode = trik_protocol.get_reg_value(trik_motor.get_motor_duty(trik_motor.motor4))
+        motangle[trik_motor.motor1], daddr, rcode, ecode = trik_protocol.get_reg_value(trik_motor.get_motor_angle(trik_motor.motor1))
+        motangle[trik_motor.motor2], daddr, rcode, ecode = trik_protocol.get_reg_value(trik_motor.get_motor_angle(trik_motor.motor2))
+        motangle[trik_motor.motor3], daddr, rcode, ecode = trik_protocol.get_reg_value(trik_motor.get_motor_angle(trik_motor.motor3))
+        motangle[trik_motor.motor4], daddr, rcode, ecode = trik_protocol.get_reg_value(trik_motor.get_motor_angle(trik_motor.motor4))
+        mottime[trik_motor.motor1], daddr, rcode, ecode = trik_protocol.get_reg_value(trik_motor.get_motor_time(trik_motor.motor1))
+        mottime[trik_motor.motor2], daddr, rcode, ecode = trik_protocol.get_reg_value(trik_motor.get_motor_time(trik_motor.motor2))
+        mottime[trik_motor.motor3], daddr, rcode, ecode = trik_protocol.get_reg_value(trik_motor.get_motor_time(trik_motor.motor3))
+        mottime[trik_motor.motor4], daddr, rcode, ecode = trik_protocol.get_reg_value(trik_motor.get_motor_time(trik_motor.motor4))
         motctl, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_motor.get_motor_control(motnum))
         moterr, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_motor.get_motor_overcurrent(motnum))
         motfb, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_motor.get_motor_feedback(motnum))
@@ -708,6 +719,7 @@ def read_all_data(menu_page):
 
 # Write read data to internal registers
 def read_data_to_int_regs(menu_page):
+    global motnum
     global pwmper
     global pwmdut
     global motangle
@@ -821,9 +833,18 @@ def read_data_to_int_regs(menu_page):
     global mtim
     if menu_page == motor_menu:
         mper = pwmper
-        mdut = pwmdut
-        mang = motangle
-        mtim = mottime
+        mdut[trik_motor.motor1] = pwmdut[trik_motor.motor1]
+        mdut[trik_motor.motor2] = pwmdut[trik_motor.motor2]
+        mdut[trik_motor.motor3] = pwmdut[trik_motor.motor3]
+        mdut[trik_motor.motor4] = pwmdut[trik_motor.motor4]
+        mang[trik_motor.motor1] = motangle[trik_motor.motor1]
+        mang[trik_motor.motor2] = motangle[trik_motor.motor2]
+        mang[trik_motor.motor3] = motangle[trik_motor.motor3]
+        mang[trik_motor.motor4] = motangle[trik_motor.motor4]
+        mtim[trik_motor.motor1] = mottime[trik_motor.motor1]
+        mtim[trik_motor.motor2] = mottime[trik_motor.motor2]
+        mtim[trik_motor.motor3] = mottime[trik_motor.motor3]
+        mtim[trik_motor.motor4] = mottime[trik_motor.motor4]
     elif menu_page == encoder_menu:
         if ectl1 & trik_encoder.enc_2wires:
             ewr1 = 1
@@ -1027,28 +1048,34 @@ try:
                     if motnum >= trik_motor.motor4:
                         motnum = trik_motor.motor4
                 if c == "3":
-                    if mper > mdut:
+                    if mper > mdut[motnum]:
                         mper = mper - 100
                         if mper <= 0:
                             mper = 0
                     else:
-                        mper = mdut
-                    trik_motor.set_motor_period(motnum, mper)
+                        mper = mdut[motnum]
+                    trik_motor.set_motor_period(trik_motor.motor1, mper)
+                    trik_motor.set_motor_period(trik_motor.motor2, mper)
+                    trik_motor.set_motor_period(trik_motor.motor3, mper)
+                    trik_motor.set_motor_period(trik_motor.motor4, mper)
                 if c == "4":
                     mper = mper + 100
                     if mper >= 0xFFFF:
                         mper = 0xFFFF
-                    trik_motor.set_motor_period(motnum, mper)
+                    trik_motor.set_motor_period(trik_motor.motor1, mper)
+                    trik_motor.set_motor_period(trik_motor.motor2, mper)
+                    trik_motor.set_motor_period(trik_motor.motor3, mper)
+                    trik_motor.set_motor_period(trik_motor.motor4, mper)
                 if c == "5":
-                    mdut = mdut - 100
-                    if mdut <= 0:
-                        mdut = 0
-                    trik_motor.set_motor_duty(motnum, mdut)
+                    mdut[motnum] = mdut[motnum] - 100
+                    if mdut[motnum] <= 0:
+                        mdut[motnum] = 0
+                    trik_motor.set_motor_duty(motnum, mdut[motnum])
                 if c == "6":
-                    mdut = mdut + 100
-                    if mdut >= mper:
-                        mdut = mper
-                    trik_motor.set_motor_duty(motnum, mdut)
+                    mdut[motnum] = mdut[motnum] + 100
+                    if mdut[motnum] >= mper:
+                        mdut[motnum] = mper
+                    trik_motor.set_motor_duty(motnum, mdut[motnum])
                 if c == "7":
                     trik_motor.start_motor(motnum)
                 if c == "8":
@@ -1058,25 +1085,25 @@ try:
                 if c == "0":
                     trik_motor.stop_motor(motnum)
                 if c.upper() == "Q":
-                    mang = mang - 100
-                    if mang <= 0x00000000:
-                        mang = 0x00000000
-                    trik_motor.set_motor_angle(motnum, mang)
+                    mang[motnum] = mang[motnum] - 100
+                    if mang[motnum] <= 0x00000000:
+                        mang[motnum] = 0x00000000
+                    trik_motor.set_motor_angle(motnum, mang[motnum])
                 if c.upper() == "W":
-                    mang = mang + 100
-                    if mang >= 0xFFFFFFFF:
-                        mang = 0xFFFFFFFF
-                    trik_motor.set_motor_angle(motnum, mang)
+                    mang[motnum] = mang[motnum] + 100
+                    if mang[motnum] >= 0xFFFFFFFF:
+                        mang[motnum] = 0xFFFFFFFF
+                    trik_motor.set_motor_angle(motnum, mang[motnum])
                 if c.upper() == "E":
-                    mtim = mtim - 100
-                    if mtim <= 0x00000000:
-                        mtim = 0x00000000
-                    trik_motor.set_motor_time(motnum, mtim)
+                    mtim[motnum] = mtim[motnum] - 100
+                    if mtim[motnum] <= 0x00000000:
+                        mtim[motnum] = 0x00000000
+                    trik_motor.set_motor_time(motnum, mtim[motnum])
                 if c.upper() == "R":
-                    mtim = mtim + 100
-                    if mtim >= 0xFFFFFFFF:
-                        mtim = 0xFFFFFFFF
-                    trik_motor.set_motor_time(motnum, mtim)
+                    mtim[motnum] = mtim[motnum] + 100
+                    if mtim[motnum] >= 0xFFFFFFFF:
+                        mtim[motnum] = 0xFFFFFFFF
+                    trik_motor.set_motor_time(motnum, mtim[motnum])
                 if c.upper() == "A":
                     trik_encoder.enable_encoder(motnum + trik_encoder.encoder1, 1, 1, 0)
                     trik_motor.rotate_motor_angle(motnum)
