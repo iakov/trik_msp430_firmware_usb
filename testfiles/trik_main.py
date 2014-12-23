@@ -1006,7 +1006,7 @@ def thread0_print_regs():
         if aflg == 0x01:
             read_all_data(menu_pg)
             print_registers(menu_pg)
-            time.sleep(aper / 1000)
+            time.sleep(float(aper) / 1000.000)
     thread.exit_thread()
 
 thread.start_new_thread(thread0_print_regs, ())
@@ -1299,7 +1299,7 @@ try:
                 print_menu(menu_pg)
             if c == chr(0x1B):
                 aflg = 0x00
-                time.sleep((aper / 1000) + 1)
+                time.sleep((float(aper) / 1000.000) + 1.000)
                 break
             aflg = 0x01
             # read_all_data(menu_pg)
