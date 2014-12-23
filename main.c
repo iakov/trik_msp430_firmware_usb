@@ -106,7 +106,10 @@ void main (void)
     initReferenceTemperature(); //Init ref and temp sensor
     initADC10(); //Init ADC
     initPBPorts(); //Init B ports
-    enableTimer_B(); //Enable async timer
+
+    //Enable async timer
+    ASYNCTMR.ATCTL |= AT_EN;
+    ASYNCTIMER_handler();
 
    __enable_interrupt();  // Enable interrupts globally
 
