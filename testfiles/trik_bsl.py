@@ -15,5 +15,5 @@ bsl_password = 0xA480E917
 # Enable calibartion
 def enter_bsl(passwrd):
     if passwrd == bsl_password:
-        trik_protocol.write_32bit_reg(bsl1, bsl_pswd, passwrd)
+        trik_protocol.write_reg(bsl1, bsl_pswd, passwrd)
 

@@ -15,21 +15,21 @@ at_en = 0x0003
 
 # Enable timer
 def timer_enable():
-    trik_protocol.write_16bit_reg(timer1, atctl, at_en)
+    trik_protocol.write_reg(timer1, atctl, at_en)
 
 # Disable timer
 def timer_disable():
-    trik_protocol.write_16bit_reg(timer1, atctl, 0x0000)
+    trik_protocol.write_reg(timer1, atctl, 0x0000)
 
 # Set timer period
 def set_timer_period(tmper):
-    trik_protocol.write_16bit_reg(timer1, atper, tmper)
+    trik_protocol.write_reg(timer1, atper, tmper)
 
 # Get TCTL register
 def get_timer_control():
-    return trik_protocol.read_16bit_reg(timer1, atctl)
+    return trik_protocol.read_reg(timer1, atctl)
 
 # Get TVAL register
 def get_timer_value():
-    return trik_protocol.read_32bit_reg(timer1, atval)
+    return trik_protocol.read_reg(timer1, atval)
 

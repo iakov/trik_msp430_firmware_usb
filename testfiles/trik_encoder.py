@@ -28,7 +28,7 @@ def enable_encoder(encnum, numwires, pullup, edge):
         encctl = encctl + enc_pupen
     if edge:
         encctl = encctl + enc_fall
-    trik_protocol.write_16bit_reg(encnum, ectl, encctl)
+    trik_protocol.write_reg(encnum, ectl, encctl)
 
 # Enable async mode
 def enable_encoder_in_async(encnum, numwires, pullup, edge):
@@ -39,13 +39,13 @@ def enable_encoder_in_async(encnum, numwires, pullup, edge):
         encctl = encctl + enc_pupen
     if edge:
         encctl = encctl + enc_fall
-    trik_protocol.write_16bit_reg(encnum, ectl, encctl)
+    trik_protocol.write_reg(encnum, ectl, encctl)
 
 # Read encoder value
 def read_encoder(encnum):
-    return trik_protocol.read_32bit_reg(encnum, eval)
+    return trik_protocol.read_reg(encnum, eval)
 
 # Get ECTL register
 def get_encoder_control(encnum):
-    return trik_protocol.read_16bit_reg(encnum, ectl)
+    return trik_protocol.read_reg(encnum, ectl)
 

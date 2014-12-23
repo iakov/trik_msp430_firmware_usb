@@ -42,27 +42,27 @@ def enable_sensor(sensnum, pullup):
     sensctl = sens_enable + sens_read
     if pullup:
         sensctl = sensctl + sens_pull
-    trik_protocol.write_16bit_reg(sensnum, sctl, sensctl)
+    trik_protocol.write_reg(sensnum, sctl, sensctl)
 
 # Enable sensor in async mode
 def enable_sensor_in_async(sensnum, pullup):
     sensctl = sens_enable + sens_read + sens_async
     if pullup:
         sensctl = sensctl + sens_pull
-    trik_protocol.write_16bit_reg(sensnum, sctl, sensctl)
+    trik_protocol.write_reg(sensnum, sctl, sensctl)
 
 # Set sensor type
 def set_sensor_type(sensnum, senstype):
-    trik_protocol.write_16bit_reg(sensnum, sidx, senstype)
+    trik_protocol.write_reg(sensnum, sidx, senstype)
 
 # Read sensor value
 def read_sensor(sensnum):
-    return trik_protocol.read_32bit_reg(sensnum, sval)
+    return trik_protocol.read_reg(sensnum, sval)
 
 # Get SCTL register
 def get_sensor_control(sensnum):
-    return trik_protocol.read_16bit_reg(sensnum, sctl)
+    return trik_protocol.read_reg(sensnum, sctl)
 
 # Get SIDX register (type of sensor)
 def get_sensor_type(sensnum):
-    return trik_protocol.read_16bit_reg(sensnum, sidx)
+    return trik_protocol.read_reg(sensnum, sidx)

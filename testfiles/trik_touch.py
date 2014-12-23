@@ -22,47 +22,47 @@ t_en = 0x0001
 
 # Enable calibartion
 def touch_cal_on():
-    trik_protocol.write_16bit_reg(touch1, tmod, t_en)
+    trik_protocol.write_reg(touch1, tmod, t_en)
 
 # Disable calibartion
 def touch_cal_off():
-    trik_protocol.write_16bit_reg(touch1, tmod, 0x0000)
+    trik_protocol.write_reg(touch1, tmod, 0x0000)
 
 # Get TMOD register
 def get_touch_control():
-    return trik_protocol.read_16bit_reg(touch1, tmod)
+    return trik_protocol.read_reg(touch1, tmod)
 
 # Get MINX
 def get_touch_minx():
-    return trik_protocol.read_16bit_reg(touch1, minx)
+    return trik_protocol.read_reg(touch1, minx)
 
 # Get MAXX
 def get_touch_maxx():
-    return trik_protocol.read_16bit_reg(touch1, maxx)
+    return trik_protocol.read_reg(touch1, maxx)
 
 # Get MINY
 def get_touch_miny():
-    return trik_protocol.read_16bit_reg(touch1, miny)
+    return trik_protocol.read_reg(touch1, miny)
 
 # Get MAXY
 def get_touch_maxy():
-    return trik_protocol.read_16bit_reg(touch1, maxy)
+    return trik_protocol.read_reg(touch1, maxy)
 
 # Get SCRX
 def get_touch_scrx():
-    return trik_protocol.read_16bit_reg(touch1, scrx)
+    return trik_protocol.read_reg(touch1, scrx)
 
 # Get SCRY
 def get_touch_scry():
-    return trik_protocol.read_16bit_reg(touch1, scry)
+    return trik_protocol.read_reg(touch1, scry)
 
 # Get POSX
 def get_touch_posx():
-    return trik_protocol.read_16bit_reg(touch1, curx)
+    return trik_protocol.read_reg(touch1, curx)
 
 # Get POSY
 def get_touch_posy():
-    return trik_protocol.read_16bit_reg(touch1, cury)
+    return trik_protocol.read_reg(touch1, cury)
 
 # Activate ts drivers
 def activate_touch_driver():
