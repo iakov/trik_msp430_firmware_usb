@@ -7,8 +7,8 @@ fname2 = "/dev/ttyACM1"
 
 # Function to recognize response packets
 def get_reg_value(stmp):
+    regval = 0x00000000
     devaddr = 0x00
-    respcode = 0x00
     if len(stmp) == 18:
         devaddr = int(("0x" + stmp[1] + stmp[2]), 16)
         respcode = int(("0x" + stmp[3] + stmp[4]), 16)
@@ -17,12 +17,12 @@ def get_reg_value(stmp):
         crc1 = int(("0x" + stmp[15] + stmp[16]), 16)
         crc2 = (0xFF - (devaddr + respcode + regaddr + (regval & 0xFF) + ((regval >> 8) & 0xFF) + ((regval >> 16) & 0xFF) + ((regval >> 24) & 0xFF)) + 1) & 0xFF
         if crc1 != crc2:
-            rval = -1
+            errcode = 100
         else:
-            rval = regval
+            errcode = 0
     else:
-        rval = -2
-    return rval, devaddr, respcode
+        errcode = 200
+    return regval, devaddr, respcode, errcode
 
 # Write single register
 def write_reg(devaddr, regaddr, regval):

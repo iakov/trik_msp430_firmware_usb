@@ -23,6 +23,10 @@ moterr = 0x00000000
 motfb = 0x00000000
 encval = 0x00000000
 motctl = 0x0000
+mper = 0x0000
+mdut = 0x0000
+mang = 0x00000000
+mtim = 0x00000000
 
 # Encoder registers values
 ectl1 = 0x0000
@@ -172,12 +176,17 @@ def print_menu(menu_page):
         print_there(0, 15, "<T>   Rotate time")
         print_there(0, 16, "<Y>   Reverse time")
         print_there(0, 18, "Control register")
-        print_there(0, 19, "Feed-back value")
-        print_there(0, 20, "Encoder value")
-        print_there(0, 21, "Overcurrent errors")
-        print_there(0, 23, "<C>   Redraw screen")
-        print_there(0, 24, "<TAB> Change device group")
-        print_there(0, 25, "<ESC> Exit/Quit")
+        print_there(0, 19, "Period register")
+        print_there(0, 20, "Duty register")
+        print_there(0, 21, "Angle register")
+        print_there(0, 22, "Time register")
+        print_there(0, 23, "Feed-back value")
+        print_there(0, 24, "Encoder value")
+        print_there(0, 25, "Overcurrent errors")
+        print_there(0, 27, "<N/M> Async read period")
+        print_there(0, 29, "<C>   Redraw screen")
+        print_there(0, 30, "<TAB> Change device group")
+        print_there(0, 31, "<ESC> Exit/Quit")
     elif menu_page == encoder_menu:
         print_there(0, 1, "ENCODERs MENU")
         print_there(0, 2, "Select menu item:")
@@ -193,18 +202,18 @@ def print_menu(menu_page):
         print_there(0, 13, "<S>   Encoder2 rise/fall edge")
         print_there(0, 14, "<D>   Encoder3 rise/fall edge")
         print_there(0, 15, "<F>   Encoder4 rise/fall edge")
-        print_there(0, 18, "<N/M> Async read period")
-        print_there(0, 22, "Encoder1 control")
-        print_there(0, 23, "Encoder2 control")
-        print_there(0, 24, "Encoder3 control")
-        print_there(0, 25, "Encoder4 control")
-        print_there(0, 26, "Encoder1 value")
-        print_there(0, 27, "Encoder2 value")
-        print_there(0, 28, "Encoder3 value")
-        print_there(0, 29, "Encoder4 value")
-        print_there(0, 31, "<C>   Redraw screen")
-        print_there(0, 32, "<TAB> Change device group")
-        print_there(0, 33, "<ESC> Exit/Quit")
+        print_there(0, 17, "Encoder1 control")
+        print_there(0, 18, "Encoder2 control")
+        print_there(0, 19, "Encoder3 control")
+        print_there(0, 20, "Encoder4 control")
+        print_there(0, 21, "Encoder1 value")
+        print_there(0, 22, "Encoder2 value")
+        print_there(0, 23, "Encoder3 value")
+        print_there(0, 24, "Encoder4 value")
+        print_there(0, 26, "<N/M> Async read period")
+        print_there(0, 28, "<C>   Redraw screen")
+        print_there(0, 29, "<TAB> Change device group")
+        print_there(0, 30, "<ESC> Exit/Quit")
     elif menu_page == sensor_menu:
         print_there(0, 1, "SENSORs MENU")
         print_there(0, 2, "Select menu item:")
@@ -226,21 +235,21 @@ def print_menu(menu_page):
         print_there(0, 20, "Motor current        VALUE = ")
         print_there(0, 21, "Motor voltage        VALUE = ")
         print_there(0, 22, "Battery voltage      VALUE = ")
-        print_there(0, 25, "<N/M> Async read period")
-        print_there(0, 29, "<C>   Redraw screen")
-        print_there(0, 30, "<TAB> Change device group")
-        print_there(0, 31, "<ESC> Exit/Quit")
+        print_there(0, 24, "<N/M> Async read period")
+        print_there(0, 26, "<C>   Redraw screen")
+        print_there(0, 27, "<TAB> Change device group")
+        print_there(0, 28, "<ESC> Exit/Quit")
     elif menu_page == timer_menu:
         print_there(0, 1, "TIMER MENU")
         print_there(0, 2, "Select menu item:")
         print_there(0, 4, "<1/2> Set timer period")
         print_there(0, 5, "<3/4> Stop/start timer")
-        print_there(0, 7, "<N/M> Async read period")
-        print_there(0, 11, "Timer control")
-        print_there(0, 12, "Timer counter")
-        print_there(0, 14, "<C>   Redraw screen")
-        print_there(0, 15, "<TAB> Change device group")
-        print_there(0, 16, "<ESC> Exit/Quit")
+        print_there(0, 7, "Timer control")
+        print_there(0, 8, "Timer counter")
+        print_there(0, 10, "<N/M> Async read period")
+        print_there(0, 12, "<C>   Redraw screen")
+        print_there(0, 13, "<TAB> Change device group")
+        print_there(0, 14, "<ESC> Exit/Quit")
     elif menu_page == touch_menu:
         print_there(0, 1, "TOUCH SCREEN MENU")
         print_there(0, 2, "Select menu item:")
@@ -259,9 +268,9 @@ def print_menu(menu_page):
         print_there(0, 17, "POS Y = ")
         print_there(0, 18, "TMOD  = ")
         print_there(0, 20, "<N/M> Async read period")
-        print_there(0, 24, "<C>   Redraw screen")
-        print_there(0, 25, "<TAB> Change device group")
-        print_there(0, 26, "<ESC> Exit/Quit")
+        print_there(0, 22, "<C>   Redraw screen")
+        print_there(0, 23, "<TAB> Change device group")
+        print_there(0, 24, "<ESC> Exit/Quit")
     elif menu_page == bsl_menu:
         print_there(0, 1, "BSL MENU")
         print_there(0, 2, "Select menu item:")
@@ -384,16 +393,25 @@ def print_registers(menu_page):
     global bslfile
     global bslpswd
     global aper
+    global mper
+    global mdut
+    global mang
+    global mtim
     if menu_page == motor_menu:
         print_there(25, 4, "0x%02X " % motnum)
-        print_there(25, 5, "%05u " % pwmper)
-        print_there(25, 6, "%05u " % pwmdut)
-        print_there(25, 11, "%010u " % motangle)
-        print_there(25, 12, "%010u " % mottime)
+        print_there(25, 5, "%05u " % mper)
+        print_there(25, 6, "%05u " % mdut)
+        print_there(25, 11, "%010u " % mang)
+        print_there(25, 12, "%010u " % mtim)
         print_there(25, 18, "0x%04X " % motctl)
-        print_there(25, 19, "%010u " % motfb)
-        print_there(25, 20, "%010u " % encval)
-        print_there(25, 21, "%010u " % moterr)
+        print_there(25, 19, "%05u " % pwmper)
+        print_there(25, 20, "%05u " % pwmdut)
+        print_there(25, 21, "%010u " % motangle)
+        print_there(25, 22, "%010u " % mottime)
+        print_there(25, 23, "%010u " % motfb)
+        print_there(25, 24, "%010u " % encval)
+        print_there(25, 25, "%010u " % moterr)
+        print_there(25, 27, "%010u ms" % aper)
     elif menu_page == encoder_menu:
         print_there(30, 4, "%01u " % epul1)
         print_there(30, 5, "%01u " % epul2)
@@ -407,15 +425,15 @@ def print_registers(menu_page):
         print_there(30, 13, "%01u " % eedg2)
         print_there(30, 14, "%01u " % eedg3)
         print_there(30, 15, "%01u " % eedg4)
-        print_there(30, 18, "%010u " % aper)
-        print_there(30, 22, "0x%04X " % ectl1)
-        print_there(30, 23, "0x%04X " % ectl2)
-        print_there(30, 24, "0x%04X " % ectl3)
-        print_there(30, 25, "0x%04X " % ectl4)
-        print_there(30, 26, "%010u " % eval1)
-        print_there(30, 27, "%010u " % eval2)
-        print_there(30, 28, "%010u " % eval3)
-        print_there(30, 29, "%010u " % eval4)
+        print_there(30, 17, "0x%04X " % ectl1)
+        print_there(30, 18, "0x%04X " % ectl2)
+        print_there(30, 19, "0x%04X " % ectl3)
+        print_there(30, 20, "0x%04X " % ectl4)
+        print_there(30, 21, "%010u " % eval1)
+        print_there(30, 22, "%010u " % eval2)
+        print_there(30, 23, "%010u " % eval3)
+        print_there(30, 24, "%010u " % eval4)
+        print_there(30, 26, "%010u ms" % aper)
     elif menu_page == sensor_menu:
         print_there(23, 4, "%01u " % spul1)
         print_there(23, 5, "%01u " % spul2)
@@ -463,13 +481,13 @@ def print_registers(menu_page):
         print_there(29, 20, "%010u " % sval16)
         print_there(29, 21, "%010u " % sval17)
         print_there(29, 22, "%010u " % sval18)
-        print_there(29, 25, "%010u " % aper)
+        print_there(29, 24, "%010u ms" % aper)
     elif menu_page == timer_menu:
         print_there(25, 4, "%05u " % tper)
         print_there(25, 5, "%01u " % t_en)
-        print_there(25, 7, "%010u " % aper)
-        print_there(25, 11, "0x%04X " % tctl)
-        print_there(25, 12, "%010u " % tval)
+        print_there(25, 7, "0x%04X " % tctl)
+        print_there(25, 8, "%010u " % tval)
+        print_there(25, 10, "%010u ms" % aper)
     elif menu_page == touch_menu:
         print_there(35, 4, "%01u " % tsmod)
         print_there(35, 6, "%s " % tsfile)
@@ -482,7 +500,7 @@ def print_registers(menu_page):
         print_there(8, 16, "%05u " % tsposx)
         print_there(8, 17, "%05u " % tsposy)
         print_there(8, 18, "0x%04X " % tssctl)
-        print_there(25, 20, "%010u " % aper)
+        print_there(25, 20, "%010u ms" % aper)
     elif menu_page == bsl_menu:
         print_there(35, 4, "%s " % bslfile)
         print_there(35, 5, "0x%08X " % bslpswd)
@@ -605,24 +623,208 @@ def read_all_data(menu_page):
     global bslfile
     global bslpswd
     global aper
+    global mper
+    global mdut
+    global mang
+    global mtim
     if menu_page == motor_menu:
-        pwmper, daddr, rcode = trik_protocol.get_reg_value(trik_motor.get_motor_period(motnum))
-        pwmdut, daddr, rcode = trik_protocol.get_reg_value(trik_motor.get_motor_duty(motnum))
-        motangle, daddr, rcode = trik_protocol.get_reg_value(trik_motor.get_motor_angle(motnum))
-        mottime, daddr, rcode = trik_protocol.get_reg_value(trik_motor.get_motor_time(motnum))
-        motctl, daddr, rcode = trik_protocol.get_reg_value(trik_motor.get_motor_control(motnum))
-        moterr, daddr, rcode = trik_protocol.get_reg_value(trik_motor.get_motor_overcurrent(motnum))
-        motfb, daddr, rcode = trik_protocol.get_reg_value(trik_motor.get_motor_feedback(motnum))
-        encval, daddr, rcode = trik_protocol.get_reg_value(trik_encoder.read_encoder(motnum + trik_encoder.encoder1))
+        pwmper, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_motor.get_motor_period(motnum))
+        pwmdut, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_motor.get_motor_duty(motnum))
+        motangle, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_motor.get_motor_angle(motnum))
+        mottime, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_motor.get_motor_time(motnum))
+        motctl, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_motor.get_motor_control(motnum))
+        moterr, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_motor.get_motor_overcurrent(motnum))
+        motfb, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_motor.get_motor_feedback(motnum))
+        encval, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_encoder.read_encoder(motnum + trik_encoder.encoder1))
     elif menu_page == encoder_menu:
-        ectl1, daddr, rcode = trik_protocol.get_reg_value(trik_encoder.get_encoder_control(trik_encoder.encoder1))
-        ectl2, daddr, rcode = trik_protocol.get_reg_value(trik_encoder.get_encoder_control(trik_encoder.encoder2))
-        ectl3, daddr, rcode = trik_protocol.get_reg_value(trik_encoder.get_encoder_control(trik_encoder.encoder3))
-        ectl4, daddr, rcode = trik_protocol.get_reg_value(trik_encoder.get_encoder_control(trik_encoder.encoder4))
-        eval1, daddr, rcode = trik_protocol.get_reg_value(trik_encoder.read_encoder(trik_encoder.encoder1))
-        eval2, daddr, rcode = trik_protocol.get_reg_value(trik_encoder.read_encoder(trik_encoder.encoder2))
-        eval3, daddr, rcode = trik_protocol.get_reg_value(trik_encoder.read_encoder(trik_encoder.encoder3))
-        eval4, daddr, rcode = trik_protocol.get_reg_value(trik_encoder.read_encoder(trik_encoder.encoder4))
+        ectl1, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_encoder.get_encoder_control(trik_encoder.encoder1))
+        ectl2, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_encoder.get_encoder_control(trik_encoder.encoder2))
+        ectl3, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_encoder.get_encoder_control(trik_encoder.encoder3))
+        ectl4, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_encoder.get_encoder_control(trik_encoder.encoder4))
+        eval1, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_encoder.read_encoder(trik_encoder.encoder1))
+        eval2, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_encoder.read_encoder(trik_encoder.encoder2))
+        eval3, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_encoder.read_encoder(trik_encoder.encoder3))
+        eval4, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_encoder.read_encoder(trik_encoder.encoder4))
+    elif menu_page == sensor_menu:
+        sctl1, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.get_sensor_control(trik_sensor.sensor1))
+        sctl2, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.get_sensor_control(trik_sensor.sensor2))
+        sctl3, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.get_sensor_control(trik_sensor.sensor3))
+        sctl4, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.get_sensor_control(trik_sensor.sensor4))
+        sctl5, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.get_sensor_control(trik_sensor.sensor5))
+        sctl6, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.get_sensor_control(trik_sensor.sensor6))
+        sctl7, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.get_sensor_control(trik_sensor.sensor7))
+        sctl8, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.get_sensor_control(trik_sensor.sensor8))
+        sctl9, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.get_sensor_control(trik_sensor.sensor9))
+        sctl10, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.get_sensor_control(trik_sensor.sensor10))
+        sctl11, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.get_sensor_control(trik_sensor.sensor11))
+        sctl12, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.get_sensor_control(trik_sensor.sensor12))
+        sctl13, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.get_sensor_control(trik_sensor.sensor13))
+        sctl14, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.get_sensor_control(trik_sensor.sensor14))
+        sidx1, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.get_sensor_type(trik_sensor.sensor1))
+        sidx2, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.get_sensor_type(trik_sensor.sensor2))
+        sidx3, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.get_sensor_type(trik_sensor.sensor3))
+        sidx4, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.get_sensor_type(trik_sensor.sensor4))
+        sidx5, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.get_sensor_type(trik_sensor.sensor5))
+        sidx6, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.get_sensor_type(trik_sensor.sensor6))
+        sidx7, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.get_sensor_type(trik_sensor.sensor7))
+        sidx8, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.get_sensor_type(trik_sensor.sensor8))
+        sidx9, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.get_sensor_type(trik_sensor.sensor9))
+        sidx10, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.get_sensor_type(trik_sensor.sensor10))
+        sidx11, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.get_sensor_type(trik_sensor.sensor11))
+        sidx12, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.get_sensor_type(trik_sensor.sensor12))
+        sidx13, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.get_sensor_type(trik_sensor.sensor13))
+        sidx14, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.get_sensor_type(trik_sensor.sensor14))
+        sval1, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor1))
+        sval2, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor2))
+        sval3, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor3))
+        sval4, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor4))
+        sval5, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor5))
+        sval6, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor6))
+        sval7, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor7))
+        sval8, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor8))
+        sval9, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor9))
+        sval10, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor10))
+        sval11, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor11))
+        sval12, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor12))
+        sval13, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor13))
+        sval14, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor14))
+        sval15, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor15))
+        sval16, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor16))
+        sval17, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor17))
+        sval18, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor18))
+    elif menu_page == timer_menu:
+        tctl, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_timer.get_timer_control())
+        tval, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_timer.get_timer_value())
+    elif menu_page == touch_menu:
+        tssctl, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_touch.get_touch_control())
+        tsminx, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_touch.get_touch_minx())
+        tsmaxx, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_touch.get_touch_maxx())
+        tsminy, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_touch.get_touch_miny())
+        tsmaxy, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_touch.get_touch_maxy())
+        tsscrx, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_touch.get_touch_scrx())
+        tsscry, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_touch.get_touch_scry())
+        tsposx, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_touch.get_touch_posx())
+        tsposy, daddr, rcode, ecode = trik_protocol.get_reg_value(trik_touch.get_touch_posy())
+
+# Write read data to internal registers
+def read_data_to_int_regs(menu_page):
+    global pwmper
+    global pwmdut
+    global motangle
+    global mottime
+    global motctl
+    global motfb
+    global encval
+    global moterr
+    global ectl1
+    global ectl2
+    global ectl3
+    global ectl4
+    global eval1
+    global eval2
+    global eval3
+    global eval4
+    global epul1
+    global epul2
+    global epul3
+    global epul4
+    global eedg1
+    global eedg2
+    global eedg3
+    global eedg4
+    global ewr1
+    global ewr2
+    global ewr3
+    global ewr4
+    global eper
+    global sval1
+    global sval2
+    global sval3
+    global sval4
+    global sval5
+    global sval6
+    global sval7
+    global sval8
+    global sval9
+    global sval10
+    global sval11
+    global sval12
+    global sval13
+    global sval14
+    global sval15
+    global sval16
+    global sval17
+    global sval18
+    global sctl1
+    global sctl2
+    global sctl3
+    global sctl4
+    global sctl5
+    global sctl6
+    global sctl7
+    global sctl8
+    global sctl9
+    global sctl10
+    global sctl11
+    global sctl12
+    global sctl13
+    global sctl14
+    global sidx1
+    global sidx2
+    global sidx3
+    global sidx4
+    global sidx5
+    global sidx6
+    global sidx7
+    global sidx8
+    global sidx9
+    global sidx10
+    global sidx11
+    global sidx12
+    global sidx13
+    global sidx14
+    global spul1
+    global spul2
+    global spul3
+    global spul4
+    global spul5
+    global spul6
+    global spul7
+    global spul8
+    global spul9
+    global spul10
+    global spul11
+    global spul12
+    global spul13
+    global spul14
+    global tctl
+    global tper
+    global t_en
+    global tval
+    global tsmod
+    global tsfile
+    global tsminx
+    global tsmaxx
+    global tsminy
+    global tsmaxy
+    global tsscrx
+    global tsscry
+    global tsposx
+    global tsposy
+    global tssctl
+    global bslfile
+    global bslpswd
+    global aper
+    global mper
+    global mdut
+    global mang
+    global mtim
+    if menu_page == motor_menu:
+        mper = pwmper
+        mdut = pwmdut
+        mang = motangle
+        mtim = mottime
+    elif menu_page == encoder_menu:
         if ectl1 & trik_encoder.enc_2wires:
             ewr1 = 1
         else:
@@ -672,52 +874,6 @@ def read_all_data(menu_page):
         else:
             eedg4 = 0
     elif menu_page == sensor_menu:
-        sctl1, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.get_sensor_control(trik_sensor.sensor1))
-        sctl2, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.get_sensor_control(trik_sensor.sensor2))
-        sctl3, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.get_sensor_control(trik_sensor.sensor3))
-        sctl4, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.get_sensor_control(trik_sensor.sensor4))
-        sctl5, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.get_sensor_control(trik_sensor.sensor5))
-        sctl6, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.get_sensor_control(trik_sensor.sensor6))
-        sctl7, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.get_sensor_control(trik_sensor.sensor7))
-        sctl8, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.get_sensor_control(trik_sensor.sensor8))
-        sctl9, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.get_sensor_control(trik_sensor.sensor9))
-        sctl10, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.get_sensor_control(trik_sensor.sensor10))
-        sctl11, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.get_sensor_control(trik_sensor.sensor11))
-        sctl12, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.get_sensor_control(trik_sensor.sensor12))
-        sctl13, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.get_sensor_control(trik_sensor.sensor13))
-        sctl14, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.get_sensor_control(trik_sensor.sensor14))
-        sidx1, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.get_sensor_type(trik_sensor.sensor1))
-        sidx2, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.get_sensor_type(trik_sensor.sensor2))
-        sidx3, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.get_sensor_type(trik_sensor.sensor3))
-        sidx4, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.get_sensor_type(trik_sensor.sensor4))
-        sidx5, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.get_sensor_type(trik_sensor.sensor5))
-        sidx6, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.get_sensor_type(trik_sensor.sensor6))
-        sidx7, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.get_sensor_type(trik_sensor.sensor7))
-        sidx8, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.get_sensor_type(trik_sensor.sensor8))
-        sidx9, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.get_sensor_type(trik_sensor.sensor9))
-        sidx10, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.get_sensor_type(trik_sensor.sensor10))
-        sidx11, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.get_sensor_type(trik_sensor.sensor11))
-        sidx12, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.get_sensor_type(trik_sensor.sensor12))
-        sidx13, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.get_sensor_type(trik_sensor.sensor13))
-        sidx14, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.get_sensor_type(trik_sensor.sensor14))
-        sval1, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor1))
-        sval2, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor2))
-        sval3, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor3))
-        sval4, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor4))
-        sval5, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor5))
-        sval6, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor6))
-        sval7, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor7))
-        sval8, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor8))
-        sval9, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor9))
-        sval10, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor10))
-        sval11, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor11))
-        sval12, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor12))
-        sval13, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor13))
-        sval14, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor14))
-        sval15, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor15))
-        sval16, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor16))
-        sval17, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor17))
-        sval18, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor18))
         if sctl1 & trik_sensor.sens_pull:
             spul1 = 1
         else:
@@ -775,22 +931,11 @@ def read_all_data(menu_page):
         else:
             spul14 = 0
     elif menu_page == timer_menu:
-        tctl, daddr, rcode = trik_protocol.get_reg_value(trik_timer.get_timer_control())
-        tval, daddr, rcode = trik_protocol.get_reg_value(trik_timer.get_timer_value())
         if tctl == 0:
             t_en = 0
         else:
             t_en = 1
     elif menu_page == touch_menu:
-        tssctl, daddr, rcode = trik_protocol.get_reg_value(trik_touch.get_touch_control())
-        tsminx, daddr, rcode = trik_protocol.get_reg_value(trik_touch.get_touch_minx())
-        tsmaxx, daddr, rcode = trik_protocol.get_reg_value(trik_touch.get_touch_maxx())
-        tsminy, daddr, rcode = trik_protocol.get_reg_value(trik_touch.get_touch_miny())
-        tsmaxy, daddr, rcode = trik_protocol.get_reg_value(trik_touch.get_touch_maxy())
-        tsscrx, daddr, rcode = trik_protocol.get_reg_value(trik_touch.get_touch_scrx())
-        tsscry, daddr, rcode = trik_protocol.get_reg_value(trik_touch.get_touch_scry())
-        tsposx, daddr, rcode = trik_protocol.get_reg_value(trik_touch.get_touch_posx())
-        tsposy, daddr, rcode = trik_protocol.get_reg_value(trik_touch.get_touch_posy())
         tsmod = tssctl & 1
 
 # Read all registers
@@ -800,6 +945,12 @@ read_all_data(sensor_menu)
 read_all_data(timer_menu)
 read_all_data(touch_menu)
 read_all_data(bsl_menu)
+read_data_to_int_regs(motor_menu)
+read_data_to_int_regs(encoder_menu)
+read_data_to_int_regs(sensor_menu)
+read_data_to_int_regs(timer_menu)
+read_data_to_int_regs(touch_menu)
+read_data_to_int_regs(bsl_menu)
 
 # Init devices
 trik_encoder.enable_encoder(trik_encoder.encoder1, ewr1, epul1, eedg1)
@@ -849,11 +1000,14 @@ print_registers(menu_pg)
 # Thread to read and print registers
 def thread0_print_regs():
     global menu_pg
+    global aflg
+    global aper
     while aflg:
-        read_all_data(menu_pg)
-        print_registers(menu_pg)
-        time.sleep(aper / 1000)
-    thread.exit()
+        if aflg == 0x01:
+            read_all_data(menu_pg)
+            print_registers(menu_pg)
+            time.sleep(aper / 1000)
+    thread.exit_thread()
 
 thread.start_new_thread(thread0_print_regs, ())
 
@@ -862,6 +1016,7 @@ try:
     while 1:
         try:
             c = sys.stdin.read(1)
+            aflg = 0x02
             if menu_pg == motor_menu:
                 if c == "1":
                     motnum = motnum - 1
@@ -872,28 +1027,28 @@ try:
                     if motnum >= trik_motor.motor4:
                         motnum = trik_motor.motor4
                 if c == "3":
-                    if pwmper > pwmdut:
-                        pwmper = pwmper - 10
-                        if pwmper <= 0:
-                            pwmper = 0
+                    if mper > mdut:
+                        mper = mper - 100
+                        if mper <= 0:
+                            mper = 0
                     else:
-                        pwmper = pwmdut
-                    trik_motor.set_motor_period(motnum, pwmper)
+                        mper = mdut
+                    trik_motor.set_motor_period(motnum, mper)
                 if c == "4":
-                    pwmper = pwmper + 10
-                    if pwmper >= 0xFFFF:
-                        pwmper = 0xFFFF
-                    trik_motor.set_motor_period(motnum, pwmper)
+                    mper = mper + 100
+                    if mper >= 0xFFFF:
+                        mper = 0xFFFF
+                    trik_motor.set_motor_period(motnum, mper)
                 if c == "5":
-                    pwmdut = pwmdut - 10
-                    if pwmdut <= 0:
-                        pwmdut = 0
-                    trik_motor.set_motor_duty(motnum, pwmdut)
+                    mdut = mdut - 100
+                    if mdut <= 0:
+                        mdut = 0
+                    trik_motor.set_motor_duty(motnum, mdut)
                 if c == "6":
-                    pwmdut = pwmdut + 10
-                    if pwmdut >= pwmper:
-                        pwmdut = pwmper
-                    trik_motor.set_motor_duty(motnum, pwmdut)
+                    mdut = mdut + 100
+                    if mdut >= mper:
+                        mdut = mper
+                    trik_motor.set_motor_duty(motnum, mdut)
                 if c == "7":
                     trik_motor.start_motor(motnum)
                 if c == "8":
@@ -903,25 +1058,25 @@ try:
                 if c == "0":
                     trik_motor.stop_motor(motnum)
                 if c.upper() == "Q":
-                    motangle = motangle - 10
-                    if motangle <= 0x00000000:
-                        motangle = 0x00000000
-                    trik_motor.set_motor_angle(motnum, motangle)
+                    mang = mang - 100
+                    if mang <= 0x00000000:
+                        mang = 0x00000000
+                    trik_motor.set_motor_angle(motnum, mang)
                 if c.upper() == "W":
-                    motangle = motangle + 10
-                    if motangle >= 0xFFFFFFFF:
-                        motangle = 0xFFFFFFFF
-                    trik_motor.set_motor_angle(motnum, motangle)
+                    mang = mang + 100
+                    if mang >= 0xFFFFFFFF:
+                        mang = 0xFFFFFFFF
+                    trik_motor.set_motor_angle(motnum, mang)
                 if c.upper() == "E":
-                    mottime = mottime - 10
-                    if mottime <= 0x00000000:
-                        mottime = 0x00000000
-                    trik_motor.set_motor_time(motnum, mottime)
+                    mtim = mtim - 100
+                    if mtim <= 0x00000000:
+                        mtim = 0x00000000
+                    trik_motor.set_motor_time(motnum, mtim)
                 if c.upper() == "R":
-                    mottime = mottime + 10
-                    if mottime >= 0xFFFFFFFF:
-                        mottime = 0xFFFFFFFF
-                    trik_motor.set_motor_time(motnum, mottime)
+                    mtim = mtim + 100
+                    if mtim >= 0xFFFFFFFF:
+                        mtim = 0xFFFFFFFF
+                    trik_motor.set_motor_time(motnum, mtim)
                 if c.upper() == "A":
                     trik_encoder.enable_encoder(motnum + trik_encoder.encoder1, 1, 1, 0)
                     trik_motor.rotate_motor_angle(motnum)
@@ -1058,12 +1213,12 @@ try:
                     trik_sensor.set_sensor_type(trik_sensor.sensor14, sidx14)
             elif menu_pg == timer_menu:
                 if c == "1":
-                    tper = tper - 10
+                    tper = tper - 100
                     if tper <= 0:
                         tper = 0
                     trik_timer.set_timer_period(tper)
                 if c == "2":
-                    tper = tper + 10
+                    tper = tper + 100
                     if tper >= 0xFFFF:
                         tper = 0xFFFF
                     trik_timer.set_timer_period(tper)
@@ -1126,11 +1281,11 @@ try:
                     os.system("clear")
                     print_menu(menu_pg)
             if c.upper() == "N":
-                aper = aper - 10
+                aper = aper - 100
                 if aper <= 0:
                     aper = 0
             if c.upper() == "M":
-                aper = aper + 10
+                aper = aper + 100
                 if aper >= 0xFFFFFFFF:
                     aper = 0xFFFFFFFF
             if c.upper() == "C":
@@ -1146,6 +1301,7 @@ try:
                 aflg = 0x00
                 time.sleep((aper / 1000) + 1)
                 break
+            aflg = 0x01
             # read_all_data(menu_pg)
             print_registers(menu_pg)
         except IOError: pass
