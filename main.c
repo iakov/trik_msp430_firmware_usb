@@ -196,7 +196,6 @@ void main (void)
     }  // while(1)
 }  // main()
 
-
 /*  
  * ======== UNMI_ISR ========
  */
@@ -243,7 +242,6 @@ void __attribute__ ((interrupt(UNMI_VECTOR))) UNMI_ISR (void)
     }
 }
 
-
 // Timer_B7 Interrupt Vector (TBIV) handler
 #if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
 #pragma vector=TIMERB1_VECTOR
@@ -280,7 +278,7 @@ void TIMERB1_ISR(void)
         {
             if ((timerb_cnt==nnn) && (ENC[nnn-ENCODER1].ECTL & ENC_ASYNC))
             {
-                PROTOCOL_recvResponse(newString,nnn,NO_ERROR,EEVAL,ENC[nnn-ENCODER1].EVAL,REG_32bits);
+                PROTOCOL_recvResponse(newString,nnn,0x05,EEVAL,ENC[nnn-ENCODER1].EVAL);
                 if (cdcSendDataInBackground((uint8_t*)newString,strlen(newString),CDC1_INTFNUM,1))
                 {
                     SendError = 0x01;
@@ -294,7 +292,7 @@ void TIMERB1_ISR(void)
             if ((timerb_cnt==nnn) && (SENS[nnn-SENSOR1].SCTL & SENS_ASYNC))
             {
                 SENSOR_handler(nnn);
-                PROTOCOL_recvResponse(newString,nnn,NO_ERROR,SSVAL,SENS[nnn-SENSOR1].SVAL,REG_32bits);
+                PROTOCOL_recvResponse(newString,nnn,0x05,SSVAL,SENS[nnn-SENSOR1].SVAL);
                 if (cdcSendDataInBackground((uint8_t*)newString,strlen(newString),CDC1_INTFNUM,1))
                 {
                     SendError = 0x01;
@@ -314,7 +312,6 @@ void TIMERB1_ISR(void)
                 }
             }
         }
-
 
         //For touch read event
         timerb_ts++;

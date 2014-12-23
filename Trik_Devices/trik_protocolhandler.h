@@ -45,19 +45,11 @@
 uint8_t PROTOCOL_handler(char *in_str, char *out_str);
 
 //Response functions
-void PROTOCOL_transResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code);
-void PROTOCOL_recvResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code, uint8_t reg_addr, uint32_t reg_val, uint8_t reg_size);
-void PROTOCOL_errResponse(char *r_str, uint8_t dev_addr, uint8_t func_code, uint8_t err_code);
+void PROTOCOL_recvResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code, uint8_t reg_addr, uint32_t reg_val);
 
 //1 byte number to string hex
 uint8_t TO_HEX(uint8_t i);
 void char2hex(char *string, uint8_t number);
-
-//String hex to 1 byte number
-//uint8_t hex2char(char *string, uint8_t pos);
-
-//String hex to 2 bytes number
-//uint16_t hex2int(char *string, uint8_t pos);
 
 //String HEX to N bytes number
 uint32_t hex2num(char *string, uint16_t pos, uint16_t numsize);
