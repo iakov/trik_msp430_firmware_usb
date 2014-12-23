@@ -1,6 +1,6 @@
 __author__ = 'Rostislav Varzar'
 
-import termios, fcntl, sys, os, struct
+import termios, fcntl, sys, os, thread, time
 import trik_protocol, trik_motor, trik_encoder, trik_timer, trik_sensor, trik_touch, trik_bsl
 import trik_stty, trik_power
 
@@ -131,9 +131,9 @@ tssctl = 0x0000
 bslpswd = 0xA480E917
 bslfile = "trik_usb_project_1.txt"
 
-# Async counter
-acnt = 0
-cnti = acnt
+# Async reading registers
+aper = 1000
+aflg = 0x01
 
 # Print text in certain coordinates
 def print_there(x, y, text):
@@ -193,10 +193,7 @@ def print_menu(menu_page):
         print_there(0, 13, "<S>   Encoder2 rise/fall edge")
         print_there(0, 14, "<D>   Encoder3 rise/fall edge")
         print_there(0, 15, "<F>   Encoder4 rise/fall edge")
-        # print_there(0, 17, "<9/0> Timer interval")
-        print_there(0, 18, "<N/M> Set async counter")
-        print_there(0, 19, "<R>   Enter async mode")
-        print_there(0, 20, "Read cycles remain")
+        print_there(0, 18, "<N/M> Async read period")
         print_there(0, 22, "Encoder1 control")
         print_there(0, 23, "Encoder2 control")
         print_there(0, 24, "Encoder3 control")
@@ -229,10 +226,7 @@ def print_menu(menu_page):
         print_there(0, 20, "Motor current        VALUE = ")
         print_there(0, 21, "Motor voltage        VALUE = ")
         print_there(0, 22, "Battery voltage      VALUE = ")
-        # print_there(0, 24, "<9/0> Timer interval")
-        print_there(0, 25, "<N/M> Set async counter")
-        print_there(0, 26, "<R>   Enter async mode")
-        print_there(0, 27, "Read cycles remain")
+        print_there(0, 25, "<N/M> Async read period")
         print_there(0, 29, "<C>   Redraw screen")
         print_there(0, 30, "<TAB> Change device group")
         print_there(0, 31, "<ESC> Exit/Quit")
@@ -241,10 +235,7 @@ def print_menu(menu_page):
         print_there(0, 2, "Select menu item:")
         print_there(0, 4, "<1/2> Set timer period")
         print_there(0, 5, "<3/4> Stop/start timer")
-        # print_there(0, 24, "<9/0> Timer interval")
-        print_there(0, 7, "<N/M> Set async counter")
-        print_there(0, 8, "<R>   Enter async mode")
-        print_there(0, 9, "Read cycles remain")
+        print_there(0, 7, "<N/M> Async read period")
         print_there(0, 11, "Timer control")
         print_there(0, 12, "Timer counter")
         print_there(0, 14, "<C>   Redraw screen")
@@ -267,9 +258,7 @@ def print_menu(menu_page):
         print_there(0, 16, "POS X = ")
         print_there(0, 17, "POS Y = ")
         print_there(0, 18, "TMOD  = ")
-        print_there(0, 20, "<N/M> Set async counter")
-        print_there(0, 21, "<R>   Enter async mode")
-        print_there(0, 22, "Read cycles remain")
+        print_there(0, 20, "<N/M> Async read period")
         print_there(0, 24, "<C>   Redraw screen")
         print_there(0, 25, "<TAB> Change device group")
         print_there(0, 26, "<ESC> Exit/Quit")
@@ -394,6 +383,7 @@ def print_registers(menu_page):
     global tssctl
     global bslfile
     global bslpswd
+    global aper
     if menu_page == motor_menu:
         print_there(25, 4, "0x%02X " % motnum)
         print_there(25, 5, "%05u " % pwmper)
@@ -417,9 +407,7 @@ def print_registers(menu_page):
         print_there(30, 13, "%01u " % eedg2)
         print_there(30, 14, "%01u " % eedg3)
         print_there(30, 15, "%01u " % eedg4)
-        # print_there(30, 17, "%05u " % eper)
-        print_there(30, 18, "%010u " % acnt)
-        print_there(30, 20, "%010u " % cnti)
+        print_there(30, 18, "%010u " % aper)
         print_there(30, 22, "0x%04X " % ectl1)
         print_there(30, 23, "0x%04X " % ectl2)
         print_there(30, 24, "0x%04X " % ectl3)
@@ -475,14 +463,11 @@ def print_registers(menu_page):
         print_there(29, 20, "%010u " % sval16)
         print_there(29, 21, "%010u " % sval17)
         print_there(29, 22, "%010u " % sval18)
-        # print_there(29, 24, "%05u " % eper)
-        print_there(29, 25, "%010u " % acnt)
-        print_there(29, 27, "%010u " % cnti)
+        print_there(29, 25, "%010u " % aper)
     elif menu_page == timer_menu:
         print_there(25, 4, "%05u " % tper)
         print_there(25, 5, "%01u " % t_en)
-        print_there(25, 7, "%010u " % acnt)
-        print_there(25, 9, "%010u " % cnti)
+        print_there(25, 7, "%010u " % aper)
         print_there(25, 11, "0x%04X " % tctl)
         print_there(25, 12, "%010u " % tval)
     elif menu_page == touch_menu:
@@ -497,8 +482,7 @@ def print_registers(menu_page):
         print_there(8, 16, "%05u " % tsposx)
         print_there(8, 17, "%05u " % tsposy)
         print_there(8, 18, "0x%04X " % tssctl)
-        print_there(25, 20, "%010u " % acnt)
-        print_there(25, 22, "%010u " % cnti)
+        print_there(25, 20, "%010u " % aper)
     elif menu_page == bsl_menu:
         print_there(35, 4, "%s " % bslfile)
         print_there(35, 5, "0x%08X " % bslpswd)
@@ -620,6 +604,7 @@ def read_all_data(menu_page):
     global tssctl
     global bslfile
     global bslpswd
+    global aper
     if menu_page == motor_menu:
         pwmper, daddr, rcode = trik_protocol.get_reg_value(trik_motor.get_motor_period(motnum))
         pwmdut, daddr, rcode = trik_protocol.get_reg_value(trik_motor.get_motor_duty(motnum))
@@ -861,6 +846,17 @@ os.system("clear")
 print_menu(menu_pg)
 print_registers(menu_pg)
 
+# Thread to read and print registers
+def thread0_print_regs():
+    global menu_pg
+    while aflg:
+        read_all_data(menu_pg)
+        print_registers(menu_pg)
+        time.sleep(aper / 1000)
+    thread.exit()
+
+thread.start_new_thread(thread0_print_regs, ())
+
 # Main cycle
 try:
     while 1:
@@ -877,24 +873,24 @@ try:
                         motnum = trik_motor.motor4
                 if c == "3":
                     if pwmper > pwmdut:
-                        pwmper = pwmper - 100
+                        pwmper = pwmper - 10
                         if pwmper <= 0:
                             pwmper = 0
                     else:
                         pwmper = pwmdut
                     trik_motor.set_motor_period(motnum, pwmper)
                 if c == "4":
-                    pwmper = pwmper + 100
+                    pwmper = pwmper + 10
                     if pwmper >= 0xFFFF:
                         pwmper = 0xFFFF
                     trik_motor.set_motor_period(motnum, pwmper)
                 if c == "5":
-                    pwmdut = pwmdut - 100
+                    pwmdut = pwmdut - 10
                     if pwmdut <= 0:
                         pwmdut = 0
                     trik_motor.set_motor_duty(motnum, pwmdut)
                 if c == "6":
-                    pwmdut = pwmdut + 100
+                    pwmdut = pwmdut + 10
                     if pwmdut >= pwmper:
                         pwmdut = pwmper
                     trik_motor.set_motor_duty(motnum, pwmdut)
@@ -975,34 +971,6 @@ try:
                 if c.upper() == "F":
                     eedg4 = 1 - eedg4
                     trik_encoder.enable_encoder(trik_encoder.encoder4, ewr4, epul4, eedg4)
-                if c.upper() == "R":
-                    # trik_timer.timer_disable()
-                    # trik_encoder.enable_encoder_in_async(trik_encoder.encoder1, ewr1, epul1, eedg1)
-                    # trik_encoder.enable_encoder_in_async(trik_encoder.encoder2, ewr2, epul2, eedg2)
-                    # trik_encoder.enable_encoder_in_async(trik_encoder.encoder3, ewr3, epul3, eedg3)
-                    # trik_encoder.enable_encoder_in_async(trik_encoder.encoder4, ewr4, epul4, eedg4)
-                    # trik_timer.set_timer_period(eper)
-                    # trik_timer.timer_enable()
-                    cnti = acnt
-                    while cnti > 0:
-                        """
-                        rval, daddr = trik_protocol.get_reg_value(trik_protocol.read_async_reg())
-                        if daddr == trik_encoder.encoder1:
-                            eval1 = rval
-                        if daddr == trik_encoder.encoder2:
-                            eval2 = rval
-                        if daddr == trik_encoder.encoder3:
-                            eval3 = rval
-                        if daddr == trik_encoder.encoder4:
-                            eval4 = rval
-                        """
-                        eval1, daddr, rcode = trik_protocol.get_reg_value(trik_encoder.read_encoder(trik_encoder.encoder1))
-                        eval2, daddr, rcode = trik_protocol.get_reg_value(trik_encoder.read_encoder(trik_encoder.encoder2))
-                        eval3, daddr, rcode = trik_protocol.get_reg_value(trik_encoder.read_encoder(trik_encoder.encoder3))
-                        eval4, daddr, rcode = trik_protocol.get_reg_value(trik_encoder.read_encoder(trik_encoder.encoder4))
-                        print_registers(menu_pg)
-                        cnti = cnti - 1
-                    trik_timer.timer_disable()
             elif menu_pg == sensor_menu:
                 if c == "1":
                     spul1 = 1 - spul1
@@ -1088,37 +1056,14 @@ try:
                 if c.upper() == "I":
                     sidx14 = 1 - sidx14
                     trik_sensor.set_sensor_type(trik_sensor.sensor14, sidx14)
-                if c.upper() == "R":
-                    cnti = acnt
-                    while cnti > 0:
-                        sval1, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor1))
-                        sval2, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor2))
-                        sval3, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor3))
-                        sval4, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor4))
-                        sval5, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor5))
-                        sval6, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor6))
-                        sval7, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor7))
-                        sval8, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor8))
-                        sval9, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor9))
-                        sval10, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor10))
-                        sval11, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor11))
-                        sval12, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor12))
-                        sval13, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor13))
-                        sval14, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor14))
-                        sval15, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor15))
-                        sval16, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor16))
-                        sval17, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor17))
-                        sval18, daddr, rcode = trik_protocol.get_reg_value(trik_sensor.read_sensor(trik_sensor.sensor18))
-                        print_registers(menu_pg)
-                        cnti = cnti - 1
             elif menu_pg == timer_menu:
                 if c == "1":
-                    tper = tper - 100
+                    tper = tper - 10
                     if tper <= 0:
                         tper = 0
                     trik_timer.set_timer_period(tper)
                 if c == "2":
-                    tper = tper + 100
+                    tper = tper + 10
                     if tper >= 0xFFFF:
                         tper = 0xFFFF
                     trik_timer.set_timer_period(tper)
@@ -1128,12 +1073,6 @@ try:
                 if c == "4":
                     t_en = 1
                     trik_timer.timer_enable()
-                if c.upper() == "R":
-                    cnti = acnt
-                    while cnti > 0:
-                        tval, daddr, rcode = trik_protocol.get_reg_value(trik_timer.get_timer_value())
-                        print_registers(menu_pg)
-                        cnti = cnti - 1
             elif menu_pg == touch_menu:
                 if c == "0":
                     tsmod = 0
@@ -1157,20 +1096,6 @@ try:
                     os.system(stmp0)
                     os.system("clear")
                     print_menu(menu_pg)
-                if c.upper() == "R":
-                    cnti = acnt
-                    while cnti > 0:
-                        tssctl, daddr, rcode = trik_protocol.get_reg_value(trik_touch.get_touch_control())
-                        tsminx, daddr, rcode = trik_protocol.get_reg_value(trik_touch.get_touch_minx())
-                        tsmaxx, daddr, rcode = trik_protocol.get_reg_value(trik_touch.get_touch_maxx())
-                        tsminy, daddr, rcode = trik_protocol.get_reg_value(trik_touch.get_touch_miny())
-                        tsmaxy, daddr, rcode = trik_protocol.get_reg_value(trik_touch.get_touch_maxy())
-                        tsscrx, daddr, rcode = trik_protocol.get_reg_value(trik_touch.get_touch_scrx())
-                        tsscry, daddr, rcode = trik_protocol.get_reg_value(trik_touch.get_touch_scry())
-                        tsposx, daddr, rcode = trik_protocol.get_reg_value(trik_touch.get_touch_posx())
-                        tsposy, daddr, rcode = trik_protocol.get_reg_value(trik_touch.get_touch_posy())
-                        print_registers(menu_pg)
-                        cnti = cnti - 1
             elif menu_pg == bsl_menu:
                 if c == "1":
                     bslfile = raw_input("Enter file name: ")
@@ -1200,24 +1125,14 @@ try:
                     os.system(stmp0)
                     os.system("clear")
                     print_menu(menu_pg)
-            """
-            if c == "9":
-                eper = eper - 100
-                if eper <= 0:
-                    eper = 0
-            if c == "0":
-                eper = eper + 100
-                if eper >= 0xFFFF:
-                    eper = 0xFFFF
-            """
             if c.upper() == "N":
-                acnt = acnt - 100
-                if acnt <= 0:
-                    acnt = 0
+                aper = aper - 10
+                if aper <= 0:
+                    aper = 0
             if c.upper() == "M":
-                acnt = acnt + 100
-                if acnt >= 0xFFFFFFFF:
-                    acnt = 0xFFFFFFFF
+                aper = aper + 10
+                if aper >= 0xFFFFFFFF:
+                    aper = 0xFFFFFFFF
             if c.upper() == "C":
                 os.system("clear")
                 print_menu(menu_pg)
@@ -1228,8 +1143,10 @@ try:
                 os.system("clear")
                 print_menu(menu_pg)
             if c == chr(0x1B):
+                aflg = 0x00
+                time.sleep((aper / 1000) + 1)
                 break
-            read_all_data(menu_pg)
+            # read_all_data(menu_pg)
             print_registers(menu_pg)
         except IOError: pass
 finally:
