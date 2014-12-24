@@ -27,14 +27,20 @@ def get_reg_value(stmp):
 # Write single register
 def write_reg(devaddr, regaddr, regval):
     try:
-        f2 = open(fname1, "r")
+        f2 = open(fname1, "rb")
         funcnum = 0x03
         crc = (0xFF - (devaddr + funcnum + regaddr + (regval & 0xFF) + ((regval >> 8) & 0xFF) + ((regval >> 16) & 0xFF) + ((regval >> 24) & 0xFF)) + 1) & 0xFF
         stmp = ":%02X%02X%02X%08X%02X\n" % (devaddr, funcnum, regaddr, regval, crc)
         f1 = open(fname1, "wb")
         f1.write(stmp)
         f1.close()
-        stmp = f2.readline()
+        stmp = ""
+        sidx = 0
+        ss = ""
+        while ss != "\n" or sidx < 18:
+            ss = str(f2.read(1))
+            stmp = stmp + ss
+            sidx = sidx + 1
         f2.close()
         return stmp
     except IOError, e:
@@ -43,14 +49,20 @@ def write_reg(devaddr, regaddr, regval):
 # Read single register
 def read_reg(devaddr, regaddr):
     try:
-        f2 = open(fname1, "r")
+        f2 = open(fname1, "rb")
         funcnum = 0x05
         crc = (0xFF - (devaddr + funcnum + regaddr) + 1) & 0xFF
         stmp = ":%02X%02X%02X%02X\n" % (devaddr, funcnum, regaddr, crc)
         f1 = open(fname1, "wb")
         f1.write(stmp)
         f1.close()
-        stmp = f2.readline()
+        stmp = ""
+        sidx = 0
+        ss = ""
+        while ss != "\n" or sidx < 18:
+            ss = str(f2.read(1))
+            stmp = stmp + ss
+            sidx = sidx + 1
         f2.close()
         return stmp
     except IOError, e:
