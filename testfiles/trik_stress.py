@@ -3,6 +3,7 @@ __author__ = 'Rostislav Varzar'
 import termios, fcntl, sys, os, thread, time
 import trik_protocol, trik_motor, trik_encoder, trik_timer, trik_sensor, trik_touch, trik_bsl
 import trik_stty, trik_power
+import random
 
 # Defines for menu pages
 motor_menu = 0x00
@@ -1039,320 +1040,90 @@ def stress_test():
         step = step + 1
         print "Step: %u\n" % step
         print "Motor \n"
+        trik_motor.start_motor(trik_motor.motor1)
+        trik_motor.start_motor(trik_motor.motor2)
+        trik_motor.start_motor(trik_motor.motor3)
+        trik_motor.start_motor(trik_motor.motor4)
+        trik_motor.set_motor_period(trik_motor.motor1, int(random.random() * 65535))
+        trik_motor.set_motor_period(trik_motor.motor2, int(random.random() * 65535))
+        trik_motor.set_motor_period(trik_motor.motor3, int(random.random() * 65535))
+        trik_motor.set_motor_period(trik_motor.motor4, int(random.random() * 65535))
+        trik_motor.set_motor_duty(trik_motor.motor1, int(random.random() * 65535))
+        trik_motor.set_motor_duty(trik_motor.motor2, int(random.random() * 65535))
+        trik_motor.set_motor_duty(trik_motor.motor3, int(random.random() * 65535))
+        trik_motor.set_motor_duty(trik_motor.motor4, int(random.random() * 65535))
         read_all_data(motor_menu)
         print "Encoder \n"
+        trik_motor.reverse_motor(trik_motor.motor1)
+        trik_motor.reverse_motor(trik_motor.motor2)
+        trik_motor.reverse_motor(trik_motor.motor3)
+        trik_motor.reverse_motor(trik_motor.motor4)
+        trik_motor.set_motor_period(trik_motor.motor1, int(random.random() * 65535))
+        trik_motor.set_motor_period(trik_motor.motor2, int(random.random() * 65535))
+        trik_motor.set_motor_period(trik_motor.motor3, int(random.random() * 65535))
+        trik_motor.set_motor_period(trik_motor.motor4, int(random.random() * 65535))
+        trik_motor.set_motor_duty(trik_motor.motor1, int(random.random() * 65535))
+        trik_motor.set_motor_duty(trik_motor.motor2, int(random.random() * 65535))
+        trik_motor.set_motor_duty(trik_motor.motor3, int(random.random() * 65535))
+        trik_motor.set_motor_duty(trik_motor.motor4, int(random.random() * 65535))
         read_all_data(encoder_menu)
         print "Sensor \n"
+        trik_motor.start_motor(trik_motor.motor1)
+        trik_motor.start_motor(trik_motor.motor2)
+        trik_motor.start_motor(trik_motor.motor3)
+        trik_motor.start_motor(trik_motor.motor4)
+        trik_motor.set_motor_period(trik_motor.motor1, int(random.random() * 65535))
+        trik_motor.set_motor_period(trik_motor.motor2, int(random.random() * 65535))
+        trik_motor.set_motor_period(trik_motor.motor3, int(random.random() * 65535))
+        trik_motor.set_motor_period(trik_motor.motor4, int(random.random() * 65535))
+        trik_motor.set_motor_duty(trik_motor.motor1, int(random.random() * 65535))
+        trik_motor.set_motor_duty(trik_motor.motor2, int(random.random() * 65535))
+        trik_motor.set_motor_duty(trik_motor.motor3, int(random.random() * 65535))
+        trik_motor.set_motor_duty(trik_motor.motor4, int(random.random() * 65535))
         read_all_data(sensor_menu)
         print "Timer \n"
+        trik_motor.start_motor(trik_motor.motor1)
+        trik_motor.start_motor(trik_motor.motor2)
+        trik_motor.start_motor(trik_motor.motor3)
+        trik_motor.start_motor(trik_motor.motor4)
+        trik_motor.set_motor_period(trik_motor.motor1, int(random.random() * 65535))
+        trik_motor.set_motor_period(trik_motor.motor2, int(random.random() * 65535))
+        trik_motor.set_motor_period(trik_motor.motor3, int(random.random() * 65535))
+        trik_motor.set_motor_period(trik_motor.motor4, int(random.random() * 65535))
+        trik_motor.set_motor_duty(trik_motor.motor1, int(random.random() * 65535))
+        trik_motor.set_motor_duty(trik_motor.motor2, int(random.random() * 65535))
+        trik_motor.set_motor_duty(trik_motor.motor3, int(random.random() * 65535))
+        trik_motor.set_motor_duty(trik_motor.motor4, int(random.random() * 65535))
         read_all_data(timer_menu)
         print "Touch \n"
+        trik_motor.reverse_motor(trik_motor.motor1)
+        trik_motor.reverse_motor(trik_motor.motor2)
+        trik_motor.reverse_motor(trik_motor.motor3)
+        trik_motor.reverse_motor(trik_motor.motor4)
+        trik_motor.set_motor_period(trik_motor.motor1, int(random.random() * 65535))
+        trik_motor.set_motor_period(trik_motor.motor2, int(random.random() * 65535))
+        trik_motor.set_motor_period(trik_motor.motor3, int(random.random() * 65535))
+        trik_motor.set_motor_period(trik_motor.motor4, int(random.random() * 65535))
+        trik_motor.set_motor_duty(trik_motor.motor1, int(random.random() * 65535))
+        trik_motor.set_motor_duty(trik_motor.motor2, int(random.random() * 65535))
+        trik_motor.set_motor_duty(trik_motor.motor3, int(random.random() * 65535))
+        trik_motor.set_motor_duty(trik_motor.motor4, int(random.random() * 65535))
         read_all_data(touch_menu)
         print "BSL \n"
+        trik_motor.brake_motor(trik_motor.motor1)
+        trik_motor.brake_motor(trik_motor.motor2)
+        trik_motor.brake_motor(trik_motor.motor3)
+        trik_motor.brake_motor(trik_motor.motor4)
+        trik_motor.set_motor_period(trik_motor.motor1, int(random.random() * 65535))
+        trik_motor.set_motor_period(trik_motor.motor2, int(random.random() * 65535))
+        trik_motor.set_motor_period(trik_motor.motor3, int(random.random() * 65535))
+        trik_motor.set_motor_period(trik_motor.motor4, int(random.random() * 65535))
+        trik_motor.set_motor_duty(trik_motor.motor1, int(random.random() * 65535))
+        trik_motor.set_motor_duty(trik_motor.motor2, int(random.random() * 65535))
+        trik_motor.set_motor_duty(trik_motor.motor3, int(random.random() * 65535))
+        trik_motor.set_motor_duty(trik_motor.motor4, int(random.random() * 65535))
         read_all_data(bsl_menu)
+
 
 stress_test()
 
-# Main cycle
-try:
-    while 1:
-        try:
-            c = sys.stdin.read(1)
-            aflg = 0x02
-            if menu_pg == motor_menu:
-                if c == "1":
-                    motnum = motnum - 1
-                    if motnum <= trik_motor.motor1:
-                        motnum = trik_motor.motor1
-                if c == "2":
-                    motnum = motnum + 1
-                    if motnum >= trik_motor.motor4:
-                        motnum = trik_motor.motor4
-                if c == "3":
-                    if mper > mdut[motnum]:
-                        mper = mper - 100
-                        if mper <= 0:
-                            mper = 0
-                    else:
-                        mper = mdut[motnum]
-                    trik_motor.set_motor_period(trik_motor.motor1, mper)
-                    trik_motor.set_motor_period(trik_motor.motor2, mper)
-                    trik_motor.set_motor_period(trik_motor.motor3, mper)
-                    trik_motor.set_motor_period(trik_motor.motor4, mper)
-                if c == "4":
-                    mper = mper + 100
-                    if mper >= 0xFFFF:
-                        mper = 0xFFFF
-                    trik_motor.set_motor_period(trik_motor.motor1, mper)
-                    trik_motor.set_motor_period(trik_motor.motor2, mper)
-                    trik_motor.set_motor_period(trik_motor.motor3, mper)
-                    trik_motor.set_motor_period(trik_motor.motor4, mper)
-                if c == "5":
-                    mdut[motnum] = mdut[motnum] - 100
-                    if mdut[motnum] <= 0:
-                        mdut[motnum] = 0
-                    trik_motor.set_motor_duty(motnum, mdut[motnum])
-                if c == "6":
-                    mdut[motnum] = mdut[motnum] + 100
-                    if mdut[motnum] >= mper:
-                        mdut[motnum] = mper
-                    trik_motor.set_motor_duty(motnum, mdut[motnum])
-                if c == "7":
-                    trik_motor.start_motor(motnum)
-                if c == "8":
-                    trik_motor.reverse_motor(motnum)
-                if c == "9":
-                    trik_motor.brake_motor(motnum)
-                if c == "0":
-                    trik_motor.stop_motor(motnum)
-                if c.upper() == "Q":
-                    mang[motnum] = mang[motnum] - 100
-                    if mang[motnum] <= 0x00000000:
-                        mang[motnum] = 0x00000000
-                    trik_motor.set_motor_angle(motnum, mang[motnum])
-                if c.upper() == "W":
-                    mang[motnum] = mang[motnum] + 100
-                    if mang[motnum] >= 0xFFFFFFFF:
-                        mang[motnum] = 0xFFFFFFFF
-                    trik_motor.set_motor_angle(motnum, mang[motnum])
-                if c.upper() == "E":
-                    mtim[motnum] = mtim[motnum] - 100
-                    if mtim[motnum] <= 0x00000000:
-                        mtim[motnum] = 0x00000000
-                    trik_motor.set_motor_time(motnum, mtim[motnum])
-                if c.upper() == "R":
-                    mtim[motnum] = mtim[motnum] + 100
-                    if mtim[motnum] >= 0xFFFFFFFF:
-                        mtim[motnum] = 0xFFFFFFFF
-                    trik_motor.set_motor_time(motnum, mtim[motnum])
-                if c.upper() == "A":
-                    trik_encoder.enable_encoder(motnum + trik_encoder.encoder1, 1, 1, 0)
-                    trik_motor.rotate_motor_angle(motnum)
-                if c.upper() == "S":
-                    trik_encoder.enable_encoder(motnum + trik_encoder.encoder1, 1, 1, 0)
-                    trik_motor.reverse_motor_angle(motnum)
-                if c.upper() == "T":
-                    trik_timer.timer_enable()
-                    trik_motor.rotate_motor_time(motnum)
-                if c.upper() == "Y":
-                    trik_timer.timer_enable()
-                    trik_motor.reverse_motor_time(motnum)
-            elif menu_pg == encoder_menu:
-                if c == "1":
-                    epul1 = 1 - epul1
-                    trik_encoder.enable_encoder(trik_encoder.encoder1, ewr1, epul1, eedg1)
-                if c == "2":
-                    epul2 = 1 - epul2
-                    trik_encoder.enable_encoder(trik_encoder.encoder2, ewr2, epul2, eedg2)
-                if c == "3":
-                    epul3 = 1 - epul3
-                    trik_encoder.enable_encoder(trik_encoder.encoder3, ewr3, epul3, eedg3)
-                if c == "4":
-                    epul4 = 1 - epul4
-                    trik_encoder.enable_encoder(trik_encoder.encoder4, ewr4, epul4, eedg4)
-                if c == "5":
-                    ewr1 = 1 - ewr1
-                    trik_encoder.enable_encoder(trik_encoder.encoder1, ewr1, epul1, eedg1)
-                if c == "6":
-                    ewr2 = 1 - ewr2
-                    trik_encoder.enable_encoder(trik_encoder.encoder2, ewr2, epul2, eedg2)
-                if c == "7":
-                    ewr3 = 1 - ewr3
-                    trik_encoder.enable_encoder(trik_encoder.encoder3, ewr3, epul3, eedg3)
-                if c == "8":
-                    ewr4 = 1 - ewr4
-                    trik_encoder.enable_encoder(trik_encoder.encoder4, ewr4, epul4, eedg4)
-                if c.upper() == "A":
-                    eedg1 = 1 - eedg1
-                    trik_encoder.enable_encoder(trik_encoder.encoder1, ewr1, epul1, eedg1)
-                if c.upper() == "S":
-                    eedg2 = 1 - eedg2
-                    trik_encoder.enable_encoder(trik_encoder.encoder2, ewr2, epul2, eedg2)
-                if c.upper() == "D":
-                    eedg3 = 1 - eedg3
-                    trik_encoder.enable_encoder(trik_encoder.encoder3, ewr3, epul3, eedg3)
-                if c.upper() == "F":
-                    eedg4 = 1 - eedg4
-                    trik_encoder.enable_encoder(trik_encoder.encoder4, ewr4, epul4, eedg4)
-            elif menu_pg == sensor_menu:
-                if c == "1":
-                    spul1 = 1 - spul1
-                    trik_sensor.enable_sensor(trik_sensor.sensor1, spul1)
-                if c == "2":
-                    spul2 = 1 - spul2
-                    trik_sensor.enable_sensor(trik_sensor.sensor2, spul2)
-                if c == "3":
-                    spul3 = 1 - spul3
-                    trik_sensor.enable_sensor(trik_sensor.sensor3, spul3)
-                if c == "4":
-                    spul4 = 1 - spul4
-                    trik_sensor.enable_sensor(trik_sensor.sensor4, spul4)
-                if c == "5":
-                    spul5 = 1 - spul5
-                    trik_sensor.enable_sensor(trik_sensor.sensor5, spul5)
-                if c == "6":
-                    spul6 = 1 - spul6
-                    trik_sensor.enable_sensor(trik_sensor.sensor6, spul6)
-                if c == "7":
-                    spul7 = 1 - spul7
-                    trik_sensor.enable_sensor(trik_sensor.sensor7, spul7)
-                if c == "8":
-                    spul8 = 1 - spul8
-                    trik_sensor.enable_sensor(trik_sensor.sensor8, spul8)
-                if c.upper() == "A":
-                    spul9 = 1 - spul9
-                    trik_sensor.enable_sensor(trik_sensor.sensor9, spul9)
-                if c.upper() == "S":
-                    spul10 = 1 - spul10
-                    trik_sensor.enable_sensor(trik_sensor.sensor10, spul10)
-                if c.upper() == "D":
-                    spul11 = 1 - spul11
-                    trik_sensor.enable_sensor(trik_sensor.sensor11, spul11)
-                if c.upper() == "F":
-                    spul12 = 1 - spul12
-                    trik_sensor.enable_sensor(trik_sensor.sensor12, spul12)
-                if c.upper() == "G":
-                    spul13 = 1 - spul13
-                    trik_sensor.enable_sensor(trik_sensor.sensor13, spul13)
-                if c.upper() == "H":
-                    spul14 = 1 - spul14
-                    trik_sensor.enable_sensor(trik_sensor.sensor14, spul14)
-                if c.upper() == "J":
-                    sidx1 = 1 - sidx1
-                    trik_sensor.set_sensor_type(trik_sensor.sensor1, sidx1)
-                if c.upper() == "K":
-                    sidx2 = 1 - sidx2
-                    trik_sensor.set_sensor_type(trik_sensor.sensor2, sidx2)
-                if c.upper() == "L":
-                    sidx3 = 1 - sidx3
-                    trik_sensor.set_sensor_type(trik_sensor.sensor3, sidx3)
-                if c.upper() == "Z":
-                    sidx4 = 1 - sidx4
-                    trik_sensor.set_sensor_type(trik_sensor.sensor4, sidx4)
-                if c.upper() == "X":
-                    sidx5 = 1 - sidx5
-                    trik_sensor.set_sensor_type(trik_sensor.sensor5, sidx5)
-                if c.upper() == "V":
-                    sidx6 = 1 - sidx6
-                    trik_sensor.set_sensor_type(trik_sensor.sensor6, sidx6)
-                if c.upper() == "B":
-                    sidx7 = 1 - sidx7
-                    trik_sensor.set_sensor_type(trik_sensor.sensor7, sidx7)
-                if c.upper() == "Q":
-                    sidx8 = 1 - sidx8
-                    trik_sensor.set_sensor_type(trik_sensor.sensor8, sidx8)
-                if c.upper() == "W":
-                    sidx9 = 1 - sidx9
-                    trik_sensor.set_sensor_type(trik_sensor.sensor9, sidx9)
-                if c.upper() == "E":
-                    sidx10 = 1 - sidx10
-                    trik_sensor.set_sensor_type(trik_sensor.sensor10, sidx10)
-                if c.upper() == "T":
-                    sidx11 = 1 - sidx11
-                    trik_sensor.set_sensor_type(trik_sensor.sensor11, sidx11)
-                if c.upper() == "Y":
-                    sidx12 = 1 - sidx12
-                    trik_sensor.set_sensor_type(trik_sensor.sensor12, sidx12)
-                if c.upper() == "U":
-                    sidx13 = 1 - sidx13
-                    trik_sensor.set_sensor_type(trik_sensor.sensor13, sidx13)
-                if c.upper() == "I":
-                    sidx14 = 1 - sidx14
-                    trik_sensor.set_sensor_type(trik_sensor.sensor14, sidx14)
-            elif menu_pg == timer_menu:
-                if c == "1":
-                    tper = tper - 100
-                    if tper <= 0:
-                        tper = 0
-                    trik_timer.set_timer_period(tper)
-                if c == "2":
-                    tper = tper + 100
-                    if tper >= 0xFFFF:
-                        tper = 0xFFFF
-                    trik_timer.set_timer_period(tper)
-                if c == "3":
-                    t_en = 0
-                    trik_timer.timer_disable()
-                if c == "4":
-                    t_en = 1
-                    trik_timer.timer_enable()
-            elif menu_pg == touch_menu:
-                if c == "0":
-                    tsmod = 0
-                    trik_touch.touch_cal_off()
-                if c == "1":
-                    tsmod = 1
-                    trik_touch.touch_cal_on()
-                if c == "2":
-                    trik_touch.activate_touch_driver()
-                if c == "3":
-                    tsfile = raw_input("Enter file name: ")
-                    os.system("clear")
-                    print_menu(menu_pg)
-                if c == "4":
-                    stmp0 = "./%s -qws &" % (tsfile)
-                    os.system(stmp0)
-                    os.system("clear")
-                    print_menu(menu_pg)
-                if c == "5":
-                    stmp0 = "killall %s" % (tsfile)
-                    os.system(stmp0)
-                    os.system("clear")
-                    print_menu(menu_pg)
-            elif menu_pg == bsl_menu:
-                if c == "1":
-                    bslfile = raw_input("Enter file name: ")
-                    os.system("clear")
-                    print_menu(menu_pg)
-                if c == "2":
-                    bslpswd = int(raw_input("Enter BSL password: "))
-                    os.system("clear")
-                    print_menu(menu_pg)
-                if c == "3":
-                    trik_bsl.enter_bsl(bslpswd)
-                    os.system("clear")
-                    print_menu(menu_pg)
-                if c == "5":
-                    stmp0 = "msp-flasher -o %s" % (bslfile)
-                    os.system(stmp0)
-                    os.system(stmp0)
-                    os.system("clear")
-                    print_menu(menu_pg)
-                if c == "7":
-                    stmp0 = "msp-flasher -r 1"
-                    os.system(stmp0)
-                    os.system("clear")
-                    print_menu(menu_pg)
-                if c == "0":
-                    stmp0 = "./reset_msp.sh"
-                    os.system(stmp0)
-                    os.system("clear")
-                    print_menu(menu_pg)
-            if c.upper() == "N":
-                aper = aper - 100
-                if aper <= 0:
-                    aper = 0
-            if c.upper() == "M":
-                aper = aper + 100
-                if aper >= 0xFFFFFFFF:
-                    aper = 0xFFFFFFFF
-            if c.upper() == "C":
-                os.system("clear")
-                print_menu(menu_pg)
-            if c == chr(0x09):
-                menu_pg = menu_pg + 1
-                if menu_pg > bsl_menu:
-                    menu_pg = motor_menu
-                os.system("clear")
-                print_menu(menu_pg)
-            if c == chr(0x1B):
-                aflg = 0x00
-                time.sleep((float(aper) / 1000.000) + 1.000)
-                break
-            aflg = 0x01
-            # read_all_data(menu_pg)
-            print_registers(menu_pg)
-        except IOError: pass
-finally:
-    termios.tcsetattr(fd, termios.TCSAFLUSH, oldterm)
-    fcntl.fcntl(fd, fcntl.F_SETFL, oldflags)
