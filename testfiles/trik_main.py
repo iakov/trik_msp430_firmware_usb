@@ -187,6 +187,7 @@ def print_menu(menu_page):
         print_there(0, 29, "<C>   Redraw screen")
         print_there(0, 30, "<TAB> Change device group")
         print_there(0, 31, "<ESC> Exit/Quit")
+        print_there(0, 33, "Use <Shift> + <3>, <4>, <5>, <6>")
     elif menu_page == encoder_menu:
         print_there(0, 1, "ENCODERs MENU")
         print_there(0, 2, "Select menu item:")
@@ -1063,7 +1064,7 @@ try:
                         motnum = trik_motor.motor4
                 if c == "3":
                     if mper > mdut[motnum]:
-                        mper = mper - 100
+                        mper = mper - 1
                         if mper <= 0:
                             mper = 0
                     else:
@@ -1073,6 +1074,25 @@ try:
                     trik_motor.set_motor_period(trik_motor.motor3, mper)
                     trik_motor.set_motor_period(trik_motor.motor4, mper)
                 if c == "4":
+                    mper = mper + 1
+                    if mper >= 0xFFFF:
+                        mper = 0xFFFF
+                    trik_motor.set_motor_period(trik_motor.motor1, mper)
+                    trik_motor.set_motor_period(trik_motor.motor2, mper)
+                    trik_motor.set_motor_period(trik_motor.motor3, mper)
+                    trik_motor.set_motor_period(trik_motor.motor4, mper)
+                if c == "#":
+                    if mper > mdut[motnum]:
+                        mper = mper - 100
+                        if mper <= 0:
+                            mper = 0
+                    else:
+                        mper = mdut[motnum]
+                    trik_motor.set_motor_period(trik_motor.motor1, mper)
+                    trik_motor.set_motor_period(trik_motor.motor2, mper)
+                    trik_motor.set_motor_period(trik_motor.motor3, mper)
+                    trik_motor.set_motor_period(trik_motor.motor4, mper)
+                if c == "$":
                     mper = mper + 100
                     if mper >= 0xFFFF:
                         mper = 0xFFFF
@@ -1081,11 +1101,21 @@ try:
                     trik_motor.set_motor_period(trik_motor.motor3, mper)
                     trik_motor.set_motor_period(trik_motor.motor4, mper)
                 if c == "5":
-                    mdut[motnum] = mdut[motnum] - 100
+                    mdut[motnum] = mdut[motnum] - 1
                     if mdut[motnum] <= 0:
                         mdut[motnum] = 0
                     trik_motor.set_motor_duty(motnum, mdut[motnum])
                 if c == "6":
+                    mdut[motnum] = mdut[motnum] + 1
+                    if mdut[motnum] >= mper:
+                        mdut[motnum] = mper
+                    trik_motor.set_motor_duty(motnum, mdut[motnum])
+                if c == "%":
+                    mdut[motnum] = mdut[motnum] - 100
+                    if mdut[motnum] <= 0:
+                        mdut[motnum] = 0
+                    trik_motor.set_motor_duty(motnum, mdut[motnum])
+                if c == "^":
                     mdut[motnum] = mdut[motnum] + 100
                     if mdut[motnum] >= mper:
                         mdut[motnum] = mper
