@@ -70,7 +70,7 @@ void ENCODER_enableController(uint8_t ENC_NUMBER)
                     P2IES &= ~BIT4; // GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN4,GPIO_LOW_TO_HIGH_TRANSITION);
                 P2IFG &= ~BIT4; //GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN4);
                 break;
-            case ENCODER3:
+            case ENCODER4:
                 if (ENC[ENC_NUMBER-ENCODER1].ECTL & ENC_PUPEN)
                 {
                     /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5);*/
@@ -92,7 +92,7 @@ void ENCODER_enableController(uint8_t ENC_NUMBER)
                     P2IES &= ~BIT5; //GPIO_interruptEdgeSelect(GPIO_PORT_P2,GPIO_PIN5,GPIO_LOW_TO_HIGH_TRANSITION);
                 P2IFG &= ~BIT5; //GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN5);
                 break;
-            case ENCODER4:
+            case ENCODER3:
                 if (ENC[ENC_NUMBER-ENCODER1].ECTL & ENC_PUPEN)
                 {
                     /*GPIO_setAsInputPinWithPullUpresistor(GPIO_PORT_P1,GPIO_PIN6);*/
@@ -153,7 +153,7 @@ void ENCODER_disableController(uint8_t ENC_NUMBER)
             P2REN &= ~BIT4;
             P2OUT &= ~BIT4;
             break;
-        case ENCODER3:
+        case ENCODER4:
             P2IE &= ~BIT5; //GPIO_disableInterrupt(GPIO_PORT_P2,GPIO_PIN5);
             P2IFG &= ~BIT5; //GPIO_clearInterruptFlag(GPIO_PORT_GPIO_PIN5);
             /*GPIO_setAsInputPin(GPIO_PORT_P2,GPIO_PIN2|GPIO_PIN5);*/
@@ -161,7 +161,7 @@ void ENCODER_disableController(uint8_t ENC_NUMBER)
             P2REN &= ~(BIT2+BIT5);
             P2OUT &= ~(BIT2+BIT5);
             break;
-        case ENCODER4:
+        case ENCODER3:
             P2IE &= ~BIT1; //GPIO_disableInterrupt(GPIO_PORT_P2,GPIO_PIN1);
             P2IFG &= ~BIT1; //GPIO_clearInterruptFlag(GPIO_PORT_P2,GPIO_PIN1);
             /*GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN6);*/
@@ -264,32 +264,10 @@ void PORT2_ISR(void)
         }
     }
 
-    //JB3
+    //JB4
     if (P2IFG & BIT5) //if (GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN5))
     {
         if (P2IN & BIT2) //if (GPIO_getInputPinValue(GPIO_PORT_P2, GPIO_PIN2))
-        {
-            if (ENC[ENCODER3-ENCODER1].ECTL & ENC_2WIRES)
-                ENC[ENCODER3-ENCODER1].EVAL--;
-            else
-                ENC[ENCODER3-ENCODER1].EVAL++;
-        }
-        else
-        {
-            ENC[ENCODER3-ENCODER1].EVAL++;
-        }
-        if ((MOT[MOTOR3].MCTL & MOT_AUTO) && (MOT[MOTOR3].MCTL & MOT_ANGLE))
-        {
-            MOT[MOTOR3].MVAL++;
-            if ((MOT[MOTOR3].MVAL>MOT[MOTOR3].MANG))
-                MOTOR_stop(MOTOR3);
-        }
-    }
-
-    //JB4
-    if (P2IFG & BIT1) //if (GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN1))
-    {
-        if (P1IN & BIT6) //if (GPIO_getInputPinValue(GPIO_PORT_P1, GPIO_PIN6))
         {
             if (ENC[ENCODER4-ENCODER1].ECTL & ENC_2WIRES)
                 ENC[ENCODER4-ENCODER1].EVAL--;
@@ -305,6 +283,28 @@ void PORT2_ISR(void)
             MOT[MOTOR4].MVAL++;
             if ((MOT[MOTOR4].MVAL>MOT[MOTOR4].MANG))
                 MOTOR_stop(MOTOR4);
+        }
+    }
+
+    //JB3
+    if (P2IFG & BIT1) //if (GPIO_getInterruptStatus(GPIO_PORT_P2, GPIO_PIN1))
+    {
+        if (P1IN & BIT6) //if (GPIO_getInputPinValue(GPIO_PORT_P1, GPIO_PIN6))
+        {
+            if (ENC[ENCODER3-ENCODER1].ECTL & ENC_2WIRES)
+                ENC[ENCODER3-ENCODER1].EVAL--;
+            else
+                ENC[ENCODER3-ENCODER1].EVAL++;
+        }
+        else
+        {
+            ENC[ENCODER3-ENCODER1].EVAL++;
+        }
+        if ((MOT[MOTOR3].MCTL & MOT_AUTO) && (MOT[MOTOR3].MCTL & MOT_ANGLE))
+        {
+            MOT[MOTOR3].MVAL++;
+            if ((MOT[MOTOR3].MVAL>MOT[MOTOR3].MANG))
+                MOTOR_stop(MOTOR3);
         }
     }
 

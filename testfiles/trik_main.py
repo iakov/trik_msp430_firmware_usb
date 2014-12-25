@@ -506,15 +506,6 @@ def print_registers(menu_page):
         print_there(35, 4, "%s " % bslfile)
         print_there(35, 5, "0x%08X " % bslpswd)
 
-# Init async key press
-init_key_press()
-
-# Init Serial TTY device
-trik_stty.init_stty()
-
-# Init 12 V power in ARM controller
-trik_power.enable_power()
-
 # Read all registers of motor
 def read_all_data(menu_page):
     global motnum
@@ -959,6 +950,26 @@ def read_data_to_int_regs(menu_page):
     elif menu_page == touch_menu:
         tsmod = tssctl & 1
 
+
+os.system("clear")
+print "Initializing tty, stty, power...\n"
+
+# Init async key press
+init_key_press()
+
+# Init Serial TTY device
+trik_stty.init_stty()
+
+# Init 12 V power in ARM controller
+trik_power.enable_power()
+
+print "Starting thread to read device...\n"
+
+thread.start_new_thread(trik_protocol.thread1_read_device, ())
+time.sleep(5)
+
+print "Reading registers...\n"
+
 # Read all registers
 read_all_data(motor_menu)
 read_all_data(encoder_menu)
@@ -972,6 +983,8 @@ read_data_to_int_regs(sensor_menu)
 read_data_to_int_regs(timer_menu)
 read_data_to_int_regs(touch_menu)
 read_data_to_int_regs(bsl_menu)
+
+print "Initializing trik devices and ports...\n"
 
 # Init devices
 trik_encoder.enable_encoder(trik_encoder.encoder1, ewr1, epul1, eedg1)
@@ -1031,6 +1044,7 @@ def thread0_print_regs():
     thread.exit_thread()
 
 thread.start_new_thread(thread0_print_regs, ())
+time.sleep(5)
 
 # Main cycle
 try:
@@ -1326,7 +1340,9 @@ try:
                 print_menu(menu_pg)
             if c == chr(0x1B):
                 aflg = 0x00
+                trik_protocol.fflg = 0x00
                 time.sleep((float(aper) / 1000.000) + 1.000)
+                time.sleep(5)
                 break
             aflg = 0x01
             # read_all_data(menu_pg)
