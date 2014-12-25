@@ -960,6 +960,9 @@ def read_data_to_int_regs(menu_page):
     elif menu_page == touch_menu:
         tsmod = tssctl & 1
 
+thread.start_new_thread(trik_protocol.thread1_read_device, ())
+time.sleep(5)
+
 # Read all registers
 read_all_data(motor_menu)
 read_all_data(encoder_menu)
@@ -1014,24 +1017,6 @@ trik_sensor.set_sensor_type(trik_sensor.sensor14, sidx14)
 
 # Clear screen
 os.system("clear")
-
-# Print menu
-# print_menu(menu_pg)
-# print_registers(menu_pg)
-
-# Thread to read and print registers
-def thread0_print_regs():
-    global menu_pg
-    global aflg
-    global aper
-    while aflg:
-        if aflg == 0x01:
-            read_all_data(menu_pg)
-            print_registers(menu_pg)
-            time.sleep(float(aper) / 1000.000)
-    thread.exit_thread()
-
-# thread.start_new_thread(thread0_print_regs, ())
 
 # Stress test function
 def stress_test():

@@ -1,9 +1,32 @@
 __author__ = 'Rostislav Varzar'
 
+import thread
+
 # Output devices
 # fname1 = "000.txt"
 fname1 = "/dev/ttyACM0"
 fname2 = "/dev/ttyACM1"
+
+# Flag to work thread
+fflg = 0x01
+
+# Received packet
+fstmp = ""
+
+# Timeout of receiving packet
+timeout = 1000
+
+# Thread to read device answer
+def thread1_read_device():
+    global fname1
+    global fflg
+    global fstmp
+    ff1 = open(fname1, "r")
+    while fflg:
+        if fflg == 0x01:
+            fstmp = ff1.readline()
+    ff1.close()
+    thread.exit_thread()
 
 # Function to recognize response packets
 def get_reg_value(stmp):
@@ -25,6 +48,7 @@ def get_reg_value(stmp):
     return regval, devaddr, respcode, errcode
 
 # Write single register
+"""
 def write_reg(devaddr, regaddr, regval):
     try:
         f2 = open(fname1, "rb")
@@ -45,8 +69,27 @@ def write_reg(devaddr, regaddr, regval):
         return stmp
     except IOError, e:
         return stmp
+"""
+def write_reg(devaddr, regaddr, regval):
+    global fstmp
+    global timeout
+    try:
+        fstmp = ""
+        funcnum = 0x03
+        crc = (0xFF - (devaddr + funcnum + regaddr + (regval & 0xFF) + ((regval >> 8) & 0xFF) + ((regval >> 16) & 0xFF) + ((regval >> 24) & 0xFF)) + 1) & 0xFF
+        stmp = ":%02X%02X%02X%08X%02X\n" % (devaddr, funcnum, regaddr, regval, crc)
+        f1 = open(fname1, "wb")
+        f1.write(stmp)
+        f1.close()
+        i = 0
+        while fstmp == "" or i < timeout:
+            i = i + 1
+        return fstmp
+    except IOError, e:
+        return fstmp
 
 # Read single register
+"""
 def read_reg(devaddr, regaddr):
     try:
         f2 = open(fname1, "rb")
@@ -67,16 +110,25 @@ def read_reg(devaddr, regaddr):
         return stmp
     except IOError, e:
         return stmp
-
-# Read single register from async port
-# Use this function only when async mode is active!!!!!
-def read_async_reg():
+"""
+def read_reg(devaddr, regaddr):
+    global fstmp
+    global timeout
     try:
-        f2 = open(fname2, "r")
-        stmp = f2.readline()
-        f2.close()
-        return stmp
+        fstmp = ""
+        funcnum = 0x05
+        crc = (0xFF - (devaddr + funcnum + regaddr) + 1) & 0xFF
+        stmp = ":%02X%02X%02X%02X\n" % (devaddr, funcnum, regaddr, crc)
+        f1 = open(fname1, "wb")
+        f1.write(stmp)
+        f1.close()
+        i = 0
+        while fstmp == "" or i < timeout:
+            i = i + 1
+        return fstmp
     except IOError, e:
-        return stmp
+        return fstmp
+
+
 
 
