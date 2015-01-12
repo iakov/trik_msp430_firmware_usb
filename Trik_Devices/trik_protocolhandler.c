@@ -272,8 +272,8 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             //Error register values
             if ((MOT[devaddr1].MPER==0) || (MOT[devaddr1].MDUT>MOT[devaddr1].MPER))
             {
-                PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_VAL_ERROR);
-                return REG_VAL_ERROR;
+                PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_INC_ERROR);
+                return REG_INC_ERROR;
             }
             MOTOR_handler(devaddr1);
             PROTOCOL_recvResponse(out_str,devaddr1,func1,regaddr1,MOT[devaddr1].MSTA);
