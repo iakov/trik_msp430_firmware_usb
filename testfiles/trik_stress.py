@@ -516,7 +516,7 @@ trik_stty.init_stty()
 # Init 12 V power in ARM controller
 trik_power.enable_power()
 
-# Read all registers of motor
+# Read all registers of all devices
 def read_all_data(menu_page):
     global motnum
     global pwmper

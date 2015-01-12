@@ -507,7 +507,7 @@ def print_registers(menu_page):
         print_there(35, 4, "%s " % bslfile)
         print_there(35, 5, "0x%08X " % bslpswd)
 
-# Read all registers of motor
+# Read all registers of all devices
 def read_all_data(menu_page):
     global motnum
     global pwmper
