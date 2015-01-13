@@ -19,6 +19,30 @@ testregvals = [0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A,
                0xFFFFFFE, 0xFFFFFFF, 0x10000000,
                0xFFFFFFFE, 0xFFFFFFFF]
 
+# Errors descriptions
+testerrors = ["No error",
+              "Illegal Function Code",
+              "Illegal Register Address",
+              "Illegal Register Value",
+              "Slave Device Failure",
+              "Undefined",
+              "Slave Device Busy",
+              "Undefined",
+              "Undefined",
+              "Undefined",
+              "Undefined",
+              "Undefined",
+              "Undefined",
+              "Undefined",
+              "Undefined",
+              "Undefined",
+              "Undefined",
+              "Illegal Device Address",
+              "CRC Error",
+              "Start condition error",
+              "Incorrect packet length",
+              "Inconsistency of Multiple Registers"]
+
 # Init Serial TTY device
 trik_stty.init_stty()
 
@@ -38,24 +62,39 @@ def stress_test_writing():
     devaddr = 0x00
     while devaddr <= 0xFF:
         f = open(freport, "a")
-        stmp1 = datetime.datetime.now().isoformat() + "\n"
-        f.write(stmp1)
         regaddr = 0x00
         while regaddr <= 0xFF:
+            stmp1 = "\n----------" + datetime.datetime.now().isoformat() + "----------\n"
+            f.write(stmp1)
+            stmp1 = "----------Device address: 0x%02X---------------- \n" % (devaddr)
+            f.write(stmp1)
+            stmp1 = "----------Register address: 0x%02X-------------- \n" % (regaddr)
+            f.write(stmp1)
             ridx = 0x00
             while ridx < len(testregvals):
                 regval = testregvals[ridx]
+                stmp1 = "\n Writing... \n"
+                f.write(stmp1)
+                stmp1 = "Register value: 0x%08X \n" % (regval)
+                f.write(stmp1)
                 stmp1 = trik_protocol.write_reg(devaddr, regaddr, regval)
                 rval, daddr, rcode, ecode = trik_protocol.get_reg_value(stmp1)
-                stmp1 = "ADDR=0x%02X REG=0x%02X VAL=0x%08X / ADDR=0x%02X VAL=0x%08X RCODE=0x%02X ECODE=0x%02X \n" % \
-                        (devaddr, regaddr, regval, daddr, rval, rcode, ecode)
-                print stmp1
+                if rcode < 0x80:
+                    stmp1 = "No error \n"
+                else:
+                    stmp1 = "Error flag set \n"
                 f.write(stmp1)
+                if rval <= 0x15:
+                    stmp1 = "Error code: 0x%08X, %s \n" % (rval, testerrors[rval])
+                else:
+                    stmp1 = "Error code: 0x%08X, %s \n" % (rval, "Undefined")
+                f.write(stmp1)
+                stmp1 = "DEV=0x%02X REG=0x%02X SEND=0x%08X RECV=0x%08X" % (devaddr, regaddr, regval, rval)
+                print stmp1
                 ridx = ridx + 1
             regaddr = regaddr + 1
         f.close()
         devaddr = devaddr + 1
 
 stress_test_writing()
-
 
