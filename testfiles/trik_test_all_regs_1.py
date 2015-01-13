@@ -6,7 +6,8 @@ import trik_stty, trik_power
 import random
 import datetime
 
-freport = "trik_report1.txt"
+freport1 = "trik_report_big.txt"
+freport2 = "trik_report_small.txt"
 
 # Test register values
 testregvals = [0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D,
@@ -61,39 +62,44 @@ def stress_test_writing():
     global testregvals
     devaddr = 0x00
     while devaddr <= 0xFF:
-        f = open(freport, "a")
+        f1 = open(freport1, "a")
+        f2 = open(freport2, "a")
+        stmp1 = "\n----------" + datetime.datetime.now().isoformat() + "----------\n"
+        f2.write(stmp1)
         regaddr = 0x00
         while regaddr <= 0xFF:
             stmp1 = "\n----------" + datetime.datetime.now().isoformat() + "----------\n"
-            f.write(stmp1)
+            f1.write(stmp1)
             stmp1 = "----------Device address: 0x%02X---------------- \n" % (devaddr)
-            f.write(stmp1)
+            f1.write(stmp1)
             stmp1 = "----------Register address: 0x%02X-------------- \n" % (regaddr)
-            f.write(stmp1)
+            f1.write(stmp1)
             ridx = 0x00
             while ridx < len(testregvals):
                 regval = testregvals[ridx]
                 stmp1 = "\n Writing... \n"
-                f.write(stmp1)
+                f1.write(stmp1)
                 stmp1 = "Register value: 0x%08X \n" % (regval)
-                f.write(stmp1)
+                f1.write(stmp1)
                 stmp1 = trik_protocol.write_reg(devaddr, regaddr, regval)
                 rval, daddr, rcode, ecode = trik_protocol.get_reg_value(stmp1)
                 if rcode < 0x80:
                     stmp1 = "No error \n"
                 else:
                     stmp1 = "Error flag set \n"
-                f.write(stmp1)
+                f1.write(stmp1)
                 if rval <= 0x15:
                     stmp1 = "Error code: 0x%08X, %s \n" % (rval, testerrors[rval])
                 else:
                     stmp1 = "Error code: 0x%08X, %s \n" % (rval, "Undefined")
-                f.write(stmp1)
+                f1.write(stmp1)
                 stmp1 = "DEV=0x%02X REG=0x%02X SEND=0x%08X RECV=0x%08X" % (devaddr, regaddr, regval, rval)
+                f2.write(stmp1 + "\n")
                 print stmp1
                 ridx = ridx + 1
             regaddr = regaddr + 1
-        f.close()
+        f1.close()
+        f2.close()
         devaddr = devaddr + 1
 
 stress_test_writing()
