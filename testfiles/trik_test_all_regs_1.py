@@ -57,6 +57,14 @@ time.sleep(5)
 # Clear screen
 os.system("clear")
 
+# Make report files
+f1 = open(freport1, "w")
+f2 = open(freport2, "w")
+f1.write("")
+f2.write("")
+f1.close()
+f2.close()
+
 # Test all device addresses and all register addresses and some registers values (writing mode)
 def stress_test_writing():
     global testregvals
@@ -93,7 +101,9 @@ def stress_test_writing():
                 else:
                     stmp1 = "Error code: 0x%08X, %s \n" % (rval, "Undefined")
                 f1.write(stmp1)
-                stmp1 = "DEV=0x%02X REG=0x%02X SEND=0x%08X RECV=0x%08X" % (devaddr, regaddr, regval, rval)
+                stmp1 = "Packet error: 0x%02X \n" % (ecode)
+                f1.write(stmp1)
+                stmp1 = "DEV=0x%02X REG=0x%02X SEND=0x%08X RECV=0x%08X PACK=0x%02X" % (devaddr, regaddr, regval, rval, ecode)
                 f2.write(stmp1 + "\n")
                 print stmp1
                 ridx = ridx + 1
