@@ -130,7 +130,7 @@ def stress_test_writing():
                 f1.write(stmp1)
                 stmp1 = "Register value: 0x%08X \n" % (regval)
                 f1.write(stmp1)
-                stmp1 = trik_protocol.write_reg(devaddr, regaddr, regval)
+                stmp2 = stmp1 = trik_protocol.write_reg(devaddr, regaddr, regval)
                 rval, daddr, rcode, ecode = trik_protocol.get_reg_value(stmp1)
                 # Report only if anomaly is present
                 errflg = 1
@@ -181,7 +181,8 @@ def stress_test_writing():
                     f1.write(stmp1)
                     stmp1 = "Packet error: 0x%02X \n" % (ecode)
                     f1.write(stmp1)
-                    stmp1 = "DEV=0x%02X REG=0x%02X SEND=0x%08X RECV=0x%08X PACK=0x%02X" % (devaddr, regaddr, regval, rval, ecode)
+                    f1.write("Received string: " + stmp2 + "\n")
+                    stmp1 = "DEV=0x%02X REG=0x%02X SEND=0x%08X RECV=0x%08X PACK=0x%02X STR=%s" % (devaddr, regaddr, regval, rval, ecode, stmp2)
                     f2.write(stmp1 + "\n")
                     print stmp1
                 ridx = ridx + 1

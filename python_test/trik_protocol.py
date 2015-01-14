@@ -32,6 +32,8 @@ def thread1_read_device():
 def get_reg_value(stmp):
     regval = 0x00000000
     devaddr = 0x00
+    respcode = 0x00
+    errcode = 0x00
     if len(stmp) == 18:
         devaddr = int(("0x" + stmp[1] + stmp[2]), 16)
         respcode = int(("0x" + stmp[3] + stmp[4]), 16)
