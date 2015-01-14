@@ -107,7 +107,7 @@ f2.close()
 # Test all device addresses and all register addresses and some registers values (writing mode)
 def stress_test_writing():
     global testregvals
-    devaddr = 0x00
+    devaddr = 0x03
     while devaddr <= 0xFF:
         f1 = open(freport1, "a")
         f2 = open(freport2, "a")
