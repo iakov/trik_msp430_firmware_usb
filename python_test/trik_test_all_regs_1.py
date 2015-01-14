@@ -9,6 +9,44 @@ import datetime
 freport1 = "trik_report_big.txt"
 freport2 = "trik_report_small.txt"
 
+# Device addresses
+motor1 = 0x00
+motor2 = 0x01
+motor3 = 0x02
+motor4 = 0x03
+sensor1 = 0x04
+sensor2 = 0x05
+sensor3 = 0x06
+sensor4 = 0x07
+sensor5 = 0x08
+sensor6 = 0x09
+sensor7 = 0x0A
+sensor8 = 0x0B
+sensor9 = 0x0C
+sensor10 = 0x0D
+sensor11 = 0x0E
+sensor12 = 0x0F
+sensor13 = 0x10
+sensor14 = 0x11
+sensor15 = 0x12
+sensor16 = 0x13
+sensor17 = 0x14
+sensor18 = 0x15
+encoder1 = 0x16
+encoder2 = 0x17
+encoder3 = 0x18
+encoder4 = 0x19
+port1 = 0x1A
+port2 = 0x1B
+port3 = 0x1C
+port4 = 0x1D
+port5 = 0x1E
+port6 = 0x1F
+portJ = 0x20
+atimer = 0x2E
+touch = 0x2F
+bsl = 0xEE
+
 # Test register values
 testregvals = [0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D,
                0x0E, 0x0F, 0x10, 0x20, 0x40, 0x80,
@@ -91,6 +129,18 @@ def stress_test_writing():
                 f1.write(stmp1)
                 stmp1 = trik_protocol.write_reg(devaddr, regaddr, regval)
                 rval, daddr, rcode, ecode = trik_protocol.get_reg_value(stmp1)
+                # Report only if anomaly is present
+                errflg = 1
+                if ecode == 0:
+                    errflg = 0
+                if devaddr != daddr:
+                    errflg = 0
+                if devadd
+
+
+
+
+
                 if rcode < 0x80:
                     stmp1 = "No error \n"
                 else:

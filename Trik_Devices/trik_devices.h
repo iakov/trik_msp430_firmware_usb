@@ -51,7 +51,7 @@
 #define SLOT_BUSY           0x01
 
 //Max ports
-#define MAX_DEVICES			0x30
+#define MAX_DEVICES			TOUCHDEVICE
 
 //Busy table
 volatile uint8_t busy_table[MAX_DEVICES];
