@@ -181,7 +181,28 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
 	//Get register value
     regval1 = hex2num(in_str, 7, NUM_DWORD);
 
-	//Device addresses range
+    //Mutation #1
+    if ((devaddr1==ENCODER3) && ((regaddr1==0x37) || (regaddr1==0xA4)))
+    {
+        PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,0x55);
+        return 0x55;
+    }
+
+    //Mutation #2
+    if ((devaddr1==MOTOR1) && ((regaddr1==0x25) || (regaddr1==0xEF)))
+    {
+        PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,0xAA);
+        return 0xAA;
+    }
+
+    //Mutation #3
+    if (((regaddr1==0x25) || (regaddr1==0xEF)) && ((regval1==0x0FFFFFF) || (regval1==0x8000000)))
+    {
+        PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,0x33);
+        return 0x33;
+    }
+
+    //Device addresses range
 	if ((devaddr1>MAX_DEVICES) && (devaddr1!=BSL))
 	{
 	    PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,DEV_ADDR_ERROR);
@@ -231,13 +252,6 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
         return REG_ADDR_ERROR;
     }
 
-    //Mutation #1
-    if ((devaddr1==ENCODER3) && ((regaddr1==175) || (regaddr1==73)))
-    {
-        PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,0x55);
-        return 0x55;
-    }
-
 	//Function number check
 	if ((func1!=FUNCx03) && (func1!=FUNCx05))
 	{
@@ -257,6 +271,15 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
         default:
             break;
 	}
+
+    //Mutation #4
+    if ((crc1>20) && (crc1<100) && (regaddr1==0x30))
+    {
+        PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,CRC_ERROR);
+        return CRC_ERROR;
+    }
+
+
 	if ((func1==FUNCx03))
 	    crc2=0-(devaddr1+func1+regaddr1+
 	            (uint8_t)(regval1 & 0x000000FF)+(uint8_t)((regval1 & 0x0000FF00) >> 8)+
@@ -267,13 +290,6 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
 	{
 	    PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,CRC_ERROR);
 	    return CRC_ERROR;
-	}
-
-	//Mutation #2
-	if ((crc1>20) && (crc1<100) && (regaddr1==100))
-	{
-        PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,CRC_ERROR);
-        return CRC_ERROR;
 	}
 
 	//Hadle of function 0x03 - write single register

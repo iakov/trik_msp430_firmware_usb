@@ -121,6 +121,8 @@ def stress_test_writing():
             f1.write(stmp1)
             stmp1 = "----------Register address: 0x%02X-------------- \n" % (regaddr)
             f1.write(stmp1)
+            stmp1 = "DEV=0x%02X REG=0x%02X" % (devaddr, regaddr)
+            print stmp1
             ridx = 0x00
             while ridx < len(testregvals):
                 regval = testregvals[ridx]
