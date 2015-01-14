@@ -43,9 +43,10 @@ port4 = 0x1D
 port5 = 0x1E
 port6 = 0x1F
 portJ = 0x20
-atimer = 0x2E
+a_timer = 0x2E
 touch = 0x2F
 bsl = 0xEE
+maxdevices = touch
 
 # Test register values
 testregvals = [0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D,
@@ -133,29 +134,54 @@ def stress_test_writing():
                 errflg = 1
                 if ecode == 0:
                     errflg = 0
-                if devaddr != daddr:
+                if devaddr == daddr:
                     errflg = 0
-                if devadd
-
-
-
-
-
-                if rcode < 0x80:
-                    stmp1 = "No error \n"
-                else:
-                    stmp1 = "Error flag set \n"
-                f1.write(stmp1)
-                if rval <= 0x15:
-                    stmp1 = "Error code: 0x%08X, %s \n" % (rval, testerrors[rval])
-                else:
-                    stmp1 = "Error code: 0x%08X, %s \n" % (rval, "Undefined")
-                f1.write(stmp1)
-                stmp1 = "Packet error: 0x%02X \n" % (ecode)
-                f1.write(stmp1)
-                stmp1 = "DEV=0x%02X REG=0x%02X SEND=0x%08X RECV=0x%08X PACK=0x%02X" % (devaddr, regaddr, regval, rval, ecode)
-                f2.write(stmp1 + "\n")
-                print stmp1
+                if devaddr >= motor1 and devaddr <= motor4 and regaddr <= 0x06 and rcode == 0x03 and rval == 0x00:
+                    errflg = 0
+                if devaddr >= sensor1 and devaddr <= sensor18 and regaddr <= 0x02 and rcode == 0x03 and rval == 0x00:
+                    errflg = 0
+                if devaddr >= encoder1 and devaddr <= encoder4 and regaddr <= 0x01 and rcode == 0x03 and rval == 0x00:
+                    errflg = 0
+                if devaddr >= port1 and devaddr <= portJ and regaddr <= 0x08 and rcode == 0x03 and rval == 0x00:
+                    errflg = 0
+                if devaddr == a_timer and regaddr <= 0x02 and rcode == 0x03 and rval == 0x00:
+                    errflg = 0
+                if devaddr == touch and regaddr <= 0x08 and rcode == 0x03 and rval == 0x00:
+                    errflg = 0
+                if devaddr == bsl and rcode == 0x03 and rval == 0x00:
+                    errflg = 0
+                if devaddr >= motor1 and devaddr <= motor4 and regaddr > 0x06 and rcode == 0x83 and rval == 0x02:
+                    errflg = 0
+                if devaddr >= sensor1 and devaddr <= sensor18 and regaddr > 0x02 and rcode == 0x83 and rval == 0x02:
+                    errflg = 0
+                if devaddr >= encoder1 and devaddr <= encoder4 and regaddr > 0x01 and rcode == 0x83 and rval == 0x02:
+                    errflg = 0
+                if devaddr >= port1 and devaddr <= portJ and regaddr > 0x08 and rcode == 0x83 and rval == 0x02:
+                    errflg = 0
+                if devaddr == a_timer and regaddr > 0x02 and rcode == 0x83 and rval == 0x02:
+                    errflg = 0
+                if devaddr == touch and regaddr > 0x08 and rcode == 0x83 and rval == 0x02:
+                    errflg = 0
+                if devaddr == bsl and rcode == 0x83:
+                    errflg = 0
+                if devaddr > maxdevices and rcode == 0x83 and rval == 0x11:
+                    errflg = 0
+                if errflg != 0:
+                    if rcode < 0x80:
+                        stmp1 = "No error \n"
+                    else:
+                        stmp1 = "Error flag set \n"
+                    f1.write(stmp1)
+                    if rval <= 0x15:
+                        stmp1 = "Error code: 0x%08X, %s \n" % (rval, testerrors[rval])
+                    else:
+                        stmp1 = "Error code: 0x%08X, %s \n" % (rval, "Undefined")
+                    f1.write(stmp1)
+                    stmp1 = "Packet error: 0x%02X \n" % (ecode)
+                    f1.write(stmp1)
+                    stmp1 = "DEV=0x%02X REG=0x%02X SEND=0x%08X RECV=0x%08X PACK=0x%02X" % (devaddr, regaddr, regval, rval, ecode)
+                    f2.write(stmp1 + "\n")
+                    print stmp1
                 ridx = ridx + 1
             regaddr = regaddr + 1
         f1.close()

@@ -217,6 +217,20 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
         return REG_ADDR_ERROR;
     }
 
+    //Timer registers addresses range
+    if ((devaddr1==ASYNCTIMER) && (regaddr1>0x02))
+    {
+        PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
+        return REG_ADDR_ERROR;
+    }
+
+    //Touch controller registers addresses range
+    if ((devaddr1==TOUCHDEVICE) && (regaddr1>0x08))
+    {
+        PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
+        return REG_ADDR_ERROR;
+    }
+
     //Mutation #1
     if ((devaddr1==ENCODER3) && ((regaddr1==175) || (regaddr1==73)))
     {
