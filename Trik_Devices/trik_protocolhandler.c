@@ -196,7 +196,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
     }
 
     //Mutation #3
-    if (((regaddr1==0x25) || (regaddr1==0xEF)) && ((regval1==0x0FFFFFF) || (regval1==0x8000000)))
+    if (((regaddr1==0x35) || (regaddr1==0x45)) && ((regval1==0x0FFFFFF) || (regval1==0x8000000)))
     {
         PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,0x33);
         return 0x33;
@@ -275,8 +275,8 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
     //Mutation #4
     if ((crc1>20) && (crc1<100) && (regaddr1==0x30))
     {
-        PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,CRC_ERROR);
-        return CRC_ERROR;
+        PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,0xCC);
+        return 0xCC;
     }
 
 

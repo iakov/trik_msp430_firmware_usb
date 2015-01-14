@@ -134,10 +134,6 @@ def stress_test_writing():
                 rval, daddr, rcode, ecode = trik_protocol.get_reg_value(stmp1)
                 # Report only if anomaly is present
                 errflg = 1
-                if ecode == 0:
-                    errflg = 0
-                if devaddr == daddr:
-                    errflg = 0
                 if devaddr >= motor1 and devaddr <= motor4 and regaddr <= 0x06 and rcode == 0x03 and rval == 0x00:
                     errflg = 0
                 if devaddr >= sensor1 and devaddr <= sensor18 and regaddr <= 0x02 and rcode == 0x03 and rval == 0x00:
@@ -168,6 +164,10 @@ def stress_test_writing():
                     errflg = 0
                 if devaddr > maxdevices and rcode == 0x83 and rval == 0x11:
                     errflg = 0
+                if ecode != 0:
+                    errflg = 1
+                if devaddr != daddr:
+                    errflg = 1
                 if errflg != 0:
                     if rcode < 0x80:
                         stmp1 = "No error \n"
@@ -192,3 +192,48 @@ def stress_test_writing():
 
 stress_test_writing()
 
+"""
+devaddr = motor1
+regaddr = 0x25
+regval = 0x00
+stmp1 = trik_protocol.write_reg(devaddr, regaddr, regval)
+rval, daddr, rcode, ecode = trik_protocol.get_reg_value(stmp1)
+stmp1 = "DEV=0x%02X REG=0x%02X SEND=0x%08X RECV=0x%08X PACK=0x%02X" % (devaddr, regaddr, regval, rval, ecode)
+print stmp1
+errflg = 1
+if ecode != 0:
+    errflg = 1
+if devaddr != daddr:
+    errflg = 1
+if devaddr >= motor1 and devaddr <= motor4 and regaddr <= 0x06 and rcode == 0x03 and rval == 0x00:
+    errflg = 0
+if devaddr >= sensor1 and devaddr <= sensor18 and regaddr <= 0x02 and rcode == 0x03 and rval == 0x00:
+    errflg = 0
+if devaddr >= encoder1 and devaddr <= encoder4 and regaddr <= 0x01 and rcode == 0x03 and rval == 0x00:
+    errflg = 0
+if devaddr >= port1 and devaddr <= portJ and regaddr <= 0x08 and rcode == 0x03 and rval == 0x00:
+    errflg = 0
+if devaddr == a_timer and regaddr <= 0x02 and rcode == 0x03 and rval == 0x00:
+    errflg = 0
+if devaddr == touch and regaddr <= 0x08 and rcode == 0x03 and rval == 0x00:
+    errflg = 0
+if devaddr == bsl and rcode == 0x03 and rval == 0x00:
+    errflg = 0
+if devaddr >= motor1 and devaddr <= motor4 and regaddr > 0x06 and rcode == 0x83 and rval == 0x02:
+    errflg = 0
+if devaddr >= sensor1 and devaddr <= sensor18 and regaddr > 0x02 and rcode == 0x83 and rval == 0x02:
+    errflg = 0
+if devaddr >= encoder1 and devaddr <= encoder4 and regaddr > 0x01 and rcode == 0x83 and rval == 0x02:
+    errflg = 0
+if devaddr >= port1 and devaddr <= portJ and regaddr > 0x08 and rcode == 0x83 and rval == 0x02:
+    errflg = 0
+if devaddr == a_timer and regaddr > 0x02 and rcode == 0x83 and rval == 0x02:
+    errflg = 0
+if devaddr == touch and regaddr > 0x08 and rcode == 0x83 and rval == 0x02:
+    errflg = 0
+if devaddr == bsl and rcode == 0x83:
+    errflg = 0
+if devaddr > maxdevices and rcode == 0x83 and rval == 0x11:
+    errflg = 0
+print errflg
+"""
