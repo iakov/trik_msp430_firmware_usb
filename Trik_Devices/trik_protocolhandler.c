@@ -217,6 +217,13 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
         return REG_ADDR_ERROR;
     }
 
+    //Mutation #1
+    if ((devaddr1==ENCODER3) && ((regaddr1==175) || (regaddr1==73)))
+    {
+        PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,0x55);
+        return 0x55;
+    }
+
 	//Function number check
 	if ((func1!=FUNCx03) && (func1!=FUNCx05))
 	{
@@ -246,6 +253,13 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
 	{
 	    PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,CRC_ERROR);
 	    return CRC_ERROR;
+	}
+
+	//Mutation #2
+	if ((crc1>20) && (crc1<100) && (regaddr1==100))
+	{
+        PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,CRC_ERROR);
+        return CRC_ERROR;
 	}
 
 	//Hadle of function 0x03 - write single register
