@@ -73,6 +73,7 @@ volatile uint8_t bDataReceived_event1 = FALSE; // without an open rx operation,
 #define MAX_STR_LENGTH 32
 char wholeString[MAX_STR_LENGTH] = "";
 char newString[MAX_STR_LENGTH] = "";
+char tmpString[MAX_STR_LENGTH] = "";
 char pieceOfString[MAX_STR_LENGTH] = "";
 
 volatile uint8_t n_error = 0;
@@ -281,8 +282,8 @@ void TIMERB1_ISR(void)
         {
             if ((timerb_cnt==nnn) && (ENC[nnn-ENCODER1].ECTL & ENC_ASYNC))
             {
-                PROTOCOL_recvResponse(newString,nnn,0x05,EEVAL,ENC[nnn-ENCODER1].EVAL);
-                if (cdcSendDataInBackground((uint8_t*)newString,strlen(newString),CDC1_INTFNUM,1))
+                PROTOCOL_recvResponse(tmpString,nnn,0x05,EEVAL,ENC[nnn-ENCODER1].EVAL);
+                if (cdcSendDataInBackground((uint8_t*)tmpString,strlen(tmpString),CDC1_INTFNUM,1))
                 {
                     SendError = 0x01;
                 }
@@ -295,8 +296,8 @@ void TIMERB1_ISR(void)
             if ((timerb_cnt==nnn) && (SENS[nnn-SENSOR1].SCTL & SENS_ASYNC))
             {
                 SENSOR_handler(nnn);
-                PROTOCOL_recvResponse(newString,nnn,0x05,SSVAL,SENS[nnn-SENSOR1].SVAL);
-                if (cdcSendDataInBackground((uint8_t*)newString,strlen(newString),CDC1_INTFNUM,1))
+                PROTOCOL_recvResponse(tmpString,nnn,0x05,SSVAL,SENS[nnn-SENSOR1].SVAL);
+                if (cdcSendDataInBackground((uint8_t*)tmpString,strlen(tmpString),CDC1_INTFNUM,1))
                 {
                     SendError = 0x01;
                 }
