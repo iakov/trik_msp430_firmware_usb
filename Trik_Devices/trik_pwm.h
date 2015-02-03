@@ -33,7 +33,7 @@ struct tPWMRegisters
     uint16_t PCTL;
     uint16_t PDUT;
     uint16_t PPER;
-    uint32_t PERR;
+    uint32_t PSTA;
 };
 
 //Motors registers array
