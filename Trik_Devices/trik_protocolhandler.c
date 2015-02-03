@@ -18,6 +18,7 @@
 #include "Trik_Devices/trik_devices.h"
 #include "Trik_Devices/trik_async.h"
 #include "Trik_Devices/trik_touch.h"
+#include "Trik_Devices/trik_pwm.h"
 //#include "Trik_Devices/trik_port.h"
 
 uint8_t TO_HEX(uint8_t i)
@@ -238,6 +239,13 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
         return REG_ADDR_ERROR;
     }
 
+    //PWM registers addresses range
+    if (((devaddr1>=PWM1) && (devaddr1<=PWM5)) && (regaddr1>0x02))
+    {
+        PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
+        return REG_ADDR_ERROR;
+    }
+
     //Timer registers addresses range
     if ((devaddr1==ASYNCTIMER) && (regaddr1>0x02))
     {
@@ -362,6 +370,22 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
         }
         */
 
+        //PWMs
+        if ((devaddr1>=PWM1) && (devaddr1<=PWM5))
+        {
+            if (regaddr1==PPDUT)
+                PWM[devaddr1-PWM1].PDUT = regval1;
+            if (regaddr1==PPPER)
+                PWM[devaddr1-PWM1].PPER = regval1;
+            if (regaddr1==PPCTL)
+            {
+                PWM[devaddr1-PWM1].PCTL = regval1;
+                PWM_handler(devaddr1);
+            }
+            PROTOCOL_recvResponse(out_str,devaddr1,func1,regaddr1,NO_ERROR);
+            return NO_ERROR;
+        }
+
         //Async timer
         if ((devaddr1==ASYNCTIMER))
         {
@@ -463,6 +487,18 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
                 PROTOCOL_recvResponse(out_str,devaddr1,SENS[devaddr1-SENSOR1].SSTA,regaddr1,SENS[devaddr1-SENSOR1].SIDX);
             if (regaddr1==SSVAL)
                 PROTOCOL_recvResponse(out_str,devaddr1,SENS[devaddr1-SENSOR1].SSTA,regaddr1,SENS[devaddr1-SENSOR1].SVAL);
+            return NO_ERROR;
+        }
+
+        //PWMs
+        if ((devaddr1>=PWM1) && (devaddr1<=PWM5))
+        {
+            if (regaddr1==PPCTL)
+                PROTOCOL_recvResponse(out_str,devaddr1,PWM[devaddr1-PWM1].PSTA,regaddr1,PWM[devaddr1-PWM1].PCTL);
+            if (regaddr1==PPDUT)
+                PROTOCOL_recvResponse(out_str,devaddr1,PWM[devaddr1-PWM1].PSTA,regaddr1,PWM[devaddr1-PWM1].PDUT);
+            if (regaddr1==PPPER)
+                PROTOCOL_recvResponse(out_str,devaddr1,PWM[devaddr1-PWM1].PSTA,regaddr1,PWM[devaddr1-PWM1].PPER);
             return NO_ERROR;
         }
 
