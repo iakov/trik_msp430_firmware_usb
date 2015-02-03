@@ -74,6 +74,36 @@ void PWM_enable(uint8_t PWM_NUMBER)
     }
 }
 
+//PWM disable
+void PWM_disable(uint8_t PWM_NUMBER)
+{
+    releaseSlot(PWM_NUMBER);
+    switch (PWM_NUMBER)
+    {
+        case PWM1:
+            P2SEL &= ~BIT0;
+            P2DIR &= ~BIT0;
+            break;
+        case PWM2:
+            P2SEL &= ~BIT3;
+            P2DIR &= ~BIT3;
+            break;
+        case PWM3:
+            P2SEL &= ~BIT4;
+            P2DIR &= ~BIT4;
+            break;
+        case PWM4:
+            P2SEL &= ~BIT5;
+            P2DIR &= ~BIT5;
+            break;
+        case PWM5:
+            P2SEL &= ~BIT1;
+            P2DIR &= ~BIT1;
+            break;
+        default:
+            break;
+    }
+}
 
 
 
