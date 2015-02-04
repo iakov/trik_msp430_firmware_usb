@@ -45,6 +45,8 @@
 #include <string.h>
 #include <stdio.h>
 
+#include <assert.h>
+
 #include "USB_config/descriptors.h"
 #include "USB_API/USB_Common/device.h"
 #include "USB_API/USB_Common/usb.h"                 // USB-specific functions
@@ -64,7 +66,6 @@
  * your own board.
  */
 #include "hal.h"
-//#include "driverlib.h"
 
 // Global flags set by events
 volatile uint8_t bDataReceived_event0 = FALSE; // Indicates data has been rx'ed
@@ -84,19 +85,319 @@ volatile uint32_t timerb_ts = 0; //Timer B counter 2
 
 float kx, ky, xx, yy; //Temp vars
 
+//Copied from driverlib wdt_a.c
+#define OFS_WDTCTL             (0x000C)       /* Watchdog Timer Control */
+#define OFS_WDTCTL_L           OFS_WDTCTL
+#define HWREG8(x)                                                             \
+        (*((volatile uint8_t*)((uint16_t)x)))
+#define HWREG16(x)                                                             \
+        (*((volatile uint16_t*)((uint16_t)x)))
+
+
+void _WDT_A_hold(uint32_t baseAddress)
+{
+        //Set Hold bit
+        uint8_t newWDTStatus = ( HWREG8(baseAddress + OFS_WDTCTL_L) | WDTHOLD );
+
+        HWREG16(baseAddress + OFS_WDTCTL) = WDTPW + newWDTStatus;
+}
+
+//Copied from driverlib pmm.c
+#define PMM_CORE_LEVEL_0                                             PMMCOREV_0
+#define PMM_CORE_LEVEL_1                                             PMMCOREV_1
+#define PMM_CORE_LEVEL_2                                             PMMCOREV_2
+#define PMM_CORE_LEVEL_3                                             PMMCOREV_3
+#define bool   _Bool
+#define STATUS_FAIL     0x00
+#define STATUS_SUCCESS  0x01
+#define OFS_PMMCTL0            (0x0000)       /* PMM Control 0 */
+#define OFS_PMMCTL0_L          OFS_PMMCTL0
+#define OFS_PMMCTL0_H          OFS_PMMCTL0+1
+#define OFS_PMMRIE             (0x000E)       /* PMM and RESET Interrupt Enable */
+#define OFS_SVSMHCTL           (0x0004)       /* SVS and SVM high side control register */
+#define OFS_SVSMLCTL           (0x0006)       /* SVS and SVM low side control register */
+#define OFS_PMMIFG             (0x000C)       /* PMM Interrupt Flag */
+
+uint16_t _PMM_setVCoreUp( uint8_t level)
+{
+        uint32_t PMMRIE_backup, SVSMHCTL_backup, SVSMLCTL_backup;
+
+        //The code flow for increasing the Vcore has been altered to work around
+        //the erratum FLASH37.
+        //Please refer to the Errata sheet to know if a specific device is affected
+        //DO NOT ALTER THIS FUNCTION
+
+        //Open PMM registers for write access
+        HWREG8(PMM_BASE + OFS_PMMCTL0_H) = 0xA5;
+
+        //Disable dedicated Interrupts
+        //Backup all registers
+        PMMRIE_backup = HWREG16(PMM_BASE + OFS_PMMRIE);
+        HWREG16(PMM_BASE + OFS_PMMRIE) &= ~(SVMHVLRPE | SVSHPE | SVMLVLRPE |
+                                            SVSLPE | SVMHVLRIE | SVMHIE |
+                                            SVSMHDLYIE | SVMLVLRIE | SVMLIE |
+                                            SVSMLDLYIE
+                                            );
+        SVSMHCTL_backup = HWREG16(PMM_BASE + OFS_SVSMHCTL);
+        SVSMLCTL_backup = HWREG16(PMM_BASE + OFS_SVSMLCTL);
+
+        //Clear flags
+        HWREG16(PMM_BASE + OFS_PMMIFG) = 0;
+
+        //Set SVM highside to new level and check if a VCore increase is possible
+        HWREG16(PMM_BASE + OFS_SVSMHCTL) = SVMHE | SVSHE | (SVSMHRRL0 * level);
+
+        //Wait until SVM highside is settled
+        while ((HWREG16(PMM_BASE + OFS_PMMIFG) & SVSMHDLYIFG) == 0) ;
+
+        //Clear flag
+        HWREG16(PMM_BASE + OFS_PMMIFG) &= ~SVSMHDLYIFG;
+
+        //Check if a VCore increase is possible
+        if ((HWREG16(PMM_BASE + OFS_PMMIFG) & SVMHIFG) == SVMHIFG) {
+                //-> Vcc is too low for a Vcore increase
+                //recover the previous settings
+                HWREG16(PMM_BASE + OFS_PMMIFG) &= ~SVSMHDLYIFG;
+                HWREG16(PMM_BASE + OFS_SVSMHCTL) = SVSMHCTL_backup;
+
+                //Wait until SVM highside is settled
+                while ((HWREG16(PMM_BASE + OFS_PMMIFG) & SVSMHDLYIFG) == 0) ;
+
+                //Clear all Flags
+                HWREG16(PMM_BASE +
+                        OFS_PMMIFG) &= ~(SVMHVLRIFG | SVMHIFG | SVSMHDLYIFG |
+                                         SVMLVLRIFG | SVMLIFG |
+                                         SVSMLDLYIFG
+                                         );
+
+                //Restore PMM interrupt enable register
+                HWREG16(PMM_BASE + OFS_PMMRIE) = PMMRIE_backup;
+                //Lock PMM registers for write access
+                HWREG8(PMM_BASE + OFS_PMMCTL0_H) = 0x00;
+                //return: voltage not set
+                return STATUS_FAIL;
+        }
+
+        //Set also SVS highside to new level
+        //Vcc is high enough for a Vcore increase
+        HWREG16(PMM_BASE + OFS_SVSMHCTL) |= (SVSHRVL0 * level);
+
+        //Wait until SVM highside is settled
+        while ((HWREG16(PMM_BASE + OFS_PMMIFG) & SVSMHDLYIFG) == 0) ;
+
+        //Clear flag
+        HWREG16(PMM_BASE + OFS_PMMIFG) &= ~SVSMHDLYIFG;
+
+        //Set VCore to new level
+        HWREG8(PMM_BASE + OFS_PMMCTL0_L) = PMMCOREV0 * level;
+
+        //Set SVM, SVS low side to new level
+        HWREG16(PMM_BASE + OFS_SVSMLCTL) = SVMLE | (SVSMLRRL0 * level) |
+                                           SVSLE | (SVSLRVL0 * level);
+
+        //Wait until SVM, SVS low side is settled
+        while ((HWREG16(PMM_BASE + OFS_PMMIFG) & SVSMLDLYIFG) == 0) ;
+
+        //Clear flag
+        HWREG16(PMM_BASE + OFS_PMMIFG) &= ~SVSMLDLYIFG;
+        //SVS, SVM core and high side are now set to protect for the new core level
+
+        //Restore Low side settings
+        //Clear all other bits _except_ level settings
+        HWREG16(PMM_BASE + OFS_SVSMLCTL) &= (SVSLRVL0 + SVSLRVL1 + SVSMLRRL0 +
+                                             SVSMLRRL1 + SVSMLRRL2
+                                             );
+
+        //Clear level settings in the backup register,keep all other bits
+        SVSMLCTL_backup &=
+                ~(SVSLRVL0 + SVSLRVL1 + SVSMLRRL0 + SVSMLRRL1 + SVSMLRRL2);
+
+        //Restore low-side SVS monitor settings
+        HWREG16(PMM_BASE + OFS_SVSMLCTL) |= SVSMLCTL_backup;
+
+        //Restore High side settings
+        //Clear all other bits except level settings
+        HWREG16(PMM_BASE + OFS_SVSMHCTL) &= (SVSHRVL0 + SVSHRVL1 +
+                                             SVSMHRRL0 + SVSMHRRL1 +
+                                             SVSMHRRL2
+                                             );
+
+        //Clear level settings in the backup register,keep all other bits
+        SVSMHCTL_backup &=
+                ~(SVSHRVL0 + SVSHRVL1 + SVSMHRRL0 + SVSMHRRL1 + SVSMHRRL2);
+
+        //Restore backup
+        HWREG16(PMM_BASE + OFS_SVSMHCTL) |= SVSMHCTL_backup;
+
+        //Wait until high side, low side settled
+        while (((HWREG16(PMM_BASE + OFS_PMMIFG) & SVSMLDLYIFG) == 0) ||
+               ((HWREG16(PMM_BASE + OFS_PMMIFG) & SVSMHDLYIFG) == 0)) ;
+
+        //Clear all Flags
+        HWREG16(PMM_BASE + OFS_PMMIFG) &= ~(SVMHVLRIFG | SVMHIFG | SVSMHDLYIFG |
+                                            SVMLVLRIFG | SVMLIFG | SVSMLDLYIFG
+                                            );
+
+        //Restore PMM interrupt enable register
+        HWREG16(PMM_BASE + OFS_PMMRIE) = PMMRIE_backup;
+
+        //Lock PMM registers for write access
+        HWREG8(PMM_BASE + OFS_PMMCTL0_H) = 0x00;
+
+        return STATUS_SUCCESS;
+}
+
+uint16_t _PMM_setVCoreDown( uint8_t level)
+{
+        uint32_t PMMRIE_backup, SVSMHCTL_backup, SVSMLCTL_backup;
+
+        //The code flow for decreasing the Vcore has been altered to work around
+        //the erratum FLASH37.
+        //Please refer to the Errata sheet to know if a specific device is affected
+        //DO NOT ALTER THIS FUNCTION
+
+        //Open PMM registers for write access
+        HWREG8(PMM_BASE + OFS_PMMCTL0_H) = 0xA5;
+
+        //Disable dedicated Interrupts
+        //Backup all registers
+        PMMRIE_backup = HWREG16(PMM_BASE + OFS_PMMRIE);
+        HWREG16(PMM_BASE + OFS_PMMRIE) &= ~(SVMHVLRPE | SVSHPE | SVMLVLRPE |
+                                            SVSLPE | SVMHVLRIE | SVMHIE |
+                                            SVSMHDLYIE | SVMLVLRIE | SVMLIE |
+                                            SVSMLDLYIE
+                                            );
+        SVSMHCTL_backup = HWREG16(PMM_BASE + OFS_SVSMHCTL);
+        SVSMLCTL_backup = HWREG16(PMM_BASE + OFS_SVSMLCTL);
+
+        //Clear flags
+        HWREG16(PMM_BASE + OFS_PMMIFG) &= ~(SVMHIFG | SVSMHDLYIFG |
+                                            SVMLIFG | SVSMLDLYIFG
+                                            );
+
+        //Set SVM, SVS high & low side to new settings in normal mode
+        HWREG16(PMM_BASE + OFS_SVSMHCTL) = SVMHE | (SVSMHRRL0 * level) |
+                                           SVSHE | (SVSHRVL0 * level);
+        HWREG16(PMM_BASE + OFS_SVSMLCTL) = SVMLE | (SVSMLRRL0 * level) |
+                                           SVSLE | (SVSLRVL0 * level);
+
+        //Wait until SVM high side and SVM low side is settled
+        while ((HWREG16(PMM_BASE + OFS_PMMIFG) & SVSMHDLYIFG) == 0 ||
+               (HWREG16(PMM_BASE + OFS_PMMIFG) & SVSMLDLYIFG) == 0) ;
+
+        //Clear flags
+        HWREG16(PMM_BASE + OFS_PMMIFG) &= ~(SVSMHDLYIFG + SVSMLDLYIFG);
+        //SVS, SVM core and high side are now set to protect for the new core level
+
+        //Set VCore to new level
+        HWREG8(PMM_BASE + OFS_PMMCTL0_L) = PMMCOREV0 * level;
+
+        //Restore Low side settings
+        //Clear all other bits _except_ level settings
+        HWREG16(PMM_BASE + OFS_SVSMLCTL) &= (SVSLRVL0 + SVSLRVL1 + SVSMLRRL0 +
+                                             SVSMLRRL1 + SVSMLRRL2
+                                             );
+
+        //Clear level settings in the backup register,keep all other bits
+        SVSMLCTL_backup &=
+                ~(SVSLRVL0 + SVSLRVL1 + SVSMLRRL0 + SVSMLRRL1 + SVSMLRRL2);
+
+        //Restore low-side SVS monitor settings
+        HWREG16(PMM_BASE + OFS_SVSMLCTL) |= SVSMLCTL_backup;
+
+        //Restore High side settings
+        //Clear all other bits except level settings
+        HWREG16(PMM_BASE + OFS_SVSMHCTL) &= (SVSHRVL0 + SVSHRVL1 + SVSMHRRL0 +
+                                             SVSMHRRL1 + SVSMHRRL2
+                                             );
+
+        //Clear level settings in the backup register, keep all other bits
+        SVSMHCTL_backup &=
+                ~(SVSHRVL0 + SVSHRVL1 + SVSMHRRL0 + SVSMHRRL1 + SVSMHRRL2);
+
+        //Restore backup
+        HWREG16(PMM_BASE + OFS_SVSMHCTL) |= SVSMHCTL_backup;
+
+        //Wait until high side, low side settled
+        while (((HWREG16(PMM_BASE + OFS_PMMIFG) & SVSMLDLYIFG) == 0) ||
+               ((HWREG16(PMM_BASE + OFS_PMMIFG) & SVSMHDLYIFG) == 0)) ;
+
+        //Clear all Flags
+        HWREG16(PMM_BASE + OFS_PMMIFG) &= ~(SVMHVLRIFG | SVMHIFG | SVSMHDLYIFG |
+                                            SVMLVLRIFG | SVMLIFG | SVSMLDLYIFG
+                                            );
+
+        //Restore PMM interrupt enable register
+        HWREG16(PMM_BASE + OFS_PMMRIE) = PMMRIE_backup;
+        //Lock PMM registers for write access
+        HWREG8(PMM_BASE + OFS_PMMCTL0_H) = 0x00;
+        //Return: OK
+        return STATUS_SUCCESS;
+}
+
+bool _PMM_setVCore( uint8_t level)
+{
+        assert(
+                (PMM_CORE_LEVEL_0 == level) ||
+                (PMM_CORE_LEVEL_1 == level) ||
+                (PMM_CORE_LEVEL_2 == level) ||
+                (PMM_CORE_LEVEL_3 == level)
+                );
+
+        uint8_t actlevel;
+        bool status = STATUS_SUCCESS;
+
+        //Set Mask for Max. level
+        level &= PMMCOREV_3;
+
+        //Get actual VCore
+        actlevel = (HWREG16(PMM_BASE + OFS_PMMCTL0) & PMMCOREV_3);
+
+        //step by step increase or decrease
+        while ((level != actlevel) && (status == STATUS_SUCCESS)) {
+                if (level > actlevel)
+                        status = _PMM_setVCoreUp(++actlevel);
+                else
+                        status = _PMM_setVCoreDown(--actlevel);
+        }
+
+        return status;
+}
+
+//Copied from driverlib ucs.c
+#define UCS_XT2OFFG                                                     XT2OFFG
+#define OFS_UCSCTL7            (0x000E)       /* UCS Control Register 7 */
+#define UCS_DCOFFG                                                       DCOFFG
+#define OFS_SFRIFG1            (0x0002)       /* Interrupt Flag 1 */
+#define OFS_SFRIFG1_L          OFS_SFRIFG1
+#define SFR_OSCILLATOR_FAULT_INTERRUPT                                     OFIE
+
+void _UCS_clearFaultFlag(uint8_t mask
+                        )
+{
+        assert(mask <= UCS_XT2OFFG );
+        HWREG8(UCS_BASE + OFS_UCSCTL7) &= ~mask;
+}
+
+void _SFR_clearInterrupt(uint8_t interruptFlagMask)
+{
+        HWREG8(SFR_BASE + OFS_SFRIFG1_L) &= ~(interruptFlagMask);
+}
+
+
 /*  
  * ======== main ========
  */
 void main (void)
 {
-    WDT_A_hold(WDT_A_BASE); // Stop watchdog timer
+    _WDT_A_hold(WDT_A_BASE); // Stop watchdog timer
 
     // MSP430 USB requires the maximum Vcore setting; do not modify
 #ifndef DRIVERLIB_LEGACY_MODE
-    PMM_setVCore(PMM_CORE_LEVEL_2);
+    _PMM_setVCore(PMM_CORE_LEVEL_2);
 
 #else
-    PMM_setVCore(PMM_BASE, PMM_CORE_LEVEL_2);
+    //PMM_setVCore(PMM_BASE, PMM_CORE_LEVEL_2);
 #endif
 
     initPorts();           // Config GPIOS for low-power (output low)
@@ -222,14 +523,14 @@ void __attribute__ ((interrupt(UNMI_VECTOR))) UNMI_ISR (void)
             break;
         case SYSUNIV_OFIFG:
 #ifndef DRIVERLIB_LEGACY_MODE
-            UCS_clearFaultFlag(UCS_XT2OFFG);
-            UCS_clearFaultFlag(UCS_DCOFFG);
-            SFR_clearInterrupt(SFR_OSCILLATOR_FAULT_INTERRUPT);
+            _UCS_clearFaultFlag(UCS_XT2OFFG);
+            _UCS_clearFaultFlag(UCS_DCOFFG);
+            _SFR_clearInterrupt(SFR_OSCILLATOR_FAULT_INTERRUPT);
 
 #else
-            UCS_clearFaultFlag(UCS_BASE, UCS_XT2OFFG);
-            UCS_clearFaultFlag(UCS_BASE, UCS_DCOFFG);
-            SFR_clearInterrupt(SFR_BASE, SFR_OSCILLATOR_FAULT_INTERRUPT);
+            //UCS_clearFaultFlag(UCS_BASE, UCS_XT2OFFG);
+            //UCS_clearFaultFlag(UCS_BASE, UCS_DCOFFG);
+            //SFR_clearInterrupt(SFR_BASE, SFR_OSCILLATOR_FAULT_INTERRUPT);
 #endif
             break;
         case SYSUNIV_ACCVIFG:
