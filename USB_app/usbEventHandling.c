@@ -38,7 +38,7 @@
 #include "USB_API/USB_Common/defMSP430USB.h"
 #include "USB_config/descriptors.h"
 #include "USB_API/USB_Common/usb.h"
-#include "../../Trik_Devices/trik_ucs.h"
+#include "../Trik_Devices/trik_ucs.h"
 
 #ifdef _CDC_
 #include "USB_API/USB_CDC_API/UsbCdc.h"
