@@ -18,8 +18,4 @@
 #define STATUS_SUCCESS  0x01
 #define STATUS_FAIL     0x00
 
-#define bool   _Bool
-#define false  0
-#define true   1
-
 #endif /* TRIK_REGACCESS_H_ */

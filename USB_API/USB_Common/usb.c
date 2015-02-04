@@ -43,7 +43,7 @@
 //! \cond
 //
 #include <string.h>
-#include "driverlib.h"
+//#include "driverlib.h"
 
 #include "../USB_Common/device.h"
 #include "../USB_Common/defMSP430USB.h"
@@ -53,6 +53,9 @@
 #include "../USB_HID_API/UsbHidReq.h"
 #include "../USB_MSC_API/UsbMscScsi.h"
 #include "../USB_Common/UsbIsr.h"
+#include "../../Trik_Devices/trik_tlv.h"
+#include "../../Trik_Devices/trik_ucs.h"
+#include "../../Trik_Devices/trik_regaccess.h"
 #include <descriptors.h>
 
 
@@ -444,7 +447,7 @@ void USB_InitSerialStringDescriptor (void)
     abramSerialStringDescriptor[j++] = DESC_TYPE_STRING;
 
     //TLV access Function Call
-    TLV_getInfo(TLV_TAG_DIERECORD, 0,
+    _TLV_getInfo(TLV_TAG_DIERECORD, 0,
         (uint8_t *)&bBytes, (uint16_t **)&pbSerNum);
     if (bBytes == 0){                                                           //no serial number available
         //use 00 as serial number = no serial number available
@@ -546,7 +549,7 @@ uint8_t USB_enable ()
     	status = UCS_bypassXT2WithTimeout(50000);
     }
     */
-    status = UCS_bypassXT2WithTimeout(50000);
+    status = _UCS_bypassXT2WithTimeout(50000);
 #else
     /*
     if (USB_XT_FREQ_VALUE >= 24) {
@@ -570,7 +573,7 @@ uint8_t USB_enable ()
     	status = UCS_bypassXT2WithTimeout(UCS_BASE,50000);
     }
     */
-    status = UCS_bypassXT2WithTimeout(UCS_BASE,50000);
+    status = _UCS_bypassXT2WithTimeout(UCS_BASE,50000);
 #endif
 
 	if (status == STATUS_FAIL) {
@@ -680,7 +683,7 @@ uint8_t USB_enable_crystal (void)
     	UCS_bypassXT2WithTimeout(1);
     }
     */
-    UCS_bypassXT2WithTimeout(1);
+    _UCS_bypassXT2WithTimeout(1);
 #else
     /*
     if (USB_XT_FREQ_VALUE >= 24) {
@@ -700,7 +703,7 @@ uint8_t USB_enable_crystal (void)
     	UCS_bypassXT2WithTimeout(UCS_BASE, 1);
     }
     */
-    UCS_bypassXT2WithTimeout(UCS_BASE, 1);
+    _UCS_bypassXT2WithTimeout(UCS_BASE, 1);
 #endif
 
     USB_handleCrystalStartedEvent();

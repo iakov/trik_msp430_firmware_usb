@@ -64,10 +64,6 @@
 #include "Trik_Devices/trik_ucs.h"
 #include "Trik_Devices/trik_pmm.h"
 #include "Trik_Devices/trik_wdt.h"
-/*
- * NOTE: Modify hal.h to select a specific evaluation board and customize for
- * your own board.
- */
 #include "hal.h"
 
 // Global flags set by events
