@@ -15,8 +15,8 @@ void _DMA_setSrcAddress(uint8_t channelSelect,
                        uint32_t srcAddress,
                        uint16_t directionSelect)
 {
-        assert(channelSelect <= DMA_CHANNEL_7);
-        assert(directionSelect <= DMA_DIRECTION_INCREMENT);
+        //assert(channelSelect <= DMA_CHANNEL_7);
+        //assert(directionSelect <= DMA_DIRECTION_INCREMENT);
 
         //Set the Source Address
         __data16_write_addr((unsigned short)(DMA_BASE + channelSelect + OFS_DMA0SA),
@@ -31,8 +31,8 @@ void _DMA_setDstAddress(uint8_t channelSelect,
                        uint32_t dstAddress,
                        uint16_t directionSelect)
 {
-        assert(channelSelect <= DMA_CHANNEL_7);
-        assert(directionSelect <= DMA_DIRECTION_INCREMENT);
+        //assert(channelSelect <= DMA_CHANNEL_7);
+        //assert(directionSelect <= DMA_DIRECTION_INCREMENT);
 
         //Set the Destination Address
         __data16_write_addr((unsigned short)(DMA_BASE + channelSelect + OFS_DMA0DA),
@@ -52,28 +52,28 @@ void _DMA_setTransferSize(uint8_t channelSelect,
 
 void _DMA_enableTransfers(uint8_t channelSelect)
 {
-        assert(channelSelect <= DMA_CHANNEL_7);
+        //assert(channelSelect <= DMA_CHANNEL_7);
 
         HWREG16(DMA_BASE + channelSelect + OFS_DMA0CTL) |= DMAEN;
 }
 
 void _DMA_disableTransfers(uint8_t channelSelect)
 {
-        assert(channelSelect <= DMA_CHANNEL_7);
+        //assert(channelSelect <= DMA_CHANNEL_7);
 
         HWREG16(DMA_BASE + channelSelect + OFS_DMA0CTL) &= ~(DMAEN);
 }
 
 void _DMA_startTransfer(uint8_t channelSelect)
 {
-        assert(channelSelect <= DMA_CHANNEL_7);
+        //assert(channelSelect <= DMA_CHANNEL_7);
 
         HWREG16(DMA_BASE + channelSelect + OFS_DMA0CTL) |= DMAREQ;
 }
 
 uint16_t _DMA_getInterruptStatus(uint8_t channelSelect)
 {
-        assert(channelSelect <= DMA_CHANNEL_7);
+        //assert(channelSelect <= DMA_CHANNEL_7);
 
         return HWREG16(DMA_BASE + channelSelect + OFS_DMA0CTL) & DMAIFG;
 }
@@ -85,11 +85,11 @@ bool _DMA_init(uint8_t channelSelect,
               uint8_t transferUnitSelect,
               uint8_t triggerTypeSelect)
 {
-        assert(channelSelect <= DMA_CHANNEL_7);
-        assert(transferModeSelect <= DMA_TRANSFER_REPEATED_BURSTBLOCK);
-        assert(triggerSourceSelect <= DMA_TRIGGERSOURCE_31);
-        assert(transferUnitSelect <= DMA_SIZE_SRCBYTE_DSTBYTE);
-        assert(triggerTypeSelect <= DMA_TRIGGER_HIGH);
+        //assert(channelSelect <= DMA_CHANNEL_7);
+        //assert(transferModeSelect <= DMA_TRANSFER_REPEATED_BURSTBLOCK);
+        //assert(triggerSourceSelect <= DMA_TRIGGERSOURCE_31);
+        //assert(transferUnitSelect <= DMA_SIZE_SRCBYTE_DSTBYTE);
+        //assert(triggerTypeSelect <= DMA_TRIGGER_HIGH);
 
         bool retVal = STATUS_SUCCESS;
         uint8_t triggerOffset = (channelSelect >> 4);
