@@ -64,7 +64,7 @@
  * your own board.
  */
 #include "hal.h"
-#include "driverlib.h"
+//#include "driverlib.h"
 
 // Global flags set by events
 volatile uint8_t bDataReceived_event0 = FALSE; // Indicates data has been rx'ed
