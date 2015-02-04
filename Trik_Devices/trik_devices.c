@@ -13,6 +13,7 @@
 #include "Trik_Devices/trik_async.h"
 #include "Trik_Devices/trik_sensor.h"
 #include "Trik_Devices/trik_touch.h"
+#include "Trik_Devices/trik_pwm.h"
 
 //Reset touch parameters
 void resetTouch()
@@ -48,6 +49,10 @@ void initGlobalVars()
     TOUCH.SCRY = 240;
     resetTouch();
     mouseReport.lx = mouseReport.ly = mouseReport.hx = mouseReport.hy = mouseReport.buttons = 0;
+
+    for (int j=0; j<MAX_PWMS; j++)
+        PWM[j].PCTL = PWM[j].PDUT = PWM[j].PPER = PWM[j].PSTA = 0x0000;
+
 }
 
 //Init reference and temperature sensor for ADC
