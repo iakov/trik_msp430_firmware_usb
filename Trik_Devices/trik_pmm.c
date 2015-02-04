@@ -230,12 +230,14 @@ uint16_t _PMM_setVCoreDown( uint8_t level)
 
 bool _PMM_setVCore( uint8_t level)
 {
+        /*
         assert(
                 (PMM_CORE_LEVEL_0 == level) ||
                 (PMM_CORE_LEVEL_1 == level) ||
                 (PMM_CORE_LEVEL_2 == level) ||
                 (PMM_CORE_LEVEL_3 == level)
                 );
+        */
 
         uint8_t actlevel;
         bool status = STATUS_SUCCESS;
