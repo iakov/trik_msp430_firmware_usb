@@ -5,7 +5,7 @@
  *      Author: Rostislav Varzar
  */
 
-#include <assert.h>
+//#include <assert.h>
 #include <stdint.h>
 #include <msp430f5510.h>
 #include "trik_ucs.h"
@@ -13,7 +13,7 @@
 
 void _UCS_clearFaultFlag(uint8_t mask)
 {
-        assert(mask <= UCS_XT2OFFG );
+        //assert(mask <= UCS_XT2OFFG );
         HWREG8(UCS_BASE + OFS_UCSCTL7) &= ~mask;
 }
 
@@ -24,7 +24,7 @@ void _SFR_clearInterrupt(uint8_t interruptFlagMask)
 
 bool _UCS_bypassXT2WithTimeout(uint16_t timeout)
 {
-        assert(timeout > 0);
+        //assert(timeout > 0);
 
         //Switch off XT2 oscillator and enable BYPASS mode
         HWREG16(UCS_BASE + OFS_UCSCTL6) |= (XT2BYPASS + XT2OFF );
@@ -60,6 +60,7 @@ void _UCS_clockSignalInit(uint8_t selectedClockSignal,
                          uint16_t clockSourceDivider
                          )
 {
+        /*
         assert(
                 (UCS_XT1CLK_SELECT == clockSource) ||
                 (UCS_VLOCLK_SELECT == clockSource) ||
@@ -77,6 +78,7 @@ void _UCS_clockSignalInit(uint8_t selectedClockSignal,
                 (UCS_CLOCK_DIVIDER_16 == clockSourceDivider) ||
                 (UCS_CLOCK_DIVIDER_32 == clockSourceDivider)
                 );
+        */
 
         switch (selectedClockSignal) {
         case UCS_ACLK:
@@ -105,7 +107,7 @@ void _UCS_clockSignalInit(uint8_t selectedClockSignal,
                 HWREG16(UCS_BASE + OFS_UCSCTL5) |= clockSourceDivider;
                 break;
         case UCS_FLLREF:
-                assert(clockSource <= SELA_5);
+                //assert(clockSource <= SELA_5);
                 HWREG8(UCS_BASE + OFS_UCSCTL3) &=  ~(SELREF_7);
 
                 clockSource = clockSource << 4;

@@ -5,7 +5,7 @@
  *      Author: Rostislav Varzar
  */
 
-#include <assert.h>
+//#include <assert.h>
 #include <stdint.h>
 #include <msp430f5510.h>
 #include "trik_dma.h"
