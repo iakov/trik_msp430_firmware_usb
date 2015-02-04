@@ -48,6 +48,10 @@
 #define PWM5                0x25
 #define ASYNCTIMER          0x26
 #define TOUCHDEVICE         0x27
+#define I2C1                0x28
+#define I2C2                0x29
+#define I2C3                0x2A
+#define I2C4                0x2B
 #define BSL                 0xEE
 #define NNONE				0xFF
 
@@ -56,7 +60,7 @@
 #define SLOT_BUSY           0x01
 
 //Max ports
-#define MAX_DEVICES			TOUCHDEVICE
+#define MAX_DEVICES			I2C4
 
 //Busy table
 volatile uint8_t busy_table[MAX_DEVICES];
