@@ -64,7 +64,7 @@
 #include "Trik_Devices/trik_ucs.h"
 #include "Trik_Devices/trik_pmm.h"
 #include "Trik_Devices/trik_wdt.h"
-#include "hal.h"
+#include "Trik_Devices/trik_hal.h"
 
 // Global flags set by events
 volatile uint8_t bDataReceived_event0 = FALSE; // Indicates data has been rx'ed
@@ -99,8 +99,8 @@ void main (void)
     //PMM_setVCore(PMM_BASE, PMM_CORE_LEVEL_2);
 #endif
 
-    initPorts();           // Config GPIOS for low-power (output low)
-    initClocks(24000000);   // Config clocks. MCLK=SMCLK=FLL=8MHz; ACLK=REFO=32kHz
+    _initPorts();           // Config GPIOS for low-power (output low)
+    _initClocks(24000000);   // Config clocks. MCLK=SMCLK=FLL=8MHz; ACLK=REFO=32kHz
     USB_setup(TRUE,TRUE);  // Init USB & events; if a host is present, connect
 
     initGlobalVars(); //Init variables and structires

@@ -6,9 +6,9 @@
  */
 
 #include <stdint.h>
+#include <msp430f5510.h>
 #include "trik_devices.h"
 #include "trik_sensor.h"
-#include "driverlib.h"
 
 //Sensor enable
 void SENSOR_enableController(uint8_t SENS_NUMBER)

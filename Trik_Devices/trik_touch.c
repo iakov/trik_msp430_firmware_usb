@@ -6,9 +6,8 @@
  */
 
 #include <stdint.h>
+#include <msp430f5510.h>
 #include "trik_touch.h"
-#include "driverlib.h"
-
 
 //Return 1, if panel is touched
 uint8_t isTouched()

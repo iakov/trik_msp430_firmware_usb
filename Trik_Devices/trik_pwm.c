@@ -6,9 +6,9 @@
  */
 
 #include <stdint.h>
+#include <msp430f5510.h>
 #include "trik_devices.h"
 #include "trik_pwm.h"
-#include "driverlib.h"
 
 //Motor enable and start
 void PWM_enable(uint8_t PWM_NUMBER)

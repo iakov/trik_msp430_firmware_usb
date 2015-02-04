@@ -34,12 +34,11 @@
  * Event-handling placeholder functions.
  * All functios are called in interrupt context.
  */
-#include "driverlib.h"
-
 #include "USB_API/USB_Common/device.h"
 #include "USB_API/USB_Common/defMSP430USB.h"
 #include "USB_config/descriptors.h"
 #include "USB_API/USB_Common/usb.h"
+#include "../../Trik_Devices/trik_ucs.h"
 
 #ifdef _CDC_
 #include "USB_API/USB_CDC_API/UsbCdc.h"
@@ -97,10 +96,10 @@ uint8_t USB_handleVbusOffEvent ()
 {
     //TO DO: You can place your code here
 #ifndef DRIVERLIB_LEGACY_MODE
-	UCS_XT2Off();
+	_UCS_XT2Off();
 
 #else
-    UCS_XT2Off(__MSP430_BASEADDRESS_UCS__);
+    //UCS_XT2Off(__MSP430_BASEADDRESS_UCS__);
 #endif
 
 

@@ -9,7 +9,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
-#include "driverlib.h"
+#include <msp430f5510.h>
+#include <stdint.h>
 #include "Trik_Devices/trik_protocolhandler.h"
 #include "Trik_Devices/trik_motor.h"
 #include "Trik_Devices/trik_sensor.h"

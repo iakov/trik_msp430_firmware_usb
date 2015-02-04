@@ -6,10 +6,10 @@
  */
 
 #include <stdint.h>
+#include <msp430f5510.h>
 #include "trik_devices.h"
 #include "trik_encoder.h"
 #include "trik_motor.h"
-#include "driverlib.h"
 
 //Enable encoder
 void ENCODER_enableController(uint8_t ENC_NUMBER)

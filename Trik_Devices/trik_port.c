@@ -6,9 +6,9 @@
  */
 
 #include <stdint.h>
+#include <msp430f5510.h>
 #include "trik_port.h"
 #include "trik_devices.h"
-#include "driverlib.h"
 
 //Write to port
 void PORT_write(uint8_t PORT_NUMBER, uint8_t REG_ADDRESS, uint8_t REG_VALUE)

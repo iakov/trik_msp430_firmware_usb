@@ -5,7 +5,8 @@
  *      Author: Rostislav Varzar
  */
 
-#include "driverlib.h"
+#include <msp430f5510.h>
+#include <stdint.h>
 #include "trik_devices.h"
 #include "trik_async.h"
 
