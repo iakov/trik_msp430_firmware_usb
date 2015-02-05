@@ -85,6 +85,8 @@ volatile uint32_t timerb_ts = 0; //Timer B counter 2
 
 float kx, ky, xx, yy; //Temp vars
 
+uint16_t gtmp, gx, gy, gz;
+
 /*  
  * ======== main ========
  */
@@ -147,13 +149,29 @@ void main (void)
 
 
                     I2C_init(I2C1);
-                    I2C_start(I2C1);
-                    I2C_write(I2C1, 0x90);
-                    I2C_write(I2C1, 0xEE);
-                    I2C_stop(I2C1);
+                    I2C_writechar(I2C1, 0x3C, 0x02, 0x00);
+
+                    gtmp = I2C_readchar(I2C1, 0x3C, 0x03);
+                    gx = I2C_readchar(I2C1, 0x3C, 0x04) + (gtmp << 8);
+
+                    gtmp = I2C_readchar(I2C1, 0x3C, 0x05);
+                    gz = I2C_readchar(I2C1, 0x3C, 0x06) + (gtmp << 8);
+
+                    gtmp = I2C_readchar(I2C1, 0x3C, 0x07);
+                    gy = I2C_readchar(I2C1, 0x3C, 0x08) + (gtmp << 8);
 
 
 
+                    sprintf(newString, "%x, %x, %x \n", gx, gy, gz);
+                    if (cdcSendDataInBackground((uint8_t*)newString,
+                            strlen(newString),CDC0_INTFNUM,1))
+                    {  // Send message to other App
+                        SendError = 0x01;                          // Something went wrong -- exit
+                        break;
+                    }
+
+
+                    /*
                     //Test for end symbol 0x0A
                     if (retInString(wholeString))
                     {              // Wait for enter key to be pressed
@@ -166,6 +184,7 @@ void main (void)
                             break;
                         }
                     }
+                    */
                 }
 
                 //CDC1 events
