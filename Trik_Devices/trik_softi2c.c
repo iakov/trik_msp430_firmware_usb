@@ -70,3 +70,28 @@ void I2C_highSCL(uint8_t I2C_NUMBER)
         break;
     }
 }
+
+void I2C_init(uint8_t I2C_NUMBER)
+{
+    if (!(isSlotBusy(I2C_NUMBER)))
+    {
+        reseveSlot(I2C_NUMBER);
+        switch (I2C_NUMBER)
+        {
+            case I2C1:
+                I2C_SEL1 &= ~SDA1;
+                I2C_SEL1 &= ~SCL1;
+                I2C_OUT1 &= ~SCL1;
+                I2C_OUT1 &= ~SDA1;
+                I2C_DIR1 |= SCL1;
+                I2C_DIR1 &= ~SDA1;
+                I2C_highSCL(I2C_NUMBER);
+                I2C_lowSDA(I2C_NUMBER);
+                I2C_highSDA(I2C_NUMBER);
+                break;
+            default:;
+            break;
+        }
+    }
+
+}
