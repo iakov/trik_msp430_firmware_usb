@@ -93,5 +93,38 @@ void I2C_init(uint8_t I2C_NUMBER)
             break;
         }
     }
+}
 
+void I2C_start(uint8_t I2C_NUMBER)
+{
+    switch (I2C_NUMBER)
+    {
+        case I2C1:
+            I2C_highSCL(I2C_NUMBER);
+            I2C_highSDA(I2C_NUMBER);
+            I2C_highSCL(I2C_NUMBER);
+            I2C_lowSDA(I2C_NUMBER);
+            I2C_lowSCL(I2C_NUMBER);
+            I2C_highSDA(I2C_NUMBER);
+            break;
+        default:;
+        break;
+    }
+}
+
+void I2C_stop(uint8_t I2C_NUMBER)
+{
+    switch (I2C_NUMBER)
+    {
+        case I2C1:
+            I2C_lowSCL(I2C_NUMBER);
+            I2C_lowSDA(I2C_NUMBER);
+            I2C_highSCL(I2C_NUMBER);
+            I2C_lowSDA(I2C_NUMBER);
+            I2C_highSCL(I2C_NUMBER);
+            I2C_highSDA(I2C_NUMBER);
+            break;
+        default:;
+        break;
+    }
 }
