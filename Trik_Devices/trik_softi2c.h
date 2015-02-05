@@ -52,11 +52,10 @@ volatile struct tI2CRegisters I2C[MAX_I2CS];
 #define SDA1                BIT0
 #define SCL1                BIT3
 
-void I2C_lowSDA();
-void I2C_highSDA();
-void I2C_lowSCL();
-void I2C_highSCL();
-void I2C_delay(uint16_t i2c_del);
+void I2C_lowSDA(uint8_t I2C_NUMBER);
+void I2C_highSDA(uint8_t I2C_NUMBER);
+void I2C_lowSCL(uint8_t I2C_NUMBER);
+void I2C_highSCL(uint8_t I2C_NUMBER);
 void I2C_init(uint8_t I2C_NUMBER);
 void I2C_start(uint8_t I2C_NUMBER);
 void I2C_stop(uint8_t I2C_NUMBER);
@@ -65,6 +64,7 @@ uint16_t I2C_write(uint8_t I2C_NUMBER, uint8_t i2c_dta);
 uint8_t I2C_readchar(uint8_t i2c_dev, uint8_t i2c_reg);
 void I2C_writechar(uint8_t i2c_dev, uint8_t i2c_reg, uint8_t i2c_val);
 
-#define I2C_WAIT I2C_delay(10000);
+void I2C_delay(uint16_t i2c_del);
+#define I2C_WAIT            I2C_delay(10000);
 
 #endif /* TRIK_SOFTI2C_H_ */
