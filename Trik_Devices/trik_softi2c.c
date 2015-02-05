@@ -5,4 +5,7 @@
  *      Author: Rostislav Varzar
  */
 
+#include <stdint.h>
+#include <msp430f5510.h>
+#include "trik_softi2c.h"
 

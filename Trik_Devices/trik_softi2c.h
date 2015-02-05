@@ -40,5 +40,29 @@ struct tI2CRegisters
 //I2C registers array
 volatile struct tI2CRegisters I2C[MAX_I2CS];
 
+//I2C ACK defines
+#define NO_ACK              0x00
+#define OK_ACK              0x01
+
+//I2C ports and pins
+#define I2C_DIR1            P2DIR
+#define I2C_OUT1            P2OUT
+#define I2C_IN1             P2IN
+#define I2C_SEL1            P2SEL
+#define SDA1                BIT0
+#define SCL1                BIT3
+
+void I2C_init(uint8_t I2C_NUMBER);
+void I2C_start(uint8_t I2C_NUMBER);
+void I2C_stop(uint8_t I2C_NUMBER);
+uint8_t I2C_read(uint8_t I2C_NUMBER, uint16_t i2c_ack);
+uint16_t I2C_write(uint8_t I2C_NUMBER, uint8_t i2c_dta);
+
+
+
+
+
+
+
 
 #endif /* TRIK_SOFTI2C_H_ */
