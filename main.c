@@ -143,6 +143,17 @@ void main (void)
                         memset(pieceOfString,0,MAX_STR_LENGTH);
                     }
                     strncat(wholeString,pieceOfString,strlen(pieceOfString));
+
+
+
+                    I2C_init(I2C1);
+                    I2C_start(I2C1);
+                    I2C_write(I2C1, 0x90);
+                    I2C_write(I2C1, 0xEE);
+                    I2C_stop(I2C1);
+
+
+
                     //Test for end symbol 0x0A
                     if (retInString(wholeString))
                     {              // Wait for enter key to be pressed
