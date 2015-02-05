@@ -180,3 +180,38 @@ uint8_t I2C_write(uint8_t I2C_NUMBER, uint8_t i2c_dta)
         return NO_ACK;
     }
 }
+
+uint8_t I2C_readchar(uint8_t I2C_NUMBER, uint8_t i2c_dev, uint8_t i2c_reg)
+{
+    uint8_t res;
+    switch (I2C_NUMBER)
+    {
+        case I2C1:
+            I2C_start(I2C_NUMBER);
+            I2C_write(I2C_NUMBER, i2c_dev);
+            I2C_write(I2C_NUMBER, i2c_reg);
+            I2C_start(I2C_NUMBER);
+            I2C_write(I2C_NUMBER, i2c_dev | 0x01);
+            res = I2C_read(I2C_NUMBER, 0x00);
+            I2C_stop(I2C_NUMBER);
+            return res;
+        default:;
+        return NO_ACK;
+    }
+}
+
+void I2C_writechar(uint8_t I2C_NUMBER, uint8_t i2c_dev, uint8_t i2c_reg, uint8_t i2c_val)
+{
+    switch (I2C_NUMBER)
+    {
+        case I2C1:
+            I2C_start(I2C_NUMBER);
+            I2C_write(I2C_NUMBER, i2c_dev);
+            I2C_write(I2C_NUMBER, i2c_reg);
+            I2C_write(I2C_NUMBER, i2c_val);
+            I2C_stop(I2C_NUMBER);
+            break;
+        default:;
+        break;
+    }
+}

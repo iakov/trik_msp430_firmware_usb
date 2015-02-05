@@ -61,8 +61,8 @@ void I2C_start(uint8_t I2C_NUMBER);
 void I2C_stop(uint8_t I2C_NUMBER);
 uint8_t I2C_read(uint8_t I2C_NUMBER, uint8_t i2c_ack);
 uint8_t I2C_write(uint8_t I2C_NUMBER, uint8_t i2c_dta);
-uint8_t I2C_readchar(uint8_t i2c_dev, uint8_t i2c_reg);
-void I2C_writechar(uint8_t i2c_dev, uint8_t i2c_reg, uint8_t i2c_val);
+uint8_t I2C_readchar(uint8_t I2C_NUMBER, uint8_t i2c_dev, uint8_t i2c_reg);
+void I2C_writechar(uint8_t I2C_NUMBER, uint8_t i2c_dev, uint8_t i2c_reg, uint8_t i2c_val);
 
 void I2C_delay(uint16_t i2c_del);
 #define I2C_WAIT            I2C_delay(10000);
