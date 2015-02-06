@@ -26,6 +26,9 @@
 //Max I2Cs
 #define MAX_I2CS            0x04
 
+//I2C delay
+uint16_t Idelay;
+
 //I2C registers
 struct tI2CRegisters
 {
@@ -65,6 +68,6 @@ uint8_t I2C_readchar(uint8_t I2C_NUMBER, uint8_t i2c_dev, uint8_t i2c_reg);
 void I2C_writechar(uint8_t I2C_NUMBER, uint8_t i2c_dev, uint8_t i2c_reg, uint8_t i2c_val);
 
 void I2C_delay(uint16_t i2c_del);
-#define I2C_WAIT            I2C_delay(1000);
+//#define I2C_WAIT            I2C_delay(2000);
 
 #endif /* TRIK_SOFTI2C_H_ */

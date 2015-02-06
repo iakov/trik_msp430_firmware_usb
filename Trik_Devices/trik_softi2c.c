@@ -25,7 +25,7 @@ void I2C_lowSDA(uint8_t I2C_NUMBER)
     {
         case I2C1:
             I2C_DIR1 |= SDA1;
-            I2C_WAIT
+            I2C_delay(Idelay);
             break;
         default:;
         break;
@@ -38,7 +38,7 @@ void I2C_highSDA(uint8_t I2C_NUMBER)
     {
         case I2C1:
             I2C_DIR1 &= ~SDA1;
-            I2C_WAIT
+            I2C_delay(Idelay);
             break;
         default:;
         break;
@@ -51,7 +51,7 @@ void I2C_lowSCL(uint8_t I2C_NUMBER)
     {
         case I2C1:
             I2C_OUT1 &= ~SCL1;
-            I2C_WAIT
+            I2C_delay(Idelay);
             break;
         default:;
         break;
@@ -64,7 +64,7 @@ void I2C_highSCL(uint8_t I2C_NUMBER)
     {
         case I2C1:
             I2C_OUT1 |= SCL1;
-            I2C_WAIT
+            I2C_delay(Idelay);
             break;
         default:;
         break;

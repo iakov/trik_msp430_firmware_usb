@@ -66,6 +66,7 @@
 #include "Trik_Devices/trik_wdt.h"
 #include "Trik_Devices/trik_hal.h"
 #include "Trik_Devices/trik_softi2c.h"
+#include "Trik_Devices/trik_hmc5883l.h"
 
 // Global flags set by events
 volatile uint8_t bDataReceived_event0 = FALSE; // Indicates data has been rx'ed
@@ -86,6 +87,7 @@ volatile uint32_t timerb_ts = 0; //Timer B counter 2
 float kx, ky, xx, yy; //Temp vars
 
 uint16_t gtmp, gx, gy, gz;
+
 
 /*  
  * ======== main ========
@@ -116,6 +118,8 @@ void main (void)
     ASYNCTIMER_handler();
 
    __enable_interrupt();  // Enable interrupts globally
+
+   gtmp = 0;
 
     while (1)
     {
@@ -149,8 +153,8 @@ void main (void)
 
 
                     I2C_init(I2C1);
-                    I2C_writechar(I2C1, 0x3C, 0x02, 0x00);
 
+                    /*
                     gtmp = I2C_readchar(I2C1, 0x3C, 0x03);
                     gx = I2C_readchar(I2C1, 0x3C, 0x04) + (gtmp << 8);
 
@@ -159,10 +163,53 @@ void main (void)
 
                     gtmp = I2C_readchar(I2C1, 0x3C, 0x07);
                     gy = I2C_readchar(I2C1, 0x3C, 0x08) + (gtmp << 8);
+                    */
+
+                    gtmp = gtmp + 50;
+                    Idelay = gtmp;
+                    Idelay = 200;
+
+                    I2C_start(I2C1);
+                    I2C_write(I2C1, 0x02);
+                    I2C_write(I2C1, 0x41);
+                    I2C_write(I2C1, 0x02);
+                    I2C_stop(I2C1);
+
+                    I2C_delay(20000);
+                    I2C_delay(20000);
+                    I2C_delay(20000);
+                    I2C_delay(20000);
+                    I2C_delay(20000);
+
+                    I2C_start(I2C1);
+                    I2C_write(I2C1, 0x02);
+                    I2C_write(I2C1, 0x41);
+                    I2C_start(I2C1);
+                    I2C_write(I2C1, 0x02 | 0x01);
+                    gx = I2C_read(I2C1, 0x00);
+                    I2C_stop(I2C1);
+
+                    I2C_delay(20000);
+                    I2C_delay(20000);
+                    I2C_delay(20000);
+                    I2C_delay(20000);
+                    I2C_delay(20000);
+
+                    I2C_start(I2C1);
+                    I2C_write(I2C1, 0x02);
+                    I2C_write(I2C1, 0x45);
+                    I2C_start(I2C1);
+                    I2C_write(I2C1, 0x02 | 0x01);
+                    gy = I2C_read(I2C1, 0x00);
+                    I2C_stop(I2C1);
 
 
+                    sprintf(newString, "%x, %x, %x \n", Idelay, gx, gy);
 
-                    sprintf(newString, "%x, %x, %x \n", gx, gy, gz);
+
+                    //sprintf(newString, "%x, %x, %x \n", gx, gy, gz);
+
+
                     if (cdcSendDataInBackground((uint8_t*)newString,
                             strlen(newString),CDC0_INTFNUM,1))
                     {  // Send message to other App
