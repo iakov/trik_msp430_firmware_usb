@@ -392,6 +392,34 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
+        //I2Cs
+        if ((devaddr1>=I2C1) && (devaddr1<=I2C7))
+        {
+            if (regaddr1==IIDEV)
+                I2C[devaddr1-I2C1].IDEV = regval1;
+            if (regaddr1==IIREG)
+                I2C[devaddr1-I2C1].IREG = regval1;
+            if (regaddr1==IIDAT)
+                I2C[devaddr1-I2C1].IDAT = regval1;
+            if (regaddr1==IIERR)
+                I2C[devaddr1-I2C1].IERR = regval1;
+            if (regaddr1==IIIDX)
+                I2C[devaddr1-I2C1].IIDX = regval1;
+            if (regaddr1==IIVAL)
+                I2C[devaddr1-I2C1].IVAL = regval1;
+            if (regaddr1==IIDEL)
+                Idelay = regval1;
+            if (regaddr1==IICTL)
+            {
+                I2C[devaddr1-I2C1].ICTL = regval1;
+                I2C_handler(devaddr1);
+            }
+            PROTOCOL_recvResponse(out_str,devaddr1,func1,regaddr1,NO_ERROR);
+            return NO_ERROR;
+        }
+
+
+
         //Async timer
         if ((devaddr1==ASYNCTIMER))
         {

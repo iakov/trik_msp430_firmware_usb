@@ -44,6 +44,16 @@ struct tI2CRegisters
     uint16_t IVAL;
 };
 
+//Registers
+#define IICTL               0x00
+#define IIDEV               0x01
+#define IIREG               0x02
+#define IIDAT               0x03
+#define IIERR               0x04
+#define IIIDX               0x05
+#define IIVAL               0x06
+#define IIDEL               0x07
+
 //I2C registers array
 volatile struct tI2CRegisters I2C[MAX_I2CS];
 
