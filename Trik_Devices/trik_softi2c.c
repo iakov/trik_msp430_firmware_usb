@@ -9,6 +9,8 @@
 #include <msp430f5510.h>
 #include "trik_softi2c.h"
 #include "trik_devices.h"
+#include "trik_nxttemp.h"
+#include "trik_hmc5883l.h"
 
 void I2C_delay(uint16_t i2c_del)
 {
@@ -356,9 +358,15 @@ uint8_t I2C_read(uint8_t I2C_NUMBER, uint8_t i2c_ack)
     I2C_highSCL(I2C_NUMBER);
     I2C_lowSCL(I2C_NUMBER);
     if ((I2C_NUMBER>=I2C1) && (I2C_NUMBER<=I2C7))
+    {
+        I2C[I2C_NUMBER-I2C1].IERR = I2C_NO_ERROR;
         return c;
+    }
     else
+    {
+        I2C[I2C_NUMBER-I2C1].IERR = I2C_DEV_ERR;
         return I2C_DEV_ERR;
+    }
 }
 
 uint8_t I2C_write(uint8_t I2C_NUMBER, uint8_t i2c_dta)
@@ -426,6 +434,7 @@ uint8_t I2C_write(uint8_t I2C_NUMBER, uint8_t i2c_dta)
             break;
     }
     I2C_lowSCL(I2C_NUMBER);
+    I2C[I2C_NUMBER-I2C1].IERR = ack;
     return ack;
 }
 
@@ -464,22 +473,30 @@ void I2C_handler(uint8_t I2C_NUMBER)
          //Write I2C register
          if (I2C[I2C_NUMBER-I2C1].ICTL & I2C_WRITE)
              I2C_writechar(I2C_NUMBER, I2C[I2C_NUMBER-I2C1].IDEV, I2C[I2C_NUMBER-I2C1].IREG, I2C[I2C_NUMBER-I2C1].IDAT);
-
-
-
-
-
-
-         //Enable reading sensor data
-         /*
-         if (I2C[SENS_NUMBER-SENSOR1].SCTL & SENS_READ)
+         //Read I2C sensor data
+         if (I2C[I2C_NUMBER-I2C1].ICTL & I2C_SENS)
          {
-             if (SENS[SENS_NUMBER-SENSOR1].SIDX==DIGITAL_INP)
-                 SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_digital(SENS_NUMBER);
-             if (SENS[SENS_NUMBER-SENSOR1].SIDX==ANALOG_INP)
-                 SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_analog(SENS_NUMBER);
+             switch (I2C[I2C_NUMBER-I2C1].IIDX)
+             {
+                 case NXTTEMP:
+                     I2C[I2C_NUMBER-I2C1].IVAL = NXTTEMP_readTemperature(I2C_NUMBER);
+                     break;
+                 case HMC5883L_X:
+                     HMC5883L_init(I2C_NUMBER);
+                     I2C[I2C_NUMBER-I2C1].IVAL = HMC5883L_readX(I2C_NUMBER);
+                     break;
+                 case HMC5883L_Y:
+                     HMC5883L_init(I2C_NUMBER);
+                     I2C[I2C_NUMBER-I2C1].IVAL = HMC5883L_readY(I2C_NUMBER);
+                     break;
+                 case HMC5883L_Z:
+                     HMC5883L_init(I2C_NUMBER);
+                     I2C[I2C_NUMBER-I2C1].IVAL = HMC5883L_readZ(I2C_NUMBER);
+                     break;
+                 default:;
+                     break;
+             }
          }
-         */
      } else
      {
          I2C_disable(I2C_NUMBER);

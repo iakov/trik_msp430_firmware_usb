@@ -23,6 +23,7 @@
 #define I2C_ENABLE          0x80 //I2C enable
 #define I2C_READ            0x20 //I2C read
 #define I2C_WRITE           0x40 //I2C write
+#define I2C_SENS            0x10 //I2C read sensor
 
 //Max I2Cs
 #define MAX_I2CS            0x04
@@ -108,6 +109,12 @@ volatile struct tI2CRegisters I2C[MAX_I2CS];
 #define I2C_SEL7_2          P2SEL
 #define SCL7                BIT6    //JB4B
 #define SDA7                BIT1    //JB4A
+
+//Sensor defines
+#define NXTTEMP             0x0000
+#define HMC5883L_X          0x0001
+#define HMC5883L_Y          0x0002
+#define HMC5883L_Z          0x0003
 
 void I2C_lowSDA(uint8_t I2C_NUMBER);
 void I2C_highSDA(uint8_t I2C_NUMBER);
