@@ -309,7 +309,6 @@ void I2C_disable(uint8_t I2C_NUMBER)
     }
 }
 
-
 void I2C_start(uint8_t I2C_NUMBER)
 {
     I2C_highSCL(I2C_NUMBER);
@@ -450,4 +449,41 @@ void I2C_writechar(uint8_t I2C_NUMBER, uint8_t i2c_dev, uint8_t i2c_reg, uint8_t
     I2C_write(I2C_NUMBER, i2c_reg);
     I2C_write(I2C_NUMBER, i2c_val);
     I2C_stop(I2C_NUMBER);
+}
+
+void I2C_handler(uint8_t I2C_NUMBER)
+{
+    //Enable/disable and read
+     if (I2C[I2C_NUMBER-I2C1].ICTL & I2C_ENABLE)
+     {
+         //Sensor enable
+         I2C_init(I2C_NUMBER);
+         //Read I2C register
+         if (I2C[I2C_NUMBER-I2C1].ICTL & I2C_READ)
+             I2C[I2C_NUMBER-I2C1].IDAT = I2C_readchar(I2C_NUMBER, I2C[I2C_NUMBER-I2C1].IDEV, I2C[I2C_NUMBER-I2C1].IREG);
+         //Write I2C register
+         if (I2C[I2C_NUMBER-I2C1].ICTL & I2C_WRITE)
+             I2C_writechar(I2C_NUMBER, I2C[I2C_NUMBER-I2C1].IDEV, I2C[I2C_NUMBER-I2C1].IREG, I2C[I2C_NUMBER-I2C1].IDAT);
+
+
+
+
+
+
+         //Enable reading sensor data
+         /*
+         if (I2C[SENS_NUMBER-SENSOR1].SCTL & SENS_READ)
+         {
+             if (SENS[SENS_NUMBER-SENSOR1].SIDX==DIGITAL_INP)
+                 SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_digital(SENS_NUMBER);
+             if (SENS[SENS_NUMBER-SENSOR1].SIDX==ANALOG_INP)
+                 SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_analog(SENS_NUMBER);
+         }
+         */
+     } else
+     {
+         I2C_disable(I2C_NUMBER);
+     }
+
+     I2C[I2C_NUMBER-I2C1].ISTA = I2C_NO_ERROR;
 }
