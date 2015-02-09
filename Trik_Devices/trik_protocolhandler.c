@@ -21,6 +21,7 @@
 #include "Trik_Devices/trik_touch.h"
 #include "Trik_Devices/trik_pwm.h"
 #include "Trik_Devices/trik_port.h"
+#include "Trik_Devices/trik_softi2c.h"
 
 uint8_t TO_HEX(uint8_t i)
 {
@@ -242,6 +243,13 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
 
     //PWM registers addresses range
     if (((devaddr1>=PWM1) && (devaddr1<=PWM5)) && (regaddr1>0x02))
+    {
+        PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
+        return REG_ADDR_ERROR;
+    }
+
+    //I2C registers addresses range
+    if (((devaddr1>=I2C1) && (devaddr1<=I2C7)) && (regaddr1>0x07))
     {
         PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
         return REG_ADDR_ERROR;

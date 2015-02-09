@@ -66,8 +66,6 @@
 #include "Trik_Devices/trik_wdt.h"
 #include "Trik_Devices/trik_hal.h"
 #include "Trik_Devices/trik_softi2c.h"
-#include "Trik_Devices/trik_hmc5883l.h"
-#include "Trik_Devices/trik_nxttemp.h"
 
 // Global flags set by events
 volatile uint8_t bDataReceived_event0 = FALSE; // Indicates data has been rx'ed
