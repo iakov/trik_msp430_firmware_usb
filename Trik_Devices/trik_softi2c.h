@@ -8,13 +8,6 @@
 #ifndef TRIK_SOFTI2C_H_
 #define TRIK_SOFTI2C_H_
 
-//I2C registers
-#define IICTL               0x00
-#define IIDEV               0x01
-#define IIREG               0x02
-#define IIDAT               0x03
-#define IIERR               0x04
-
 //I2C errors
 #define I2C_NO_ERROR        0x00
 #define I2C_DEV_ERR         0xFF
