@@ -148,12 +148,6 @@ void main (void)
                         memset(pieceOfString,0,MAX_STR_LENGTH);
                     }
                     strncat(wholeString,pieceOfString,strlen(pieceOfString));
-                    if (cdcSendDataInBackground((uint8_t*)newString,
-                            strlen(newString),CDC0_INTFNUM,1))
-                    {  // Send message to other App
-                        SendError = 0x01;
-                        break;
-                    }
                     //Test for end symbol 0x0A
                     if (retInString(wholeString))
                     {              // Wait for enter key to be pressed
