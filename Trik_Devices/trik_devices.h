@@ -52,6 +52,9 @@
 #define I2C2                0x29
 #define I2C3                0x2A
 #define I2C4                0x2B
+#define I2C5                0x2C
+#define I2C6                0x2D
+#define I2C7                0x2E
 #define BSL                 0xEE
 #define NNONE				0xFF
 
@@ -60,7 +63,7 @@
 #define SLOT_BUSY           0x01
 
 //Max ports
-#define MAX_DEVICES			I2C4
+#define MAX_DEVICES			I2C7
 
 //Busy table
 volatile uint8_t busy_table[MAX_DEVICES];
