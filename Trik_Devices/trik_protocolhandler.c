@@ -20,7 +20,7 @@
 #include "Trik_Devices/trik_async.h"
 #include "Trik_Devices/trik_touch.h"
 #include "Trik_Devices/trik_pwm.h"
-//#include "Trik_Devices/trik_port.h"
+#include "Trik_Devices/trik_port.h"
 
 uint8_t TO_HEX(uint8_t i)
 {
@@ -288,7 +288,6 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
         return 0xCC;
     }
 
-
 	if ((func1==FUNCx03))
 	    crc2=0-(devaddr1+func1+regaddr1+
 	            (uint8_t)(regval1 & 0x000000FF)+(uint8_t)((regval1 & 0x0000FF00) >> 8)+
@@ -361,7 +360,6 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
-        /*
         //Ports
         if ((devaddr1>=PORT1) && (devaddr1<=PORTJ))
         {
@@ -369,7 +367,6 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             PROTOCOL_recvResponse(out_str,devaddr1,func1,regaddr1,NO_ERROR);
             return NO_ERROR;
         }
-        */
 
         //PWMs
         if ((devaddr1>=PWM1) && (devaddr1<=PWM5))
@@ -503,7 +500,6 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
-        /*
         //Ports
         if ((devaddr1>=PORT1) && (devaddr1<=PORTJ))
         {
@@ -511,7 +507,6 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
                     PORT_read(devaddr1,regaddr1));
             return NO_ERROR;
         }
-        */
 
         //Async timer
         if ((devaddr1==ASYNCTIMER))
