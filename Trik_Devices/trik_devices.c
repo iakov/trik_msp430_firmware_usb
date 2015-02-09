@@ -56,7 +56,7 @@ void initGlobalVars()
 
     Idelay = 200;
     for (int j=0; j<MAX_PWMS; j++)
-        I2C[j].ICTL = I2C[j].IDAT = I2C[j].IDEV = I2C[j].IERR = I2C[j].IREG = I2C[j].ISTA = 0x00;
+        I2C[j].ICTL = I2C[j].IDAT = I2C[j].IDEV = I2C[j].IERR = I2C[j].IREG = I2C[j].ISTA = I2C[j].IIDX = 0x00;
 
 }
 

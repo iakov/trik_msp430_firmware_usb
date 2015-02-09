@@ -39,6 +39,7 @@ struct tI2CRegisters
     uint8_t IDAT;
     uint8_t IERR;
     uint8_t ISTA;
+    uint16_t IIDX;
 };
 
 //I2C registers array

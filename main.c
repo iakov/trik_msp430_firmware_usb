@@ -149,23 +149,6 @@ void main (void)
                         memset(wholeString,0,MAX_STR_LENGTH);
                         memset(pieceOfString,0,MAX_STR_LENGTH);
                     }
-
-                    I2C_init(I2C5);
-                    HMC5883L_init(I2C5);
-                    gx = HMC5883L_readX(I2C5);
-                    gy = HMC5883L_readY(I2C5);
-                    gz = HMC5883L_readZ(I2C5);
-                    sprintf(newString, "%d %d %d \n", gx, gy, gz);
-
-                    if (cdcSendDataInBackground((uint8_t*)newString,
-                            strlen(newString),CDC0_INTFNUM,1))
-                    {  // Send message to other App
-                        SendError = 0x01;
-                        break;
-                    }
-
-
-/*
                     strncat(wholeString,pieceOfString,strlen(pieceOfString));
                     if (cdcSendDataInBackground((uint8_t*)newString,
                             strlen(newString),CDC0_INTFNUM,1))
@@ -185,8 +168,6 @@ void main (void)
                             break;
                         }
                     }
-*/
-
                 }
 
                 //CDC1 events
