@@ -35,7 +35,7 @@ void PWM_enable(uint8_t PWM_NUMBER)
                 //PWM timer
                 TA2CCR0 = PWM[PWM_NUMBER-PWM1].PPER;           // PWM Period
                 TA2CCTL0 = OUTMOD_7;                      // CCR1 reset/set
-                TA2CCR0 = PWM[PWM_NUMBER-PWM1].PDUT;           // CCR1 PWM duty cycle
+                TA2CCR1 = PWM[PWM_NUMBER-PWM1].PDUT;           // CCR1 PWM duty cycle
                 TA2CTL = TASSEL_2 + MC_1 + TACLR + ID_3;         // SMCLK, up mode, clear TAR, divider - 8
                 break;
             case PWM3:
