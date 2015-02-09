@@ -67,6 +67,7 @@
 #include "Trik_Devices/trik_hal.h"
 #include "Trik_Devices/trik_softi2c.h"
 #include "Trik_Devices/trik_hmc5883l.h"
+#include "Trik_Devices/trik_nxttemp.h"
 
 // Global flags set by events
 volatile uint8_t bDataReceived_event0 = FALSE; // Indicates data has been rx'ed
@@ -148,6 +149,7 @@ void main (void)
                         memset(wholeString,0,MAX_STR_LENGTH);
                         memset(pieceOfString,0,MAX_STR_LENGTH);
                     }
+/*
                     strncat(wholeString,pieceOfString,strlen(pieceOfString));
                     if (cdcSendDataInBackground((uint8_t*)newString,
                             strlen(newString),CDC0_INTFNUM,1))
@@ -155,7 +157,6 @@ void main (void)
                         SendError = 0x01;
                         break;
                     }
-
                     //Test for end symbol 0x0A
                     if (retInString(wholeString))
                     {              // Wait for enter key to be pressed
@@ -168,6 +169,7 @@ void main (void)
                             break;
                         }
                     }
+*/
 
                 }
 
