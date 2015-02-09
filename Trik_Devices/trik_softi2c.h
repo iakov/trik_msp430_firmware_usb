@@ -17,6 +17,7 @@
 
 //I2C errors
 #define I2C_NO_ERROR        0x00
+#define I2C_DEV_ERR         0xFF
 
 //Masks for bits of control register
 #define I2C_ENABLE          0x80 //I2C enable
@@ -105,7 +106,6 @@ volatile struct tI2CRegisters I2C[MAX_I2CS];
 #define I2C_SEL7_2          P2SEL
 #define SCL7                BIT6    //JB4B
 #define SDA7                BIT1    //JB4A
-
 
 void I2C_lowSDA(uint8_t I2C_NUMBER);
 void I2C_highSDA(uint8_t I2C_NUMBER);
