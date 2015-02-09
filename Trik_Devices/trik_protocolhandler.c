@@ -418,8 +418,6 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
-
-
         //Async timer
         if ((devaddr1==ASYNCTIMER))
         {
@@ -533,6 +531,29 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
                 PROTOCOL_recvResponse(out_str,devaddr1,PWM[devaddr1-PWM1].PSTA,regaddr1,PWM[devaddr1-PWM1].PDUT);
             if (regaddr1==PPPER)
                 PROTOCOL_recvResponse(out_str,devaddr1,PWM[devaddr1-PWM1].PSTA,regaddr1,PWM[devaddr1-PWM1].PPER);
+            return NO_ERROR;
+        }
+
+        //I2Cs
+        if ((devaddr1>=I2C1) && (devaddr1<=I2C7))
+        {
+            I2C_handler(devaddr1);
+            if (regaddr1==IICTL)
+                PROTOCOL_recvResponse(out_str,devaddr1,I2C[devaddr1-I2C1].ISTA,regaddr1,I2C[devaddr1-I2C1].ICTL);
+            if (regaddr1==IIDEV)
+                PROTOCOL_recvResponse(out_str,devaddr1,I2C[devaddr1-I2C1].ISTA,regaddr1,I2C[devaddr1-I2C1].IDEV);
+            if (regaddr1==IIREG)
+                PROTOCOL_recvResponse(out_str,devaddr1,I2C[devaddr1-I2C1].ISTA,regaddr1,I2C[devaddr1-I2C1].IREG);
+            if (regaddr1==IIDAT)
+                PROTOCOL_recvResponse(out_str,devaddr1,I2C[devaddr1-I2C1].ISTA,regaddr1,I2C[devaddr1-I2C1].IDAT);
+            if (regaddr1==IIERR)
+                PROTOCOL_recvResponse(out_str,devaddr1,I2C[devaddr1-I2C1].ISTA,regaddr1,I2C[devaddr1-I2C1].IERR);
+            if (regaddr1==IIIDX)
+                PROTOCOL_recvResponse(out_str,devaddr1,I2C[devaddr1-I2C1].ISTA,regaddr1,I2C[devaddr1-I2C1].IIDX);
+            if (regaddr1==IIVAL)
+                PROTOCOL_recvResponse(out_str,devaddr1,I2C[devaddr1-I2C1].ISTA,regaddr1,I2C[devaddr1-I2C1].IVAL);
+            if (regaddr1==IIDEL)
+                PROTOCOL_recvResponse(out_str,devaddr1,I2C[devaddr1-I2C1].ISTA,regaddr1,Idelay);
             return NO_ERROR;
         }
 
