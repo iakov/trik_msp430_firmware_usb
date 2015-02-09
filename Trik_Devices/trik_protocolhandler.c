@@ -384,10 +384,8 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             if (regaddr1==PPPER)
                 PWM[devaddr1-PWM1].PPER = regval1;
             if (regaddr1==PPCTL)
-            {
                 PWM[devaddr1-PWM1].PCTL = regval1;
-                PWM_handler(devaddr1);
-            }
+            PWM_handler(devaddr1);
             PROTOCOL_recvResponse(out_str,devaddr1,func1,regaddr1,NO_ERROR);
             return NO_ERROR;
         }
