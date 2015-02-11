@@ -28,17 +28,7 @@ void PWM_enable(uint8_t PWM_NUMBER)
                 TA1CCR1 = PWM[PWM_NUMBER-PWM1].PDUT;           // CCR1 PWM duty cycle
                 TA1CTL = TASSEL_2 + MC_1 + TACLR + ID_3;         // SMCLK, up mode, clear TAR, divider - 8
                 break;
-            case PWM2: //????????????????????????????????????????????????????
-                /*GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P2, GPIO_PIN3);*/
-                P2SEL |= BIT3;
-                P2DIR |= BIT3;
-                //PWM timer
-                TA2CCR0 = PWM[PWM_NUMBER-PWM1].PPER;           // PWM Period
-                TA2CCTL0 = OUTMOD_7;                      // CCR1 reset/set
-                TA2CCR1 = PWM[PWM_NUMBER-PWM1].PDUT;           // CCR1 PWM duty cycle
-                TA2CTL = TASSEL_2 + MC_1 + TACLR + ID_3;         // SMCLK, up mode, clear TAR, divider - 8
-                break;
-            case PWM3:
+            case PWM2:
                 /*GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P2, GPIO_PIN4);*/
                 P2SEL |= BIT4;
                 P2DIR |= BIT4;
@@ -48,7 +38,7 @@ void PWM_enable(uint8_t PWM_NUMBER)
                 TA2CCR1 = PWM[PWM_NUMBER-PWM1].PDUT;           // CCR1 PWM duty cycle
                 TA2CTL = TASSEL_2 + MC_1 + TACLR + ID_3;         // SMCLK, up mode, clear TAR, divider - 8
                 break;
-            case PWM4:
+            case PWM3:
                 /*GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P2, GPIO_PIN5);*/
                 P2SEL |= BIT5;
                 P2DIR |= BIT5;
@@ -58,7 +48,7 @@ void PWM_enable(uint8_t PWM_NUMBER)
                 TA2CCR2 = PWM[PWM_NUMBER-PWM1].PDUT;           // CCR2 PWM duty cycle
                 TA2CTL = TASSEL_2 + MC_1 + TACLR + ID_3;         // SMCLK, up mode, clear TAR, divider - 8
                 break;
-            case PWM5:
+            case PWM4:
                 /*GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P2, GPIO_PIN1);*/
                 P2SEL |= BIT1;
                 P2DIR |= BIT1;
@@ -85,18 +75,14 @@ void PWM_disable(uint8_t PWM_NUMBER)
             P2DIR &= ~BIT0;
             break;
         case PWM2:
-            P2SEL &= ~BIT3;
-            P2DIR &= ~BIT3;
-            break;
-        case PWM3:
             P2SEL &= ~BIT4;
             P2DIR &= ~BIT4;
             break;
-        case PWM4:
+        case PWM3:
             P2SEL &= ~BIT5;
             P2DIR &= ~BIT5;
             break;
-        case PWM5:
+        case PWM4:
             P2SEL &= ~BIT1;
             P2DIR &= ~BIT1;
             break;

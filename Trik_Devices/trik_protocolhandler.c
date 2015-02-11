@@ -242,7 +242,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
     }
 
     //PWM registers addresses range
-    if (((devaddr1>=PWM1) && (devaddr1<=PWM5)) && (regaddr1>0x02))
+    if (((devaddr1>=PWM1) && (devaddr1<=PWM4)) && (regaddr1>0x02))
     {
         PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
         return REG_ADDR_ERROR;
@@ -377,7 +377,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
         }
 
         //PWMs
-        if ((devaddr1>=PWM1) && (devaddr1<=PWM5))
+        if ((devaddr1>=PWM1) && (devaddr1<=PWM4))
         {
             if (regaddr1==PPDUT)
                 PWM[devaddr1-PWM1].PDUT = regval1;
@@ -521,7 +521,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
         }
 
         //PWMs
-        if ((devaddr1>=PWM1) && (devaddr1<=PWM5))
+        if ((devaddr1>=PWM1) && (devaddr1<=PWM4))
         {
             if (regaddr1==PPCTL)
                 PROTOCOL_recvResponse(out_str,devaddr1,PWM[devaddr1-PWM1].PSTA,regaddr1,PWM[devaddr1-PWM1].PCTL);

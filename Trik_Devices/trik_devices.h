@@ -45,7 +45,7 @@
 #define PWM2                0x22
 #define PWM3                0x23
 #define PWM4                0x24
-#define PWM5                0x25
+#define SENSCTRL            0x25
 #define ASYNCTIMER          0x26
 #define TOUCHDEVICE         0x27
 #define I2C1                0x28
