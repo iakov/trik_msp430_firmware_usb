@@ -11,17 +11,18 @@
 #include <ctype.h>
 #include <msp430f5510.h>
 #include <stdint.h>
-#include "Trik_Devices/trik_protocolhandler.h"
-#include "Trik_Devices/trik_motor.h"
-#include "Trik_Devices/trik_sensor.h"
-#include "Trik_Devices/trik_encoder.h"
-#include "Trik_Devices/trik_bsl.h"
-#include "Trik_Devices/trik_devices.h"
-#include "Trik_Devices/trik_async.h"
-#include "Trik_Devices/trik_touch.h"
-#include "Trik_Devices/trik_pwm.h"
-#include "Trik_Devices/trik_port.h"
-#include "Trik_Devices/trik_softi2c.h"
+#include "trik_protocolhandler.h"
+#include "trik_motor.h"
+#include "trik_sensor.h"
+#include "trik_encoder.h"
+#include "trik_bsl.h"
+#include "trik_devices.h"
+#include "trik_async.h"
+#include "trik_touch.h"
+#include "trik_pwm.h"
+#include "trik_port.h"
+#include "trik_softi2c.h"
+#include "trik_sensctrl.h"
 
 uint8_t TO_HEX(uint8_t i)
 {
@@ -262,6 +263,13 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
         return REG_ADDR_ERROR;
     }
 
+    //Sensor control registers addresses range
+    if ((devaddr1==SENSCTRL) && (regaddr1>0x00))
+    {
+        PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
+        return REG_ADDR_ERROR;
+    }
+
     //Touch controller registers addresses range
     if ((devaddr1==TOUCHDEVICE) && (regaddr1>0x08))
     {
@@ -427,6 +435,18 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             {
                 ASYNCTMR.ATCTL=regval1;
                 ASYNCTIMER_handler();
+            }
+            PROTOCOL_recvResponse(out_str,devaddr1,func1,regaddr1,NO_ERROR);
+            return NO_ERROR;
+        }
+
+        //Sensor control
+        if ((devaddr1==SENSCTRL))
+        {
+            if (regaddr1==SPPCTL)
+            {
+                //ASYNCTMR.ATCTL=regval1;
+                //ASYNCTIMER_handler();
             }
             PROTOCOL_recvResponse(out_str,devaddr1,func1,regaddr1,NO_ERROR);
             return NO_ERROR;
