@@ -445,8 +445,8 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
         {
             if (regaddr1==SPPCTL)
             {
-                //ASYNCTMR.ATCTL=regval1;
-                //ASYNCTIMER_handler();
+                SENSCONTROL.SPCTL=regval1;
+                SPCTL_handler();
             }
             PROTOCOL_recvResponse(out_str,devaddr1,func1,regaddr1,NO_ERROR);
             return NO_ERROR;
@@ -592,6 +592,14 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
                 PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,ASYNCTMR.ATPER);
             if (regaddr1==AATVAL)
                 PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,ASYNCTMR.ATVAL);
+            return NO_ERROR;
+        }
+
+        //Sensor control
+        if ((devaddr1==SENSCTRL))
+        {
+            if (regaddr1==SPPCTL)
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,SENSCONTROL.SPSTA);
             return NO_ERROR;
         }
 
