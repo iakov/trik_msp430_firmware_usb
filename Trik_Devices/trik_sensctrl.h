@@ -28,8 +28,9 @@ void SPCTL_handler();
 void SPCTL_pin_on(uint8_t PIN_NUMBER);
 void SPCTL_pin_off(uint8_t PIN_NUMBER);
 
-// Sensor control register
+// Sensor control registers
 volatile uint16_t SPCTL;
+volatile uint16_t SPSTA;
 
 
 #endif /* TRIK_SENSCTRL_H_ */
