@@ -8,13 +8,14 @@
 #include <stdint.h>
 #include <msp430f5510.h>
 #include "trik_devices.h"
-#include "Trik_Devices/trik_motor.h"
-#include "Trik_Devices/trik_encoder.h"
-#include "Trik_Devices/trik_async.h"
-#include "Trik_Devices/trik_sensor.h"
-#include "Trik_Devices/trik_touch.h"
-#include "Trik_Devices/trik_pwm.h"
-#include "Trik_Devices/trik_softi2c.h"
+#include "trik_motor.h"
+#include "trik_encoder.h"
+#include "trik_async.h"
+#include "trik_sensor.h"
+#include "trik_touch.h"
+#include "trik_pwm.h"
+#include "trik_softi2c.h"
+#include "trik_sensctrl.h"
 
 //Reset touch parameters
 void resetTouch()
@@ -57,6 +58,8 @@ void initGlobalVars()
     Idelay = 200;
     for (int j=0; j<MAX_PWMS; j++)
         I2C[j].ICTL = I2C[j].IDAT = I2C[j].IDEV = I2C[j].IERR = I2C[j].IREG = I2C[j].ISTA = I2C[j].IIDX = I2C[j].IVAL = 0x00;
+
+    SENSCONTROL.SPCTL = SENSCONTROL.SPSTA = 0x000;
 
 }
 
