@@ -27,7 +27,14 @@
 void SPCTL_handler();
 
 // Sensor control registers
-volatile uint16_t SPCTL;
-volatile uint16_t SPSTA;
+struct tSPCTLRegisters
+{
+    uint16_t SPCTL;
+    uint16_t SPSTA;
+};
+
+// Sensor control registers struct
+volatile struct tSPCTLRegisters SENSCONTROL;
+
 
 #endif /* TRIK_SENSCTRL_H_ */

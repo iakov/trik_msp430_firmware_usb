@@ -13,11 +13,11 @@
 void SPCTL_handler()
 {
     //Enable / disable
-    if (SPCTL & SPCTL_ENABLE)
+    if (SENSCONTROL.SPCTL & SPCTL_ENABLE)
         if (!(isSlotBusy(SENSCTRL)))
         {
             reseveSlot(SENSCTRL);
-            if (SPCTL & JA1_ON)
+            if (SENSCONTROL.SPCTL & JA1_ON)
             {
                 P4OUT |= BIT5;
                 P4DIR |= BIT5;
@@ -27,7 +27,7 @@ void SPCTL_handler()
                 P4OUT &= ~BIT5;
                 P4DIR |= BIT5;
             }
-            if (SPCTL & JA2_ON)
+            if (SENSCONTROL.SPCTL & JA2_ON)
             {
                 P4OUT |= BIT4;
                 P4DIR |= BIT4;
@@ -37,7 +37,7 @@ void SPCTL_handler()
                 P4OUT &= ~BIT4;
                 P4DIR |= BIT4;
             }
-            if (SPCTL & JA3_ON)
+            if (SENSCONTROL.SPCTL & JA3_ON)
             {
                 P4OUT |= BIT3;
                 P4DIR |= BIT3;
@@ -47,7 +47,7 @@ void SPCTL_handler()
                 P4OUT &= ~BIT3;
                 P4DIR |= BIT3;
             }
-            if (SPCTL & JA4_ON)
+            if (SENSCONTROL.SPCTL & JA4_ON)
             {
                 P4OUT |= BIT2;
                 P4DIR |= BIT2;
@@ -57,7 +57,7 @@ void SPCTL_handler()
                 P4OUT &= ~BIT2;
                 P4DIR |= BIT2;
             }
-            if (SPCTL & JA5_ON)
+            if (SENSCONTROL.SPCTL & JA5_ON)
             {
                 P3OUT |= BIT2;
                 P3DIR |= BIT2;
@@ -67,7 +67,7 @@ void SPCTL_handler()
                 P3OUT &= ~BIT2;
                 P3DIR |= BIT2;
             }
-            if (SPCTL & JA6_ON)
+            if (SENSCONTROL.SPCTL & JA6_ON)
             {
                 P3OUT |= BIT4;
                 P3DIR |= BIT4;
@@ -87,6 +87,6 @@ void SPCTL_handler()
         P3DIR &= ~(BIT2+BIT4);
     }
 
-    SPSTA = SPCTL_NO_ERROR;
+    SENSCONTROL.SPSTA = SPCTL_NO_ERROR;
 }
 

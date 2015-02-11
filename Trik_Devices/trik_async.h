@@ -32,7 +32,7 @@ struct tTimerRegisters
     uint32_t ATVAL;
 };
 
-//Timer register struct
+//Timer registers struct
 volatile struct tTimerRegisters ASYNCTMR;
 
 #endif /* TRIK_ASYNC_H_ */
