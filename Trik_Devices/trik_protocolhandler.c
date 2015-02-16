@@ -185,6 +185,8 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
 	//Get register value
     regval1 = hex2num(in_str, 7, NUM_DWORD);
 
+
+    /*
     //Mutation #1
     if ((devaddr1==ENCODER3) && ((regaddr1==0x37) || (regaddr1==0xA4)))
     {
@@ -205,6 +207,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
         PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,0x33);
         return 0x33;
     }
+    */
 
     //Device addresses range
 	if ((devaddr1>MAX_DEVICES) && (devaddr1!=BSL))
@@ -297,12 +300,14 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             break;
 	}
 
+	/*
     //Mutation #4
     if ((crc1>20) && (crc1<100) && (regaddr1==0x30))
     {
         PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,0xCC);
         return 0xCC;
     }
+    */
 
 	if ((func1==FUNCx03))
 	    crc2=0-(devaddr1+func1+regaddr1+
