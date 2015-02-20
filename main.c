@@ -85,7 +85,7 @@ volatile uint32_t timerb_ts = 0; //Timer B counter 2
 
 float kx, ky, xx, yy; //Temp vars
 
-uint16_t gtmp, gx, gy, gz;
+//uint16_t gtmp, gx, gy, gz;
 
 
 /*  
@@ -118,7 +118,7 @@ void main (void)
 
    __enable_interrupt();  // Enable interrupts globally
 
-   gtmp = 0;
+   //gtmp = 0;
 
     while (1)
     {
@@ -167,13 +167,13 @@ void main (void)
                 {
                     bDataReceived_event1 = FALSE;               // Clear flag early -- just in case execution breaks below because of
                                                                 // an error
-                    memset(pieceOfString,0,MAX_STR_LENGTH);     // Clear pieceOfString
-                    cdcReceiveDataInBuffer((uint8_t*)pieceOfString,
+                    memset(tmpString,0,MAX_STR_LENGTH);     // Clear pieceOfString
+                    cdcReceiveDataInBuffer((uint8_t*)tmpString,
                         MAX_STR_LENGTH,
                         CDC1_INTFNUM);
                     //strncat(wholeString,pieceOfString,strlen(pieceOfString));
                     //memset(wholeString,0,MAX_STR_LENGTH);   // Clear wholeString
-                    memset(pieceOfString,0,MAX_STR_LENGTH);   // Clear wholeString
+                    //memset(pieceOfString,0,MAX_STR_LENGTH);   // Clear wholeString
                 }
 
 
