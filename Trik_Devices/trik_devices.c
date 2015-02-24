@@ -15,7 +15,6 @@
 #include "trik_touch.h"
 #include "trik_pwm.h"
 #include "trik_softi2c.h"
-#include "trik_sensctrl.h"
 
 //Reset touch parameters
 void resetTouch()
@@ -58,8 +57,6 @@ void initGlobalVars()
     Idelay = 200;
     for (int j=0; j<MAX_PWMS; j++)
         I2C[j].ICTL = I2C[j].IDAT = I2C[j].IDEV = I2C[j].IERR = I2C[j].IREG = I2C[j].ISTA = I2C[j].IIDX = I2C[j].IVAL = 0x00;
-
-    SENSCONTROL.SPCTL = SENSCONTROL.SPSTA = 0x000;
 
 }
 

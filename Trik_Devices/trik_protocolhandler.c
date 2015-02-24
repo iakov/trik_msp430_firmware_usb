@@ -22,7 +22,6 @@
 #include "trik_pwm.h"
 #include "trik_port.h"
 #include "trik_softi2c.h"
-#include "trik_sensctrl.h"
 
 uint8_t TO_HEX(uint8_t i)
 {
