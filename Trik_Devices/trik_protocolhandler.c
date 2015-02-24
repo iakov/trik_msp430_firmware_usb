@@ -22,6 +22,7 @@
 #include "trik_pwm.h"
 #include "trik_port.h"
 #include "trik_softi2c.h"
+#include "trik_version.h"
 
 uint8_t TO_HEX(uint8_t i)
 {
@@ -264,13 +265,6 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
         return REG_ADDR_ERROR;
     }
 
-    // Sensor control registers addresses range
-    if ((devaddr1==SENSCTRL) && (regaddr1>0x00))
-    {
-        PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
-        return REG_ADDR_ERROR;
-    }
-
     // Touch controller registers addresses range
     if ((devaddr1==TOUCHDEVICE) && (regaddr1>0x08))
     {
@@ -443,20 +437,6 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
-        /*
-        // Sensor control
-        if ((devaddr1==SENSCTRL))
-        {
-            if (regaddr1==SPPCTL)
-            {
-                SENSCONTROL.SPCTL=regval1;
-                SPCTL_handler();
-            }
-            PROTOCOL_recvResponse(out_str,devaddr1,func1,regaddr1,NO_ERROR);
-            return NO_ERROR;
-        }
-        */
-
         // Touch controller
         if ((devaddr1==TOUCHDEVICE))
         {
@@ -613,16 +593,6 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
                 PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,ATIMER_VERSION);
             return NO_ERROR;
         }
-
-        // Sensor control
-        /*
-        if ((devaddr1==SENSCTRL))
-        {
-            if (regaddr1==SPPCTL)
-                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,SENSCONTROL.SPSTA);
-            return NO_ERROR;
-        }
-        */
 
         // Touch controller
         if ((devaddr1==TOUCHDEVICE))

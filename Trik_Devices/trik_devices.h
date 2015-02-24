@@ -45,7 +45,7 @@
 #define PWM2                0x22
 #define PWM3                0x23
 #define PWM4                0x24
-#define SENSCTRL            0x25
+#define VERSIONCTRL         0x25
 #define ASYNCTIMER          0x26
 #define TOUCHDEVICE         0x27
 #define I2C1                0x28
@@ -57,19 +57,6 @@
 #define I2C7                0x2E
 #define BSL                 0xEE
 #define NNONE				0xFF
-
-// Modules versions
-#define MAIN_VERSION        0x0025
-#define MAIN_VERSION_TXT    "0.0.25"
-#define MOTOR_VERSION       0x0025
-#define SENSOR_VERSION      0x0025
-#define ENCODER_VERSION     0x0025
-#define PORT_VERSION        0x0025
-#define PWM_VERSION         0x0025
-#define ATIMER_VERSION      0x0025
-#define TOUCH_VERSION       0x0025
-#define I2C_VERSION         0x0025
-#define BSL_VERSION         0x0025
 
 // Slot free/busy defines
 #define SLOT_FREE           0x00
