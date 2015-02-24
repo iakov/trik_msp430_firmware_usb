@@ -12,7 +12,7 @@
 #define SSCTL           0x00
 #define SSIDX           0x01
 #define SSVAL           0x02
-#define SSSTA           0x03
+#define SSVER           0x03
 
 //Sensor types
 #define DIGITAL_INP     0x0000

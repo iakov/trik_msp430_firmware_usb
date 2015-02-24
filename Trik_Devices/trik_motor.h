@@ -15,6 +15,7 @@
 #define MMTMR               0x04
 #define MMVAL               0x05
 #define MMERR               0x06
+#define MMVER               0x07
 
 //Motor errors
 #define MOT_NO_ERROR        0x00

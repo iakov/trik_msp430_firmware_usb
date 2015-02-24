@@ -31,7 +31,7 @@ void stopCal();
 #define TSCRY               0x06
 #define TCURX               0x07
 #define TCURY               0x08
-
+#define TCVER               0x09
 
 //Touch registers
 struct tTouchRegisters

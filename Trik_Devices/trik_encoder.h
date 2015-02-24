@@ -11,7 +11,7 @@
 //Registers
 #define EECTL               0x00
 #define EEVAL               0x01
-#define EESTA               0x02
+#define EEVER               0x02
 
 //Encoder errors
 #define ENC_NO_ERROR        0x00
@@ -35,8 +35,8 @@ void ENCODER_disableController(uint8_t ENC_NUMBER);
 struct tEncoderRegisters
 {
     uint16_t ECTL;
-    uint32_t EVAL;
     uint16_t ESTA;
+    uint32_t EVAL;
 };
 
 //Encoder registers array

@@ -50,7 +50,7 @@ uint32_t hex2num(char *string, uint16_t pos, uint16_t numsize)
     return resnum;
 }
 
-//Read register response
+/// Read register response
 void PROTOCOL_recvResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code, uint8_t reg_addr, uint32_t reg_val)
 {
     char stmp1[MAX_STRING_LENGTH]; //Temp string
@@ -90,11 +90,8 @@ void PROTOCOL_recvResponse(char *r_str, uint8_t dev_addr, uint8_t resp_code, uin
     strcat(r_str,"\n\0");
 }
 
-/*
- * ======== retInString ========
- */
-// This function returns true if there's an 0x0D character in the string; and if
-// so, it trims the 0x0D and anything that had followed it.
+/// This function returns true if there's an 0x0D character in the string; and if
+/// so, it trims the 0x0D and anything that had followed it.
 uint8_t retInString (char* string)
 {
     uint8_t retPos = 0,i,len;
@@ -149,40 +146,42 @@ uint8_t retInString (char* string)
     return (False) ; // Otherwise, it wasn't found
 }
 
-//Protocol handler
+/// Protocol handler
 uint8_t PROTOCOL_handler(char *in_str, char *out_str)
 {
-	uint8_t devaddr1 = 0; //Device address
-	uint8_t func1 = 0; //Function number
-	uint8_t regaddr1 = 0; //Register address
-	uint32_t regval1 = 0; //Register value
-	uint8_t crc1 = 0; //Cheksum
-	uint8_t crc2 = 0; //Calculated checksum
+	uint8_t devaddr1 = 0;   //Device address
+	uint8_t func1 = 0;      //Function number
+	uint8_t regaddr1 = 0;   //Register address
+	uint32_t regval1 = 0;   //Register value
+	uint8_t crc1 = 0;       //Cheksum
+	uint8_t crc2 = 0;       //Calculated checksum
 
-	//Start condition error
+	// Find errirs in received packet
+
+	// Start condition error
 	if (in_str[0]!=':')
 	{
         PROTOCOL_recvResponse(out_str,0x00,0x80,0x00,START_ERROR);
 		return START_ERROR;
 	}
 
-	//Incorrect packet length
+	// Incorrect packet length
 	if ((strlen(in_str)!=9) && (strlen(in_str)!=17))
 	{
 		PROTOCOL_recvResponse(out_str,0x00,0x80,0x00,LENGTH_ERROR);
 		return LENGTH_ERROR;
 	}
 
-	//Get device address
+	// Get device address
 	devaddr1 = hex2num(in_str, 1, NUM_BYTE);
 
-	//Get function
+	// Get function
 	func1 = hex2num(in_str, 3, NUM_BYTE);
 
-	//Get register address
+	// Get register address
 	regaddr1 = hex2num(in_str, 5, NUM_BYTE);
 
-	//Get register value
+	// Get register value
     regval1 = hex2num(in_str, 7, NUM_DWORD);
 
 
@@ -209,91 +208,91 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
     }
     */
 
-    //Device addresses range
+    // Device addresses range
 	if ((devaddr1>MAX_DEVICES) && (devaddr1!=BSL))
 	{
 	    PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,DEV_ADDR_ERROR);
 		return DEV_ADDR_ERROR;
 	}
 
-	//Motor registers addresses range
-	//if (((devaddr1>=MOTOR1) && (devaddr1<=MOTOR4)) && (regaddr1>0x06))
+	// Motor registers addresses range
+	// if (((devaddr1>=MOTOR1) && (devaddr1<=MOTOR4)) && (regaddr1>0x06))
 	if (((devaddr1<=MOTOR4)) && (regaddr1>0x06))
 	{
 	    PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
 		return REG_ADDR_ERROR;
 	}
 
-	//Sensor registers addresses range
+	// Sensor registers addresses range
 	if (((devaddr1>=SENSOR1) && (devaddr1<=SENSOR18)) && (regaddr1>0x02))
 	{
 	    PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
 		return REG_ADDR_ERROR;
 	}
 
-	//Encoder registers addresses range
+	// Encoder registers addresses range
 	if (((devaddr1>=ENCODER1) && (devaddr1<=ENCODER4)) && (regaddr1>0x01))
 	{
 	    PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
 	    return REG_ADDR_ERROR;
 	}
 
-    //Port registers addresses range
+    // Port registers addresses range
     if (((devaddr1>=PORT1) && (devaddr1<=PORTJ)) && (regaddr1>0x08))
     {
         PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
         return REG_ADDR_ERROR;
     }
 
-    //PWM registers addresses range
+    // PWM registers addresses range
     if (((devaddr1>=PWM1) && (devaddr1<=PWM4)) && (regaddr1>0x02))
     {
         PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
         return REG_ADDR_ERROR;
     }
 
-    //I2C registers addresses range
+    // I2C registers addresses range
     if (((devaddr1>=I2C1) && (devaddr1<=I2C7)) && (regaddr1>0x07))
     {
         PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
         return REG_ADDR_ERROR;
     }
 
-    //Timer registers addresses range
+    // Timer registers addresses range
     if ((devaddr1==ASYNCTIMER) && (regaddr1>0x02))
     {
         PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
         return REG_ADDR_ERROR;
     }
 
-    //Sensor control registers addresses range
+    // Sensor control registers addresses range
     if ((devaddr1==SENSCTRL) && (regaddr1>0x00))
     {
         PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
         return REG_ADDR_ERROR;
     }
 
-    //Touch controller registers addresses range
+    // Touch controller registers addresses range
     if ((devaddr1==TOUCHDEVICE) && (regaddr1>0x08))
     {
         PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
         return REG_ADDR_ERROR;
     }
 
-	//Function number check
-	if ((func1!=FUNCx03) && (func1!=FUNCx05))
+	// Function number check
+	if ((func1!=FUNC_WRITE) && (func1!=FUNC_READ))
 	{
 	    PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,FUNC_CODE_ERROR);
 		return FUNC_CODE_ERROR;
 	}
 
-	//CRC check
+	// CRC check
 	switch (func1)
 	{
-        case FUNCx03:
+        case FUNC_WRITE:
             crc1 = hex2num(in_str, 15, NUM_BYTE);
             break;
-        case FUNCx05:
+        case FUNC_READ:
             crc1 = hex2num(in_str, 7, NUM_BYTE);
             break;
         default:
@@ -309,11 +308,11 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
     }
     */
 
-	if ((func1==FUNCx03))
+	if ((func1==FUNC_WRITE))
 	    crc2=0-(devaddr1+func1+regaddr1+
 	            (uint8_t)(regval1 & 0x000000FF)+(uint8_t)((regval1 & 0x0000FF00) >> 8)+
 	            (uint8_t)((regval1 & 0x00FF0000) >> 16)+(uint8_t)((regval1 & 0xFF000000) >> 24));
-	if ((func1==FUNCx05))
+	if ((func1==FUNC_READ))
 	    crc2=0-(devaddr1+func1+regaddr1);
 	if (crc1!=crc2)
 	{
@@ -321,11 +320,11 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
 	    return CRC_ERROR;
 	}
 
-	//Hadle of function 0x03 - write single register
-	if ((func1==FUNCx03) && (strlen(in_str)==17))
+	// Hadle of function 0x03 - write single register
+	if ((func1==FUNC_WRITE) && (strlen(in_str)==17))
 	{
-	    //Motors
-	    //if ((devaddr1>=MOTOR1) && (devaddr1<=MOTOR4))
+	    // Motors
+	    // if ((devaddr1>=MOTOR1) && (devaddr1<=MOTOR4))
 	    if ((devaddr1<=MOTOR4))
 	    {
 	        if (regaddr1==MMDUT)
@@ -342,7 +341,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
                 MOT[devaddr1].MERR = regval1;
 	        if (regaddr1==MMCTL)
 	            MOT[devaddr1].MCTL = regval1;
-            //Error register values
+            // Error register values
             if ((MOT[devaddr1].MPER==0) || (MOT[devaddr1].MDUT>MOT[devaddr1].MPER))
             {
                 PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_INC_ERROR);
@@ -353,7 +352,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
 	    }
 
-	    //Encoders
+	    // Encoders
         if ((devaddr1>=ENCODER1) && (devaddr1<=ENCODER4))
         {
             if (regaddr1==EEVAL)
@@ -367,7 +366,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
-        //Sensors
+        // Sensors
         if ((devaddr1>=SENSOR1) && (devaddr1<=SENSOR18))
         {
             if (regaddr1==SSIDX)
@@ -381,7 +380,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
-        //Ports
+        // Ports
         if ((devaddr1>=PORT1) && (devaddr1<=PORTJ))
         {
             PORT_write(devaddr1, regaddr1, regval1);
@@ -389,7 +388,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
-        //PWMs
+        // PWMs
         if ((devaddr1>=PWM1) && (devaddr1<=PWM4))
         {
             if (regaddr1==PPDUT)
@@ -403,7 +402,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
-        //I2Cs
+        // I2Cs
         if ((devaddr1>=I2C1) && (devaddr1<=I2C7))
         {
             if (regaddr1==IIDEV)
@@ -429,7 +428,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
-        //Async timer
+        // Async timer
         if ((devaddr1==ASYNCTIMER))
         {
             if (regaddr1==AATPER)
@@ -445,7 +444,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
-        //Sensor control
+        // Sensor control
         if ((devaddr1==SENSCTRL))
         {
             if (regaddr1==SPPCTL)
@@ -457,7 +456,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
-        //Touch controller
+        // Touch controller
         if ((devaddr1==TOUCHDEVICE))
         {
             if (regaddr1==TTMOD)
@@ -485,24 +484,24 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
-	    //BSL
+	    // BSL
 	    if ((devaddr1==BSL) && (regaddr1==0x00))
 	    {
 	        PROTOCOL_recvResponse(out_str,devaddr1,func1,regaddr1,BSL_enterBSL(regval1));
 	        return NO_ERROR;
 	    }
 
-	    //If not found any devices
+	    // If not found any devices
 	    PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,DEV_ADDR_ERROR);
 	    return DEV_ADDR_ERROR;
 	}
 
-	//Function 0x05 - read single register
-    if ((func1==FUNCx05) && (strlen(in_str)==9))
+	// Function 0x05 - read single register
+    if ((func1==FUNC_READ) && (strlen(in_str)==9))
     {
 
-        //Motors
-        //if ((devaddr1>=MOTOR1) && (devaddr1<=MOTOR4))
+        // Motors
+        // if ((devaddr1>=MOTOR1) && (devaddr1<=MOTOR4))
         if ((devaddr1<=MOTOR4))
         {
             if (regaddr1==MMCTL)
@@ -522,7 +521,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
-        //Encoders
+        // Encoders
         if ((devaddr1>=ENCODER1) && (devaddr1<=ENCODER4))
         {
             if (regaddr1==EECTL)
@@ -532,7 +531,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
-        //Sensors
+        // Sensors
         if ((devaddr1>=SENSOR1) && (devaddr1<=SENSOR18))
         {
             SENSOR_handler(devaddr1);
@@ -545,7 +544,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
-        //PWMs
+        // PWMs
         if ((devaddr1>=PWM1) && (devaddr1<=PWM4))
         {
             if (regaddr1==PPCTL)
@@ -557,7 +556,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
-        //I2Cs
+        // I2Cs
         if ((devaddr1>=I2C1) && (devaddr1<=I2C7))
         {
             I2C_handler(devaddr1);
@@ -580,7 +579,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
-        //Ports
+        // Ports
         if ((devaddr1>=PORT1) && (devaddr1<=PORTJ))
         {
             PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,
@@ -588,7 +587,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
-        //Async timer
+        // Async timer
         if ((devaddr1==ASYNCTIMER))
         {
             if (regaddr1==AATCTL)
@@ -600,7 +599,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
-        //Sensor control
+        // Sensor control
         if ((devaddr1==SENSCTRL))
         {
             if (regaddr1==SPPCTL)
@@ -608,7 +607,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
-        //Touch controller
+        // Touch controller
         if ((devaddr1==TOUCHDEVICE))
         {
             if (regaddr1==TTMOD)

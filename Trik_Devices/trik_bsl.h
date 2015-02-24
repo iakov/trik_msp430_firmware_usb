@@ -10,9 +10,12 @@
 
 #define PSWD_OK         0x00000000
 #define PSWD_FAIL       0x00000001
+
 #define PASSWORD        0xA480E917
 
-//API functions
+#define BSLVER          0x01
+
+// API functions
 uint8_t BSL_enterBSL(uint32_t bslpswd);
 
 #endif /* TRICK_BSL_H_ */

@@ -8,23 +8,24 @@
 #ifndef TRIK_ASYNC_H_
 #define TRIK_ASYNC_H_
 
-//Timer registers defines
+// Timer registers defines
 #define AATCTL               0x00
 #define AATPER               0x01
 #define AATVAL               0x02
+#define AATVER               0x03
 
-//Timer period defines
+// Timer period defines
 #define NORMAL_PERIOD        0x0960
 #define MAXIMUM_PERIOD       0xFFFF
 
-//Timer enable mask bit
+// Timer enable mask bit
 #define AT_EN                0x0003
 
 void enableTimer_B();
 void disableTimer_B();
 uint8_t ASYNCTIMER_handler();
 
-//Timer registers
+// Timer registers
 struct tTimerRegisters
 {
     uint16_t ATCTL;
@@ -32,7 +33,7 @@ struct tTimerRegisters
     uint32_t ATVAL;
 };
 
-//Timer registers struct
+// Timer registers struct
 volatile struct tTimerRegisters ASYNCTMR;
 
 #endif /* TRIK_ASYNC_H_ */

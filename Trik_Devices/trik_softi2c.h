@@ -46,6 +46,7 @@ struct tI2CRegisters
 #define IIIDX               0x05
 #define IIVAL               0x06
 #define IIDEL               0x07
+#define IIVER               0x08
 
 //I2C registers array
 volatile struct tI2CRegisters I2C[MAX_I2CS];

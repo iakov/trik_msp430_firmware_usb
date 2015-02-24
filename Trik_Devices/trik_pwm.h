@@ -12,6 +12,7 @@
 #define PPCTL               0x00
 #define PPDUT               0x01
 #define PPPER               0x02
+#define PPVER               0x03
 
 //PWM errors
 #define PWM_NO_ERROR        0x00
@@ -32,8 +33,8 @@ struct tPWMRegisters
 {
     uint16_t PCTL;
     uint16_t PDUT;
-    uint16_t PPER;
     uint32_t PSTA;
+    uint16_t PPER;
 };
 
 //Motors registers array
