@@ -444,6 +444,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
+        /*
         // Sensor control
         if ((devaddr1==SENSCTRL))
         {
@@ -455,6 +456,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             PROTOCOL_recvResponse(out_str,devaddr1,func1,regaddr1,NO_ERROR);
             return NO_ERROR;
         }
+        */
 
         // Touch controller
         if ((devaddr1==TOUCHDEVICE))
@@ -518,6 +520,8 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
                 PROTOCOL_recvResponse(out_str,devaddr1,MOT[devaddr1].MSTA,regaddr1,MOT[devaddr1].MVAL);
             if (regaddr1==MMERR)
                 PROTOCOL_recvResponse(out_str,devaddr1,MOT[devaddr1].MSTA,regaddr1,MOT[devaddr1].MERR);
+            if (regaddr1==MMVER)
+                PROTOCOL_recvResponse(out_str,devaddr1,MOT[devaddr1].MSTA,regaddr1,MOTOR_VERSION);
             return NO_ERROR;
         }
 
@@ -528,6 +532,8 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
                 PROTOCOL_recvResponse(out_str,devaddr1,ENC[devaddr1-ENCODER1].ESTA,regaddr1,ENC[devaddr1-ENCODER1].ECTL);
             if (regaddr1==EEVAL)
                 PROTOCOL_recvResponse(out_str,devaddr1,ENC[devaddr1-ENCODER1].ESTA,regaddr1,ENC[devaddr1-ENCODER1].EVAL);
+            if (regaddr1==EEVER)
+                PROTOCOL_recvResponse(out_str,devaddr1,ENC[devaddr1-ENCODER1].ESTA,regaddr1,ENCODER_VERSION);
             return NO_ERROR;
         }
 
@@ -541,6 +547,8 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
                 PROTOCOL_recvResponse(out_str,devaddr1,SENS[devaddr1-SENSOR1].SSTA,regaddr1,SENS[devaddr1-SENSOR1].SIDX);
             if (regaddr1==SSVAL)
                 PROTOCOL_recvResponse(out_str,devaddr1,SENS[devaddr1-SENSOR1].SSTA,regaddr1,SENS[devaddr1-SENSOR1].SVAL);
+            if (regaddr1==SSVER)
+                PROTOCOL_recvResponse(out_str,devaddr1,SENS[devaddr1-SENSOR1].SSTA,regaddr1,SENSOR_VERSION);
             return NO_ERROR;
         }
 
@@ -553,6 +561,8 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
                 PROTOCOL_recvResponse(out_str,devaddr1,PWM[devaddr1-PWM1].PSTA,regaddr1,PWM[devaddr1-PWM1].PDUT);
             if (regaddr1==PPPER)
                 PROTOCOL_recvResponse(out_str,devaddr1,PWM[devaddr1-PWM1].PSTA,regaddr1,PWM[devaddr1-PWM1].PPER);
+            if (regaddr1==PPVER)
+                PROTOCOL_recvResponse(out_str,devaddr1,PWM[devaddr1-PWM1].PSTA,regaddr1,PWM_VERSION);
             return NO_ERROR;
         }
 
@@ -576,14 +586,18 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
                 PROTOCOL_recvResponse(out_str,devaddr1,I2C[devaddr1-I2C1].ISTA,regaddr1,I2C[devaddr1-I2C1].IVAL);
             if (regaddr1==IIDEL)
                 PROTOCOL_recvResponse(out_str,devaddr1,I2C[devaddr1-I2C1].ISTA,regaddr1,Idelay);
+            if (regaddr1==IIVER)
+                PROTOCOL_recvResponse(out_str,devaddr1,I2C[devaddr1-I2C1].ISTA,regaddr1,I2C_VERSION);
             return NO_ERROR;
         }
 
         // Ports
         if ((devaddr1>=PORT1) && (devaddr1<=PORTJ))
         {
-            PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,
-                    PORT_read(devaddr1,regaddr1));
+            if (regaddr1==PVER)
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,PORT_VERSION);
+            else
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,PORT_read(devaddr1,regaddr1));
             return NO_ERROR;
         }
 
@@ -596,16 +610,20 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
                 PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,ASYNCTMR.ATPER);
             if (regaddr1==AATVAL)
                 PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,ASYNCTMR.ATVAL);
+            if (regaddr1==AATVER)
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,ATIMER_VERSION);
             return NO_ERROR;
         }
 
         // Sensor control
+        /*
         if ((devaddr1==SENSCTRL))
         {
             if (regaddr1==SPPCTL)
                 PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,SENSCONTROL.SPSTA);
             return NO_ERROR;
         }
+        */
 
         // Touch controller
         if ((devaddr1==TOUCHDEVICE))
@@ -628,6 +646,16 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
                 PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,TOUCH.CURX);
             if (regaddr1==TCURY)
                 PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,TOUCH.CURY);
+            if (regaddr1==TCVER)
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,TOUCH_VERSION);
+            return NO_ERROR;
+        }
+
+        // BSL
+        if ((devaddr1==BSL))
+        {
+            if (regaddr1==BSLVER)
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,BSL_VERSION);
             return NO_ERROR;
         }
 
