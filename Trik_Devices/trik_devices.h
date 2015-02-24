@@ -7,7 +7,7 @@
 #ifndef TRIK_DEVICES_H_
 #define TRIK_DEVICES_H_
 
-//Devices
+// Modules address table
 #define MOTOR1				0x00
 #define MOTOR2				0x01
 #define MOTOR3				0x02
@@ -58,16 +58,30 @@
 #define BSL                 0xEE
 #define NNONE				0xFF
 
-//Slot free/busy defines
+// Modules versions
+#define MAIN_VERSION        0x0025
+#define MAIN_VERSION_TXT    "0.0.25"
+#define MOTOR_VERSION       0x0025
+#define SENSOR_VERSION      0x0025
+#define ENCODER_VERSION     0x0025
+#define PORT_VERSION        0x0025
+#define PWM_VERSION         0x0025
+#define ATIMER_VERSION      0x0025
+#define TOUCH_VERSION       0x0025
+#define I2C_VERSION         0x0025
+#define BSL_VERSION         0x0025
+
+// Slot free/busy defines
 #define SLOT_FREE           0x00
 #define SLOT_BUSY           0x01
 
-//Max ports
+// Max ports
 #define MAX_DEVICES			I2C7
 
-//Busy table
+// Busy table
 volatile uint8_t busy_table[MAX_DEVICES];
 
+// Functions prototypes
 void initGlobalVars();
 void initReferenceTemperature();
 void initADC10();
