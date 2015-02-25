@@ -217,56 +217,70 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
 
 	// Motor registers addresses range
 	// if (((devaddr1>=MOTOR1) && (devaddr1<=MOTOR4)) && (regaddr1>0x06))
-	if (((devaddr1<=MOTOR4)) && (regaddr1>0x06))
+	if (((devaddr1<=MOTOR4)) && (regaddr1>0x07))
 	{
 	    PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
 		return REG_ADDR_ERROR;
 	}
 
 	// Sensor registers addresses range
-	if (((devaddr1>=SENSOR1) && (devaddr1<=SENSOR18)) && (regaddr1>0x02))
+	if (((devaddr1>=SENSOR1) && (devaddr1<=SENSOR18)) && (regaddr1>0x03))
 	{
 	    PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
 		return REG_ADDR_ERROR;
 	}
 
 	// Encoder registers addresses range
-	if (((devaddr1>=ENCODER1) && (devaddr1<=ENCODER4)) && (regaddr1>0x01))
+	if (((devaddr1>=ENCODER1) && (devaddr1<=ENCODER4)) && (regaddr1>0x02))
 	{
 	    PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
 	    return REG_ADDR_ERROR;
 	}
 
     // Port registers addresses range
-    if (((devaddr1>=PORT1) && (devaddr1<=PORTJ)) && (regaddr1>0x08))
+    if (((devaddr1>=PORT1) && (devaddr1<=PORTJ)) && (regaddr1>0x09))
     {
         PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
         return REG_ADDR_ERROR;
     }
 
     // PWM registers addresses range
-    if (((devaddr1>=PWM1) && (devaddr1<=PWM4)) && (regaddr1>0x02))
+    if (((devaddr1>=PWM1) && (devaddr1<=PWM4)) && (regaddr1>0x03))
     {
         PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
         return REG_ADDR_ERROR;
     }
 
     // I2C registers addresses range
-    if (((devaddr1>=I2C1) && (devaddr1<=I2C7)) && (regaddr1>0x07))
+    if (((devaddr1>=I2C1) && (devaddr1<=I2C7)) && (regaddr1>0x08))
     {
         PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
         return REG_ADDR_ERROR;
     }
 
     // Timer registers addresses range
-    if ((devaddr1==ASYNCTIMER) && (regaddr1>0x02))
+    if ((devaddr1==ASYNCTIMER) && (regaddr1>0x03))
     {
         PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
         return REG_ADDR_ERROR;
     }
 
     // Touch controller registers addresses range
-    if ((devaddr1==TOUCHDEVICE) && (regaddr1>0x08))
+    if ((devaddr1==TOUCHDEVICE) && (regaddr1>0x09))
+    {
+        PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
+        return REG_ADDR_ERROR;
+    }
+
+    // BSL registers addresses range
+    if ((devaddr1==BSL) && (regaddr1>0x01))
+    {
+        PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
+        return REG_ADDR_ERROR;
+    }
+
+    // Version control registers addresses range
+    if ((devaddr1==VERSIONCTRL) && (regaddr1>0x0A))
     {
         PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
         return REG_ADDR_ERROR;
@@ -627,6 +641,35 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
                 PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,BSL_VERSION);
             return NO_ERROR;
         }
+
+        // Main control version module
+        if ((devaddr1==VERSIONCTRL))
+        {
+            if (regaddr1==MAIN_VER_REG_1)
+                strcpy(out_str,MAIN_VERSION_TXT);
+            if (regaddr1==MAIN_VER_REG_2)
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,MAIN_VERSION);
+            if (regaddr1==MOT_VER_REG)
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,MOTOR_VERSION);
+            if (regaddr1==SENS_VER_REG)
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,SENSOR_VERSION);
+            if (regaddr1==ENC_VER_REG)
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,ENCODER_VERSION);
+            if (regaddr1==PORT_VER_REG)
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,PORT_VERSION);
+            if (regaddr1==PWM_VER_REG)
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,PWM_VERSION);
+            if (regaddr1==ATMR_VER_REG)
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,ATIMER_VERSION);
+            if (regaddr1==TOUCH_VER_REG)
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,TOUCH_VERSION);
+            if (regaddr1==I2C_VER_REG)
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,I2C_VERSION);
+            if (regaddr1==BSL_VER_REG)
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,BSL_VERSION);
+            return NO_ERROR;
+        }
+
 
     }
 
