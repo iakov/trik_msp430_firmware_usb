@@ -1,8 +1,7 @@
 /*
  * trik_ucs.h
  *
- *  Created on: Fabruary 4, 2015
- *      Author: Rostislav Varzar
+ *  Imported from driverlib: Fabruary 4, 2015
  */
 
 #ifndef TRIK_UCS_H_

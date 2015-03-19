@@ -34,9 +34,7 @@ void MOTOR_start(uint8_t MOT_NUMBER)
                     if (MOT[MOT_NUMBER].MCTL & MOT_AUTO)
                         MOT[MOT_NUMBER].MVAL = 0;
                     TA0CCR0 = MOT[MOT_NUMBER].MPER;           // PWM Period
-                    TA0CCTL1 = OUTMOD_7;                      // CCR1 reset/set
                     TA0CCR1 = MOT[MOT_NUMBER].MDUT;           // CCR1 PWM duty cycle
-                    TA0CTL = TASSEL_2 + MC_1 + TACLR + ID_3;         // SMCLK, up mode, clear TAR, divider - 8
                 } else
                 {
                     MOTOR_stop(MOT_NUMBER);
@@ -66,9 +64,7 @@ void MOTOR_start(uint8_t MOT_NUMBER)
                     if (MOT[MOT_NUMBER].MCTL & MOT_AUTO)
                         MOT[MOT_NUMBER].MVAL = 0;
                     TA0CCR0 = MOT[MOT_NUMBER].MPER;           // PWM Period
-                    TA0CCTL2 = OUTMOD_7;                      // CCR2 reset/set
                     TA0CCR2 = MOT[MOT_NUMBER].MDUT;           // CCR2 PWM duty cycle
-                    TA0CTL = TASSEL_2 + MC_1 + TACLR + ID_3;         // SMCLK, up mode, clear TAR
                 } else
                 {
                     MOTOR_stop(MOT_NUMBER);
@@ -98,9 +94,7 @@ void MOTOR_start(uint8_t MOT_NUMBER)
                     if (MOT[MOT_NUMBER].MCTL & MOT_AUTO)
                         MOT[MOT_NUMBER].MVAL = 0;
                     TA0CCR0 = MOT[MOT_NUMBER].MPER;           // PWM Period
-                    TA0CCTL3 = OUTMOD_7;                      // CCR3 reset/set
                     TA0CCR3 = MOT[MOT_NUMBER].MDUT;           // CCR3 PWM duty cycle
-                    TA0CTL = TASSEL_2 + MC_1 + TACLR + ID_3;         // SMCLK, up mode, clear TAR
                 } else
                 {
                     MOTOR_stop(MOT_NUMBER);
@@ -130,9 +124,7 @@ void MOTOR_start(uint8_t MOT_NUMBER)
                     if (MOT[MOT_NUMBER].MCTL & MOT_AUTO)
                         MOT[MOT_NUMBER].MVAL = 0;
                     TA0CCR0 = MOT[MOT_NUMBER].MPER;           // PWM Period
-                    TA0CCTL4 = OUTMOD_7;                      // CCR4 reset/set
                     TA0CCR4 = MOT[MOT_NUMBER].MDUT;           // CCR4 PWM duty cycle
-                    TA0CTL = TASSEL_2 + MC_1 + TACLR + ID_3;         // SMCLK, up mode, clear TAR
                 } else
                 {
                     MOTOR_stop(MOT_NUMBER);

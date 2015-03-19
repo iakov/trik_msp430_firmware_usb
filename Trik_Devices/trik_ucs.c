@@ -1,8 +1,7 @@
 /*
  * trik_ucs.c
  *
- *  Created on: Fabruary 4, 2015
- *      Author: Rostislav Varzar
+ *  Imported from driverlib: Fabruary 4, 2015
  */
 
 //#include <assert.h>

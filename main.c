@@ -111,6 +111,7 @@ void main (void)
     initReferenceTemperature(); //Init ref and temp sensor
     initADC10(); //Init ADC
     initPBPorts(); //Init B ports
+    initPWM(); //Init PWM
 
     //Enable async timer
     ASYNCTMR.ATCTL |= AT_EN;
