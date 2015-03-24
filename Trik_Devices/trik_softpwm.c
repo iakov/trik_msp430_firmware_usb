@@ -86,4 +86,56 @@ void SPWM_enable(uint8_t SPWM_NUMBER)
     }
 }
 
+//SPWM disable
+void SPWM_disable(uint8_t SPWM_NUMBER)
+{
+    releaseSlot(SPWM_NUMBER);
+    switch (SPWM_NUMBER)
+    {
+        case SPWM1:
+            P2DIR &= ~BIT0;
+            break;
+        case SPWM2:
+            P2DIR &= ~BIT3;
+            break;
+        case SPWM3:
+            P2DIR &= ~BIT4;
+            break;
+        case SPWM4:
+            P1DIR &= ~BIT0;
+            break;
+        case SPWM5:
+            P2DIR &= ~BIT1;
+            break;
+        case SPWM6:
+            P1DIR &= ~BIT6;
+            break;
+        case SPWM7:
+            P2DIR &= ~BIT5;
+            break;
+        case SPWM8:
+            P2DIR &= ~BIT2;
+            break;
+        case SPWM9:
+            P6DIR &= ~BIT5;
+            break;
+        case SPWM10:
+            P6DIR &= ~BIT4;
+            break;
+        case SPWM11:
+            P6DIR &= ~BIT3;
+            break;
+        case SPWM12:
+            P6DIR &= ~BIT2;
+            break;
+        case SPWM13:
+            P6DIR &= ~BIT1;
+            break;
+        case SPWM14:
+            P6DIR &= ~BIT0;
+            break;
+        default:
+            break;
+    }
+}
 
