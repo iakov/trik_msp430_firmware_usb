@@ -14,6 +14,7 @@
 #include "trik_sensor.h"
 #include "trik_touch.h"
 #include "trik_pwm.h"
+#include "trik_softpwm.h"
 #include "trik_softi2c.h"
 
 //Reset touch parameters
@@ -54,8 +55,11 @@ void initGlobalVars()
     for (int j=0; j<MAX_PWMS; j++)
         PWM[j].PCTL = PWM[j].PDUT = PWM[j].PPER = PWM[j].PSTA = 0x0000;
 
+    for (int j=0; j<MAX_SPWMS; j++)
+        SPWM[j].SPCTL = SPWM[j].SPDUT = SPWM[j].SPPER = SPWM[j].SPSTA = SPWM[j].SPCNT = 0x0000;
+
     Idelay = 200;
-    for (int j=0; j<MAX_PWMS; j++)
+    for (int j=0; j<MAX_I2CS; j++)
         I2C[j].ICTL = I2C[j].IDAT = I2C[j].IDEV = I2C[j].IERR = I2C[j].IREG = I2C[j].ISTA = I2C[j].IIDX = I2C[j].IVAL = 0x00;
 
 }
