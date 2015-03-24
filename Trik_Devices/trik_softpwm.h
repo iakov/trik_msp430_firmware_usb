@@ -35,6 +35,7 @@ struct tSPWMRegisters
     uint16_t SPDUT;
     uint32_t SPSTA;
     uint16_t SPPER;
+    uint16_t SPCNT;
 };
 
 //Software PWM registers array
