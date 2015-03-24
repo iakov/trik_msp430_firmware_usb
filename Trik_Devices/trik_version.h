@@ -11,15 +11,15 @@
 // Modules versions
 #define MAIN_VERSION_TXT    "0.0.27\n\0"
 #define MAIN_VERSION        0027
-#define MOTOR_VERSION       0001
+#define MOTOR_VERSION       0002
 #define SENSOR_VERSION      0001
 #define ENCODER_VERSION     0001
 #define PORT_VERSION        0001
-#define PWM_VERSION         0001
+#define PWM_VERSION         0002
 #define SPWM_VERSION        0001
 #define ATIMER_VERSION      0001
 #define TOUCH_VERSION       0001
-#define I2C_VERSION         0001
+#define I2C_VERSION         0002
 #define BSL_VERSION         0001
 
 // Version registers adresses defines
