@@ -55,6 +55,20 @@
 #define I2C5                0x2C
 #define I2C6                0x2D
 #define I2C7                0x2E
+#define SPWM1               0x2F
+#define SPWM2               0x30
+#define SPWM3               0x31
+#define SPWM4               0x32
+#define SPWM5               0x33
+#define SPWM6               0x34
+#define SPWM7               0x35
+#define SPWM8               0x36
+#define SPWM9               0x37
+#define SPWM10              0x38
+#define SPWM11              0x39
+#define SPWM12              0x3A
+#define SPWM13              0x3B
+#define SPWM14              0x3C
 #define BSL                 0xEE
 #define NNONE				0xFF
 
@@ -63,7 +77,7 @@
 #define SLOT_BUSY           0x01
 
 // Max ports
-#define MAX_DEVICES			I2C7
+#define MAX_DEVICES			SPWM14
 
 // Busy table
 volatile uint8_t busy_table[MAX_DEVICES];
