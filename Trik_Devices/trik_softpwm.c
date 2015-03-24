@@ -139,3 +139,14 @@ void SPWM_disable(uint8_t SPWM_NUMBER)
     }
 }
 
+//Handler
+void SPWM_handler(uint8_t SPWM_NUMBER)
+{
+    //Enable (start) / disable
+    if (SPWM[SPWM_NUMBER-SPWM1].SPCTL & SPWM_ENABLE)
+        SPWM_enable(SPWM_NUMBER);
+    else
+        SPWM_disable(SPWM_NUMBER);
+
+    SPWM[SPWM_NUMBER-SPWM1].SPSTA = SPWM_NO_ERROR;
+}
