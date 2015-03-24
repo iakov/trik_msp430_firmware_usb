@@ -37,7 +37,7 @@ struct tPWMRegisters
     uint16_t PPER;
 };
 
-//Motors registers array
+//PWM registers array
 volatile struct tPWMRegisters PWM[MAX_PWMS];
 
 #endif /* TRIK_PWM_H_ */
