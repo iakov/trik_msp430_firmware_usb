@@ -10,7 +10,7 @@
 #include "trik_devices.h"
 #include "trik_pwm.h"
 
-//Motor enable and start
+//PWM enable and start
 void PWM_enable(uint8_t PWM_NUMBER)
 {
     if (!(isSlotBusy(PWM_NUMBER)))
@@ -24,9 +24,7 @@ void PWM_enable(uint8_t PWM_NUMBER)
                 P2DIR |= BIT0;
                 //PWM timer
                 TA1CCR0 = PWM[PWM_NUMBER-PWM1].PPER;           // PWM Period
-                TA1CCTL1 = OUTMOD_7;                      // CCR1 reset/set
                 TA1CCR1 = PWM[PWM_NUMBER-PWM1].PDUT;           // CCR1 PWM duty cycle
-                TA1CTL = TASSEL_2 + MC_1 + TACLR + ID_3;         // SMCLK, up mode, clear TAR, divider - 8
                 break;
             case PWM2:
                 /*GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P2, GPIO_PIN4);*/
@@ -34,9 +32,7 @@ void PWM_enable(uint8_t PWM_NUMBER)
                 P2DIR |= BIT4;
                 //PWM timer
                 TA2CCR0 = PWM[PWM_NUMBER-PWM1].PPER;           // PWM Period
-                TA2CCTL1 = OUTMOD_7;                      // CCR1 reset/set
                 TA2CCR1 = PWM[PWM_NUMBER-PWM1].PDUT;           // CCR1 PWM duty cycle
-                TA2CTL = TASSEL_2 + MC_1 + TACLR + ID_3;         // SMCLK, up mode, clear TAR, divider - 8
                 break;
             case PWM3:
                 /*GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P2, GPIO_PIN5);*/
@@ -44,9 +40,7 @@ void PWM_enable(uint8_t PWM_NUMBER)
                 P2DIR |= BIT5;
                 //PWM timer
                 TA2CCR0 = PWM[PWM_NUMBER-PWM1].PPER;           // PWM Period
-                TA2CCTL2 = OUTMOD_7;                      // CCR2 reset/set
                 TA2CCR2 = PWM[PWM_NUMBER-PWM1].PDUT;           // CCR2 PWM duty cycle
-                TA2CTL = TASSEL_2 + MC_1 + TACLR + ID_3;         // SMCLK, up mode, clear TAR, divider - 8
                 break;
             case PWM4:
                 /*GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P2, GPIO_PIN1);*/
@@ -54,9 +48,7 @@ void PWM_enable(uint8_t PWM_NUMBER)
                 P2DIR |= BIT1;
                 //PWM timer
                 TA1CCR0 = PWM[PWM_NUMBER-PWM1].PPER;           // PWM Period
-                TA1CCTL2 = OUTMOD_7;                      // CCR2 reset/set
                 TA1CCR2 = PWM[PWM_NUMBER-PWM1].PDUT;           // CCR2 PWM duty cycle
-                TA1CTL = TASSEL_2 + MC_1 + TACLR + ID_3;         // SMCLK, up mode, clear TAR, divider - 8
                 break;
             default:
                 break;

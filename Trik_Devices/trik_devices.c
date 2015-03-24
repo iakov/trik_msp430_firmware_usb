@@ -88,14 +88,20 @@ void initPBPorts()
     P5OUT |= BIT3; //GPIO_setOutputHighOnPin(GPIO_PORT_P5,GPIO_PIN3);
 }
 
-//Init PWM for motors
+//Init all hardware PWMs
 void initPWM()
 {
     TA0CCTL1 = OUTMOD_7;                            // CCR1 reset/set
     TA0CCTL2 = OUTMOD_7;                            // CCR2 reset/set
     TA0CCTL3 = OUTMOD_7;                            // CCR3 reset/set
     TA0CCTL4 = OUTMOD_7;                            // CCR4 reset/set
+    TA1CCTL1 = OUTMOD_7;                            // CCR1 reset/set
+    TA1CCTL2 = OUTMOD_7;                            // CCR2 reset/set
+    TA2CCTL1 = OUTMOD_7;                            // CCR1 reset/set
+    TA2CCTL2 = OUTMOD_7;                            // CCR2 reset/set
     TA0CTL = TASSEL_2 + MC_1 + TACLR + ID_3;        // SMCLK, up mode, clear TAR, divider - 8
+    TA1CTL = TASSEL_2 + MC_1 + TACLR + ID_3;        // SMCLK, up mode, clear TAR, divider - 8
+    TA2CTL = TASSEL_2 + MC_1 + TACLR + ID_3;        // SMCLK, up mode, clear TAR, divider - 8
 }
 
 //Test, if slot busy by other device
