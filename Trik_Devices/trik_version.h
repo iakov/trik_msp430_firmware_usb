@@ -9,17 +9,18 @@
 #define TRIK_VERSION_H_
 
 // Modules versions
-#define MAIN_VERSION_TXT    "0.0.26\n\0"
-#define MAIN_VERSION        0x0026
-#define MOTOR_VERSION       0x0001
-#define SENSOR_VERSION      0x0001
-#define ENCODER_VERSION     0x0001
-#define PORT_VERSION        0x0001
-#define PWM_VERSION         0x0001
-#define ATIMER_VERSION      0x0001
-#define TOUCH_VERSION       0x0001
-#define I2C_VERSION         0x0001
-#define BSL_VERSION         0x0001
+#define MAIN_VERSION_TXT    "0.0.27\n\0"
+#define MAIN_VERSION        0027
+#define MOTOR_VERSION       0001
+#define SENSOR_VERSION      0001
+#define ENCODER_VERSION     0001
+#define PORT_VERSION        0001
+#define PWM_VERSION         0001
+#define SPWM_VERSION        0001
+#define ATIMER_VERSION      0001
+#define TOUCH_VERSION       0001
+#define I2C_VERSION         0001
+#define BSL_VERSION         0001
 
 // Version registers adresses defines
 #define MAIN_VER_REG_1      0x00
@@ -33,5 +34,6 @@
 #define TOUCH_VER_REG       0x08
 #define I2C_VER_REG         0x09
 #define BSL_VER_REG         0x0A
+#define SPWM_VER_REG        0x0B
 
 #endif /* TRIK_VERSION_H_ */
