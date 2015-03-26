@@ -66,6 +66,7 @@
 #include "Trik_Devices/trik_wdt.h"
 #include "Trik_Devices/trik_hal.h"
 #include "Trik_Devices/trik_softi2c.h"
+#include "Trik_Devices/trik_softpwm.h"
 
 // Global flags set by events
 volatile uint8_t bDataReceived_event0 = FALSE; // Indicates data has been rx'ed
@@ -322,6 +323,104 @@ void TIMERB1_ISR(void)
                     MOTOR_stop(MOTNUM);
                 }
             }
+        }
+
+        //Software PWM counters
+        for (uint8_t SPWMNUM=SPWM1; SPWMNUM<=SPWM14; SPWMNUM++)
+        {
+            SPWM[SPWMNUM-SPWM1].SPCNT ++;
+            if (SPWM[SPWMNUM-SPWM1].SPCNT >= SPWM[SPWMNUM-SPWM1].SPPER)
+                SPWM[SPWMNUM-SPWM1].SPCNT = 0;
+            if (SPWM[SPWMNUM-SPWM1].SPCTL & SPWM_ENABLE)
+                switch (SPWMNUM)
+                {
+                    case SPWM1:
+                        if (SPWM[SPWMNUM-SPWM1].SPCNT < SPWM[SPWMNUM-SPWM1].SPDUT)
+                            P2OUT |= BIT0;
+                        else
+                            P2OUT &= ~BIT0;
+                        break;
+                    case SPWM2:
+                        if (SPWM[SPWMNUM-SPWM1].SPCNT < SPWM[SPWMNUM-SPWM1].SPDUT)
+                            P2OUT |= BIT3;
+                        else
+                            P2OUT &= ~BIT3;
+                        break;
+                    case SPWM3:
+                        if (SPWM[SPWMNUM-SPWM1].SPCNT < SPWM[SPWMNUM-SPWM1].SPDUT)
+                            P2OUT |= BIT4;
+                        else
+                            P2OUT &= ~BIT4;
+                        break;
+                    case SPWM4:
+                        if (SPWM[SPWMNUM-SPWM1].SPCNT < SPWM[SPWMNUM-SPWM1].SPDUT)
+                            P1OUT |= BIT0;
+                        else
+                            P1OUT &= ~BIT0;
+                        break;
+                    case SPWM5:
+                        if (SPWM[SPWMNUM-SPWM1].SPCNT < SPWM[SPWMNUM-SPWM1].SPDUT)
+                            P2OUT |= BIT1;
+                        else
+                            P2OUT &= ~BIT1;
+                        break;
+                    case SPWM6:
+                        if (SPWM[SPWMNUM-SPWM1].SPCNT < SPWM[SPWMNUM-SPWM1].SPDUT)
+                            P1OUT |= BIT6;
+                        else
+                            P1OUT &= ~BIT6;
+                        break;
+                    case SPWM7:
+                        if (SPWM[SPWMNUM-SPWM1].SPCNT < SPWM[SPWMNUM-SPWM1].SPDUT)
+                            P2OUT |= BIT5;
+                        else
+                            P2OUT &= ~BIT5;
+                        break;
+                    case SPWM8:
+                        if (SPWM[SPWMNUM-SPWM1].SPCNT < SPWM[SPWMNUM-SPWM1].SPDUT)
+                            P2OUT |= BIT2;
+                        else
+                            P2OUT &= ~BIT2;
+                        break;
+                    case SPWM9:
+                        if (SPWM[SPWMNUM-SPWM1].SPCNT < SPWM[SPWMNUM-SPWM1].SPDUT)
+                            P6OUT |= BIT5;
+                        else
+                            P6OUT &= ~BIT5;
+                        break;
+                    case SPWM10:
+                        if (SPWM[SPWMNUM-SPWM1].SPCNT < SPWM[SPWMNUM-SPWM1].SPDUT)
+                            P6OUT |= BIT4;
+                        else
+                            P6OUT &= ~BIT4;
+                        break;
+                    case SPWM11:
+                        if (SPWM[SPWMNUM-SPWM1].SPCNT < SPWM[SPWMNUM-SPWM1].SPDUT)
+                            P6OUT |= BIT3;
+                        else
+                            P6OUT &= ~BIT3;
+                        break;
+                    case SPWM12:
+                        if (SPWM[SPWMNUM-SPWM1].SPCNT < SPWM[SPWMNUM-SPWM1].SPDUT)
+                            P6OUT |= BIT2;
+                        else
+                            P6OUT &= ~BIT2;
+                        break;
+                    case SPWM13:
+                        if (SPWM[SPWMNUM-SPWM1].SPCNT < SPWM[SPWMNUM-SPWM1].SPDUT)
+                            P6OUT |= BIT1;
+                        else
+                            P6OUT &= ~BIT1;
+                        break;
+                    case SPWM14:
+                        if (SPWM[SPWMNUM-SPWM1].SPCNT < SPWM[SPWMNUM-SPWM1].SPDUT)
+                            P6OUT |= BIT0;
+                        else
+                            P6OUT &= ~BIT0;
+                        break;
+                    default:
+                        break;
+                }
         }
 
         //For touch read event
