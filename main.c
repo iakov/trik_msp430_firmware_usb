@@ -329,99 +329,79 @@ void TIMERB1_ISR(void)
         for (uint8_t SPWMNUM=SPWM1; SPWMNUM<=SPWM14; SPWMNUM++)
         {
             SPWM[SPWMNUM-SPWM1].SPCNT ++;
-            if (SPWM[SPWMNUM-SPWM1].SPCNT >= SPWM[SPWMNUM-SPWM1].SPPER)
+            if (!(SPWM[SPWMNUM-SPWM1].SPCNT < SPWM[SPWMNUM-SPWM1].SPPER))
                 SPWM[SPWMNUM-SPWM1].SPCNT = 0;
-            if (SPWM[SPWMNUM-SPWM1].SPCTL & SPWM_ENABLE)
-                switch (SPWMNUM)
-                {
-                    case SPWM1:
-                        if (SPWM[SPWMNUM-SPWM1].SPCNT < SPWM[SPWMNUM-SPWM1].SPDUT)
-                            P2OUT |= BIT0;
-                        else
-                            P2OUT &= ~BIT0;
-                        break;
-                    case SPWM2:
-                        if (SPWM[SPWMNUM-SPWM1].SPCNT < SPWM[SPWMNUM-SPWM1].SPDUT)
-                            P2OUT |= BIT3;
-                        else
-                            P2OUT &= ~BIT3;
-                        break;
-                    case SPWM3:
-                        if (SPWM[SPWMNUM-SPWM1].SPCNT < SPWM[SPWMNUM-SPWM1].SPDUT)
-                            P2OUT |= BIT4;
-                        else
-                            P2OUT &= ~BIT4;
-                        break;
-                    case SPWM4:
-                        if (SPWM[SPWMNUM-SPWM1].SPCNT < SPWM[SPWMNUM-SPWM1].SPDUT)
-                            P1OUT |= BIT0;
-                        else
-                            P1OUT &= ~BIT0;
-                        break;
-                    case SPWM5:
-                        if (SPWM[SPWMNUM-SPWM1].SPCNT < SPWM[SPWMNUM-SPWM1].SPDUT)
-                            P2OUT |= BIT1;
-                        else
-                            P2OUT &= ~BIT1;
-                        break;
-                    case SPWM6:
-                        if (SPWM[SPWMNUM-SPWM1].SPCNT < SPWM[SPWMNUM-SPWM1].SPDUT)
-                            P1OUT |= BIT6;
-                        else
-                            P1OUT &= ~BIT6;
-                        break;
-                    case SPWM7:
-                        if (SPWM[SPWMNUM-SPWM1].SPCNT < SPWM[SPWMNUM-SPWM1].SPDUT)
-                            P2OUT |= BIT5;
-                        else
-                            P2OUT &= ~BIT5;
-                        break;
-                    case SPWM8:
-                        if (SPWM[SPWMNUM-SPWM1].SPCNT < SPWM[SPWMNUM-SPWM1].SPDUT)
-                            P2OUT |= BIT2;
-                        else
-                            P2OUT &= ~BIT2;
-                        break;
-                    case SPWM9:
-                        if (SPWM[SPWMNUM-SPWM1].SPCNT < SPWM[SPWMNUM-SPWM1].SPDUT)
-                            P6OUT |= BIT5;
-                        else
-                            P6OUT &= ~BIT5;
-                        break;
-                    case SPWM10:
-                        if (SPWM[SPWMNUM-SPWM1].SPCNT < SPWM[SPWMNUM-SPWM1].SPDUT)
-                            P6OUT |= BIT4;
-                        else
-                            P6OUT &= ~BIT4;
-                        break;
-                    case SPWM11:
-                        if (SPWM[SPWMNUM-SPWM1].SPCNT < SPWM[SPWMNUM-SPWM1].SPDUT)
-                            P6OUT |= BIT3;
-                        else
-                            P6OUT &= ~BIT3;
-                        break;
-                    case SPWM12:
-                        if (SPWM[SPWMNUM-SPWM1].SPCNT < SPWM[SPWMNUM-SPWM1].SPDUT)
-                            P6OUT |= BIT2;
-                        else
-                            P6OUT &= ~BIT2;
-                        break;
-                    case SPWM13:
-                        if (SPWM[SPWMNUM-SPWM1].SPCNT < SPWM[SPWMNUM-SPWM1].SPDUT)
-                            P6OUT |= BIT1;
-                        else
-                            P6OUT &= ~BIT1;
-                        break;
-                    case SPWM14:
-                        if (SPWM[SPWMNUM-SPWM1].SPCNT < SPWM[SPWMNUM-SPWM1].SPDUT)
-                            P6OUT |= BIT0;
-                        else
-                            P6OUT &= ~BIT0;
-                        break;
-                    default:
-                        break;
-                }
         }
+        if (SPWM[SPWM1-SPWM1].SPCTL & SPWM_ENABLE)
+            if (SPWM[SPWM1-SPWM1].SPCNT < SPWM[SPWM1-SPWM1].SPDUT)
+                P2OUT |= BIT0;
+            else
+                P2OUT &= ~BIT0;
+        if (SPWM[SPWM2-SPWM1].SPCTL & SPWM_ENABLE)
+            if (SPWM[SPWM2-SPWM1].SPCNT < SPWM[SPWM2-SPWM1].SPDUT)
+                P2OUT |= BIT3;
+            else
+                P2OUT &= ~BIT3;
+        if (SPWM[SPWM3-SPWM1].SPCTL & SPWM_ENABLE)
+            if (SPWM[SPWM3-SPWM1].SPCNT < SPWM[SPWM3-SPWM1].SPDUT)
+                P2OUT |= BIT4;
+            else
+                P2OUT &= ~BIT4;
+        if (SPWM[SPWM4-SPWM1].SPCTL & SPWM_ENABLE)
+            if (SPWM[SPWM4-SPWM1].SPCNT < SPWM[SPWM4-SPWM1].SPDUT)
+                P1OUT |= BIT0;
+            else
+                P1OUT &= ~BIT0;
+        if (SPWM[SPWM5-SPWM1].SPCTL & SPWM_ENABLE)
+            if (SPWM[SPWM5-SPWM1].SPCNT < SPWM[SPWM5-SPWM1].SPDUT)
+                P2OUT |= BIT1;
+            else
+                P2OUT &= ~BIT1;
+        if (SPWM[SPWM6-SPWM1].SPCTL & SPWM_ENABLE)
+            if (SPWM[SPWM6-SPWM1].SPCNT < SPWM[SPWM6-SPWM1].SPDUT)
+                P1OUT |= BIT6;
+            else
+                P1OUT &= ~BIT6;
+        if (SPWM[SPWM7-SPWM1].SPCTL & SPWM_ENABLE)
+            if (SPWM[SPWM7-SPWM1].SPCNT < SPWM[SPWM7-SPWM1].SPDUT)
+                P2OUT |= BIT5;
+            else
+                P2OUT &= ~BIT5;
+        if (SPWM[SPWM8-SPWM1].SPCTL & SPWM_ENABLE)
+            if (SPWM[SPWM8-SPWM1].SPCNT < SPWM[SPWM8-SPWM1].SPDUT)
+                P2OUT |= BIT2;
+            else
+                P2OUT &= ~BIT2;
+        if (SPWM[SPWM9-SPWM1].SPCTL & SPWM_ENABLE)
+            if (SPWM[SPWM9-SPWM1].SPCNT < SPWM[SPWM9-SPWM1].SPDUT)
+                P6OUT |= BIT5;
+            else
+                P6OUT &= ~BIT5;
+        if (SPWM[SPWM10-SPWM1].SPCTL & SPWM_ENABLE)
+            if (SPWM[SPWM10-SPWM1].SPCNT < SPWM[SPWM10-SPWM1].SPDUT)
+                P6OUT |= BIT4;
+            else
+                P6OUT &= ~BIT4;
+        if (SPWM[SPWM11-SPWM1].SPCTL & SPWM_ENABLE)
+            if (SPWM[SPWM11-SPWM1].SPCNT < SPWM[SPWM11-SPWM1].SPDUT)
+                P6OUT |= BIT3;
+            else
+                P6OUT &= ~BIT3;
+        if (SPWM[SPWM12-SPWM1].SPCTL & SPWM_ENABLE)
+            if (SPWM[SPWM12-SPWM1].SPCNT < SPWM[SPWM12-SPWM1].SPDUT)
+                P6OUT |= BIT2;
+            else
+                P6OUT &= ~BIT2;
+        if (SPWM[SPWM13-SPWM1].SPCTL & SPWM_ENABLE)
+            if (SPWM[SPWM13-SPWM1].SPCNT < SPWM[SPWM13-SPWM1].SPDUT)
+                P6OUT |= BIT1;
+            else
+                P6OUT &= ~BIT1;
+        if (SPWM[SPWM14-SPWM1].SPCTL & SPWM_ENABLE)
+            if (SPWM[SPWM14-SPWM1].SPCNT < SPWM[SPWM14-SPWM1].SPDUT)
+                P6OUT |= BIT0;
+            else
+                P6OUT &= ~BIT0;
 
         //For touch read event
         timerb_ts++;
