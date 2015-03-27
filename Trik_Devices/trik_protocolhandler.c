@@ -22,6 +22,7 @@
 #include "trik_pwm.h"
 #include "trik_port.h"
 #include "trik_softi2c.h"
+#include "trik_softpwm.h"
 #include "trik_version.h"
 
 uint8_t TO_HEX(uint8_t i)
@@ -251,6 +252,13 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
         return REG_ADDR_ERROR;
     }
 
+    // Software PWM registers addresses range
+    if (((devaddr1>=SPWM1) && (devaddr1<=SPWM14)) && (regaddr1>0x03))
+    {
+        PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
+        return REG_ADDR_ERROR;
+    }
+
     // I2C registers addresses range
     if (((devaddr1>=I2C1) && (devaddr1<=I2C7)) && (regaddr1>0x08))
     {
@@ -409,6 +417,20 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
+        // Software PWMs
+        if ((devaddr1>=SPWM1) && (devaddr1<=SPWM14))
+        {
+            if (regaddr1==SPPDUT)
+                SPWM[devaddr1-SPWM1].SPDUT = regval1;
+            if (regaddr1==SPPPER)
+                SPWM[devaddr1-SPWM1].SPPER = regval1;
+            if (regaddr1==SPPCTL)
+                SPWM[devaddr1-SPWM1].SPCTL = regval1;
+            SPWM_handler(devaddr1);
+            PROTOCOL_recvResponse(out_str,devaddr1,func1,regaddr1,NO_ERROR);
+            return NO_ERROR;
+        }
+
         // I2Cs
         if ((devaddr1>=I2C1) && (devaddr1<=I2C7))
         {
@@ -559,6 +581,20 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
+        // Software PWMs
+        if ((devaddr1>=SPWM1) && (devaddr1<=SPWM14))
+        {
+            if (regaddr1==SPPCTL)
+                PROTOCOL_recvResponse(out_str,devaddr1,SPWM[devaddr1-SPWM1].SPSTA,regaddr1,SPWM[devaddr1-SPWM1].SPCTL);
+            if (regaddr1==SPPDUT)
+                PROTOCOL_recvResponse(out_str,devaddr1,SPWM[devaddr1-SPWM1].SPSTA,regaddr1,SPWM[devaddr1-SPWM1].SPDUT);
+            if (regaddr1==SPPPER)
+                PROTOCOL_recvResponse(out_str,devaddr1,SPWM[devaddr1-SPWM1].SPSTA,regaddr1,SPWM[devaddr1-SPWM1].SPPER);
+            if (regaddr1==SPPVER)
+                PROTOCOL_recvResponse(out_str,devaddr1,SPWM[devaddr1-SPWM1].SPSTA,regaddr1,SPWM_VERSION);
+            return NO_ERROR;
+        }
+
         // I2Cs
         if ((devaddr1>=I2C1) && (devaddr1<=I2C7))
         {
@@ -659,6 +695,8 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
                 PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,PORT_VERSION);
             if (regaddr1==PWM_VER_REG)
                 PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,PWM_VERSION);
+            if (regaddr1==SPWM_VER_REG)
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,SPWM_VERSION);
             if (regaddr1==ATMR_VER_REG)
                 PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,ATIMER_VERSION);
             if (regaddr1==TOUCH_VER_REG)
@@ -669,7 +707,6 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
                 PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,BSL_VERSION);
             return NO_ERROR;
         }
-
 
     }
 
