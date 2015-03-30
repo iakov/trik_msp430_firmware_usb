@@ -14,7 +14,6 @@
 void enableTimer_B()
 {
     reseveSlot(ASYNCTIMER);
-    //Overflow interrupt frequency is 10 kHz
     TB0CTL &= ~TBIFG; //TIMER_B_clearTimerInterruptFlag(TIMER_B0_BASE);
     TB0CTL &= ~ID__8;
     TB0EX0 = TBIDEX_0;
