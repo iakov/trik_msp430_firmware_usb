@@ -17,6 +17,7 @@
 #define I2C_READ            0x20 // I2C read
 #define I2C_WRITE           0x40 // I2C write
 #define I2C_SENS            0x10 // I2C read sensor
+#define I2C_PULL            0x08 // I2C pullup resistors
 
 //Max I2Cs
 #define MAX_I2CS            0x04
@@ -61,6 +62,7 @@ volatile struct tI2CRegisters I2C[MAX_I2CS];
 #define I2C_OUT1            P6OUT
 #define I2C_IN1             P6IN
 #define I2C_SEL1            P6SEL
+#define I2C_PUL1            P6REN
 #define SCL1                BIT0    // JA6
 #define SDA1                BIT1    // JA5
 
@@ -68,6 +70,7 @@ volatile struct tI2CRegisters I2C[MAX_I2CS];
 #define I2C_OUT2            P6OUT
 #define I2C_IN2             P6IN
 #define I2C_SEL2            P6SEL
+#define I2C_PUL2            P6REN
 #define SCL2                BIT2    // JA4
 #define SDA2                BIT3    // JA3
 
@@ -75,6 +78,7 @@ volatile struct tI2CRegisters I2C[MAX_I2CS];
 #define I2C_OUT3            P6OUT
 #define I2C_IN3             P6IN
 #define I2C_SEL3            P6SEL
+#define I2C_PUL3            P6REN
 #define SCL3                BIT4    // JA2
 #define SDA3                BIT5    // JA1
 
@@ -82,6 +86,7 @@ volatile struct tI2CRegisters I2C[MAX_I2CS];
 #define I2C_OUT4            P2OUT
 #define I2C_IN4             P2IN
 #define I2C_SEL4            P2SEL
+#define I2C_PUL4            P2REN
 #define SCL4                BIT3    // JB1B
 #define SDA4                BIT0    // JB1A
 
@@ -89,10 +94,12 @@ volatile struct tI2CRegisters I2C[MAX_I2CS];
 #define I2C_OUT5_1          P1OUT
 #define I2C_IN5_1           P1IN
 #define I2C_SEL5_1          P1SEL
+#define I2C_PUL5_1          P1REN
 #define I2C_DIR5_2          P2DIR
 #define I2C_OUT5_2          P2OUT
 #define I2C_IN5_2           P2IN
 #define I2C_SEL5_2          P2SEL
+#define I2C_PUL5_2          P2REN
 #define SCL5                BIT0    // JB2B
 #define SDA5                BIT4    // JB2A
 
@@ -100,6 +107,7 @@ volatile struct tI2CRegisters I2C[MAX_I2CS];
 #define I2C_OUT6            P2OUT
 #define I2C_IN6             P2IN
 #define I2C_SEL6            P2SEL
+#define I2C_PUL6            P2REN
 #define SCL6                BIT2    // JB3B
 #define SDA6                BIT5    // JB3A
 
@@ -107,10 +115,12 @@ volatile struct tI2CRegisters I2C[MAX_I2CS];
 #define I2C_OUT7_1          P1OUT
 #define I2C_IN7_1           P1IN
 #define I2C_SEL7_1          P1SEL
+#define I2C_PUL7_1          P1REN
 #define I2C_DIR7_2          P2DIR
 #define I2C_OUT7_2          P2OUT
 #define I2C_IN7_2           P2IN
 #define I2C_SEL7_2          P2SEL
+#define I2C_PUL7_2          P2REN
 #define SCL7                BIT6    // JB4B
 #define SDA7                BIT1    // JB4A
 
