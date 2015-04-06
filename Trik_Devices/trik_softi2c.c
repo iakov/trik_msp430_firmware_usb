@@ -269,42 +269,56 @@ void I2C_disable(uint8_t I2C_NUMBER)
         I2C_OUT1 &= ~SDA1;
         I2C_DIR1 &= ~SCL1;
         I2C_DIR1 &= ~SDA1;
+        I2C_PUL1 &= ~SCL1;
+        I2C_PUL1 &= ~SDA1;
         break;
     case I2C2:
         I2C_OUT2 &= ~SCL2;
         I2C_OUT2 &= ~SDA2;
         I2C_DIR2 &= ~SCL2;
         I2C_DIR2 &= ~SDA2;
+        I2C_PUL2 &= ~SCL2;
+        I2C_PUL2 &= ~SDA2;
         break;
     case I2C3:
         I2C_OUT3 &= ~SCL3;
         I2C_OUT3 &= ~SDA3;
         I2C_DIR3 &= ~SCL3;
         I2C_DIR3 &= ~SDA3;
+        I2C_PUL3 &= ~SCL3;
+        I2C_PUL3 &= ~SDA3;
         break;
     case I2C4:
         I2C_OUT4 &= ~SCL4;
         I2C_OUT4 &= ~SDA4;
         I2C_DIR4 &= ~SCL4;
         I2C_DIR4 &= ~SDA4;
+        I2C_PUL4 &= ~SCL4;
+        I2C_PUL4 &= ~SDA4;
         break;
     case I2C5:
         I2C_OUT5_1 &= ~SCL5;
         I2C_OUT5_2 &= ~SDA5;
         I2C_DIR5_1 &= ~SCL5;
         I2C_DIR5_2 &= ~SDA5;
+        I2C_PUL5_1 &= ~SCL5;
+        I2C_PUL5_2 &= ~SDA5;
         break;
     case I2C6:
         I2C_OUT6 &= ~SCL6;
         I2C_OUT6 &= ~SDA6;
         I2C_DIR6 &= ~SCL6;
         I2C_DIR6 &= ~SDA6;
+        I2C_PUL6 &= ~SCL6;
+        I2C_PUL6 &= ~SDA6;
         break;
     case I2C7:
         I2C_OUT7_1 &= ~SCL7;
         I2C_OUT7_2 &= ~SDA7;
         I2C_DIR7_1 &= ~SCL7;
         I2C_DIR7_2 &= ~SDA7;
+        I2C_PUL7_1 &= ~SCL7;
+        I2C_PUL7_2 &= ~SDA7;
         break;
     default:;
         break;
