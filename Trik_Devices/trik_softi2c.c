@@ -556,6 +556,22 @@ void I2C_handler(uint8_t I2C_NUMBER)
                      HMC5883L_readY(I2C_NUMBER);
                      I2C[I2C_NUMBER-I2C1].IVAL = HMC5883L_readZ(I2C_NUMBER);
                      break;
+                 case MCP3424_CH1:
+                	 MCP3424_init(I2C_NUMBER);
+                     I2C[I2C_NUMBER-I2C1].IVAL = MCP3424_read_ch1(I2C_NUMBER);
+                     break;
+                 case MCP3424_CH2:
+                	 MCP3424_init(I2C_NUMBER);
+                     I2C[I2C_NUMBER-I2C1].IVAL = MCP3424_read_ch2(I2C_NUMBER);
+                     break;
+                 case MCP3424_CH3:
+                	 MCP3424_init(I2C_NUMBER);
+                     I2C[I2C_NUMBER-I2C1].IVAL = MCP3424_read_ch3(I2C_NUMBER);
+                     break;
+                 case MCP3424_CH4:
+                	 MCP3424_init(I2C_NUMBER);
+                     I2C[I2C_NUMBER-I2C1].IVAL = MCP3424_read_ch4(I2C_NUMBER);
+                     break;
                  default:;
                      break;
              }

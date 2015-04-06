@@ -21,3 +21,21 @@ uint32_t MCP3424_read_ch1(uint8_t I2C_NUMBER)
 {
 	return 0;
 }
+
+// MCP3424 read channel 2
+uint32_t MCP3424_read_ch2(uint8_t I2C_NUMBER)
+{
+	return 0;
+}
+
+// MCP3424 read channel 3
+uint32_t MCP3424_read_ch3(uint8_t I2C_NUMBER)
+{
+	return 0;
+}
+
+// MCP3424 read channel 4
+uint32_t MCP3424_read_ch4(uint8_t I2C_NUMBER)
+{
+	return 0;
+}
