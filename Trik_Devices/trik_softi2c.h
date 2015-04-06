@@ -13,10 +13,10 @@
 #define I2C_DEV_ERR         0xFF
 
 //Masks for bits of control register
-#define I2C_ENABLE          0x80 //I2C enable
-#define I2C_READ            0x20 //I2C read
-#define I2C_WRITE           0x40 //I2C write
-#define I2C_SENS            0x10 //I2C read sensor
+#define I2C_ENABLE          0x80 // I2C enable
+#define I2C_READ            0x20 // I2C read
+#define I2C_WRITE           0x40 // I2C write
+#define I2C_SENS            0x10 // I2C read sensor
 
 //Max I2Cs
 #define MAX_I2CS            0x04
@@ -61,29 +61,29 @@ volatile struct tI2CRegisters I2C[MAX_I2CS];
 #define I2C_OUT1            P6OUT
 #define I2C_IN1             P6IN
 #define I2C_SEL1            P6SEL
-#define SCL1                BIT0    //JA6
-#define SDA1                BIT1    //JA5
+#define SCL1                BIT0    // JA6
+#define SDA1                BIT1    // JA5
 
 #define I2C_DIR2            P6DIR
 #define I2C_OUT2            P6OUT
 #define I2C_IN2             P6IN
 #define I2C_SEL2            P6SEL
-#define SCL2                BIT2    //JA4
-#define SDA2                BIT3    //JA3
+#define SCL2                BIT2    // JA4
+#define SDA2                BIT3    // JA3
 
 #define I2C_DIR3            P6DIR
 #define I2C_OUT3            P6OUT
 #define I2C_IN3             P6IN
 #define I2C_SEL3            P6SEL
-#define SCL3                BIT4    //JA2
-#define SDA3                BIT5    //JA1
+#define SCL3                BIT4    // JA2
+#define SDA3                BIT5    // JA1
 
 #define I2C_DIR4            P2DIR
 #define I2C_OUT4            P2OUT
 #define I2C_IN4             P2IN
 #define I2C_SEL4            P2SEL
-#define SCL4                BIT3    //JB1B
-#define SDA4                BIT0    //JB1A
+#define SCL4                BIT3    // JB1B
+#define SDA4                BIT0    // JB1A
 
 #define I2C_DIR5_1          P1DIR
 #define I2C_OUT5_1          P1OUT
@@ -93,15 +93,15 @@ volatile struct tI2CRegisters I2C[MAX_I2CS];
 #define I2C_OUT5_2          P2OUT
 #define I2C_IN5_2           P2IN
 #define I2C_SEL5_2          P2SEL
-#define SCL5                BIT0    //JB2B
-#define SDA5                BIT4    //JB2A
+#define SCL5                BIT0    // JB2B
+#define SDA5                BIT4    // JB2A
 
 #define I2C_DIR6            P2DIR
 #define I2C_OUT6            P2OUT
 #define I2C_IN6             P2IN
 #define I2C_SEL6            P2SEL
-#define SCL6                BIT2    //JB3B
-#define SDA6                BIT5    //JB3A
+#define SCL6                BIT2    // JB3B
+#define SDA6                BIT5    // JB3A
 
 #define I2C_DIR7_1          P1DIR
 #define I2C_OUT7_1          P1OUT
@@ -111,14 +111,18 @@ volatile struct tI2CRegisters I2C[MAX_I2CS];
 #define I2C_OUT7_2          P2OUT
 #define I2C_IN7_2           P2IN
 #define I2C_SEL7_2          P2SEL
-#define SCL7                BIT6    //JB4B
-#define SDA7                BIT1    //JB4A
+#define SCL7                BIT6    // JB4B
+#define SDA7                BIT1    // JB4A
 
 //Sensor defines
 #define NXTTEMP             0x0000
 #define HMC5883L_X          0x0001
 #define HMC5883L_Y          0x0002
 #define HMC5883L_Z          0x0003
+#define MCP3424_CH1			0x0004
+#define MCP3424_CH2			0x0005
+#define MCP3424_CH3			0x0006
+#define MCP3424_CH4			0x0007
 
 void I2C_lowSDA(uint8_t I2C_NUMBER);
 void I2C_highSDA(uint8_t I2C_NUMBER);
