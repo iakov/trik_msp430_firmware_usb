@@ -136,6 +136,12 @@ volatile struct tI2CRegisters I2C[MAX_I2CS];
 #define MCP3424_CH3			0x0006
 #define MCP3424_CH4			0x0007
 
+//MCP3424 PGA gain
+#define MCP3424_GAIN1		0x0000
+#define MCP3424_GAIN2		0x0001
+#define MCP3424_GAIN4		0x0002
+#define MCP3424_GAIN8		0x0003
+
 void I2C_lowSDA(uint8_t I2C_NUMBER);
 void I2C_highSDA(uint8_t I2C_NUMBER);
 void I2C_lowSCL(uint8_t I2C_NUMBER);
