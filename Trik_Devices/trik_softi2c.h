@@ -20,7 +20,7 @@
 #define I2C_PULL            0x08 // I2C pullup resistors
 
 //Max I2Cs
-#define MAX_I2CS            0x04
+#define MAX_I2CS            0x07
 
 //I2C delay
 uint16_t Idelay;
@@ -36,6 +36,7 @@ struct tI2CRegisters
     uint8_t ISTA;
     uint16_t IIDX;
     uint32_t IVAL;
+    uint16_t IPAR;
 };
 
 //Registers
@@ -48,6 +49,7 @@ struct tI2CRegisters
 #define IIVAL               0x06
 #define IIDEL               0x07
 #define IIVER               0x08
+#define IIPAR               0x09
 
 //I2C registers array
 volatile struct tI2CRegisters I2C[MAX_I2CS];
