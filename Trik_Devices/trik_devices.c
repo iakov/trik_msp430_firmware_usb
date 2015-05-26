@@ -16,6 +16,7 @@
 #include "trik_pwm.h"
 #include "trik_softpwm.h"
 #include "trik_softi2c.h"
+#include "trik_sc16is7x0.h"
 
 //Reset touch parameters
 void resetTouch()
