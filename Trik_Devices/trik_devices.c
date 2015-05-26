@@ -63,6 +63,8 @@ void initGlobalVars()
     for (int j=0; j<MAX_I2CS; j++)
         I2C[j].ICTL = I2C[j].IDAT = I2C[j].IDEV = I2C[j].IERR = I2C[j].IREG = I2C[j].ISTA = I2C[j].IIDX = I2C[j].IVAL = I2C[j].IPAR = 0x00;
 
+    for (int j=0; j<MAX_USARTS; j++)
+        USART[j].UCTL = USART[j].USPD = USART[j].USTA = USART[j].UDAT = 0x00;
 }
 
 //Init reference and temperature sensor for ADC

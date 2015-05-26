@@ -49,4 +49,8 @@ struct tUSARTRegisters
 	uint8_t UDAT;
 };
 
+// USART registers array
+volatile struct tUSARTRegisters USART[MAX_USARTS];
+
+
 #endif /* TRIK_DEVICES_TRIK_SC16IS7X0_H_ */

@@ -69,6 +69,13 @@
 #define SPWM12              0x3A
 #define SPWM13              0x3B
 #define SPWM14              0x3C
+#define USART1              0x3D
+#define USART2              0x3E
+#define USART3              0x3F
+#define USART4              0x40
+#define USART5              0x41
+#define USART6              0x42
+#define USART7              0x43
 #define BSL                 0xEE
 #define NNONE				0xFF
 
@@ -77,7 +84,7 @@
 #define SLOT_BUSY           0x01
 
 // Max ports
-#define MAX_DEVICES			SPWM14
+#define MAX_DEVICES			USART7
 
 // Busy table
 volatile uint8_t busy_table[MAX_DEVICES];
