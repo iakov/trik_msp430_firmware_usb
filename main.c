@@ -73,6 +73,7 @@ volatile uint8_t bDataReceived_event0 = FALSE; // Indicates data has been rx'ed
 volatile uint8_t bDataReceived_event1 = FALSE; // without an open rx operation,
                                             // on respective HID0/1 interfaces
 #define MAX_STR_LENGTH 32
+
 char wholeString[MAX_STR_LENGTH] = "";
 char newString[MAX_STR_LENGTH] = "";
 char tmpString[MAX_STR_LENGTH] = "";
@@ -86,8 +87,10 @@ volatile uint32_t timerb_ts = 0; //Timer B counter 2
 
 float kx, ky, xx, yy; //Temp vars
 
-//uint16_t gtmp, gx, gy, gz;
+#define MAX_BUF_SIZE	512
 
+char wav_buf[MAX_BUF_SIZE] = "";
+char wav_resp[2] = "";
 
 /*  
  * ======== main ========
@@ -119,8 +122,6 @@ void main (void)
     ASYNCTIMER_handler();
 
    __enable_interrupt();  // Enable interrupts globally
-
-   //gtmp = 0;
 
     while (1)
     {
@@ -169,9 +170,9 @@ void main (void)
                 {
                     bDataReceived_event1 = FALSE;               // Clear flag early -- just in case execution breaks below because of
                                                                 // an error
-                    memset(tmpString,0,MAX_STR_LENGTH);     // Clear pieceOfString
-                    cdcReceiveDataInBuffer((uint8_t*)tmpString,
-                        MAX_STR_LENGTH,
+                    memset(wav_buf, 0, MAX_BUF_SIZE);     // Clear wav_buf
+                    cdcReceiveDataInBuffer((uint8_t*)wav_buf,
+                    	MAX_BUF_SIZE,
                         CDC1_INTFNUM);
                     //strncat(wholeString,pieceOfString,strlen(pieceOfString));
                     //memset(wholeString,0,MAX_STR_LENGTH);   // Clear wholeString

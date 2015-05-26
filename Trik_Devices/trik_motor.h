@@ -21,12 +21,13 @@
 #define MOT_NO_ERROR        0x00
 
 //Masks for bits of control register
-#define MOT_ENABLE          0x8000 //Motor enable
-#define MOT_AUTO            0x4000 //Autostop mode
-#define MOT_ANGLE           0x2000 //Angle autostop mode
-#define MOT_BACK            0x0010 //Backward direction
-#define MOT_BRAKE           0x0008 //Brake enable
-#define MOT_POWER           0x0003 //Motor power
+#define MOT_ENABLE          0x8000 // Motor enable
+#define MOT_AUTO            0x4000 // Autostop mode
+#define MOT_ANGLE           0x2000 // Angle autostop mode
+#define MOT_BACK            0x0010 // Backward direction
+#define MOT_BRAKE           0x0008 // Brake enable
+#define MOT_MUSIC           0x0004 // Motor fast PWM control
+#define MOT_POWER           0x0003 // Motor power
 
 //Max motors
 #define MAX_MOTORS          0x04

@@ -135,6 +135,7 @@ volatile struct tI2CRegisters I2C[MAX_I2CS];
 #define MCP3424_CH2			0x0005
 #define MCP3424_CH3			0x0006
 #define MCP3424_CH4			0x0007
+#define URM04				0x0008
 
 //MCP3424 PGA gain
 #define MCP3424_GAIN1		0x0000
