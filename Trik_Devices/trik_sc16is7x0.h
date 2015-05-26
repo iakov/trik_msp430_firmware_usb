@@ -52,5 +52,17 @@ struct tUSARTRegisters
 // USART registers array
 volatile struct tUSARTRegisters USART[MAX_USARTS];
 
+// Procedures and functions
+void USART_set_parity(uint8_t USART_NUMBER);
+void USART_set_stop_bits(uint8_t USART_NUMBER);
+void USART_set_word_length(uint8_t USART_NUMBER);
+void USART_set_speed(uint8_t USART_NUMBER);
+void USART_set_mode(uint8_t USART_NUMBER);
+void USART_enable_receiver(uint8_t USART_NUMBER);
+void USART_enable_transmitter(uint8_t USART_NUMBER);
+void USART_reset(uint8_t USART_NUMBER);
+void USART_transmit_byte(uint8_t USART_NUMBER);
+uint8_t USART_receive_byte(uint8_t USART_NUMBER);
+uint8_t USART_is_buffer_empty(uint8_t USART_NUMBER);
 
 #endif /* TRIK_DEVICES_TRIK_SC16IS7X0_H_ */
