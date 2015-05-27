@@ -64,10 +64,17 @@ void USART_set_speed(uint8_t USART_NUMBER, uint32_t baud_rate)
 {
 	uint32_t usart_div = 0;
 	uint8_t cfg1 = 0;
+	if ((baud_rate < 50) || (baud_rate > 56000))
+		baud_rate = 50;
 	usart_div = 1843200 / (baud_rate * 16);
 	cfg1 = USART_read_reg(USART_NUMBER, 0x03);
 	USART_write_reg(USART_NUMBER, 0x03, cfg1 | 0x80);
 	USART_write_reg(USART_NUMBER, 0x00, (uint8_t)(usart_div & 0xFF));
 	USART_write_reg(USART_NUMBER, 0x01, (uint8_t)((usart_div >> 8) & 0xFF));
 	USART_write_reg(USART_NUMBER, 0x03, cfg1);
+}
+
+void USART_reset(uint8_t USART_NUMBER)
+{
+	USART_write_reg(USART_NUMBER, 0x0E, 0b00001000);
 }
