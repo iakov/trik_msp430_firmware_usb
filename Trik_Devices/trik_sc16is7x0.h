@@ -59,7 +59,7 @@ volatile struct tUSARTRegisters USART[MAX_USARTS];
 void USART_write_reg(uint8_t USART_NUMBER, uint8_t regaddr, uint8_t regval);
 uint8_t USART_read_reg(uint8_t USART_NUMBER, uint8_t regaddr);
 void USART_config(uint8_t USART_NUMBER, uint32_t cfg_bits);
-void USART_set_speed(uint8_t USART_NUMBER);
+void USART_set_speed(uint8_t USART_NUMBER, uint32_t baud_rate);
 void USART_reset(uint8_t USART_NUMBER);
 void USART_transmit_byte(uint8_t USART_NUMBER);
 uint8_t USART_receive_byte(uint8_t USART_NUMBER);

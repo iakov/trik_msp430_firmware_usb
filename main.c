@@ -169,8 +169,14 @@ void main (void)
 
                     I2C_init(I2C4);
                     USART_config(USART4, USART_8BITS + USART_RS485 + USART_INVRTS + USART_RXEN + USART_TXEN);
-                    sprintf(newString, "%x %x %x \n", USART_read_reg(USART4, 0x02), USART_read_reg(USART4, 0x03),
-                    		USART_read_reg(USART4, 0x0F));
+                    USART_set_speed(USART4, 19200);
+                    uint8_t cfg1 = USART_read_reg(USART4, 0x03);
+                    USART_write_reg(USART4, 0x03, cfg1 | 0x80);
+                    uint8_t dd0 = USART_read_reg(USART4, 0x00);
+                    uint8_t dd1 = USART_read_reg(USART4, 0x01);
+                    USART_write_reg(USART4, 0x03, cfg1);
+                    sprintf(newString, "%x %x %x %x %x\n", USART_read_reg(USART4, 0x02), USART_read_reg(USART4, 0x03),
+                    		USART_read_reg(USART4, 0x0F), dd1, dd0);
 
 
                     if (cdcSendDataInBackground((uint8_t*)newString,
