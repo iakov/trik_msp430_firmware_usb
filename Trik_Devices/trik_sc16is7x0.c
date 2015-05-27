@@ -78,3 +78,18 @@ void USART_reset(uint8_t USART_NUMBER)
 {
 	USART_write_reg(USART_NUMBER, 0x0E, 0b00001000);
 }
+
+uint8_t USART_is_data_in_buffer(uint8_t USART_NUMBER)
+{
+	return USART_read_reg(USART_NUMBER, 0x05) & 0x01;
+}
+
+uint8_t USART_receive_byte(uint8_t USART_NUMBER)
+{
+	return USART_read_reg(USART_NUMBER, 0x00);
+}
+
+void USART_transmit_byte(uint8_t USART_NUMBER, uint8_t udata)
+{
+	USART_write_reg(USART_NUMBER, 0x00, udata);
+}

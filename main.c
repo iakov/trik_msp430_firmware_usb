@@ -124,6 +124,17 @@ void main (void)
 
    __enable_interrupt();  // Enable interrupts globally
 
+   I2C_init(I2C4);
+   USART_reset(USART4);
+   USART_set_speed(USART4, 50);
+   USART_config(USART4, USART_8BITS + USART_RS485 + USART_INVRTS + USART_RXEN + USART_TXEN);
+   uint8_t cfg1 = USART_read_reg(USART4, 0x03);
+   USART_write_reg(USART4, 0x03, cfg1 | 0x80);
+   uint8_t dd0 = USART_read_reg(USART4, 0x00);
+   uint8_t dd1 = USART_read_reg(USART4, 0x01);
+   USART_write_reg(USART4, 0x03, cfg1);
+
+
     while (1)
     {
         switch (USB_connectionState())
@@ -166,18 +177,10 @@ void main (void)
                         }
                     }
                     */
-
-                    I2C_init(I2C4);
-                    USART_reset(USART4);
-                    USART_set_speed(USART4, 19200);
-                    USART_config(USART4, USART_8BITS + USART_RS485 + USART_INVRTS + USART_RXEN + USART_TXEN);
-                    uint8_t cfg1 = USART_read_reg(USART4, 0x03);
-                    USART_write_reg(USART4, 0x03, cfg1 | 0x80);
-                    uint8_t dd0 = USART_read_reg(USART4, 0x00);
-                    uint8_t dd1 = USART_read_reg(USART4, 0x01);
-                    USART_write_reg(USART4, 0x03, cfg1);
-                    sprintf(newString, "%x %x %x %x %x\n", USART_read_reg(USART4, 0x02), USART_read_reg(USART4, 0x03),
-                    		USART_read_reg(USART4, 0x0F), dd1, dd0);
+                    USART_transmit_byte(USART4, 0x55);
+                    sprintf(newString, "%x %x %x %x %x %x %x %x %x %x\n", USART_read_reg(USART4, 0x02), USART_read_reg(USART4, 0x03),
+                    		USART_read_reg(USART4, 0x0F), dd1, dd0, USART_is_data_in_buffer(USART4), USART_read_reg(USART4, 0x05),
+							USART_receive_byte(USART4), USART_receive_byte(USART4), USART_receive_byte(USART4));
 
 
                     if (cdcSendDataInBackground((uint8_t*)newString,
