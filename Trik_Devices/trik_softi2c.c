@@ -523,7 +523,7 @@ void I2C_handler(uint8_t I2C_NUMBER)
     //Enable/disable and read
      if (I2C[I2C_NUMBER-I2C1].ICTL & I2C_ENABLE)
      {
-         //Sensor enable
+         //I2C enable
          I2C_init(I2C_NUMBER);
          //Read I2C register
          if (I2C[I2C_NUMBER-I2C1].ICTL & I2C_READ)

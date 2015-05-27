@@ -67,6 +67,7 @@
 #include "Trik_Devices/trik_hal.h"
 #include "Trik_Devices/trik_softi2c.h"
 #include "Trik_Devices/trik_softpwm.h"
+#include "Trik_Devices/trik_sc16is7x0.h"
 
 // Global flags set by events
 volatile uint8_t bDataReceived_event0 = FALSE; // Indicates data has been rx'ed
@@ -144,6 +145,7 @@ void main (void)
                     cdcReceiveDataInBuffer((uint8_t*)pieceOfString,
                         MAX_STR_LENGTH,
                         CDC0_INTFNUM);
+                    /*
                     //Test for max length
                     if ((strlen(pieceOfString)+strlen(wholeString))>=MAX_STR_LENGTH)
                     {
@@ -163,6 +165,20 @@ void main (void)
                             break;
                         }
                     }
+                    */
+
+                    I2C_init(I2C4);
+                    USART_config(USART4, USART_8BITS + USART_RS485 + USART_INVRTS + USART_RXEN + USART_TXEN);
+                    sprintf(newString, "%x %x %x \n", USART_read_reg(USART4, 0x02), USART_read_reg(USART4, 0x03),
+                    		USART_read_reg(USART4, 0x0F));
+
+
+                    if (cdcSendDataInBackground((uint8_t*)newString,
+                                                    strlen(newString),CDC0_INTFNUM,1))
+                                            {  // Send message to other App
+                                                SendError = 0x01;
+                                                break;
+                                            }
                 }
 
                 //CDC1 events

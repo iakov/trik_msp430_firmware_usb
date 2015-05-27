@@ -31,6 +31,9 @@
 #define USART_DTR			0x00040000 // USART DTR high level
 #define USART_RST			0x00000003 // USART software reset
 
+// I2C address of SC16IS7X0
+#define SC16IS7X0_ADDR		0x90
+
 // Maximum of USARTs
 #define MAX_USARTS			0x07
 
@@ -53,13 +56,10 @@ struct tUSARTRegisters
 volatile struct tUSARTRegisters USART[MAX_USARTS];
 
 // Procedures and functions
-void USART_set_parity(uint8_t USART_NUMBER);
-void USART_set_stop_bits(uint8_t USART_NUMBER);
-void USART_set_word_length(uint8_t USART_NUMBER);
+void USART_write_reg(uint8_t USART_NUMBER, uint8_t regaddr, uint8_t regval);
+uint8_t USART_read_reg(uint8_t USART_NUMBER, uint8_t regaddr);
+void USART_config(uint8_t USART_NUMBER, uint32_t cfg_bits);
 void USART_set_speed(uint8_t USART_NUMBER);
-void USART_set_mode(uint8_t USART_NUMBER);
-void USART_enable_receiver(uint8_t USART_NUMBER);
-void USART_enable_transmitter(uint8_t USART_NUMBER);
 void USART_reset(uint8_t USART_NUMBER);
 void USART_transmit_byte(uint8_t USART_NUMBER);
 uint8_t USART_receive_byte(uint8_t USART_NUMBER);
