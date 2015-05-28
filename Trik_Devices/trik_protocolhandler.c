@@ -23,6 +23,7 @@
 #include "trik_port.h"
 #include "trik_softi2c.h"
 #include "trik_softpwm.h"
+#include "trik_sc16is7x0.h"
 #include "trik_version.h"
 
 uint8_t TO_HEX(uint8_t i)
@@ -266,6 +267,13 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
         return REG_ADDR_ERROR;
     }
 
+    // USART registers addresses range
+    if (((devaddr1>=USART1) && (devaddr1<=USART7)) && (regaddr1>0x03))
+    {
+        PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
+        return REG_ADDR_ERROR;
+    }
+
     // Timer registers addresses range
     if ((devaddr1==ASYNCTIMER) && (regaddr1>0x03))
     {
@@ -288,7 +296,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
     }
 
     // Version control registers addresses range
-    if ((devaddr1==VERSIONCTRL) && (regaddr1>0x0A))
+    if ((devaddr1==VERSIONCTRL) && (regaddr1>0x0C))
     {
         PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
         return REG_ADDR_ERROR;
@@ -459,6 +467,33 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
+        // USARTs
+        if ((devaddr1>=USART1) && (devaddr1<=USART7))
+        {
+            if (regaddr1==UUCTL)
+            {
+                USART[devaddr1-USART1].UCTL = regval1;
+                if (regval1 & USART_RST)
+                	USART_reset(devaddr1);
+                if (regval1 & USART_EN)
+                	USART_init(devaddr1, regval1);
+                else
+                	USART_disable(devaddr1);
+            }
+            if (regaddr1==UUSPD)
+            {
+            	USART[devaddr1-USART1].USPD = regval1;
+            	USART_set_speed(devaddr1, regval1);
+            }
+            if (regaddr1==UUDAT)
+            {
+            	USART[devaddr1-USART1].UDAT = regval1;
+            	USART_transmit_byte(devaddr1, regval1);
+            }
+            PROTOCOL_recvResponse(out_str,devaddr1,func1,regaddr1,NO_ERROR);
+            return NO_ERROR;
+        }
+
         // Async timer
         if ((devaddr1==ASYNCTIMER))
         {
@@ -518,7 +553,6 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
 	// Function 0x05 - read single register
     if ((func1==FUNC_READ) && (strlen(in_str)==9))
     {
-
         // Motors
         // if ((devaddr1>=MOTOR1) && (devaddr1<=MOTOR4))
         if ((devaddr1<=MOTOR4))
@@ -580,6 +614,38 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
                 PROTOCOL_recvResponse(out_str,devaddr1,PWM[devaddr1-PWM1].PSTA,regaddr1,PWM[devaddr1-PWM1].PPER);
             if (regaddr1==PPVER)
                 PROTOCOL_recvResponse(out_str,devaddr1,PWM[devaddr1-PWM1].PSTA,regaddr1,PWM_VERSION);
+            return NO_ERROR;
+        }
+
+        // USARTs
+        if ((devaddr1>=USART1) && (devaddr1<=USART7))
+        {
+            if (regaddr1==UUCTL)
+                PROTOCOL_recvResponse(out_str,devaddr1,USART[devaddr1-USART1].USTA,regaddr1,USART[devaddr1-USART1].UCTL);
+            if (regaddr1==UUSPD)
+                PROTOCOL_recvResponse(out_str,devaddr1,USART[devaddr1-USART1].USTA,regaddr1,USART[devaddr1-USART1].USPD);
+            // need status function !!!!!!!!!!!!!!
+            if (regaddr1==UUSTA)
+                PROTOCOL_recvResponse(out_str,devaddr1,USART[devaddr1-USART1].USTA,regaddr1,USART[devaddr1-USART1].USTA);
+            if (regaddr1==UUSPD)
+            {
+            	if (regval1 & USART_EN)
+            	{
+            		if (USART_is_data_in_buffer(regval1))
+					{
+            			PROTOCOL_recvResponse(out_str,devaddr1,USART[devaddr1-USART1].USTA,regaddr1,
+            					USART_receive_byte(devaddr1));
+					}
+            		else
+            		{
+            			PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,BUFFER_ERROR);
+            		}
+            	}
+            	else
+            	{
+            		PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,DEV_EN_ERROR);
+            	}
+            }
             return NO_ERROR;
         }
 
@@ -707,6 +773,8 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
                 PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,TOUCH_VERSION);
             if (regaddr1==I2C_VER_REG)
                 PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,I2C_VERSION);
+            if (regaddr1==USART_VER_REG)
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,USART_VERSION);
             if (regaddr1==BSL_VER_REG)
                 PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,BSL_VERSION);
             return NO_ERROR;

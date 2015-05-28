@@ -25,6 +25,8 @@
 #define START_ERROR         0x13
 #define LENGTH_ERROR        0x14
 #define REG_INC_ERROR       0x15
+#define BUFFER_ERROR        0x33
+#define DEV_EN_ERROR        0x34
 #define UNDEF_ERROR         0xFF
 
 // Functions numbers
