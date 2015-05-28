@@ -205,13 +205,14 @@ void main (void)
 							USART_is_data_in_buffer(USART4));
 					*/
 
-
+                    /*
                     if (cdcSendDataInBackground((uint8_t*)newString,
                                                     strlen(newString),CDC0_INTFNUM,1))
                                             {  // Send message to other App
                                                 SendError = 0x01;
                                                 break;
                                             }
+                     */
                 }
 
                 //CDC1 events
