@@ -45,7 +45,6 @@ void USART_config(uint8_t USART_NUMBER, uint32_t cfg_bits)
 	if (cfg_bits & USART_IRDA2) cfg1 |= 0b10000000;
 	if (cfg_bits & USART_INVRTS) cfg1 |= 0b00100000;
 	if (cfg_bits & USART_RS485) cfg1 |= 0b00010000;
-	if (cfg_bits & USART_RS485M) cfg1 |= 0b00010001;
 	if (!(cfg_bits & USART_RXEN)) cfg1 |= 0b00000010;
 	if (!(cfg_bits & USART_TXEN)) cfg1 |= 0b00000100;
 	USART_write_reg(USART_NUMBER, 0x0F, cfg1);

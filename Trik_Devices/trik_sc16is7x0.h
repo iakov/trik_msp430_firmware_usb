@@ -22,8 +22,7 @@
 #define USART_8BITS			0x0C000000 // USART 8 bits word length
 #define USART_IRDA1			0x00800000 // USART IrDA 115.2 kbaud mode
 #define USART_IRDA2			0x01000000 // USART IrDA 1.152 Mbaud mode
-#define USART_RS485			0x01800000 // USART RS-485 mode
-#define USART_RS485M		0x02000000 // USART RS-485 9 bits mode
+#define USART_RS485			0x02000000 // USART RS-485 mode
 #define USART_INVRTS		0x00400000 // USART RTS inverted mode
 #define USART_RXEN			0x00200000 // USART receiver enable
 #define USART_TXEN			0x00100000 // USART transmitter enable

@@ -118,6 +118,20 @@ void main (void)
     initPBPorts(); //Init B ports
     initPWM(); //Init PWM
 
+
+    I2C_init(I2C4);
+    USART_reset(USART4);
+
+    USART_set_speed(USART4, 19200);
+    USART_config(USART4, USART_8BITS + USART_RS485 + USART_INVRTS + USART_RXEN + USART_TXEN);
+    uint8_t cfg1 = USART_read_reg(USART4, 0x03);
+    USART_write_reg(USART4, 0x03, cfg1 | 0x80);
+    uint8_t dd0 = USART_read_reg(USART4, 0x00);
+    uint8_t dd1 = USART_read_reg(USART4, 0x01);
+    USART_write_reg(USART4, 0x03, cfg1);
+
+
+
     //Enable async timer
     ASYNCTMR.ATCTL |= AT_EN;
     ASYNCTIMER_handler();
@@ -125,8 +139,7 @@ void main (void)
    __enable_interrupt();  // Enable interrupts globally
 
 
-   I2C_init(I2C4);
-   USART_reset(USART4);
+
 
     while (1)
     {
@@ -171,13 +184,13 @@ void main (void)
                     }
                     */
 
-                      USART_set_speed(USART4, 19200);
-                      USART_config(USART4, USART_8BITS + USART_RS485 + USART_INVRTS + USART_RXEN + USART_TXEN);
-                      uint8_t cfg1 = USART_read_reg(USART4, 0x03);
-                      USART_write_reg(USART4, 0x03, cfg1 | 0x80);
-                      uint8_t dd0 = USART_read_reg(USART4, 0x00);
-                      uint8_t dd1 = USART_read_reg(USART4, 0x01);
-                      USART_write_reg(USART4, 0x03, cfg1);
+                    USART_set_speed(USART4, 19200);
+                    USART_config(USART4, USART_8BITS + USART_RS485 + USART_INVRTS + USART_RXEN + USART_TXEN);
+                    uint8_t cfg1 = USART_read_reg(USART4, 0x03);
+                    USART_write_reg(USART4, 0x03, cfg1 | 0x80);
+                    uint8_t dd0 = USART_read_reg(USART4, 0x00);
+                    uint8_t dd1 = USART_read_reg(USART4, 0x01);
+                    USART_write_reg(USART4, 0x03, cfg1);
 
                     USART_transmit_byte(USART4, 0x55);
                     USART_transmit_byte(USART4, 0xAA);
@@ -454,7 +467,7 @@ void TIMERB1_ISR(void)
 
         //For touch read event
         timerb_ts++;
-        if (timerb_ts > 384)
+        if (timerb_ts > 3840)
         {
             if (isTouched())
             {
