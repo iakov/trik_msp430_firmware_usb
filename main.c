@@ -455,7 +455,7 @@ void TIMERB1_ISR(void)
 
         //For touch read event
         timerb_ts++;
-        if (timerb_ts > 3840)
+        if (timerb_ts > 384)
         {
             if (isTouched())
             {
