@@ -441,7 +441,11 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             {
                 USART[devaddr1-USART1].UCTL = regval1;
                 if (regval1 & USART_RST)
+                {
+                	I2C_init(devaddr1 - USART1 + I2C1);
                 	USART_reset(devaddr1);
+                	I2C_disable(devaddr1 - USART1 + I2C1);
+                }
                 if (regval1 & USART_EN)
                 {
                 	I2C_init(devaddr1 - USART1 + I2C1);
@@ -456,6 +460,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             if (regaddr1==UUSPD)
             {
             	USART[devaddr1-USART1].USPD = regval1;
+            	I2C_init(devaddr1 - USART1 + I2C1);
             	USART_set_speed(devaddr1, regval1);
             }
             if (regaddr1==UUDAT)
