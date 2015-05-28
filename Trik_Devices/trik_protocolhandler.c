@@ -443,9 +443,15 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
                 if (regval1 & USART_RST)
                 	USART_reset(devaddr1);
                 if (regval1 & USART_EN)
+                {
+                	I2C_init(devaddr1 - USART1 + I2C1);
                 	USART_init(devaddr1, regval1);
+                }
                 else
+                {
+                	I2C_disable(devaddr1 - USART1 + I2C1);
                 	USART_disable(devaddr1);
+                }
             }
             if (regaddr1==UUSPD)
             {
