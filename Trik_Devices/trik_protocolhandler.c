@@ -186,30 +186,6 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
 	// Get register value
     regval1 = hex2num(in_str, 7, NUM_DWORD);
 
-
-    /*
-    //Mutation #1
-    if ((devaddr1==ENCODER3) && ((regaddr1==0x37) || (regaddr1==0xA4)))
-    {
-        PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,0x55);
-        return 0x55;
-    }
-
-    //Mutation #2
-    if ((devaddr1==MOTOR1) && ((regaddr1==0x25) || (regaddr1==0xEF)))
-    {
-        PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,0xAA);
-        return 0xAA;
-    }
-
-    //Mutation #3
-    if (((regaddr1==0x35) || (regaddr1==0x45)) && ((regval1==0x0FFFFFF) || (regval1==0x8000000)))
-    {
-        PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,0x33);
-        return 0x33;
-    }
-    */
-
     // Device addresses range
 	if ((devaddr1>MAX_DEVICES) && (devaddr1!=BSL))
 	{
@@ -321,15 +297,6 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
         default:
             break;
 	}
-
-	/*
-    //Mutation #4
-    if ((crc1>20) && (crc1<100) && (regaddr1==0x30))
-    {
-        PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,0xCC);
-        return 0xCC;
-    }
-    */
 
 	if ((func1==FUNC_WRITE))
 	    crc2=0-(devaddr1+func1+regaddr1+
@@ -627,7 +594,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             // need status function !!!!!!!!!!!!!!
             if (regaddr1==UUSTA)
                 PROTOCOL_recvResponse(out_str,devaddr1,USART[devaddr1-USART1].USTA,regaddr1,USART[devaddr1-USART1].USTA);
-            if (regaddr1==UUSPD)
+            if (regaddr1==UUDAT)
             {
             	if (regval1 & USART_EN)
             	{
