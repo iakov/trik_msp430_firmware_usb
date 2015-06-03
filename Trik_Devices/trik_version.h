@@ -13,7 +13,7 @@
 #define MAIN_VERSION        31
 #define MOTOR_VERSION       2
 #define SENSOR_VERSION      1
-#define ENCODER_VERSION     1
+#define ENCODER_VERSION     2
 #define PORT_VERSION        1
 #define PWM_VERSION         2
 #define SPWM_VERSION        1
