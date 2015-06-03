@@ -178,19 +178,6 @@ void ENCODER_disableController(uint8_t ENC_NUMBER)
     }
 }
 
-//Encoders handler
-void ENCODER_handler(uint8_t ENC_NUMBER)
-{
-    //Enable/disable encoder
-    if (ENC[ENC_NUMBER-ENCODER1].ECTL & ENC_ENABLE)
-        ENCODER_enableController(ENC_NUMBER);
-    else
-        ENCODER_disableController(ENC_NUMBER);
-
-    //Status register
-    ENC[ENC_NUMBER-ENCODER1].ESTA = ENC_NO_ERROR;
-}
-
 //Interrupts
 #if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
 #pragma vector=PORT1_VECTOR

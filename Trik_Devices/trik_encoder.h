@@ -27,7 +27,6 @@
 #define ENC_FALL            0x0800 //Falling edge select
 
 //Prototypes for the APIs
-void ENCODER_handler(uint8_t ENC_NUMBER);
 void ENCODER_enableController(uint8_t ENC_NUMBER);
 void ENCODER_disableController(uint8_t ENC_NUMBER);
 

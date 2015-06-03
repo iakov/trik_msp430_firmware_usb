@@ -350,7 +350,14 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             if (regaddr1==EECTL)
             {
                 ENC[devaddr1-ENCODER1].ECTL = regval1;
-                ENCODER_handler(devaddr1);
+                if (ENC[devaddr1-ENCODER1].ECTL & ENC_ENABLE)
+                {
+                    ENCODER_enableController(devaddr1);
+                }
+                else
+                {
+                    ENCODER_disableController(devaddr1);
+                }
             }
             PROTOCOL_recvResponse(out_str,devaddr1,func1,regaddr1,ENC[devaddr1-ENCODER1].ESTA);
             return NO_ERROR;
