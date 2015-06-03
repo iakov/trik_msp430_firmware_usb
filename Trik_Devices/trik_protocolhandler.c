@@ -482,7 +482,14 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             if (regaddr1==AATCTL)
             {
                 ASYNCTMR.ATCTL=regval1;
-                ASYNCTIMER_handler();
+                if (ASYNCTMR.ATCTL & AT_EN)
+                {
+                	enableTimer_B();
+                }
+                else
+                {
+                	disableTimer_B();
+                }
             }
             PROTOCOL_recvResponse(out_str,devaddr1,func1,regaddr1,NO_ERROR);
             return NO_ERROR;

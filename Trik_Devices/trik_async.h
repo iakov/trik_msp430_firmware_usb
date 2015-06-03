@@ -24,7 +24,6 @@
 
 void enableTimer_B();
 void disableTimer_B();
-uint8_t ASYNCTIMER_handler();
 
 // Timer registers
 struct tTimerRegisters

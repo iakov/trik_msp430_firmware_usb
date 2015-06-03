@@ -134,7 +134,7 @@ void main (void)
 
     //Enable async timer
     ASYNCTMR.ATCTL |= AT_EN;
-    ASYNCTIMER_handler();
+    enableTimer_B();
 
    __enable_interrupt();  // Enable interrupts globally
 

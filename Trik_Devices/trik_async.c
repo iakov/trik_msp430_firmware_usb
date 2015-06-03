@@ -30,13 +30,3 @@ void disableTimer_B()
     TB0CTL = TBCLR + ID__1 + TBSSEL_2;
     TB0CTL &= ~TBIFG; //TIMER_B_clearTimerInterruptFlag(TIMER_B0_BASE);
 }
-
-uint8_t ASYNCTIMER_handler()
-{
-    if (ASYNCTMR.ATCTL & AT_EN)
-        enableTimer_B();
-    else
-        disableTimer_B();
-    return 0x00;
-}
-
