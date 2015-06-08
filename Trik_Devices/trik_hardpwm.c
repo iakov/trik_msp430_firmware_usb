@@ -7,8 +7,8 @@
 
 #include <stdint.h>
 #include <msp430f5510.h>
+#include <Trik_Devices/trik_hardpwm.h>
 #include "trik_devices.h"
-#include "trik_pwm.h"
 
 //PWM enable and start
 void PWM_enable(uint8_t PWM_NUMBER)

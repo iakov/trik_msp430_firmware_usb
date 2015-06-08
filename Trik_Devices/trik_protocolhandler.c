@@ -11,6 +11,7 @@
 #include <ctype.h>
 #include <msp430f5510.h>
 #include <stdint.h>
+#include "trik_hardpwm.h"
 #include "trik_protocolhandler.h"
 #include "trik_motor.h"
 #include "trik_sensor.h"
@@ -19,7 +20,6 @@
 #include "trik_devices.h"
 #include "trik_async.h"
 #include "trik_touch.h"
-#include "trik_pwm.h"
 #include "trik_port.h"
 #include "trik_softi2c.h"
 #include "trik_softpwm.h"
@@ -222,7 +222,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
         return REG_ADDR_ERROR;
     }
 
-    // PWM registers addresses range
+    // Hardware PWM registers addresses range
     if (((devaddr1>=PWM1) && (devaddr1<=PWM4)) && (regaddr1>0x03))
     {
         PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
@@ -393,7 +393,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
-        // PWMs
+        // Hardware PWMs
         if ((devaddr1>=PWM1) && (devaddr1<=PWM4))
         {
             if (regaddr1==PPDUT)
@@ -421,7 +421,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
-        // I2Cs
+        // Software I2Cs
         if ((devaddr1>=I2C1) && (devaddr1<=I2C7))
         {
             if (regaddr1==IIDEV)
@@ -603,7 +603,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
-        // PWMs
+        // Hardware PWMs
         if ((devaddr1>=PWM1) && (devaddr1<=PWM4))
         {
             if (regaddr1==PPCTL)
@@ -663,7 +663,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             return NO_ERROR;
         }
 
-        // I2Cs
+        // Software I2Cs
         if ((devaddr1>=I2C1) && (devaddr1<=I2C7))
         {
             I2C_handler(devaddr1);

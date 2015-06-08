@@ -67,6 +67,7 @@
 #include "Trik_Devices/trik_hal.h"
 #include "Trik_Devices/trik_softi2c.h"
 #include "Trik_Devices/trik_softpwm.h"
+#include "Trik_Devices/trik_hardpwm.h"
 #include "Trik_Devices/trik_sc16is7x0.h"
 
 // Global flags set by events
