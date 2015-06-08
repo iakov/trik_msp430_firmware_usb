@@ -79,6 +79,7 @@ volatile uint8_t bDataReceived_event1 = FALSE; // without an open rx operation,
 char wholeString[MAX_STR_LENGTH] = "";
 char newString[MAX_STR_LENGTH] = "";
 char tmpString[MAX_STR_LENGTH] = "";
+char sssString[MAX_STR_LENGTH] = "";
 char pieceOfString[MAX_STR_LENGTH] = "";
 
 volatile uint8_t n_error = 0;
@@ -89,7 +90,7 @@ volatile uint32_t timerb_ts = 0; //Timer B counter 2
 
 float kx, ky, xx, yy; //Temp vars
 
-#define MAX_BUF_SIZE	512
+#define MAX_BUF_SIZE	544 // 512 + 32
 
 char wav_buf[MAX_BUF_SIZE] = "";
 char wav_resp[2] = "";
@@ -221,10 +222,32 @@ void main (void)
                 {
                     bDataReceived_event1 = FALSE;               // Clear flag early -- just in case execution breaks below because of
                                                                 // an error
-                    memset(wav_buf, 0, MAX_BUF_SIZE);     // Clear wav_buf
-                    cdcReceiveDataInBuffer((uint8_t*)wav_buf,
-                    	MAX_BUF_SIZE,
+                    memset(sssString, 0, MAX_STR_LENGTH);     // Clear wav_buf
+                    cdcReceiveDataInBuffer((uint8_t*)sssString,
+                    	MAX_STR_LENGTH,
                         CDC1_INTFNUM);
+                    strncat(wav_buf,sssString,strlen(sssString));
+                    if (strlen(wav_buf) >= 512)
+                    {
+                    	memset(sssString,0,MAX_STR_LENGTH);
+                    	sssString[0] = 'O';
+                    	sssString[1] = 'K';
+                    	sssString[2] = '\n';
+                    	sssString[3] = '\0';
+
+
+
+                    	memset(wav_buf,0,MAX_BUF_SIZE);
+                    }
+
+
+                    if (cdcSendDataInBackground((uint8_t*)sssString,
+                            strlen(sssString),CDC1_INTFNUM,1))
+                    {  // Send message to other App
+                        SendError = 0x01;
+                        break;
+                    }
+
                     //strncat(wholeString,pieceOfString,strlen(pieceOfString));
                     //memset(wholeString,0,MAX_STR_LENGTH);   // Clear wholeString
                     //memset(pieceOfString,0,MAX_STR_LENGTH);   // Clear wholeString
