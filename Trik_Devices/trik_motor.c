@@ -247,14 +247,3 @@ void MOTOR_stop(uint8_t MOT_NUMBER)
     MOT[MOT_NUMBER].MCTL &= ~(MOT_POWER + MOT_AUTO);
 }
 
-//Handler
-void MOTOR_handler(uint8_t MOT_NUMBER)
-{
-    //Enable (start) / disable
-    if (MOT[MOT_NUMBER].MCTL & MOT_ENABLE)
-        MOTOR_start(MOT_NUMBER);
-    else
-        MOTOR_disable(MOT_NUMBER);
-
-    MOT[MOT_NUMBER].MSTA = MOT_NO_ERROR;
-}

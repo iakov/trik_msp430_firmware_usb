@@ -337,7 +337,15 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
                 PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_INC_ERROR);
                 return REG_INC_ERROR;
             }
-            MOTOR_handler(devaddr1);
+            // Enable (start) / disable (stop)
+            if (MOT[devaddr1].MCTL & MOT_ENABLE)
+            {
+                MOTOR_start(devaddr1);
+            }
+            else
+            {
+                MOTOR_disable(devaddr1);
+            }
             PROTOCOL_recvResponse(out_str,devaddr1,func1,regaddr1,MOT[devaddr1].MSTA);
             return NO_ERROR;
 	    }

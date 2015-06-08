@@ -7,7 +7,7 @@
 #ifndef TRIK_MOTOR_H_
 #define TRIK_MOTOR_H_
 
-//Motor registers
+// Motor registers
 #define MMCTL               0x00
 #define MMDUT               0x01
 #define MMPER               0x02
@@ -17,10 +17,10 @@
 #define MMERR               0x06
 #define MMVER               0x07
 
-//Motor errors
+// Motor errors
 #define MOT_NO_ERROR        0x00
 
-//Masks for bits of control register
+// Masks for bits of control register
 #define MOT_ENABLE          0x8000 // Motor enable
 #define MOT_AUTO            0x4000 // Autostop mode
 #define MOT_ANGLE           0x2000 // Angle autostop mode
@@ -29,16 +29,15 @@
 #define MOT_MUSIC           0x0004 // Motor fast PWM control
 #define MOT_POWER           0x0003 // Motor power
 
-//Max motors
+// Max motors
 #define MAX_MOTORS          0x04
 
-//Prototypes for the APIs
-void MOTOR_handler(uint8_t MOT_NUMBER);
+// Prototypes for motors functions
 void MOTOR_start(uint8_t MOT_NUMBER);
 void MOTOR_stop(uint8_t MOT_NUMBER);
 void MOTOR_disable(uint8_t MOT_NUMBER);
 
-//Motor registers
+// Motor registers
 struct tMotorRegisters
 {
     uint16_t MCTL;
@@ -51,7 +50,7 @@ struct tMotorRegisters
     uint32_t MERR;
 };
 
-//Motors registers array
+// Motors registers array
 volatile struct tMotorRegisters MOT[MAX_MOTORS];
 
 #endif
