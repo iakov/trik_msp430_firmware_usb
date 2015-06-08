@@ -41,10 +41,10 @@
 #define PORT5			    0x1E
 #define PORT6			    0x1F
 #define PORTJ			    0x20
-#define PWM1                0x21
-#define PWM2                0x22
-#define PWM3                0x23
-#define PWM4                0x24
+#define HPWM1				0x21
+#define HPWM2				0x22
+#define HPWM3				0x23
+#define HPWM4				0x24
 #define VERSIONCTRL         0x25
 #define ASYNCTIMER          0x26
 #define TOUCHDEVICE         0x27

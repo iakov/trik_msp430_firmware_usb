@@ -1,5 +1,5 @@
 /*
- * trik_pwm.c
+ * trik_hardpwm.c
  *
  *  Created on: January 28, 2015
  *      Author: Rostislav Varzar
@@ -7,48 +7,48 @@
 
 #include <stdint.h>
 #include <msp430f5510.h>
-#include <Trik_Devices/trik_hardpwm.h>
+#include "trik_hardpwm.h"
 #include "trik_devices.h"
 
-//PWM enable and start
-void PWM_enable(uint8_t PWM_NUMBER)
+// PWM enable and start
+void HPWM_enable(uint8_t HPWM_NUMBER)
 {
-    if (!(isSlotBusy(PWM_NUMBER)))
+    if (!(isSlotBusy(HPWM_NUMBER)))
     {
-        reseveSlot(PWM_NUMBER);
-        switch (PWM_NUMBER)
+        reseveSlot(HPWM_NUMBER);
+        switch (HPWM_NUMBER)
         {
-            case PWM1:
+            case HPWM1:
                 /*GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P2, GPIO_PIN0);*/
                 P2SEL |= BIT0;
                 P2DIR |= BIT0;
                 //PWM timer
-                TA1CCR0 = PWM[PWM_NUMBER-PWM1].PPER;           // PWM Period
-                TA1CCR1 = PWM[PWM_NUMBER-PWM1].PDUT;           // CCR1 PWM duty cycle
+                TA1CCR0 = HPWM[HPWM_NUMBER-HPWM1].HPPER;           // PWM Period
+                TA1CCR1 = HPWM[HPWM_NUMBER-HPWM1].HPDUT;           // CCR1 PWM duty cycle
                 break;
-            case PWM2:
+            case HPWM2:
                 /*GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P2, GPIO_PIN4);*/
                 P2SEL |= BIT4;
                 P2DIR |= BIT4;
                 //PWM timer
-                TA2CCR0 = PWM[PWM_NUMBER-PWM1].PPER;           // PWM Period
-                TA2CCR1 = PWM[PWM_NUMBER-PWM1].PDUT;           // CCR1 PWM duty cycle
+                TA2CCR0 = HPWM[HPWM_NUMBER-HPWM1].HPPER;           // PWM Period
+                TA2CCR1 = HPWM[HPWM_NUMBER-HPWM1].HPDUT;           // CCR1 PWM duty cycle
                 break;
-            case PWM3:
+            case HPWM3:
                 /*GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P2, GPIO_PIN5);*/
                 P2SEL |= BIT5;
                 P2DIR |= BIT5;
                 //PWM timer
-                TA2CCR0 = PWM[PWM_NUMBER-PWM1].PPER;           // PWM Period
-                TA2CCR2 = PWM[PWM_NUMBER-PWM1].PDUT;           // CCR2 PWM duty cycle
+                TA2CCR0 = HPWM[HPWM_NUMBER-HPWM1].HPPER;           // PWM Period
+                TA2CCR2 = HPWM[HPWM_NUMBER-HPWM1].HPDUT;           // CCR2 PWM duty cycle
                 break;
-            case PWM4:
+            case HPWM4:
                 /*GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P2, GPIO_PIN1);*/
                 P2SEL |= BIT1;
                 P2DIR |= BIT1;
                 //PWM timer
-                TA1CCR0 = PWM[PWM_NUMBER-PWM1].PPER;           // PWM Period
-                TA1CCR2 = PWM[PWM_NUMBER-PWM1].PDUT;           // CCR2 PWM duty cycle
+                TA1CCR0 = HPWM[HPWM_NUMBER-HPWM1].HPPER;           // PWM Period
+                TA1CCR2 = HPWM[HPWM_NUMBER-HPWM1].HPDUT;           // CCR2 PWM duty cycle
                 break;
             default:
                 break;
@@ -56,25 +56,25 @@ void PWM_enable(uint8_t PWM_NUMBER)
     }
 }
 
-//PWM disable
-void PWM_disable(uint8_t PWM_NUMBER)
+// PWM disable
+void HPWM_disable(uint8_t HPWM_NUMBER)
 {
-    releaseSlot(PWM_NUMBER);
-    switch (PWM_NUMBER)
+    releaseSlot(HPWM_NUMBER);
+    switch (HPWM_NUMBER)
     {
-        case PWM1:
+        case HPWM1:
             P2SEL &= ~BIT0;
             P2DIR &= ~BIT0;
             break;
-        case PWM2:
+        case HPWM2:
             P2SEL &= ~BIT4;
             P2DIR &= ~BIT4;
             break;
-        case PWM3:
+        case HPWM3:
             P2SEL &= ~BIT5;
             P2DIR &= ~BIT5;
             break;
-        case PWM4:
+        case HPWM4:
             P2SEL &= ~BIT1;
             P2DIR &= ~BIT1;
             break;
@@ -83,16 +83,16 @@ void PWM_disable(uint8_t PWM_NUMBER)
     }
 }
 
-//Handler
-void PWM_handler(uint8_t PWM_NUMBER)
+// Handler
+void HPWM_handler(uint8_t HPWM_NUMBER)
 {
     //Enable (start) / disable
-    if (PWM[PWM_NUMBER-PWM1].PCTL & PWM_ENABLE)
-        PWM_enable(PWM_NUMBER);
+    if (HPWM[HPWM_NUMBER-HPWM1].HPCTL & HPWM_ENABLE)
+        HPWM_enable(HPWM_NUMBER);
     else
-        PWM_disable(PWM_NUMBER);
+        HPWM_disable(HPWM_NUMBER);
 
-    PWM[PWM_NUMBER-PWM1].PSTA = PWM_NO_ERROR;
+    HPWM[HPWM_NUMBER-HPWM1].HPSTA = HPWM_NO_ERROR;
 }
 
 

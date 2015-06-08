@@ -223,7 +223,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
     }
 
     // Hardware PWM registers addresses range
-    if (((devaddr1>=PWM1) && (devaddr1<=PWM4)) && (regaddr1>0x03))
+    if (((devaddr1>=HPWM1) && (devaddr1<=HPWM4)) && (regaddr1>0x03))
     {
         PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,REG_ADDR_ERROR);
         return REG_ADDR_ERROR;
@@ -394,15 +394,15 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
         }
 
         // Hardware PWMs
-        if ((devaddr1>=PWM1) && (devaddr1<=PWM4))
+        if ((devaddr1>=HPWM1) && (devaddr1<=HPWM4))
         {
-            if (regaddr1==PPDUT)
-                PWM[devaddr1-PWM1].PDUT = regval1;
-            if (regaddr1==PPPER)
-                PWM[devaddr1-PWM1].PPER = regval1;
-            if (regaddr1==PPCTL)
-                PWM[devaddr1-PWM1].PCTL = regval1;
-            PWM_handler(devaddr1);
+            if (regaddr1==HPPDUT)
+                HPWM[devaddr1-HPWM1].HPDUT = regval1;
+            if (regaddr1==HPPPER)
+                HPWM[devaddr1-HPWM1].HPPER = regval1;
+            if (regaddr1==HPPCTL)
+                HPWM[devaddr1-HPWM1].HPCTL = regval1;
+            HPWM_handler(devaddr1);
             PROTOCOL_recvResponse(out_str,devaddr1,func1,regaddr1,NO_ERROR);
             return NO_ERROR;
         }
@@ -604,16 +604,16 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
         }
 
         // Hardware PWMs
-        if ((devaddr1>=PWM1) && (devaddr1<=PWM4))
+        if ((devaddr1>=HPWM1) && (devaddr1<=HPWM4))
         {
-            if (regaddr1==PPCTL)
-                PROTOCOL_recvResponse(out_str,devaddr1,PWM[devaddr1-PWM1].PSTA,regaddr1,PWM[devaddr1-PWM1].PCTL);
-            if (regaddr1==PPDUT)
-                PROTOCOL_recvResponse(out_str,devaddr1,PWM[devaddr1-PWM1].PSTA,regaddr1,PWM[devaddr1-PWM1].PDUT);
-            if (regaddr1==PPPER)
-                PROTOCOL_recvResponse(out_str,devaddr1,PWM[devaddr1-PWM1].PSTA,regaddr1,PWM[devaddr1-PWM1].PPER);
-            if (regaddr1==PPVER)
-                PROTOCOL_recvResponse(out_str,devaddr1,PWM[devaddr1-PWM1].PSTA,regaddr1,PWM_VERSION);
+            if (regaddr1==HPPCTL)
+                PROTOCOL_recvResponse(out_str,devaddr1,HPWM[devaddr1-HPWM1].HPSTA,regaddr1,HPWM[devaddr1-HPWM1].HPCTL);
+            if (regaddr1==HPPDUT)
+                PROTOCOL_recvResponse(out_str,devaddr1,HPWM[devaddr1-HPWM1].HPSTA,regaddr1,HPWM[devaddr1-HPWM1].HPDUT);
+            if (regaddr1==HPPPER)
+                PROTOCOL_recvResponse(out_str,devaddr1,HPWM[devaddr1-HPWM1].HPSTA,regaddr1,HPWM[devaddr1-HPWM1].HPPER);
+            if (regaddr1==HPPVER)
+                PROTOCOL_recvResponse(out_str,devaddr1,HPWM[devaddr1-HPWM1].HPSTA,regaddr1,HPWM_VERSION);
             return NO_ERROR;
         }
 
@@ -764,7 +764,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             if (regaddr1==PORT_VER_REG)
                 PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,PORT_VERSION);
             if (regaddr1==PWM_VER_REG)
-                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,PWM_VERSION);
+                PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,HPWM_VERSION);
             if (regaddr1==SPWM_VER_REG)
                 PROTOCOL_recvResponse(out_str,devaddr1,NO_ERROR,regaddr1,SPWM_VERSION);
             if (regaddr1==ATMR_VER_REG)

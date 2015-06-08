@@ -20,7 +20,7 @@
 //Masks for bits of control register
 #define SPWM_ENABLE         0x8000 //SPWM enable
 
-//SMax PWMs
+// Max PWMs
 #define MAX_SPWMS           0x0E
 
 //Prototypes for the APIs

@@ -15,7 +15,7 @@
 #define SENSOR_VERSION      1
 #define ENCODER_VERSION     2
 #define PORT_VERSION        1
-#define PWM_VERSION         2
+#define HPWM_VERSION		2
 #define SPWM_VERSION        1
 #define ATIMER_VERSION      2
 #define TOUCH_VERSION       1
