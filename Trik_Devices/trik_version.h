@@ -11,7 +11,7 @@
 // Modules versions
 #define MAIN_VERSION_TXT    "0.0.32\n\0"
 #define MAIN_VERSION        32
-#define MOTOR_VERSION       2
+#define MOTOR_VERSION       3
 #define SENSOR_VERSION      1
 #define ENCODER_VERSION     2
 #define PORT_VERSION        1
