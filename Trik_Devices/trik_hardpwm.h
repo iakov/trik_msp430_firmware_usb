@@ -24,7 +24,6 @@
 #define MAX_HPWMS			0x04
 
 // Prototypes for hardware PWM functions
-void HPWM_handler(uint8_t HPWM_NUMBER);
 void HPWM_enable(uint8_t HPWM_NUMBER);
 void HPWM_disable(uint8_t HPWM_NUMBER);
 

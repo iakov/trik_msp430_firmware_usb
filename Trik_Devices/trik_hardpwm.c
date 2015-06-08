@@ -82,17 +82,3 @@ void HPWM_disable(uint8_t HPWM_NUMBER)
             break;
     }
 }
-
-// Handler
-void HPWM_handler(uint8_t HPWM_NUMBER)
-{
-    //Enable (start) / disable
-    if (HPWM[HPWM_NUMBER-HPWM1].HPCTL & HPWM_ENABLE)
-        HPWM_enable(HPWM_NUMBER);
-    else
-        HPWM_disable(HPWM_NUMBER);
-
-    HPWM[HPWM_NUMBER-HPWM1].HPSTA = HPWM_NO_ERROR;
-}
-
-

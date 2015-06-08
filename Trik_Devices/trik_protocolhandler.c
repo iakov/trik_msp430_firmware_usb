@@ -402,7 +402,15 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
                 HPWM[devaddr1-HPWM1].HPPER = regval1;
             if (regaddr1==HPPCTL)
                 HPWM[devaddr1-HPWM1].HPCTL = regval1;
-            HPWM_handler(devaddr1);
+            // Enable (start) / disable (stop)
+            if (HPWM[devaddr1-HPWM1].HPCTL & HPWM_ENABLE)
+            {
+                HPWM_enable(devaddr1);
+            }
+            else
+            {
+                HPWM_disable(devaddr1);
+            }
             PROTOCOL_recvResponse(out_str,devaddr1,func1,regaddr1,NO_ERROR);
             return NO_ERROR;
         }
