@@ -85,10 +85,10 @@ char pieceOfString[MAX_STR_LENGTH] = "";
 volatile uint8_t n_error = 0;
 volatile uint8_t ReceiveError = 0, SendError = 0;
 
-volatile uint32_t timerb_cnt = 0; //Timer B counter 1
-volatile uint32_t timerb_ts = 0; //Timer B counter 2
+volatile uint32_t timerb_cnt = 0; // Timer B counter 1
+volatile uint32_t timerb_ts = 0; // Timer B counter 2
 
-float kx, ky, xx, yy; //Temp vars
+float kx, ky, xx, yy; // Temp vars (for touch screen)
 
 #define MAX_BUF_SIZE	544 // 512 + 32
 
@@ -110,39 +110,25 @@ void main (void)
     //PMM_setVCore(PMM_BASE, PMM_CORE_LEVEL_2);
 #endif
 
-    _initPorts();           // Config GPIOS for low-power (output low)
+    _initPorts();         	  // Config GPIOS for low-power (output low)
     _initClocks(24000000);   // Config clocks. MCLK=SMCLK=FLL=8MHz; ACLK=REFO=32kHz
-    USB_setup(TRUE,TRUE);  // Init USB & events; if a host is present, connect
+    USB_setup(TRUE,TRUE); 	 // Init USB & events; if a host is present, connect
 
-    initGlobalVars(); //Init variables and structires
-    initReferenceTemperature(); //Init ref and temp sensor
-    initADC10(); //Init ADC
-    initPBPorts(); //Init B ports
-    initPWM(); //Init PWM
+    initGlobalVars(); 			// Init variables and structires
+    initReferenceTemperature(); // Init ref and temp sensor
+    initADC10(); 				// Init ADC
+    initPBPorts(); 				// Init encoder ports
+    initI2Cpullups();			// Init I2C ports as input with pullup's
+    initPWM();					// Init PWM
 
-/*
-    I2C_init(I2C4);
-    USART_reset(USART4);
-
-    USART_set_speed(USART4, 19200);
-    USART_init(USART4, USART_8BITS + USART_RS485 + USART_INVRTS + USART_RXEN + USART_TXEN);
-    uint8_t cfg1 = USART_read_reg(USART4, 0x03);
-    USART_write_reg(USART4, 0x03, cfg1 | 0x80);
-    uint8_t dd0 = USART_read_reg(USART4, 0x00);
-    uint8_t dd1 = USART_read_reg(USART4, 0x01);
-    USART_write_reg(USART4, 0x03, cfg1);
-*/
-
-
-    //Enable async timer
+    // Enable async timer
     ASYNCTMR.ATCTL |= AT_EN;
     enableTimer_B();
 
-   __enable_interrupt();  // Enable interrupts globally
+    // Enable interrupts globally
+    __enable_interrupt();
 
-
-
-
+   // Main cycle
     while (1)
     {
         switch (USB_connectionState())
@@ -184,40 +170,9 @@ void main (void)
                             break;
                         }
                     }
-
-                    /*
-                    USART_transmit_byte(USART4, 0x55);
-                    USART_transmit_byte(USART4, 0xAA);
-                    USART_transmit_byte(USART4, 0x12);
-                    USART_transmit_byte(USART4, 0x00);
-                    USART_transmit_byte(USART4, 0x03);
-                    USART_transmit_byte(USART4, 0x55+0xAA+0x12+0x00+0x03);
-                    sprintf(newString, "%x %x %x %x %x %x %x %x %x %x %x %x\n",
-                    		USART_is_data_in_buffer(USART4),
-							USART_receive_byte(USART4),
-							USART_receive_byte(USART4),
-							USART_receive_byte(USART4),
-							USART_receive_byte(USART4),
-							USART_receive_byte(USART4),
-							USART_receive_byte(USART4),
-							USART_receive_byte(USART4),
-							USART_receive_byte(USART4),
-							USART_receive_byte(USART4),
-							USART_receive_byte(USART4),
-							USART_is_data_in_buffer(USART4));
-					*/
-
-                    /*
-                    if (cdcSendDataInBackground((uint8_t*)newString,
-                                                    strlen(newString),CDC0_INTFNUM,1))
-                                            {  // Send message to other App
-                                                SendError = 0x01;
-                                                break;
-                                            }
-                     */
                 }
 
-                //CDC1 events
+                // CDC1 events
                 if (bDataReceived_event1)
                 {
                     bDataReceived_event1 = FALSE;               // Clear flag early -- just in case execution breaks below because of
@@ -234,12 +189,8 @@ void main (void)
                     	sssString[1] = 'K';
                     	sssString[2] = '\n';
                     	sssString[3] = '\0';
-
-
-
                     	memset(wav_buf,0,MAX_BUF_SIZE);
                     }
-
 
                     if (cdcSendDataInBackground((uint8_t*)sssString,
                             strlen(sssString),CDC1_INTFNUM,1))

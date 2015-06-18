@@ -18,7 +18,7 @@
 #include "trik_softi2c.h"
 #include "trik_sc16is7x0.h"
 
-//Reset touch parameters
+// Reset touch parameters
 void resetTouch()
 {
     TOUCH.MINX = UINT16_MAX;
@@ -29,7 +29,7 @@ void resetTouch()
     TOUCH.CURY = 0;
 }
 
-//Init variables, arrays and structures
+// Init variables, arrays and structures
 void initGlobalVars()
 {
     for (int j=0; j<MAX_DEVICES; j++)
@@ -67,7 +67,7 @@ void initGlobalVars()
         USART[j].UCTL = USART[j].USPD = USART[j].USTA = USART[j].UDAT = 0x00;
 }
 
-//Init reference and temperature sensor for ADC
+// Init reference and temperature sensor for ADC
 void initReferenceTemperature()
 {
     while(REFCTL0 & REFGENBUSY)
@@ -75,7 +75,7 @@ void initReferenceTemperature()
     REFCTL0 |= REFMSTR + REFON;
 }
 
-//Init ADC 10 bit
+// Init ADC 10 bit
 void initADC10()
 {
     ADC10CTL0 = ADC10SHT1 + ADC10ON;
@@ -84,14 +84,22 @@ void initADC10()
 
 }
 
-//Init B ports (PBEN)
+// Init encoder ports (PBEN)
 void initPBPorts()
 {
     P5DIR |= BIT3; //GPIO_setAsOutputPin(GPIO_PORT_P5,GPIO_PIN3);
     P5OUT |= BIT3; //GPIO_setOutputHighOnPin(GPIO_PORT_P5,GPIO_PIN3);
 }
 
-//Init all hardware PWMs
+// Init I2C ports as input with pullup's
+void initI2Cpullups()
+{
+	P3DIR &= ~(BIT0 + BIT1);
+	P3OUT |= BIT0 + BIT1;
+	P3REN |= BIT0 + BIT1;
+}
+
+// Init all hardware PWMs
 void initPWM()
 {
     TA0CCTL1 = OUTMOD_7;                            // CCR1 reset/set
@@ -107,7 +115,7 @@ void initPWM()
     TA2CTL = TASSEL_2 + MC_1 + TACLR + ID_3;        // SMCLK, up mode, clear TAR, divider - 8
 }
 
-//Test, if slot busy by other device
+// Test, if slot busy by other device
 uint8_t isSlotBusy(uint8_t DEV_NUMBER)
 {
     if ((busy_table[DEV_NUMBER]==NNONE) || (busy_table[DEV_NUMBER]==DEV_NUMBER))
@@ -116,13 +124,13 @@ uint8_t isSlotBusy(uint8_t DEV_NUMBER)
         return SLOT_BUSY;
 }
 
-//Make slot busy
+// Make slot busy
 void reseveSlot(uint8_t DEV_NUMBER)
 {
     busy_table[DEV_NUMBER] = DEV_NUMBER;
 }
 
-//Make slot free
+// Make slot free
 void releaseSlot(uint8_t DEV_NUMBER)
 {
     busy_table[DEV_NUMBER] = NNONE;

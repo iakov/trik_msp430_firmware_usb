@@ -94,6 +94,7 @@ void initGlobalVars();
 void initReferenceTemperature();
 void initADC10();
 void initPBPorts();
+void initI2Cpullups();
 void initPWM();
 uint8_t isSlotBusy(uint8_t DEV_NUMBER);
 void reseveSlot(uint8_t DEV_NUMBER);
