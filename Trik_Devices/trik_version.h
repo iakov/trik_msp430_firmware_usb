@@ -12,7 +12,7 @@
 #define MAIN_VERSION_TXT    "0.0.35\n\0"
 #define MAIN_VERSION        35
 #define MOTOR_VERSION       3
-#define SENSOR_VERSION      1
+#define SENSOR_VERSION      2
 #define ENCODER_VERSION     2
 #define PORT_VERSION        1
 #define HPWM_VERSION		3
