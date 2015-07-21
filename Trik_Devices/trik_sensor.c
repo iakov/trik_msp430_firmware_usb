@@ -457,19 +457,24 @@ void SENSOR_handler(uint8_t SENS_NUMBER)
         //Enable reading sensor data
         if (SENS[SENS_NUMBER-SENSOR1].SCTL & SENS_READ)
         {
-            if (SENS[SENS_NUMBER-SENSOR1].SIDX==DIGITAL_INP)
-                SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_digital(SENS_NUMBER);
-            if (SENS[SENS_NUMBER-SENSOR1].SIDX==ANALOG_INP)
-                SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_analog(SENS_NUMBER);
-            if (SENS[SENS_NUMBER-SENSOR1].SIDX==DHTXX_TEMP)
+            switch (SENS[SENS_NUMBER-SENSOR1].SIDX)
             {
-            	DHT_read(SENS_NUMBER);
-            	SENS[SENS_NUMBER-SENSOR1].SVAL=DHT_getTemp(SENS_NUMBER);
-            }
-            if (SENS[SENS_NUMBER-SENSOR1].SIDX==DHTXX_HUM)
-            {
-            	DHT_read(SENS_NUMBER);
-            	SENS[SENS_NUMBER-SENSOR1].SVAL=DHT_getHum(SENS_NUMBER);
+            	case DIGITAL_INP:
+            		SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_digital(SENS_NUMBER);
+            		break;
+            	case ANALOG_INP:
+            		SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_analog(SENS_NUMBER);
+            		break;
+            	case DHTXX_TEMP:
+                	DHT_read(SENS_NUMBER);
+                	SENS[SENS_NUMBER-SENSOR1].SVAL=DHT_getTemp(SENS_NUMBER);
+            		break;
+            	case DHTXX_HUM:
+                	DHT_read(SENS_NUMBER);
+                	SENS[SENS_NUMBER-SENSOR1].SVAL=DHT_getHum(SENS_NUMBER);
+            		break;
+                default:;
+                    break;
             }
         }
     } else
