@@ -9,21 +9,22 @@
 #include <msp430f5510.h>
 #include "trik_devices.h"
 #include "trik_sensor.h"
+#include "trik_dhtxx.h"
 
-//Sensor enable
+// Sensor enable
 void SENSOR_enableController(uint8_t SENS_NUMBER)
 {
     if (!(isSlotBusy(SENS_NUMBER)))
         reseveSlot(SENS_NUMBER);
 }
 
-//Sensor disable
+// Sensor disable
 void SENSOR_disableController(uint8_t SENS_NUMBER)
 {
     releaseSlot(SENS_NUMBER);
 }
 
-//Read digital value of sensor
+// Read digital value of sensor
 uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
 {
     switch (SENS_NUMBER)
@@ -289,7 +290,7 @@ uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER)
     }
 }
 
-//Read analog value of sensor
+// Read analog value of sensor
 uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
 {
     switch (SENS_NUMBER)
@@ -445,7 +446,7 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
     }
 }
 
-//Handler
+// Handler
 void SENSOR_handler(uint8_t SENS_NUMBER)
 {
     //Enable/disable and read
@@ -460,6 +461,16 @@ void SENSOR_handler(uint8_t SENS_NUMBER)
                 SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_digital(SENS_NUMBER);
             if (SENS[SENS_NUMBER-SENSOR1].SIDX==ANALOG_INP)
                 SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_analog(SENS_NUMBER);
+            if (SENS[SENS_NUMBER-SENSOR1].SIDX==DHTXX_TEMP)
+            {
+            	DHT_read(SENS_NUMBER);
+            	SENS[SENS_NUMBER-SENSOR1].SVAL=DHT_getTemp(SENS_NUMBER);
+            }
+            if (SENS[SENS_NUMBER-SENSOR1].SIDX==DHTXX_HUM)
+            {
+            	DHT_read(SENS_NUMBER);
+            	SENS[SENS_NUMBER-SENSOR1].SVAL=DHT_getHum(SENS_NUMBER);
+            }
         }
     } else
     {
