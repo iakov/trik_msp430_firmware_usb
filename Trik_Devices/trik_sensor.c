@@ -466,11 +466,11 @@ void SENSOR_handler(uint8_t SENS_NUMBER)
             		SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_analog(SENS_NUMBER);
             		break;
             	case DHTXX_TEMP:
-                	DHT_read(SENS_NUMBER);
+                	//DHT_read(SENS_NUMBER);
                 	SENS[SENS_NUMBER-SENSOR1].SVAL=DHT_getTemp(SENS_NUMBER);
             		break;
             	case DHTXX_HUM:
-                	DHT_read(SENS_NUMBER);
+                	//DHT_read(SENS_NUMBER);
                 	SENS[SENS_NUMBER-SENSOR1].SVAL=DHT_getHum(SENS_NUMBER);
             		break;
                 default:;

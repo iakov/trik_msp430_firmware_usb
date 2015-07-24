@@ -10,9 +10,10 @@
 #include "trik_sensor.h"
 #include "trik_devices.h"
 
-void DHT_read(uint8_t SENS_NUMBER)
+uint16_t DHT_read(uint8_t SENS_NUMBER, char* out_data)
 {
 
+	return DHT_NO_ERROR;
 }
 
 uint16_t DHT_getTemp(uint8_t SENS_NUMBER)
