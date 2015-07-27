@@ -18,7 +18,7 @@ void enableTimer_B()
     TB0CTL &= ~ID__8;
     TB0EX0 = TBIDEX_0;
     TBCCR0 = NORMAL_PERIOD;
-    TB0CTL = MC_1 + TBCLR + ID__1 + TBIE + TBSSEL_2;
+    TB0CTL = MC_1 + TBCLR + ID__8 + TBIE + TBSSEL_2; // Divider 8, SMCLK, Up mode
 }
 
 void disableTimer_B()

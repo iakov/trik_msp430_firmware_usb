@@ -15,7 +15,8 @@
 #define AATVER               0x03
 
 // Timer period defines
-#define NORMAL_PERIOD        0x0960    //Overflow interrupt frequency is 10 kHz
+//#define NORMAL_PERIOD        0x0960    //Overflow interrupt frequency is 10 kHz (div 1)
+#define NORMAL_PERIOD        0x012C    //Overflow interrupt frequency is 10 kHz (div 8)
 //#define NORMAL_PERIOD        0x04B0
 #define MAXIMUM_PERIOD       0xFFFF
 

@@ -303,15 +303,14 @@ void TIMERB1_ISR(void)
 
         ASYNCTMR.ATVAL++;
 
-        //For async output data
+        // For async output data
         timerb_cnt++;
         if (timerb_cnt > ASYNCTMR.ATPER)
         {
             timerb_cnt = 0;
         }
 
-
-        //Async output for encoder
+        // Async output for encoder
         for (uint8_t nnn=ENCODER1; nnn<=ENCODER4; nnn++)
         {
             if ((timerb_cnt==nnn) && (ENC[nnn-ENCODER1].ECTL & ENC_ASYNC))
@@ -324,7 +323,7 @@ void TIMERB1_ISR(void)
             }
         }
 
-        //Async output for sensor
+        // Async output for sensor
         for (uint8_t nnn=SENSOR1; nnn<=SENSOR18; nnn++)
         {
             if ((timerb_cnt==nnn) && (SENS[nnn-SENSOR1].SCTL & SENS_ASYNC))
@@ -338,7 +337,7 @@ void TIMERB1_ISR(void)
             }
         }
 
-        //Motors timer control
+        // Motors timer control
         for (uint8_t MOTNUM=MOTOR1; MOTNUM<=MOTOR4; MOTNUM++)
         {
             if ((MOT[MOTNUM].MCTL & MOT_AUTO) && (!(MOT[MOTNUM].MCTL & MOT_ANGLE)))
@@ -351,7 +350,7 @@ void TIMERB1_ISR(void)
             }
         }
 
-        //Software PWM counters
+        // Software PWM counters
         for (uint8_t SPWMNUM=SPWM1; SPWMNUM<=SPWM14; SPWMNUM++)
         {
             SPWM[SPWMNUM-SPWM1].SPCNT ++;
@@ -429,7 +428,7 @@ void TIMERB1_ISR(void)
             else
                 P6OUT &= ~BIT0;
 
-        //For touch read event
+        // For touch read event
         timerb_ts++;
         if (timerb_ts > 384)
         {
