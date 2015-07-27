@@ -17,7 +17,7 @@
 #define PORT_VERSION        1
 #define HPWM_VERSION		3
 #define SPWM_VERSION        1
-#define ATIMER_VERSION      2
+#define ATIMER_VERSION      3
 #define TOUCH_VERSION       1
 #define I2C_VERSION         4
 #define USART_VERSION       1
