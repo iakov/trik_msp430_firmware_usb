@@ -15,10 +15,10 @@
 uint8_t DHT_read(uint8_t SENS_NUMBER, uint8_t* out_data)
 {
 	const uint8_t *end_data = out_data + 6;
-	register uint8_t tmp1 = 1;
-	register uint16_t cnt1 = 0;
-	register uint16_t cnt2 = 0;
-	register uint8_t pin1 = BIT0;
+	uint8_t tmp1 = 1;
+	uint16_t cnt1 = 0;
+	uint16_t cnt2 = 0;
+	uint8_t pin1 = BIT0;
 
 	out_data[0] = out_data[1] = out_data[2] = out_data[3] = out_data[4] = out_data[5] = 0;
 	switch (SENS_NUMBER)
