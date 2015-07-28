@@ -14,9 +14,6 @@
 //Enable encoder
 void ENCODER_enableController(uint8_t ENC_NUMBER)
 {
-    if (!(isSlotBusy(ENC_NUMBER)))
-    {
-        reseveSlot(ENC_NUMBER);
         switch (ENC_NUMBER)
         {
             case ENCODER1:
@@ -52,7 +49,8 @@ void ENCODER_enableController(uint8_t ENC_NUMBER)
                     P2DIR &= ~BIT4;
                     P2OUT |= BIT4;
                     P2REN |= BIT4;
-                } else
+                }
+                else
                 {
                     /*GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN0);*/
                     P1DIR &= ~BIT0;
@@ -103,7 +101,8 @@ void ENCODER_enableController(uint8_t ENC_NUMBER)
                     P2DIR &= ~BIT1;
                     P2OUT |= BIT1;
                     P2REN |= BIT1;
-                } else
+                }
+                else
                 {
                     /*GPIO_setAsInputPin(GPIO_PORT_P1,GPIO_PIN6);*/
                     P1DIR &= ~BIT6;
@@ -124,13 +123,11 @@ void ENCODER_enableController(uint8_t ENC_NUMBER)
             default:
                 break;
         }
-    }
 }
 
 //Disable encoder
 void ENCODER_disableController(uint8_t ENC_NUMBER)
 {
-    releaseSlot(ENC_NUMBER);
     switch (ENC_NUMBER)
     {
         case ENCODER1:
