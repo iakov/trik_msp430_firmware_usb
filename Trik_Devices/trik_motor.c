@@ -14,9 +14,6 @@
 //Motor enable and start
 void MOTOR_start(uint8_t MOT_NUMBER)
 {
-    if (!(isSlotBusy(MOT_NUMBER)))
-    {
-        reseveSlot(MOT_NUMBER);
         switch (MOT_NUMBER)
         {
             case MOTOR1:
@@ -142,13 +139,11 @@ void MOTOR_start(uint8_t MOT_NUMBER)
             default:
                 break;
         }
-    }
 }
 
 //Motor disable
 void MOTOR_disable(uint8_t MOT_NUMBER)
 {
-    releaseSlot(MOT_NUMBER);
     switch (MOT_NUMBER)
     {
         case MOTOR1:

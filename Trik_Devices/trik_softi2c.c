@@ -186,9 +186,6 @@ void I2C_highSCL(uint8_t I2C_NUMBER)
 
 void I2C_init(uint8_t I2C_NUMBER)
 {
-    if (!(isSlotBusy(I2C_NUMBER)))
-    {
-        reseveSlot(I2C_NUMBER);
         switch (I2C_NUMBER)
         {
             case I2C1:
@@ -299,12 +296,10 @@ void I2C_init(uint8_t I2C_NUMBER)
             default:;
                 break;
         }
-    }
 }
 
 void I2C_disable(uint8_t I2C_NUMBER)
 {
-    releaseSlot(I2C_NUMBER);
     switch (I2C_NUMBER)
     {
     case I2C1:

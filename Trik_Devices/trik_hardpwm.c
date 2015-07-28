@@ -13,9 +13,6 @@
 // PWM enable and start
 void HPWM_enable(uint8_t HPWM_NUMBER)
 {
-    if (!(isSlotBusy(HPWM_NUMBER)))
-    {
-        reseveSlot(HPWM_NUMBER);
         switch (HPWM_NUMBER)
         {
             case HPWM1:
@@ -53,13 +50,11 @@ void HPWM_enable(uint8_t HPWM_NUMBER)
             default:
                 break;
         }
-    }
 }
 
 // PWM disable
 void HPWM_disable(uint8_t HPWM_NUMBER)
 {
-    releaseSlot(HPWM_NUMBER);
     switch (HPWM_NUMBER)
     {
         case HPWM1:

@@ -13,14 +13,11 @@
 // Sensor enable
 void SENSOR_enableController(uint8_t SENS_NUMBER)
 {
-    if (!(isSlotBusy(SENS_NUMBER)))
-        reseveSlot(SENS_NUMBER);
 }
 
 // Sensor disable
 void SENSOR_disableController(uint8_t SENS_NUMBER)
 {
-    releaseSlot(SENS_NUMBER);
 }
 
 // Read digital value of sensor

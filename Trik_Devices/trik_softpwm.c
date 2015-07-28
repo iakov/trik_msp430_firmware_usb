@@ -13,9 +13,6 @@
 //SPWM enable and start
 void SPWM_enable(uint8_t SPWM_NUMBER)
 {
-    if (!(isSlotBusy(SPWM_NUMBER)))
-    {
-        reseveSlot(SPWM_NUMBER);
         switch (SPWM_NUMBER)
         {
             case SPWM1:
@@ -83,13 +80,11 @@ void SPWM_enable(uint8_t SPWM_NUMBER)
             default:
                 break;
         }
-    }
 }
 
 //SPWM disable
 void SPWM_disable(uint8_t SPWM_NUMBER)
 {
-    releaseSlot(SPWM_NUMBER);
     switch (SPWM_NUMBER)
     {
         case SPWM1:

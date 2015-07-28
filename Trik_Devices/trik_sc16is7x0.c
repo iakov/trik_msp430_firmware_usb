@@ -23,9 +23,6 @@ uint8_t USART_read_reg(uint8_t USART_NUMBER, uint8_t regaddr)
 
 void USART_init(uint8_t USART_NUMBER, uint32_t cfg_bits)
 {
-    if (!(isSlotBusy(USART_NUMBER)))
-    {
-        reseveSlot(USART_NUMBER);
         uint8_t cfg1 = 0;
         // FCR register - enable and clear FIFO
         USART_write_reg(USART_NUMBER, 0x02, 0b00000111);
@@ -60,12 +57,10 @@ void USART_init(uint8_t USART_NUMBER, uint32_t cfg_bits)
         if (cfg_bits & USART_7BITS) cfg1 |= 0b00000010;
         if (cfg_bits & USART_8BITS) cfg1 |= 0b00000011;
         USART_write_reg(USART_NUMBER, 0x03, cfg1);
-    }
 }
 
 void USART_disable(uint8_t USART_NUMBER)
 {
-	   releaseSlot(USART_NUMBER);
 }
 
 void USART_set_speed(uint8_t USART_NUMBER, uint32_t baud_rate)
