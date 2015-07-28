@@ -33,7 +33,6 @@
 #define SENS_READ		0x0001	// Sensor read
 
 // Functions prototypes
-void SENSOR_handler(uint8_t SENS_NUMBER);
 uint32_t SENSOR_read_digital(uint8_t SENS_NUMBER);
 uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER);
 void SENSOR_enableController(uint8_t SENS_NUMBER);

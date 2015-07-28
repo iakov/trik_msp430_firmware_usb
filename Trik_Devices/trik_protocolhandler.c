@@ -383,30 +383,10 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
                 if (SENS[devaddr1-SENSOR1].SCTL & SENS_ENABLE)
                 {
                 	SENSOR_enableController(devaddr1);
-                    if (SENS[devaddr1-SENSOR1].SCTL & SENS_READ)
-                    {
-                        switch (SENS[devaddr1-SENSOR1].SIDX)
-                        {
-                        	case DIGITAL_INP:
-                        		SENS[devaddr1-SENSOR1].SVAL=SENSOR_read_digital(devaddr1);
-                        		break;
-                        	case ANALOG_INP:
-                        		SENS[devaddr1-SENSOR1].SVAL=SENSOR_read_analog(devaddr1);
-                        		break;
-                        	case DHTXX_TEMP:
-                            	SENS[devaddr1-SENSOR1].SVAL=DHT_getTemp(devaddr1);
-                        		break;
-                        	case DHTXX_HUM:
-                            	SENS[devaddr1-SENSOR1].SVAL=DHT_getHum(devaddr1);
-                        		break;
-                            default:;
-                                break;
-                        }
-                    }
-                    else
-                    {
-                    	SENSOR_disableController(devaddr1);
-                    }
+                }
+                else
+                {
+                	SENSOR_disableController(devaddr1);
                 }
             }
             PROTOCOL_recvResponse(out_str,devaddr1,func1,regaddr1,SENS[devaddr1-SENSOR1].SSTA);
@@ -627,13 +607,40 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
         // Sensors
         if ((devaddr1>=SENSOR1) && (devaddr1<=SENSOR18))
         {
-            SENSOR_handler(devaddr1);
             if (regaddr1==SSCTL)
                 PROTOCOL_recvResponse(out_str,devaddr1,SENS[devaddr1-SENSOR1].SSTA,regaddr1,SENS[devaddr1-SENSOR1].SCTL);
             if (regaddr1==SSIDX)
                 PROTOCOL_recvResponse(out_str,devaddr1,SENS[devaddr1-SENSOR1].SSTA,regaddr1,SENS[devaddr1-SENSOR1].SIDX);
             if (regaddr1==SSVAL)
-                PROTOCOL_recvResponse(out_str,devaddr1,SENS[devaddr1-SENSOR1].SSTA,regaddr1,SENS[devaddr1-SENSOR1].SVAL);
+            {
+                if ((SENS[devaddr1-SENSOR1].SCTL & SENS_ENABLE) && (SENS[devaddr1-SENSOR1].SCTL & SENS_READ))
+                {
+                    switch (SENS[devaddr1-SENSOR1].SIDX)
+                    {
+                    	case DIGITAL_INP:
+                    		SENS[devaddr1-SENSOR1].SVAL=SENSOR_read_digital(devaddr1);
+                    		break;
+                    	case ANALOG_INP:
+                    		SENS[devaddr1-SENSOR1].SVAL=SENSOR_read_analog(devaddr1);
+                    		break;
+                    	case DHTXX_TEMP:
+                        	SENS[devaddr1-SENSOR1].SVAL=DHT_getTemp(devaddr1);
+                    		break;
+                    	case DHTXX_HUM:
+                        	SENS[devaddr1-SENSOR1].SVAL=DHT_getHum(devaddr1);
+                    		break;
+                        default:
+                        	SENS[devaddr1-SENSOR1].SVAL=0x00000000;
+                            break;
+                    }
+                	PROTOCOL_recvResponse(out_str,devaddr1,SENS[devaddr1-SENSOR1].SSTA,regaddr1,SENS[devaddr1-SENSOR1].SVAL);
+                }
+                else
+                {
+                	PROTOCOL_recvResponse(out_str,devaddr1,func1+0x80,regaddr1,DEV_EN_ERROR);
+                }
+
+            }
             if (regaddr1==SSVER)
                 PROTOCOL_recvResponse(out_str,devaddr1,SENS[devaddr1-SENSOR1].SSTA,regaddr1,SENSOR_VERSION);
             return NO_ERROR;
