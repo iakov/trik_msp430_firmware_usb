@@ -9,10 +9,10 @@
 #define TRIK_VERSION_H_
 
 // Modules versions
-#define MAIN_VERSION_TXT    "0.0.35\n\0"
-#define MAIN_VERSION        35
+#define MAIN_VERSION_TXT    "0.0.36\n\0"
+#define MAIN_VERSION        36
 #define MOTOR_VERSION       3
-#define SENSOR_VERSION      2
+#define SENSOR_VERSION      3
 #define ENCODER_VERSION     2
 #define PORT_VERSION        1
 #define HPWM_VERSION		3
