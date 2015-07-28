@@ -15,6 +15,7 @@
 #include "trik_protocolhandler.h"
 #include "trik_motor.h"
 #include "trik_sensor.h"
+#include "trik_dhtxx.h"
 #include "trik_encoder.h"
 #include "trik_bsl.h"
 #include "trik_devices.h"
@@ -379,7 +380,34 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
             if (regaddr1==SSCTL)
             {
                 SENS[devaddr1-SENSOR1].SCTL = regval1;
-                SENSOR_handler(devaddr1);
+                if (SENS[devaddr1-SENSOR1].SCTL & SENS_ENABLE)
+                {
+                	SENSOR_enableController(devaddr1);
+                    if (SENS[devaddr1-SENSOR1].SCTL & SENS_READ)
+                    {
+                        switch (SENS[devaddr1-SENSOR1].SIDX)
+                        {
+                        	case DIGITAL_INP:
+                        		SENS[devaddr1-SENSOR1].SVAL=SENSOR_read_digital(devaddr1);
+                        		break;
+                        	case ANALOG_INP:
+                        		SENS[devaddr1-SENSOR1].SVAL=SENSOR_read_analog(devaddr1);
+                        		break;
+                        	case DHTXX_TEMP:
+                            	SENS[devaddr1-SENSOR1].SVAL=DHT_getTemp(devaddr1);
+                        		break;
+                        	case DHTXX_HUM:
+                            	SENS[devaddr1-SENSOR1].SVAL=DHT_getHum(devaddr1);
+                        		break;
+                            default:;
+                                break;
+                        }
+                    }
+                    else
+                    {
+                    	SENSOR_disableController(devaddr1);
+                    }
+                }
             }
             PROTOCOL_recvResponse(out_str,devaddr1,func1,regaddr1,SENS[devaddr1-SENSOR1].SSTA);
             return NO_ERROR;

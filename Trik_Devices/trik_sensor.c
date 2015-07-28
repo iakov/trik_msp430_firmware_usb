@@ -9,7 +9,6 @@
 #include <msp430f5510.h>
 #include "trik_devices.h"
 #include "trik_sensor.h"
-#include "trik_dhtxx.h"
 
 // Sensor enable
 void SENSOR_enableController(uint8_t SENS_NUMBER)
@@ -450,41 +449,4 @@ uint32_t SENSOR_read_analog(uint8_t SENS_NUMBER)
         default:
             return 0x00;
     }
-}
-
-// Handler
-void SENSOR_handler(uint8_t SENS_NUMBER)
-{
-    //Enable/disable and read
-    if (SENS[SENS_NUMBER-SENSOR1].SCTL & SENS_ENABLE)
-    {
-        //Sensor enable
-        SENSOR_enableController(SENS_NUMBER);
-        //Enable reading sensor data
-        if (SENS[SENS_NUMBER-SENSOR1].SCTL & SENS_READ)
-        {
-            switch (SENS[SENS_NUMBER-SENSOR1].SIDX)
-            {
-            	case DIGITAL_INP:
-            		SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_digital(SENS_NUMBER);
-            		break;
-            	case ANALOG_INP:
-            		SENS[SENS_NUMBER-SENSOR1].SVAL=SENSOR_read_analog(SENS_NUMBER);
-            		break;
-            	case DHTXX_TEMP:
-                	SENS[SENS_NUMBER-SENSOR1].SVAL=DHT_getTemp(SENS_NUMBER);
-            		break;
-            	case DHTXX_HUM:
-                	SENS[SENS_NUMBER-SENSOR1].SVAL=DHT_getHum(SENS_NUMBER);
-            		break;
-                default:;
-                    break;
-            }
-        }
-    } else
-    {
-        SENSOR_disableController(SENS_NUMBER);
-    }
-
-    SENS[SENS_NUMBER-SENSOR1].SSTA = SENS_NO_ERROR;
 }
