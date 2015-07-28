@@ -60,6 +60,7 @@
 #include "Trik_Devices/trik_encoder.h"
 #include "Trik_Devices/trik_async.h"
 #include "Trik_Devices/trik_sensor.h"
+#include "Trik_Devices/trik_dhtxx.h"
 #include "Trik_Devices/trik_touch.h"
 #include "Trik_Devices/trik_ucs.h"
 #include "Trik_Devices/trik_pmm.h"
@@ -326,9 +327,28 @@ void TIMERB1_ISR(void)
         // Async output for sensor
         for (uint8_t nnn=SENSOR1; nnn<=SENSOR18; nnn++)
         {
-            if ((timerb_cnt==nnn) && (SENS[nnn-SENSOR1].SCTL & SENS_ENABLE) && (SENS[nnn-SENSOR1].SCTL & SENS_ASYNC))
+            if ((timerb_cnt==nnn) && (SENS[nnn-SENSOR1].SCTL & SENS_ENABLE) && (SENS[nnn-SENSOR1].SCTL & SENS_ASYNC)
+            		&& (SENS[nnn-SENSOR1].SCTL & SENS_READ))
             {
-                PROTOCOL_recvResponse(tmpString,nnn,0x05,SSVAL,SENS[nnn-SENSOR1].SVAL);
+                switch (SENS[nnn-SENSOR1].SIDX)
+                {
+                	case DIGITAL_INP:
+                		SENS[nnn-SENSOR1].SVAL=SENSOR_read_digital(nnn);
+                		break;
+                	case ANALOG_INP:
+                		SENS[nnn-SENSOR1].SVAL=SENSOR_read_analog(nnn);
+                		break;
+                	case DHTXX_TEMP:
+                    	SENS[nnn-SENSOR1].SVAL=DHT_getTemp(nnn);
+                		break;
+                	case DHTXX_HUM:
+                    	SENS[nnn-SENSOR1].SVAL=DHT_getHum(nnn);
+                		break;
+                    default:
+                    	SENS[nnn-SENSOR1].SVAL=0x00000000;
+                        break;
+                }
+            	PROTOCOL_recvResponse(tmpString,nnn,0x05,SSVAL,SENS[nnn-SENSOR1].SVAL);
                 if (cdcSendDataInBackground((uint8_t*)tmpString,strlen(tmpString),CDC1_INTFNUM,1))
                 {
                     SendError = 0x01;
