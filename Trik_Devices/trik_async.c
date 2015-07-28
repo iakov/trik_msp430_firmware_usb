@@ -13,7 +13,6 @@
 //Init timer B for asynchronous packets
 void enableTimer_B()
 {
-    reseveSlot(ASYNCTIMER);
     TB0CTL &= ~TBIFG; //TIMER_B_clearTimerInterruptFlag(TIMER_B0_BASE);
     TB0CTL &= ~ID__8;
     TB0EX0 = TBIDEX_0;
@@ -23,7 +22,6 @@ void enableTimer_B()
 
 void disableTimer_B()
 {
-    releaseSlot(ASYNCTIMER);
     TB0CTL &= ~(ID__8 + TBIE + MC_3); //TIMER_B_stop(TIMER_B0_BASE);
     TB0EX0 = TBIDEX_0;
     TBCCR0 = MAXIMUM_PERIOD;
