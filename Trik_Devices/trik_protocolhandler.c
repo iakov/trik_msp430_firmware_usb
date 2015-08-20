@@ -16,6 +16,7 @@
 #include "trik_motor.h"
 #include "trik_sensor.h"
 #include "trik_dhtxx.h"
+#include "trik_hcsr04.h"
 #include "trik_encoder.h"
 #include "trik_bsl.h"
 #include "trik_devices.h"
