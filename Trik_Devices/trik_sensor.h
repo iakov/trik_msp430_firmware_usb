@@ -19,6 +19,7 @@
 #define ANALOG_INP		0x0001
 #define DHTXX_TEMP		0x0002
 #define DHTXX_HUM		0x0003
+#define HCSR_DIST		0x0004
 
 // Sensor errors
 #define SENS_NO_ERROR	0x00
