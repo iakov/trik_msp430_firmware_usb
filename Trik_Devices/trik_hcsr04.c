@@ -12,7 +12,7 @@
 #include "trik_devices.h"
 #include "trik_async.h"
 
-uint8_t HCSR_read(uint8_t SENS_NUMBER)
+uint32_t HCSR_read(uint8_t SENS_NUMBER)
 {
 	uint32_t cnt1 = 0;
 	uint8_t pin_echo = BIT0;
@@ -93,14 +93,19 @@ uint8_t HCSR_read(uint8_t SENS_NUMBER)
 
 		// Send trigger signal
 		P4OUT |= pin_trig;
-		__delay_cycles(WAIT_10_US);
+		__delay_cycles(WAIT_15_US);
 		P4OUT &= ~pin_trig;
+
+		// Wait before receiving echo signal
+		__delay_cycles(WAIT_15_US);
+		__delay_cycles(WAIT_15_US);
+		__delay_cycles(WAIT_15_US);
 
 		// Wait for echo signal
 		while (!(P6IN & pin_echo))
 		{
 			__delay_cycles(WAIT_1_US); cnt1 ++;
-			if (cnt1 > 15000)
+			if (cnt1 > 50000)
 				return HCSR_NO_RESPONSE;
 		}
 	}
