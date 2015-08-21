@@ -18,9 +18,7 @@
 #define WAIT_1_US			14
 #define WAIT_10_US			144
 #define WAIT_100_US			1440
-#define WAIT_110_US			1584
-#define WAIT_200_SS			2880
-#define WAIT_18_MS			259200
+#define WAIT_60_MS			864000
 
 uint8_t HCSR_read(uint8_t SENS_NUMBER);
 
