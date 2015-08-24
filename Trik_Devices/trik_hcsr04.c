@@ -80,39 +80,82 @@ uint32_t HCSR_read(uint8_t SENS_NUMBER)
 	    	return HCSR_SENS_NUM;
 	}
 
-	if ((SENS_NUMBER >= SENSOR1) && (SENS_NUMBER <= SENSOR4))
+	if ((SENS_NUMBER == SENSOR7) || (SENS_NUMBER == SENSOR8) || (SENS_NUMBER == SENSOR11) || (SENS_NUMBER == SENSOR12))
 	{
-		P6SEL &= ~pin_echo;
-		P4SEL &= ~pin_trig;
-		P6REN &= ~pin_echo;
-		P4REN &= ~pin_trig;
-		P6OUT &= ~pin_echo;
-		P4OUT &= ~pin_trig;
-		P6DIR &= ~pin_echo;
-		P4DIR |= pin_trig;
+		P2SEL &= ~pin_echo;
+		P2SEL &= ~pin_trig;
+		P2REN &= ~pin_echo;
+		P2REN &= ~pin_trig;
+		P2OUT &= ~pin_echo;
+		P2OUT &= ~pin_trig;
+		P2DIR &= ~pin_echo;
+		P2DIR |= pin_trig;
 
 		// Send trigger signal
-		P4OUT |= pin_trig;
-		__delay_cycles(WAIT_15_US);
-		P4OUT &= ~pin_trig;
+		P2OUT |= pin_trig;
+		__delay_cycles(WAIT_10_US);
+		P2OUT &= ~pin_trig;
 
-		// Wait before receiving echo signal
-		__delay_cycles(WAIT_15_US);
-		__delay_cycles(WAIT_15_US);
-		__delay_cycles(WAIT_15_US);
-
-		// Wait for echo signal
-		while (!(P6IN & pin_echo))
+		// Waiting for echo signal
+		while (!(P2IN & pin_echo))
 		{
-			__delay_cycles(WAIT_1_US); cnt1 ++;
-			if (cnt1 > 50000)
+			__delay_cycles(WAIT_20_US); cnt1 ++;
+			if (cnt1 > 5000)
 				return HCSR_NO_RESPONSE;
 		}
+
+		// Counting duration
+		cnt1 = 0;
+		while (P2IN & pin_echo)
+		{
+			__delay_cycles(WAIT_20_US); cnt1 ++;
+			if (cnt1 > 5000)
+				return HCSR_DIST_ERR;
+		}
+
+	}
+	else if ((SENS_NUMBER == SENSOR9) || (SENS_NUMBER == SENSOR10) || (SENS_NUMBER == SENSOR13) || (SENS_NUMBER == SENSOR14))
+	{
+		P1SEL &= ~pin_echo;
+		P2SEL &= ~pin_trig;
+		P1REN &= ~pin_echo;
+		P2REN &= ~pin_trig;
+		P1OUT &= ~pin_echo;
+		P2OUT &= ~pin_trig;
+		P1DIR &= ~pin_echo;
+		P2DIR |= pin_trig;
+
+		// Send trigger signal
+		P2OUT |= pin_trig;
+		__delay_cycles(WAIT_10_US);
+		P2OUT &= ~pin_trig;
+
+		// Waiting for echo signal
+		while (!(P1IN & pin_echo))
+		{
+			__delay_cycles(WAIT_20_US); cnt1 ++;
+			if (cnt1 > 5000)
+				return HCSR_NO_RESPONSE;
+		}
+
+		// Counting duration
+		cnt1 = 0;
+		while (P1IN & pin_echo)
+		{
+			__delay_cycles(WAIT_20_US); cnt1 ++;
+			if (cnt1 > 5000)
+				return HCSR_DIST_ERR;
+		}
+
+	}
+	else
+	{
+		return HCSR_SENS_NUM;
 	}
 
 	// Wait 60 ms for whole measurement cycle
 	__delay_cycles(WAIT_60_MS);
 
-	return cnt1;
+	return cnt1 * 20;
 }
 
