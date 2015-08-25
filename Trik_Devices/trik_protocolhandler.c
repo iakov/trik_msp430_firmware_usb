@@ -631,7 +631,7 @@ uint8_t PROTOCOL_handler(char *in_str, char *out_str)
                         	SENS[devaddr1-SENSOR1].SVAL=DHT_getHum(devaddr1);
                     		break;
                     	case HCSR_DIST:
-                        	SENS[devaddr1-SENSOR1].SVAL=HCSR_read(devaddr1);
+                        	SENS[devaddr1-SENSOR1].SVAL=HCSR04_get_time_us(devaddr1);
                     		break;
                         default:
                         	SENS[devaddr1-SENSOR1].SVAL=0xFFFFFFFF;

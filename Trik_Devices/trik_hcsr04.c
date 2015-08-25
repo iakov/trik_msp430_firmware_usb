@@ -12,7 +12,7 @@
 #include "trik_devices.h"
 #include "trik_async.h"
 
-uint32_t HCSR_read(uint8_t SENS_NUMBER)
+uint32_t HCSR04_read(uint8_t SENS_NUMBER)
 {
 	uint32_t cnt1 = 0;
 	uint8_t pin_echo = BIT0;
@@ -133,8 +133,8 @@ uint32_t HCSR_read(uint8_t SENS_NUMBER)
 		// Waiting for echo signal
 		while (!(P1IN & pin_echo))
 		{
-			__delay_cycles(WAIT_20_US); cnt1 ++;
-			if (cnt1 > 5000)
+			__delay_cycles(WAIT_1_US); cnt1 ++;
+			if (cnt1 > 100000)
 				return HCSR_NO_RESPONSE;
 		}
 
@@ -142,8 +142,8 @@ uint32_t HCSR_read(uint8_t SENS_NUMBER)
 		cnt1 = 0;
 		while (P1IN & pin_echo)
 		{
-			__delay_cycles(WAIT_20_US); cnt1 ++;
-			if (cnt1 > 5000)
+			__delay_cycles(WAIT_1_US); cnt1 ++;
+			if (cnt1 > 100000)
 				return HCSR_DIST_ERR;
 		}
 
@@ -153,9 +153,23 @@ uint32_t HCSR_read(uint8_t SENS_NUMBER)
 		return HCSR_SENS_NUM;
 	}
 
-	// Wait 60 ms for whole measurement cycle
-	__delay_cycles(WAIT_60_MS);
+	return cnt1;
+}
 
-	return cnt1 * 20;
+uint32_t HCSR04_get_time_us(uint8_t SENS_NUMBER)
+{
+	uint32_t hcsr04_result;
+	disableTimer_B();
+	hcsr04_result = HCSR04_read(SENS_NUMBER);
+	enableTimer_B();
+	__delay_cycles(WAIT_60_MS);
+	if (hcsr04_result < 25000)
+	{
+		return hcsr04_result;
+	}
+	else
+	{
+		return HCSR_MAIN_ERROR;
+	}
 }
 

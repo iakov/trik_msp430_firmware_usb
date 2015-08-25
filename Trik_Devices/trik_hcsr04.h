@@ -24,6 +24,7 @@
 #define WAIT_15_US			216
 #define WAIT_60_MS			864000
 
-uint32_t HCSR_read(uint8_t SENS_NUMBER);
+uint32_t HCSR04_read(uint8_t SENS_NUMBER);
+uint32_t HCSR04_get_time_us(uint8_t SENS_NUMBER);
 
 #endif /* TRIK_DEVICES_TRIK_HCSR04_H_ */
